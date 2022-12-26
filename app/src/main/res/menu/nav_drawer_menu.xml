@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+            <group android:checkableBehavior="single">
+                <item
+                    android:title="အရောင်းနှင့်အပေါင်လက်ခံ"
+                    android:icon="@drawable/drawer_icon1">
+                    <menu>
+                        <item
+                            android:id="@+id/StartFragment"
+                            android:icon="@drawable/drawer_icon1"
+                            android:title="အရောင်း"
+                            tools:ignore="DuplicateIds" />
+                        <item
+                            android:icon="@drawable/drawer_icon1"
+                            android:title="အပေါင်" />
+                        <item
+                            android:icon="@drawable/drawer_icon1"
+                            android:title="အဝယ်" />
+                    </menu>
+                </item>
+
+
+            </group>
+
+
+    <item
+        android:id="@+id/pawnInterestFragment"
+        android:icon="@drawable/drawer_icon2"
+        android:title="အပေါင်အရင်းသွင်း/အတိုးသပ်"/>
+    <item
+        android:id="@+id/payBalanceFragment"
+        android:icon="@drawable/drawer_icon3"
+        android:title="ကျန်ငွေရှင်း"/>
+</menu>

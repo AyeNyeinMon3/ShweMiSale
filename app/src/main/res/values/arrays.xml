@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="state">
+        <item>တိုင်း‌‌‌‌‌ဒေသကြီး/ပြည်နယ်</item>
+    </array>
+    <array name="township">
+        <item>မြို့နယ်</item>
+    </array>
+    <array name="content">
+        <item>ဂျိတ်လဲ</item>
+    </array>
+    <array name="gold_type">
+        <item>၁၅ပဲရည်</item>
+    </array>
+</resources>

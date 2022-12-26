@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/stockDetailFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.shwemisale.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login"/>
+    <fragment
+        android:id="@+id/StartFragment"
+        android:name="com.example.shwemisale.sellModule.StartFragment"
+        android:label="ဝယ်သူရှာရန်"
+        tools:layout="@layout/fragment_start">
+        <action
+            android:id="@+id/action_StartFragment_to_createNewFragment"
+            app:destination="@id/createNewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createNewFragment"
+        android:name="com.example.shwemisale.sellModule.CreateNewFragment"
+        android:label="ဝယ်သူအသစ် ပြုလုပ်မည်"
+        tools:layout="@layout/fragment_create_new">
+        <action
+            android:id="@+id/action_createNewFragment_to_CustomerInfoFragment"
+            app:destination="@id/CustomerInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/CustomerInfoFragment"
+        android:name="com.example.shwemisale.sellModule.CustomerInfoFragment"
+        android:label="ဝယ်သူ့အချက်အလက်"
+        tools:layout="@layout/fragment_customer_info">
+        <action
+            android:id="@+id/action_CustomerInfoFragment_to_goldFromHomeFragment"
+            app:destination="@id/goldFromHomeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/goldFromHomeFragment"
+        android:name="com.example.shwemisale.sellModule.GoldFromHomeFragment"
+        android:label="အိမ်ပါရွှေ"
+        tools:layout="@layout/fragment_gold_from_home">
+        <action
+            android:id="@+id/action_goldFromHomeFragment_to_createPawnFragment"
+            app:destination="@id/createPawnFragment" />
+        <action
+            android:id="@+id/action_goldFromHomeFragment_to_scanStockFragment"
+            app:destination="@id/scanStockFragment" />
+        <action
+            android:id="@+id/action_goldFromHomeFragment_to_receiveNewOrderFragment"
+            app:destination="@id/receiveNewOrderFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createPawnFragment"
+        android:name="com.example.shwemisale.pawnModule.CreatePawnFragment"
+        android:label="အပေါင်ဘောင်ချာ"
+        tools:layout="@layout/fragment_create_pawn"/>
+    <fragment
+        android:id="@+id/payBalanceFragment"
+        android:name="com.example.shwemisale.payforBalanceModule.PayBalanceFragment"
+        android:label="ကျန်ငွေရှင်း"
+        tools:layout="@layout/fragment_pay_balance"/>
+    <fragment
+        android:id="@+id/pawnInterestFragment"
+        android:name="com.example.shwemisale.pawnInterestModule.PawnInterestFragment"
+        android:label="အပေါင်အရင်းသွင်း/အတိုးသပ်"
+        tools:layout="@layout/fragment_pawn_interest"/>
+    <fragment
+        android:id="@+id/scanStockFragment"
+        android:name="com.example.shwemisale.sellModule.ScanStockFragment"
+        android:label="ပုံမှန်အရောင်း"
+        tools:layout="@layout/fragment_scan_stock">
+        <action
+            android:id="@+id/action_scanStockFragment_to_exchangeOrderFragment"
+            app:destination="@id/exchangeOrderFragment" />
+        <action
+            android:id="@+id/action_scanStockFragment_to_stockDetailFragment"
+            app:destination="@id/stockDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/exchangeOrderFragment"
+        android:name="com.example.shwemisale.sellModule.ExchangeOrderFragment"
+        android:label="အထည်‌‌‌ဟောင်းအလဲ နှင့် အော်ဒါပြန်ရွေး "
+        tools:layout="@layout/fragment_exchange_order">
+        <action
+            android:id="@+id/action_exchangeOrderFragment_to_withValueFragment"
+            app:destination="@id/withValueFragment" />
+        <action
+            android:id="@+id/action_exchangeOrderFragment_to_withKPYFragment"
+            app:destination="@id/withKPYFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/withValueFragment"
+        android:name="com.example.shwemisale.sellModule.WithValueFragment"
+        android:label="တန်ဖိုးဖြင့် ဘောင်ချာဖွင့်မည်"
+        tools:layout="@layout/fragment_with_value"/>
+    <fragment
+        android:id="@+id/withKPYFragment"
+        android:name="com.example.shwemisale.sellModule.WithKPYFragment"
+        android:label="ကျပ်ပဲရွေးဖြင့် ဘောင်ချာဖွင့်မည်"
+        tools:layout="@layout/fragment_with_kpy"/>
+    <fragment
+        android:id="@+id/stockDetailFragment"
+        android:name="com.example.shwemisale.sellModule.StockDetailFragment"
+        android:label="Stock Detail"
+        tools:layout="@layout/fragment_stock_detail"/>
+    <fragment
+        android:id="@+id/receiveNewOrderFragment"
+        android:name="com.example.shwemisale.sellModule.ReceiveNewOrderFragment"
+        android:label="‌အော်ဒါအသစ်လက်ခံ"
+        tools:layout="@layout/fragment_receive_new_order">
+        <action
+            android:id="@+id/action_receiveNewOrderFragment_to_inventoryStockFragment"
+            app:destination="@id/inventoryStockFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/inventoryStockFragment"
+        android:name="com.example.shwemisale.sellModule.InventoryStockFragment"
+        android:label="Sample Take from Inventory"
+        tools:layout="@layout/fragment_inventory_stock">
+        <action
+            android:id="@+id/action_inventoryStockFragment_to_receiveNewOrderFragment"
+            app:destination="@id/receiveNewOrderFragment" />
+    </fragment>
+
+</navigation>

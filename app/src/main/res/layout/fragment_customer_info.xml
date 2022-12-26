@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/iv_profile_bg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="120dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/profile_bg" />
+
+    <ImageView
+        android:id="@+id/iv_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_profile_bg"
+        app:layout_constraintEnd_toEndOf="@+id/iv_profile_bg"
+        app:layout_constraintStart_toStartOf="@+id/iv_profile_bg"
+        app:layout_constraintTop_toTopOf="@+id/iv_profile_bg"
+        app:srcCompat="@drawable/profile" />
+
+    <TextView
+        android:id="@+id/tv_label_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="အမည်"
+        android:textColor="@color/primary_text"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/tv_label_birth_date"
+        app:layout_constraintTop_toTopOf="@+id/iv_profile_bg" />
+
+    <TextView
+        android:id="@+id/tv_label_birth_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="မွေး‌နေ့"
+        android:textColor="@color/primary_text"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/textView18"
+        app:layout_constraintStart_toStartOf="@+id/textView18"
+        app:layout_constraintTop_toBottomOf="@+id/tv_label_name" />
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:text="မှတ်ပုံတင်"
+        android:textColor="@color/primary_text"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_profile_bg"
+        app:layout_constraintStart_toEndOf="@+id/iv_profile_bg" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="ဒေါ်ကလျာနွဲ့မူရာခင်"
+        android:textColor="@color/primary_text"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/textView18"
+        app:layout_constraintTop_toTopOf="@+id/tv_label_name" />
+
+    <TextView
+        android:id="@+id/tv_birth_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="05-12-1967"
+        android:textColor="@color/primary_text"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textView21"
+        app:layout_constraintStart_toStartOf="@+id/tv_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="၁၄/ဟသတ(နိုင်)၁၂၃၄၅၆"
+        android:textColor="@color/primary_text"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/textView18"
+        app:layout_constraintStart_toStartOf="@+id/tv_birth_date" />
+
+    <TextView
+        android:id="@+id/tv_label_phNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="ဖုန်းနံပါတ်"
+        android:textColor="@color/primary_text"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_name"
+        app:layout_constraintStart_toEndOf="@+id/textView21"
+        app:layout_constraintTop_toTopOf="@+id/tv_name" />
+
+    <TextView
+        android:id="@+id/tv_label_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="လိပ်စာ"
+        android:textColor="@color/primary_text"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_birth_date"
+        app:layout_constraintStart_toStartOf="@+id/tv_label_phNumber"
+        app:layout_constraintTop_toTopOf="@+id/tv_birth_date" />
+
+    <TextView
+        android:id="@+id/tv_phNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="09 420 12 3456 "
+        android:textColor="@color/primary_text"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_label_phNumber"
+        app:layout_constraintStart_toEndOf="@+id/tv_label_phNumber"
+        app:layout_constraintTop_toTopOf="@+id/tv_label_phNumber" />
+
+    <TextView
+        android:id="@+id/tv_address_township"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ဟင်္သာတမြို့နယ်, "
+        android:textColor="@color/primary_text"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_label_address"
+        app:layout_constraintStart_toStartOf="@+id/tv_phNumber"
+        app:layout_constraintTop_toTopOf="@+id/tv_label_address" />
+
+    <TextView
+        android:id="@+id/tv_address_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ဧရာဝတီတိုင်း‌‌‌ဒေသကြီး"
+        android:textColor="@color/primary_text"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_address_township"
+        app:layout_constraintStart_toEndOf="@+id/tv_address_township"
+        app:layout_constraintTop_toTopOf="@+id/tv_address_township" />
+
+    <TextView
+        android:id="@+id/tv_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ဘာရပ်ကွက် ဘာရွာ \nဘာလမ်း ဘယ်အိမ်နံပါတ်  "
+        android:textColor="@color/primary_text"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/tv_address_township"
+        app:layout_constraintTop_toBottomOf="@+id/tv_address_township" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_continue"
+        style="@android:style/Widget.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/background_btn"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
+        android:text="‌ရှေ့ဆက်မည်"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_label_address"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_label_phNumber" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
+        android:background="@color/label_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_address" />
+
+    <TextView
+        android:id="@+id/tv_label_customer_favItems"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:text="ဝယ်သူနှစ်သက်သည့်ပစ္စည်းများ"
+        android:textColor="@color/primary_text"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view" />
+
+    <include
+        android:id="@+id/include_customer_info"
+        layout="@layout/include_customer_info"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_label_customer_favItems" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

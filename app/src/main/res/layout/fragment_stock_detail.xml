@@ -1,0 +1,780 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="100dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_label_gold_and_gem_weight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="‌‌ရွှေ+ကျောက်ချိန်"
+                        android:textColor="@color/primary_text"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edit_gold_and_gem_weight"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/background_edit_text2"
+                        android:ems="10"
+                        android:inputType="number"
+                        android:paddingStart="32dp"
+                        android:paddingEnd="32dp"
+                        android:textColorHint="@color/secondary_text"
+                        android:textSize="24sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_label_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="အကြောင်းအရာ"
+                        android:textColor="@color/primary_text"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <Spinner
+                        android:id="@+id/spinner_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/background_spinner2"
+                        android:entries="@array/content"
+                        android:spinnerMode="dropdown" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_label_new_gold_and_gem_weight"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="‌‌အသစ်ရွှေ+ကျောက်ချိန်"
+                        android:textColor="@color/primary_text"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edit_new_gold_and_gem_weight"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/background_edit_text"
+                        android:ems="10"
+                        android:hint="Type"
+                        android:inputType="number"
+                        android:paddingStart="32dp"
+                        android:paddingEnd="32dp"
+                        android:textColorHint="@color/secondary_text"
+                        android:textSize="24sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_label_stock_size"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Stockဆိုဒ်"
+                        android:textColor="@color/primary_text"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edit_stock_size"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/background_edit_text"
+                        android:ems="10"
+                        android:hint="Type"
+                        android:inputType="number"
+                        android:paddingStart="32dp"
+                        android:paddingEnd="32dp"
+                        android:textColorHint="@color/secondary_text"
+                        android:textSize="24sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_label_old_jade"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="ဂျိတ်ဟောင်း(gm)"
+                        android:textColor="@color/primary_text"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edit_old_jade"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/background_edit_text"
+                        android:ems="10"
+                        android:hint="Type"
+                        android:inputType="number"
+                        android:paddingStart="32dp"
+                        android:paddingEnd="32dp"
+                        android:textColorHint="@color/secondary_text"
+                        android:textSize="24sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_label_new_jade"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="ဂျိတ်သစ်(gm)"
+                        android:textColor="@color/primary_text"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edit_new_jade"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/background_edit_text"
+                        android:ems="10"
+                        android:hint="Type"
+                        android:inputType="number"
+                        android:paddingStart="32dp"
+                        android:paddingEnd="32dp"
+                        android:textColorHint="@color/secondary_text"
+                        android:textSize="24sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_label_gem_weight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ကျောက် ချိန်"
+                        android:textColor="@color/primary_text"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/edit_gem_weight_K"
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/background_edit_text"
+                            android:ems="10"
+                            android:hint="K"
+                            android:inputType="number"
+                            android:paddingStart="16dp"
+                            android:textColor="@color/primary_text"
+                            android:textSize="24sp" />
+
+                        <EditText
+                            android:id="@+id/edit_gem_weight_P"
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/background_edit_text"
+                            android:ems="10"
+                            android:hint="P"
+                            android:inputType="number"
+                            android:paddingStart="16dp"
+                            android:textColor="@color/primary_text"
+                            android:textSize="24sp" />
+
+                        <EditText
+                            android:id="@+id/edit_gem_weight_Y"
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/background_edit_text"
+                            android:ems="10"
+                            android:hint="Y"
+                            android:inputType="number"
+                            android:paddingStart="16dp"
+                            android:textColor="@color/primary_text"
+                            android:textSize="24sp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_label_gem_diamond_value"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="ကျောက်/စိန်တန်ဖိုး"
+                        android:textColor="@color/primary_text"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edit_gem_diamond_value"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/background_edit_text"
+                        android:ems="10"
+                        android:hint="Type"
+                        android:inputType="number"
+                        android:paddingStart="32dp"
+                        android:paddingEnd="32dp"
+                        android:textColorHint="@color/secondary_text"
+                        android:textSize="24sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_label_PTclip_value"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="PT/အောက်ခံကလစ်ဖိုး"
+                        android:textColor="@color/primary_text"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edit_PTclip_value"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/background_edit_text"
+                        android:ems="10"
+                        android:hint="Type"
+                        android:inputType="number"
+                        android:paddingStart="32dp"
+                        android:paddingEnd="32dp"
+                        android:textColorHint="@color/secondary_text"
+                        android:textSize="24sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_label_fee"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="လက်ခ"
+                        android:textColor="@color/primary_text"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edit_fee"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/background_edit_text"
+                        android:ems="10"
+                        android:hint="Type"
+                        android:inputType="number"
+                        android:paddingStart="32dp"
+                        android:paddingEnd="32dp"
+                        android:textColorHint="@color/secondary_text"
+                        android:textSize="24sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_label_promotionPay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Promotionလျှော့ငွေ"
+                        android:textColor="@color/primary_text"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edit_promotionPay"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/background_edit_text2"
+                        android:ems="10"
+                        android:inputType="number"
+                        android:paddingStart="32dp"
+                        android:paddingEnd="32dp"
+                        android:textColorHint="@color/secondary_text"
+                        android:textSize="24sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_label_underCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="အလျော့တွက်"
+                        android:textColor="@color/primary_text"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/edit_underCount_K"
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/background_edit_text"
+                            android:ems="10"
+                            android:hint="K"
+                            android:inputType="number"
+                            android:paddingStart="16dp"
+                            android:textColor="@color/primary_text"
+                            android:textSize="24sp" />
+
+                        <EditText
+                            android:id="@+id/edit_underCount_P"
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/background_edit_text"
+                            android:ems="10"
+                            android:hint="P"
+                            android:inputType="number"
+                            android:paddingStart="16dp"
+                            android:textColor="@color/primary_text"
+                            android:textSize="24sp" />
+
+                        <EditText
+                            android:id="@+id/edit_underCount_Y"
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/background_edit_text"
+                            android:ems="10"
+                            android:hint="Y"
+                            android:inputType="number"
+                            android:paddingStart="16dp"
+                            android:textColor="@color/primary_text"
+                            android:textSize="24sp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="32dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
+
+                <TextView
+                    android:id="@+id/tv_label_stock_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Stockတန်ဖိုး"
+                    android:textColor="@color/primary_text"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/edit_stock_value"
+                    android:layout_width="500dp"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/background_edit_text2"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:paddingStart="32dp"
+                    android:paddingEnd="32dp"
+                    android:textColorHint="@color/secondary_text"
+                    android:textSize="24sp" />
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_save"
+                style="@android:style/Widget.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="80dp"
+                android:layout_marginEnd="32dp"
+                android:background="@drawable/background_btn"
+                android:drawableStart="@drawable/right"
+                android:drawablePadding="16dp"
+                android:paddingStart="64dp"
+                android:paddingEnd="64dp"
+                android:text="သိမ်းမည်"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/linearLayout5"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/linearLayout6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+
+                android:layout_marginBottom="32dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_label_value_wanted"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="လိုချင်သောတန်ဖိုး"
+                        android:textColor="@color/primary_text"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/edit_value_wanted"
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/background_edit_text"
+                            android:ems="10"
+                            android:hint="Type"
+                            android:inputType="number"
+                            android:paddingStart="32dp"
+                            android:paddingEnd="32dp"
+                            android:textColorHint="@color/secondary_text"
+                            android:textSize="24sp" />
+
+                        <androidx.appcompat.widget.AppCompatImageButton
+                            android:id="@+id/image_btn_select"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="32dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_weight="3"
+                            android:background="@drawable/background_btn"
+                            android:paddingStart="32dp"
+                            android:paddingEnd="32dp"
+                            android:src="@drawable/right" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_label_weight_difference"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="အလေးချိန်ကွာခြားချက်"
+                        android:textColor="@color/primary_text"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/edit_weight_difference_K"
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/background_edit_text2"
+                            android:ems="10"
+                            android:inputType="number"
+                            android:paddingStart="16dp"
+                            android:textColor="@color/primary_text"
+                            android:textSize="24sp"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/edit_weight_difference_P"
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/background_edit_text2"
+                            android:ems="10"
+                            android:inputType="number"
+                            android:paddingStart="16dp"
+                            android:textColor="@color/primary_text"
+                            android:textSize="24sp"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/edit_weight_difference_Y"
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/background_edit_text2"
+                            android:ems="10"
+                            android:inputType="number"
+                            android:paddingStart="16dp"
+                            android:textColor="@color/primary_text"
+                            android:textSize="24sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_label_length_difference"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="အရှည်ကွာခြားချက်"
+                        android:textColor="@color/primary_text"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edit_length_difference"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/background_edit_text2"
+                        android:ems="10"
+                        android:inputType="number"
+                        android:paddingStart="32dp"
+                        android:paddingEnd="32dp"
+                        android:textColorHint="@color/secondary_text"
+                        android:textSize="24sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:background="@color/label_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
