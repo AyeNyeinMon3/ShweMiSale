@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="80dp"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -21,28 +21,28 @@
             android:layout_height="wrap_content"
             android:text="အထည်တန်ဖိုးပေါင်း"
             android:textColor="@color/primary_text"
-            android:textSize="24sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
         <EditText
             android:id="@+id/edit_voucher_balance"
-            android:layout_width="500dp"
-            android:layout_height="80dp"
+            android:layout_width="400dp"
+            android:layout_height="70dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/background_edit_text2"
             android:ems="10"
             android:inputType="number"
-            android:paddingStart="32dp"
-            android:paddingEnd="32dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
             android:textColorHint="@color/secondary_text"
-            android:textSize="24sp" />
+            android:textSize="22sp" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="200dp"
+        android:layout_marginStart="64dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout1"
         app:layout_constraintStart_toEndOf="@+id/linearLayout1"
@@ -54,21 +54,21 @@
             android:layout_height="wrap_content"
             android:text="အိမ်ပါရွှေတန်ဖိုး"
             android:textColor="@color/primary_text"
-            android:textSize="24sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
         <EditText
             android:id="@+id/edit_gold_from_home_value"
-            android:layout_width="380dp"
-            android:layout_height="80dp"
+            android:layout_width="280dp"
+            android:layout_height="70dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/background_edit_text2"
             android:ems="10"
             android:inputType="number"
-            android:paddingStart="32dp"
-            android:paddingEnd="32dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
             android:textColorHint="@color/secondary_text"
-            android:textSize="24sp" />
+            android:textSize="22sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -87,21 +87,21 @@
             android:layout_height="wrap_content"
             android:text="ဘောင်ချာ‌‌‌‌ဟောင်းပေးသွင်း‌ငွေ"
             android:textColor="@color/primary_text"
-            android:textSize="24sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
         <EditText
             android:id="@+id/edit_old_voucher_payment"
-            android:layout_width="500dp"
-            android:layout_height="80dp"
+            android:layout_width="400dp"
+            android:layout_height="70dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/background_edit_text2"
             android:ems="10"
             android:inputType="number"
-            android:paddingStart="32dp"
-            android:paddingEnd="32dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
             android:textColorHint="@color/secondary_text"
-            android:textSize="24sp" />
+            android:textSize="22sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -124,16 +124,16 @@
 
         <EditText
             android:id="@+id/edit_reducedPay"
-            android:layout_width="500dp"
-            android:layout_height="80dp"
+            android:layout_width="400dp"
+            android:layout_height="70dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/background_edit_text"
             android:ems="10"
             android:inputType="number"
-            android:paddingStart="32dp"
-            android:paddingEnd="32dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
             android:textColorHint="@color/secondary_text"
-            android:textSize="24sp" />
+            android:textSize="22sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -152,21 +152,21 @@
             android:layout_height="wrap_content"
             android:text="ကျသင့်ငွေ"
             android:textColor="@color/primary_text"
-            android:textSize="24sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
         <EditText
             android:id="@+id/edit_charge"
-            android:layout_width="500dp"
-            android:layout_height="80dp"
+            android:layout_width="400dp"
+            android:layout_height="70dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/background_edit_text2"
             android:ems="10"
             android:inputType="number"
-            android:paddingStart="32dp"
-            android:paddingEnd="32dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
             android:textColorHint="@color/secondary_text"
-            android:textSize="24sp" />
+            android:textSize="22sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -185,31 +185,32 @@
             android:layout_height="wrap_content"
             android:text="ပေးသွင်းငွေ"
             android:textColor="@color/primary_text"
-            android:textSize="24sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
         <EditText
             android:id="@+id/edit_deposit"
-            android:layout_width="500dp"
-            android:layout_height="80dp"
+            android:layout_width="400dp"
+            android:layout_height="70dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/background_edit_text"
             android:ems="10"
             android:hint="Type"
             android:inputType="number"
-            android:paddingStart="32dp"
-            android:paddingEnd="32dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
             android:textColorHint="@color/secondary_text"
-            android:textSize="24sp" />
+            android:textSize="22sp" />
 
     </LinearLayout>
 
     <ImageButton
         android:id="@+id/imageBtn"
         android:layout_width="wrap_content"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         android:background="@drawable/background_btn"
-        android:padding="32dp"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="@+id/linearLayout4"
         app:srcCompat="@drawable/pen_white" />
@@ -218,35 +219,32 @@
         android:id="@+id/btn_calculate"
         style="@android:style/Widget.Button"
         android:layout_width="wrap_content"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         android:layout_marginEnd="32dp"
         android:background="@drawable/background_btn"
         android:drawableStart="@drawable/right"
-        android:drawablePadding="16dp"
-        android:paddingStart="64dp"
-        android:paddingEnd="64dp"
+        android:drawablePadding="8dp"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
         android:text="တွက်မည်"
         android:textColor="@color/white"
-        android:textSize="24sp"
+        android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout6"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/coordinatorLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:background="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:background="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
             <LinearLayout
                 android:id="@+id/linearLayout7"
@@ -265,21 +263,21 @@
                     android:layout_height="wrap_content"
                     android:text="ကျန်ငွေ"
                     android:textColor="@color/primary_text"
-                    android:textSize="24sp"
+                    android:textSize="22sp"
                     android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/edit_balance"
-                    android:layout_width="500dp"
-                    android:layout_height="80dp"
+                    android:layout_width="400dp"
+                    android:layout_height="70dp"
                     android:layout_marginTop="8dp"
                     android:background="@drawable/background_edit_text2"
                     android:ems="10"
                     android:inputType="number"
-                    android:paddingStart="32dp"
-                    android:paddingEnd="32dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
                     android:textColorHint="@color/secondary_text"
-                    android:textSize="24sp" />
+                    android:textSize="22sp" />
             </LinearLayout>
 
             <View
@@ -295,22 +293,21 @@
                 android:id="@+id/btn_print"
                 style="@android:style/Widget.Button"
                 android:layout_width="wrap_content"
-                android:layout_height="80dp"
+                android:layout_height="70dp"
                 android:layout_marginBottom="32dp"
                 android:background="@drawable/background_btn"
                 android:drawableStart="@drawable/print"
-                android:drawablePadding="16dp"
-                android:paddingStart="64dp"
-                android:paddingEnd="64dp"
+                android:drawablePadding="8dp"
+                android:paddingStart="32dp"
+                android:paddingEnd="32dp"
                 android:text="ပရင့်ထုတ်"
                 android:textColor="@color/white"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

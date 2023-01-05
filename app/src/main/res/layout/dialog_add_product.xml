@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_label_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:text="အချက်အလက်ဖြည့်ပါ"
+        android:textColor="@color/primary_text"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_label_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_label_title"
+        app:srcCompat="@drawable/close" />
+
+    <TextView
+        android:id="@+id/tv_label_item_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="အထည်အမျိုးအစား"
+        android:textColor="@color/primary_text"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/spinner_item_type"
+        app:layout_constraintStart_toStartOf="@+id/tv_label_title"
+        app:layout_constraintTop_toTopOf="@+id/spinner_item_type" />
+
+    <Spinner
+        android:id="@+id/spinner_item_type"
+        android:layout_width="400dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/background_spinner"
+        android:entries="@array/item_type"
+        android:spinnerMode="dropdown"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_label_title" />
+
+    <TextView
+        android:id="@+id/tv_label_gold_weight_gm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="‌ရွှေချိန် (gm)"
+        android:textColor="@color/primary_text"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/edit_reducedPay"
+        app:layout_constraintStart_toStartOf="@+id/tv_label_item_type"
+        app:layout_constraintTop_toTopOf="@+id/edit_reducedPay" />
+
+    <EditText
+        android:id="@+id/edit_reducedPay"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/background_edit_text"
+        android:ems="10"
+        android:hint="Type gram"
+        android:inputType="number"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textColorHint="@color/secondary_text"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="@+id/spinner_item_type"
+        app:layout_constraintStart_toStartOf="@+id/spinner_item_type"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_item_type" />
+
+    <TextView
+        android:id="@+id/tv_label_sell_reduce"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ရောင်းရော့"
+        android:textColor="@color/primary_text"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintStart_toStartOf="@+id/tv_label_gold_weight"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout2" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/edit_reducedPay"
+        app:layout_constraintStart_toStartOf="@+id/edit_reducedPay"
+        app:layout_constraintTop_toBottomOf="@+id/edit_reducedPay">
+
+        <EditText
+            android:id="@+id/edit_GW_K"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginEnd="16dp"
+            android:layout_weight="1"
+            android:background="@drawable/background_edit_text"
+            android:ems="10"
+            android:hint="K"
+            android:inputType="number"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="@color/primary_text"
+            android:textColorHint="@color/label_text"
+            android:textSize="22sp" />
+
+        <EditText
+            android:id="@+id/edit_GW_P"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/background_edit_text"
+            android:ems="10"
+            android:hint="P"
+            android:inputType="number"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="@color/primary_text"
+            android:textColorHint="@color/label_text"
+            android:textSize="22sp" />
+
+        <EditText
+            android:id="@+id/edit_GW_Y"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginStart="16dp"
+            android:layout_weight="1"
+            android:background="@drawable/background_edit_text"
+            android:ems="10"
+            android:hint="Y"
+            android:inputType="number"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="@color/primary_text"
+            android:textColorHint="@color/label_text"
+            android:textSize="22sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_label_gold_weight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="‌ရွှေချိန်"
+        android:textColor="@color/primary_text"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout1"
+        app:layout_constraintStart_toStartOf="@+id/tv_label_gold_weight_gm"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout1" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout1"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout1"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout1">
+
+        <EditText
+            android:id="@+id/edit_sell_reduce_K"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginEnd="16dp"
+            android:layout_weight="1"
+            android:background="@drawable/background_edit_text"
+            android:ems="10"
+            android:inputType="number"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="@color/primary_text"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edit_sell_reduce_P"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/background_edit_text"
+            android:ems="10"
+            android:inputType="number"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="@color/primary_text"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edit_sell_reduce_Y"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginStart="16dp"
+            android:layout_weight="1"
+            android:background="@drawable/background_edit_text"
+            android:ems="10"
+            android:inputType="number"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="@color/primary_text"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_label_fee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="လက်ခ"
+        android:textColor="@color/primary_text"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/edit_reducedPay2"
+        app:layout_constraintStart_toStartOf="@+id/tv_label_sell_reduce"
+        app:layout_constraintTop_toTopOf="@+id/edit_reducedPay2" />
+
+    <EditText
+        android:id="@+id/edit_reducedPay2"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/background_edit_text"
+        android:ems="10"
+        android:inputType="number"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textColorHint="@color/secondary_text"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+    <TextView
+        android:id="@+id/tv_label_nan_htoe_fee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="နန်းထိုးခ"
+        android:textColor="@color/primary_text"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/edit_reducedPay3"
+        app:layout_constraintStart_toStartOf="@+id/tv_label_fee"
+        app:layout_constraintTop_toTopOf="@+id/edit_reducedPay3" />
+
+    <EditText
+        android:id="@+id/edit_reducedPay3"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/background_edit_text"
+        android:ems="10"
+        android:inputType="number"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textColorHint="@color/secondary_text"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/edit_reducedPay2" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_continue"
+        style="@android:style/Widget.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/background_btn"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="‌ရှေ့ဆက်"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_reducedPay3" />
+</androidx.constraintlayout.widget.ConstraintLayout>

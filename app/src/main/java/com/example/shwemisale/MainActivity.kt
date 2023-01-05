@@ -1,9 +1,12 @@
 package com.example.shwemisale
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -16,6 +19,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var appBarConfiguration: AppBarConfiguration
 
+    private val startDestinationList = listOf<Int>(
+        R.id.inventoryStockFragment,
+        R.id.outsideStockFragment,
+        R.id.akoukSellFragment,
+        R.id.akoukSellAddedFragment
+    )
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
       //  setContentView(R.layout.activity_main)
@@ -26,12 +37,20 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.materialToolbar)
 
 
-
         val navController = navHostFragment.navController
         drawerLayout = binding.drawerLayout
         NavigationUI.setupActionBarWithNavController(this,navController,drawerLayout)
         appBarConfiguration = AppBarConfiguration(navController.graph,drawerLayout)
         NavigationUI.setupWithNavController(binding.navView,navController)
+
+
+
+        navController.addOnDestinationChangedListener{nc:NavController,nd:NavDestination, _->
+            binding.materialToolbar.visibility =
+                if(startDestinationList.contains(nd.id))
+                    View.GONE
+            else View.VISIBLE
+        }
 
 
 

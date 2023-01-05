@@ -28,7 +28,7 @@ class InventoryStockFragment:Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val adapter = InventoryStockRecyclerAdapter()
-        binding.rvStockCodeItem.adapter = adapter
+        binding.rvInventoryStockItem.adapter = adapter
         adapter.submitList(listOf(
             InventoryStockData("1","SM-PRD-000000002"),
             InventoryStockData("2","SM-PRD-000000003"),
@@ -36,9 +36,6 @@ class InventoryStockFragment:Fragment() {
             InventoryStockData("4","SM-PRD-000000005"),
             InventoryStockData("5","SM-PRD-000000006"),
         ))
-
-        (requireActivity() as AppCompatActivity).supportActionBar?.hide()
-
 
         binding.inventoryStockFragmentMaterialToolbar.setNavigationIcon(R.drawable.icon_back)
         binding.inventoryStockFragmentMaterialToolbar.setNavigationOnClickListener {

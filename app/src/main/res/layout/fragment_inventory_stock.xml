@@ -16,24 +16,26 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/icon_back"
         app:title="Sample Take from Inventory"
-        app:titleTextColor="@color/primary"
-        app:navigationIcon="@drawable/icon_back">
+        app:titleTextColor="@color/primary">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_take"
             style="@android:style/Widget.Button"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="60dp"
+            android:layout_gravity="end"
             android:layout_marginEnd="32dp"
             android:background="@drawable/background_btn"
-            android:paddingStart="64dp"
-            android:paddingEnd="64dp"
-            android:layout_gravity="end"
+            android:paddingStart="32dp"
+            android:paddingEnd="32dp"
             android:text="ယူမည်"
             android:textColor="@color/white"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:textSize="22sp"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="1042dp"
+            tools:layout_editor_absoluteY="2dp" />
 
     </com.google.android.material.appbar.MaterialToolbar>
 
@@ -44,7 +46,7 @@
         android:layout_marginStart="32dp"
         android:text="Scan Stock Code"
         android:textColor="@color/primary_text"
-        android:textSize="24sp"
+        android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/edit_scan_stock_code"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,19 +54,19 @@
 
     <EditText
         android:id="@+id/edit_scan_stock_code"
-        android:layout_width="500dp"
-        android:layout_height="80dp"
+        android:layout_width="400dp"
+        android:layout_height="70dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:background="@drawable/background_edit_text"
         android:ems="10"
         android:hint="Type or Scan"
         android:inputType="textPersonName"
-        android:paddingStart="32dp"
-        android:paddingEnd="32dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
         android:textColor="@color/primary_text"
         android:textColorHint="@color/label_text"
-        android:textSize="24sp"
+        android:textSize="22sp"
         app:layout_constraintStart_toEndOf="@+id/tv_label_scan_stock_code"
         app:layout_constraintTop_toBottomOf="@+id/inventoryStockFragment_materialToolbar" />
 
@@ -81,7 +83,7 @@
         app:layout_constraintTop_toBottomOf="@+id/edit_scan_stock_code" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_stock_code_item"
+        android:id="@+id/rv_inventory_stock_item"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="#FFF5F5"

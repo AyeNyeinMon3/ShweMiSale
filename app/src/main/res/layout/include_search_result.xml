@@ -7,11 +7,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         android:background="@color/primary"
         android:divider="?android:dividerHorizontal"
         android:orientation="horizontal"
@@ -33,7 +32,8 @@
                 android:gravity="center"
                 android:text="အမည်"
                 android:textColor="@color/white"
-                android:textSize="24sp" />
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_label_phNumber"
@@ -43,7 +43,8 @@
                 android:gravity="center"
                 android:text="ဖုန်းနံပါတ်"
                 android:textColor="@color/white"
-                android:textSize="24sp" />
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_label_NRC"
@@ -53,14 +54,15 @@
                 android:gravity="center"
                 android:text="မှတ်ပုံတင်"
                 android:textColor="@color/white"
-                android:textSize="24sp" />
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="1.2"
             android:divider="?android:dividerHorizontal"
             android:orientation="horizontal"
             android:showDividers="middle">
@@ -73,7 +75,8 @@
                 android:gravity="center"
                 android:text="‌မွေးနေ့"
                 android:textColor="@color/white"
-                android:textSize="24sp" />
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_label_township"
@@ -83,7 +86,8 @@
                 android:gravity="center"
                 android:text="မြို့နယ်"
                 android:textColor="@color/white"
-                android:textSize="24sp" />
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_label_account"
@@ -93,12 +97,13 @@
                 android:gravity="center"
                 android:text="အကောင့်"
                 android:textColor="@color/white"
-                android:textSize="24sp" />
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="1.1"
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="24sp" />

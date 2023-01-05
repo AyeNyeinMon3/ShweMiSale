@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/stockDetailFragment">
+    app:startDestination="@id/goldFromHomeFragment">
 
     <fragment
         android:id="@+id/loginFragment"
@@ -51,6 +51,9 @@
         <action
             android:id="@+id/action_goldFromHomeFragment_to_receiveNewOrderFragment"
             app:destination="@id/receiveNewOrderFragment" />
+        <action
+            android:id="@+id/action_goldFromHomeFragment_to_akoukSellFragment"
+            app:destination="@id/akoukSellFragment" />
     </fragment>
     <fragment
         android:id="@+id/createPawnFragment"
@@ -114,6 +117,9 @@
         <action
             android:id="@+id/action_receiveNewOrderFragment_to_inventoryStockFragment"
             app:destination="@id/inventoryStockFragment" />
+        <action
+            android:id="@+id/action_receiveNewOrderFragment_to_outsideStockFragment"
+            app:destination="@id/outsideStockFragment" />
     </fragment>
     <fragment
         android:id="@+id/inventoryStockFragment"
@@ -124,5 +130,27 @@
             android:id="@+id/action_inventoryStockFragment_to_receiveNewOrderFragment"
             app:destination="@id/receiveNewOrderFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/outsideStockFragment"
+        android:name="com.example.shwemisale.sellModule.OutsideStockFragment"
+        android:label="Sample Take from Outside"
+        tools:layout="@layout/item_outside_stock">
+        <action
+            android:id="@+id/action_outsideStockFragment_to_receiveNewOrderFragment"
+            app:destination="@id/receiveNewOrderFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/akoukSellFragment"
+        android:name="com.example.shwemisale.sellModule.AkoukSellFragment"
+        android:label="AkoukSellFragment"
+        tools:layout="@layout/fragment_akouk_sell">
+        <action
+            android:id="@+id/action_akoukSellFragment_to_akoukSellAddedFragment"
+            app:destination="@id/akoukSellAddedFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/akoukSellAddedFragment"
+        android:name="com.example.shwemisale.sellModule.AkoukSellAddedFragment"
+        android:label="AkoukSellAddedFragment" />
 
 </navigation>

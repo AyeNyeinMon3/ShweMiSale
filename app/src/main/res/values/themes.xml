@@ -14,13 +14,14 @@
         <!-- Customize your theme here. -->
         <item name="toolbarStyle">@style/ToolbarStyle</item>
         <item name="drawerArrowStyle">@style/DrawerIconStyle</item>
+
     </style>
     <style name="ToolbarStyle" parent="Widget.AppCompat.Toolbar">
         <item name="background">@color/white</item>
         <item name="titleTextAppearance">@style/TitleTextStyle</item>
     </style>
     <style name="TitleTextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:textSize">30sp</item>
+        <item name="android:textSize">28sp</item>
         <item name="android:textColor">@color/primary_text</item>
     </style>
     <style name="DrawerIconStyle" parent="Widget.AppCompat.DrawerArrowToggle">

@@ -7,9 +7,9 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="600dp"
+        android:layout_width="470dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,27 +23,27 @@
             android:gravity="center|start"
             android:text="လထည့်ရန်"
             android:textColor="@color/primary_text"
-            android:textSize="24sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
         <EditText
             android:id="@+id/edit_month"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_marginStart="16dp"
+            android:layout_height="70dp"
             android:layout_weight="1"
             android:background="@drawable/background_edit_text"
             android:ems="10"
             android:hint="Type"
             android:inputType="number"
             android:paddingStart="16dp"
-            android:textSize="24sp" />
+            android:paddingEnd="16dp"
+            android:textSize="22sp" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="600dp"
+        android:layout_width="470dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
@@ -57,35 +57,35 @@
             android:gravity="center|start"
             android:text="အတိုးကျသင့်ငွေ"
             android:textColor="@color/primary_text"
-            android:textSize="24sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
         <EditText
             android:id="@+id/edit_interest_charge"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_marginStart="16dp"
+            android:layout_height="70dp"
             android:layout_weight="1"
             android:background="@drawable/background_edit_text2"
             android:ems="10"
             android:inputType="number"
             android:paddingStart="16dp"
-            android:textSize="24sp" />
+            android:paddingEnd="16dp"
+            android:textSize="22sp" />
     </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_click"
         style="@android:style/Widget.Button"
         android:layout_width="wrap_content"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="24dp"
         android:background="@drawable/background_btn"
-        android:paddingStart="64dp"
-        android:paddingEnd="64dp"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
         android:text="ကြိုတိုးရှင်း"
         android:textColor="@color/white"
-        android:textSize="24sp"
+        android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
