@@ -7,10 +7,10 @@
 
     <ImageView
         android:id="@+id/iv_scan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="120dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/scan_rectangle" />
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:text="QR ကုဒ်"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textColor="@color/primary_text"
         app:layout_constraintBottom_toTopOf="@+id/iv_scan"
         app:layout_constraintStart_toStartOf="@+id/iv_scan" />
@@ -40,10 +40,11 @@
         android:id="@+id/tv_or"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
+        android:layout_marginStart="16dp"
         android:text="or"
         android:textColor="@color/secondary_text"
-        android:textSize="32sp"
+        android:textSize="30sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/iv_scan"
         app:layout_constraintStart_toEndOf="@+id/iv_scan"
         app:layout_constraintTop_toTopOf="@+id/iv_scan" />
@@ -53,8 +54,8 @@
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="@+id/iv_scan"
         app:layout_constraintEnd_toStartOf="@+id/image_btn_search"
@@ -71,22 +72,22 @@
             <EditText
                 android:id="@+id/edit_name"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="match_parent"
                 android:layout_marginEnd="12dp"
                 android:layout_weight="1"
                 android:background="@drawable/background_edit_text"
                 android:ems="10"
                 android:hint="အမည်"
                 android:inputType="textPersonName"
-                android:paddingStart="30dp"
+                android:paddingStart="16sp"
                 android:textColor="@color/primary_text"
                 android:textColorHint="@color/secondary_text"
-                android:textSize="24sp" />
+                android:textSize="22sp" />
 
             <Spinner
                 android:id="@+id/spinner_state"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="match_parent"
                 android:layout_marginStart="12dp"
                 android:layout_weight="1"
                 android:background="@drawable/background_spinner"
@@ -96,7 +97,7 @@
             <Spinner
                 android:id="@+id/spinner_township"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="match_parent"
                 android:layout_marginStart="24dp"
                 android:layout_weight="1"
                 android:background="@drawable/background_spinner"
@@ -116,47 +117,47 @@
             <EditText
                 android:id="@+id/edit_phNumber"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="match_parent"
                 android:layout_marginEnd="12dp"
                 android:layout_weight="1"
                 android:background="@drawable/background_edit_text"
                 android:ems="10"
                 android:hint="ဖုန်းနံပါတ်"
                 android:inputType="number"
-                android:paddingStart="30dp"
+                android:paddingStart="16sp"
                 android:textColor="@color/primary_text"
                 android:textColorHint="@color/secondary_text"
-                android:textSize="24sp" />
+                android:textSize="22sp" />
 
             <EditText
                 android:id="@+id/edit_NRC"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="match_parent"
                 android:layout_marginStart="12dp"
                 android:layout_weight="1"
                 android:background="@drawable/background_edit_text"
                 android:ems="10"
                 android:hint="မှတ်ပုံတင်"
                 android:inputType="textPersonName"
-                android:paddingStart="30dp"
+                android:paddingStart="16sp"
                 android:textColor="@color/primary_text"
                 android:textColorHint="@color/secondary_text"
-                android:textSize="24sp" />
+                android:textSize="22sp" />
 
             <TextView
                 android:id="@+id/tv_birth_date"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="match_parent"
                 android:layout_marginStart="24dp"
                 android:layout_weight="1"
                 android:background="@drawable/background_edit_text"
                 android:drawableEnd="@drawable/calendar"
                 android:gravity="start|center"
-                android:paddingStart="32dp"
+                android:paddingStart="16sp"
                 android:paddingEnd="32dp"
                 android:text="မွေးနေ့"
                 android:textColor="@color/primary_text"
-                android:textSize="24sp" />
+                android:textSize="22sp" />
 
         </LinearLayout>
 
@@ -169,14 +170,14 @@
         android:layout_marginBottom="8dp"
         android:text="အချက်အလက်"
         android:textColor="@color/primary_text"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintStart_toStartOf="@+id/linearLayout" />
 
     <ImageButton
         android:id="@+id/image_btn_search"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_marginEnd="32dp"
         android:background="@drawable/background_btn"
         android:contentDescription="search"
@@ -189,7 +190,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
         android:background="@color/label_text"
         app:layout_constraintEnd_toEndOf="parent"
@@ -201,10 +202,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:text="ဝယ်သူစာရင်း"
         android:textColor="@color/primary_text"
-        android:textSize="32sp"
+        android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view" />
@@ -213,17 +214,17 @@
         android:id="@+id/btn_new"
         style="@android:style/Widget.Button"
         android:layout_width="wrap_content"
-        android:layout_height="80dp"
-        android:layout_marginTop="24dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
         android:background="@drawable/background_btn"
         android:drawableLeft="@drawable/plus"
-        android:drawablePadding="16dp"
-        android:paddingStart="60dp"
-        android:paddingEnd="60dp"
+        android:drawablePadding="8dp"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
         android:text="အသစ်"
         android:textColor="@color/white"
-        android:textSize="24sp"
+        android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view" />
@@ -237,13 +238,13 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/coordinatorLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_new" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -276,7 +277,7 @@
                 android:layout_marginBottom="16dp"
                 android:text="အကုန်ကြည့်မယ်"
                 android:textColor="@color/primary"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

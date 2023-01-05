@@ -38,6 +38,10 @@ class ScanStockFragment:Fragment() {
             StockCodeData("3","SM-PRD-000000003","12”","600,000"),
             StockCodeData("4","SM-PRD-000000004","12”","700,000"),
             StockCodeData("5","SM-PRD-000000005","12”","800,000"),
+            StockCodeData("5","SM-PRD-000000005","12”","800,000"),
+            StockCodeData("5","SM-PRD-000000005","12”","800,000"),
+            StockCodeData("5","SM-PRD-000000005","12”","800,000"),
+            StockCodeData("5","SM-PRD-000000005","12”","800,000"),
         ))
 
 

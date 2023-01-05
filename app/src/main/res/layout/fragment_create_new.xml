@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="90dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
         android:background="@drawable/background_create_new_fragment"
@@ -24,16 +24,16 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginEnd="50dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="32dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -43,59 +43,61 @@
                     android:layout_height="wrap_content"
                     android:text="အမည်"
                     android:textColor="@color/primary_text"
-                    android:textSize="24sp" />
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/edit_name"
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
+                    android:layout_height="70dp"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/background_edit_text"
                     android:ems="10"
                     android:hint="အမည်"
                     android:inputType="textPersonName"
-                    android:paddingStart="32dp"
+                    android:paddingStart="16dp"
                     android:textColorHint="@color/secondary_text"
-                    android:textSize="24sp" />
+                    android:textSize="22sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginEnd="50dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="32dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tv_birth_date"
+                    android:id="@+id/tv_label_birth_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="မွေးနေ့"
                     android:textColor="@color/primary_text"
-                    android:textSize="24sp" />
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
 
-                <EditText
-                    android:id="@+id/edit_bd"
+                <TextView
+                    android:id="@+id/tv_birth_date"
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:layout_marginTop="4dp"
+                    android:layout_height="70dp"
                     android:background="@drawable/background_edit_text"
-                    android:ems="10"
-                    android:hint="မွေးနေ့"
-                    android:inputType="textPersonName"
-                    android:paddingStart="32dp"
-                    android:textColorHint="@color/secondary_text"
-                    android:textSize="24sp" />
+                    android:drawableEnd="@drawable/calendar"
+                    android:gravity="start|center"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="32dp"
+                    android:text="မွေးနေ့"
+                    android:textColor="@color/primary_text"
+                    android:textSize="22sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginEnd="50dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="32dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -105,35 +107,36 @@
                     android:layout_height="wrap_content"
                     android:text="မှတ်ပုံတင်"
                     android:textColor="@color/primary_text"
-                    android:textSize="24sp" />
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/edit_NRC"
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
+                    android:layout_height="70dp"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/background_edit_text"
                     android:ems="10"
                     android:hint="မှတ်ပုံတင်"
                     android:inputType="textPersonName"
-                    android:paddingStart="32dp"
+                    android:paddingStart="16dp"
                     android:textColorHint="@color/secondary_text"
-                    android:textSize="24sp" />
+                    android:textSize="22sp" />
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginEnd="50dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -143,28 +146,29 @@
                     android:layout_height="wrap_content"
                     android:text="ဖုန်းနံပါတ်"
                     android:textColor="@color/primary_text"
-                    android:textSize="24sp" />
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/edit_phNumber"
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
+                    android:layout_height="70dp"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/background_edit_text"
                     android:ems="10"
                     android:hint="ဖုန်းနံပါတ်"
-                    android:inputType="textPersonName"
-                    android:paddingStart="32dp"
+                    android:inputType="number"
+                    android:paddingStart="16dp"
                     android:textColorHint="@color/secondary_text"
-                    android:textSize="24sp" />
+                    android:textSize="22sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginEnd="50dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -174,16 +178,16 @@
                     android:layout_height="wrap_content"
                     android:text="တိုင်း‌‌‌‌‌ဒေသကြီး/ပြည်နယ်"
                     android:textColor="@color/primary_text"
-                    android:textSize="24sp" />
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
 
                 <Spinner
                     android:id="@+id/spinner_state"
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
+                    android:layout_height="70dp"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/background_spinner"
                     android:entries="@array/state"
-                    android:paddingStart="32dp"
                     android:spinnerMode="dropdown" />
 
             </LinearLayout>
@@ -191,9 +195,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginEnd="50dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -203,26 +207,25 @@
                     android:layout_height="wrap_content"
                     android:text="မြို့နယ်"
                     android:textColor="@color/primary_text"
-                    android:textSize="24sp" />
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
 
                 <Spinner
                     android:id="@+id/spinner_township"
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
+                    android:layout_height="70dp"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/background_spinner"
                     android:entries="@array/state"
-                    android:paddingStart="32dp"
                     android:spinnerMode="dropdown" />
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginEnd="50dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -232,25 +235,29 @@
                 android:layout_height="wrap_content"
                 android:text="လိပ်စာ"
                 android:textColor="@color/primary_text"
-                android:textSize="24sp" />
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/edit_address"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="match_parent"
                 android:layout_marginTop="4dp"
                 android:background="@drawable/background_edit_text"
                 android:ems="10"
+                android:gravity="top"
                 android:hint="လိပ်စာ"
-                android:inputType="textPersonName"
-                android:paddingStart="32dp"
+                android:inputType="textMultiLine"
+                android:paddingStart="16dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="16dp"
                 android:textColorHint="@color/secondary_text"
-                android:textSize="24sp" />
+                android:textSize="22sp" />
         </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginTop="24dp"
             android:layout_weight="1">
 
@@ -266,17 +273,17 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_save"
                 style="@android:style/Widget.Button"
-                android:background="@drawable/background_btn"
                 android:layout_width="wrap_content"
-                android:layout_height="80dp"
+                android:layout_height="70dp"
                 android:layout_marginTop="32dp"
-                android:layout_marginEnd="50dp"
+                android:layout_marginEnd="32dp"
                 android:layout_marginBottom="32dp"
-                android:paddingStart="64dp"
-                android:paddingEnd="64dp"
+                android:background="@drawable/background_btn"
+                android:paddingStart="32dp"
+                android:paddingEnd="32dp"
                 android:text="သိမ်းမည်"
                 android:textColor="@color/white"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

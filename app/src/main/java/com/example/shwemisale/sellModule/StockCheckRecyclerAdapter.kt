@@ -1,4 +1,4 @@
-package com.example.shwemisale
+package com.example.shwemisale.sellModule
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -13,7 +13,7 @@ data class StockCheckData(
     val weight : String
 )
 
-class StockCheckRecyclerAdapter:ListAdapter<StockCheckData,StockCheckViewHolder>(StockCheckDiffUtil) {
+class StockCheckRecyclerAdapter:ListAdapter<StockCheckData, StockCheckViewHolder>(StockCheckDiffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StockCheckViewHolder {
 
         return StockCheckViewHolder(ItemStockCheckBinding.inflate(LayoutInflater.from(parent.context),parent,false))

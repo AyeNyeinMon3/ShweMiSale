@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.ListAdapter
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.shwemisale.R
@@ -26,13 +25,15 @@ class ReceiveNewOrderFragment:Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val adapter = ArrayAdapter.createFromResource(requireContext(), R.array.gold_type,R.layout.spinner_text_style)
+        val adapter = ArrayAdapter.createFromResource(requireContext(), R.array.gold_type,R.layout.spinner_text_style_2)
         binding.spinnerGoldType.adapter = adapter
 
         binding.btnInventory.setOnClickListener {
             view.findNavController().navigate(ReceiveNewOrderFragmentDirections.actionReceiveNewOrderFragmentToInventoryStockFragment())
         }
-
+        binding.btnOutside.setOnClickListener {
+            view.findNavController().navigate(ReceiveNewOrderFragmentDirections.actionReceiveNewOrderFragmentToOutsideStockFragment())
+        }
     }
 
 

@@ -8,16 +8,9 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -37,7 +30,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="80dp"
+                        android:layout_height="70dp"
                         android:layout_marginEnd="32dp"
                         android:layout_weight="1"
                         android:orientation="horizontal"
@@ -48,11 +41,11 @@
                             android:id="@+id/tv_label_scanVoucher"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_weight="1.3"
+                            android:layout_weight="1.7"
                             android:gravity="start|center"
                             android:text="Scan Voucher"
                             android:textColor="@color/primary_text"
-                            android:textSize="24sp"
+                            android:textSize="22sp"
                             android:textStyle="bold" />
 
                         <EditText
@@ -63,14 +56,15 @@
                             android:background="@drawable/background_edit_text"
                             android:ems="10"
                             android:hint="Type or scan"
-                            android:inputType="number"
+                            android:inputType="text"
                             android:paddingStart="16dp"
-                            android:textSize="24sp" />
+                            android:paddingEnd="16dp"
+                            android:textSize="22sp" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="80dp"
+                        android:layout_height="70dp"
                         android:layout_marginStart="32dp"
                         android:layout_weight="1"
                         android:orientation="horizontal"
@@ -81,11 +75,11 @@
                             android:id="@+id/tv_label_prePay"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_weight="1.3"
+                            android:layout_weight="1.7"
                             android:gravity="start|center"
                             android:text="ကြိုသွင်းငွေ"
                             android:textColor="@color/primary_text"
-                            android:textSize="24sp"
+                            android:textSize="22sp"
                             android:textStyle="bold" />
 
                         <EditText
@@ -98,8 +92,9 @@
                             android:hint="Type"
                             android:inputType="number"
                             android:paddingStart="16dp"
+                            android:paddingEnd="16dp"
                             android:textColorHint="@color/secondary_text"
-                            android:textSize="24sp" />
+                            android:textSize="22sp" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -118,7 +113,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="80dp"
+                        android:layout_height="70dp"
                         android:layout_marginEnd="32dp"
                         android:layout_weight="1"
                         android:orientation="horizontal"
@@ -129,11 +124,11 @@
                             android:id="@+id/tv_label_name"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_weight="1.3"
+                            android:layout_weight="1.7"
                             android:gravity="start|center"
                             android:text="အမည်"
                             android:textColor="@color/primary_text"
-                            android:textSize="24sp"
+                            android:textSize="22sp"
                             android:textStyle="bold" />
 
                         <EditText
@@ -143,14 +138,15 @@
                             android:layout_weight="1"
                             android:background="@drawable/background_edit_text2"
                             android:ems="10"
-                            android:inputType="number"
+                            android:inputType="textPersonName"
                             android:paddingStart="16dp"
-                            android:textSize="24sp" />
+                            android:paddingEnd="16dp"
+                            android:textSize="22sp" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="80dp"
+                        android:layout_height="70dp"
                         android:layout_marginStart="32dp"
                         android:layout_weight="1"
                         android:orientation="horizontal"
@@ -161,11 +157,11 @@
                             android:id="@+id/tv_label_prePay_month"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_weight="1.3"
+                            android:layout_weight="1.7"
                             android:gravity="start|center"
                             android:text="ကြိုသွင်းထားသောလ"
                             android:textColor="@color/primary_text"
-                            android:textSize="24sp"
+                            android:textSize="22sp"
                             android:textStyle="bold" />
 
                         <EditText
@@ -178,8 +174,9 @@
                             android:hint="Type"
                             android:inputType="number"
                             android:paddingStart="16dp"
+                            android:paddingEnd="16dp"
                             android:textColorHint="@color/secondary_text"
-                            android:textSize="24sp" />
+                            android:textSize="22sp" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -187,7 +184,7 @@
                 <RadioGroup
                     android:id="@+id/radioGroup"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="70dp"
                     android:layout_marginStart="32dp"
                     android:layout_marginTop="32dp"
                     android:layout_marginEnd="32dp"
@@ -197,27 +194,27 @@
                     app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
                     <RadioButton
-                        android:id="@+id/radioButton1"
+                        android:id="@+id/radio_pre_input_output"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:paddingStart="16dp"
                         android:text="ကြိုသွင်း/ထုတ်"
                         android:textColor="@color/primary_text"
-                        android:textSize="24sp" />
+                        android:textSize="22sp" />
 
                     <RadioButton
-                        android:id="@+id/radioButton2"
+                        android:id="@+id/radio_pre_interest_pay"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:paddingStart="16dp"
                         android:text="ကြိုတိုးရှင်း"
                         android:textColor="@color/primary_text"
-                        android:textSize="24sp" />
+                        android:textSize="22sp" />
 
                     <RadioButton
-                        android:id="@+id/radioButton3"
+                        android:id="@+id/radio_only_interest"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -227,31 +224,31 @@
                         android:textSize="24sp" />
 
                     <RadioButton
-                        android:id="@+id/radioButton4"
+                        android:id="@+id/radio_interest_pay"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:paddingStart="16dp"
                         android:text="အတိုးရှင်း"
                         android:textColor="@color/primary_text"
-                        android:textSize="24sp" />
+                        android:textSize="22sp" />
 
                     <RadioButton
-                        android:id="@+id/radioButton5"
+                        android:id="@+id/radio_investment_interest_pay"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:paddingStart="16dp"
                         android:text="အရင်းသွင်းအတိုးရှင်း"
                         android:textColor="@color/primary_text"
-                        android:textSize="24sp" />
+                        android:textSize="22sp" />
 
                 </RadioGroup>
 
                 <RadioGroup
                     android:id="@+id/radioGroup2"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="70dp"
                     android:layout_marginStart="32dp"
                     android:layout_marginTop="32dp"
                     android:layout_marginEnd="32dp"
@@ -261,44 +258,44 @@
                     app:layout_constraintTop_toBottomOf="@+id/radioGroup">
 
                     <RadioButton
-                        android:id="@+id/radioButton6"
+                        android:id="@+id/radio_select_investment"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:paddingStart="16dp"
                         android:text="အရင်းသွင်း ခွဲရွေး"
                         android:textColor="@color/primary_text"
-                        android:textSize="24sp" />
+                        android:textSize="22sp" />
 
                     <RadioButton
-                        android:id="@+id/radioButton7"
+                        android:id="@+id/radio_clearing_interest"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:paddingStart="16dp"
                         android:text="တိုးယူအတိုးရှင်း"
                         android:textColor="@color/primary_text"
-                        android:textSize="24sp" />
+                        android:textSize="22sp" />
 
                     <RadioButton
-                        android:id="@+id/radioButton8"
+                        android:id="@+id/radio_choose"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:paddingStart="16dp"
                         android:text="ရွေးယူ"
                         android:textColor="@color/primary_text"
-                        android:textSize="24sp" />
+                        android:textSize="22sp" />
 
                     <RadioButton
-                        android:id="@+id/radioButton9"
+                        android:id="@+id/radio_pawn_item_sale"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:paddingStart="16dp"
                         android:text="အပေါင်ပစ္စည်းရောင်းချ"
                         android:textColor="@color/primary_text"
-                        android:textSize="24sp" />
+                        android:textSize="22sp" />
 
                     <TextView
                         android:id="@+id/textView58"
@@ -312,7 +309,7 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/constraintLayout2"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="250dp"
                     android:layout_marginStart="32dp"
                     android:layout_marginTop="32dp"
@@ -324,9 +321,11 @@
 
                     <include
                         android:id="@+id/include_radioBtn"
-                        layout="@layout/include_checked_radiobtn_9"
+                        layout="@layout/include_radio_pre_input_output"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -336,182 +335,180 @@
                 <Switch
                     android:id="@+id/switch_app"
                     android:layout_width="0dp"
-                    android:layout_height="80dp"
+                    android:layout_height="70dp"
                     android:layout_marginStart="32dp"
                     android:layout_marginTop="32dp"
                     android:layout_marginEnd="32dp"
-                    android:layout_marginBottom="32dp"
                     android:background="@drawable/background_text_view"
                     android:elevation="3dp"
                     android:paddingStart="32dp"
                     android:text="App မှ အပေါင်လုပ်ဆောင်ချက်များ လုပ်ဆောင်မည်"
                     android:textColor="@color/primary_text"
-                    android:textSize="24sp"
+                    android:textSize="22sp"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
                     tools:ignore="UseSwitchCompatOrMaterialXml" />
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:background="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/switch_app">
+
+
+                    <View
+                        android:id="@+id/view"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/label_text"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_print"
+                        style="@android:style/Widget.Button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="80dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_marginBottom="32dp"
+                        android:background="@drawable/background_btn"
+                        android:drawableStart="@drawable/print"
+                        android:drawablePadding="8dp"
+                        android:paddingStart="32dp"
+                        android:paddingEnd="32dp"
+                        android:text="ပရင့်ထုတ်"
+                        android:textColor="@color/white"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_label_charge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_weight="1.3"
+                        android:gravity="start|center"
+                        android:text="ကျသင့်ငွေ"
+                        android:textColor="@color/primary_text"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@+id/edit_charge"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/edit_charge" />
+
+
+                    <EditText
+                        android:id="@+id/edit_charge"
+                        android:layout_width="400dp"
+                        android:layout_height="70dp"
+                        android:layout_marginStart="64dp"
+                        android:layout_marginTop="32dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/background_edit_text2"
+                        android:ems="10"
+                        android:inputType="number"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:textSize="22sp"
+                        app:layout_constraintStart_toEndOf="@+id/tv_label_charge"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_label_claimMoney"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="64dp"
+                        android:layout_weight="1.3"
+                        android:gravity="start|center"
+                        android:text="တောင်းခံရန်ငွေ"
+                        android:textColor="@color/primary_text"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@+id/edit_claimMoney"
+                        app:layout_constraintEnd_toStartOf="@+id/edit_claimMoney"
+                        app:layout_constraintTop_toTopOf="@+id/edit_claimMoney" />
+
+                    <EditText
+                        android:id="@+id/edit_claimMoney"
+                        android:layout_width="400dp"
+                        android:layout_height="70dp"
+                        android:layout_marginTop="32dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/background_edit_text2"
+                        android:ems="10"
+                        android:inputType="number"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:textColorHint="@color/secondary_text"
+                        android:textSize="22sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/view" />
+
+                    <TextView
+                        android:id="@+id/tv_label_reducedPay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.3"
+                        android:gravity="start|center"
+                        android:text="လျှော့ပေးငွေ"
+                        android:textColor="@color/primary_text"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@+id/edit_reducedPay"
+                        app:layout_constraintStart_toStartOf="@+id/tv_label_charge"
+                        app:layout_constraintTop_toTopOf="@+id/edit_reducedPay" />
+
+                    <EditText
+                        android:id="@+id/edit_reducedPay"
+                        android:layout_width="0dp"
+                        android:layout_height="70dp"
+                        android:layout_marginTop="32dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_marginBottom="32dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/background_edit_text"
+                        android:ems="10"
+                        android:hint="Type "
+                        android:inputType="number"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:textSize="22sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/image_btn_select"
+                        app:layout_constraintStart_toStartOf="@+id/edit_charge"
+                        app:layout_constraintTop_toBottomOf="@+id/edit_charge" />
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/image_btn_select"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:background="@drawable/background_btn"
+                        android:paddingStart="24dp"
+                        android:paddingEnd="24dp"
+                        android:src="@drawable/right"
+                        app:layout_constraintBottom_toBottomOf="@+id/edit_reducedPay"
+                        app:layout_constraintEnd_toEndOf="@+id/edit_charge"
+                        app:layout_constraintTop_toTopOf="@+id/edit_reducedPay" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </LinearLayout>
+
     </ScrollView>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/coordinatorLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
 
-            <View
-                android:id="@+id/view"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/label_text"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_print"
-                style="@android:style/Widget.Button"
-                android:layout_width="wrap_content"
-                android:layout_height="80dp"
-                android:layout_marginEnd="32dp"
-                android:layout_marginBottom="32dp"
-                android:background="@drawable/background_btn"
-                android:drawableStart="@drawable/print"
-                android:drawablePadding="16dp"
-                android:paddingStart="64dp"
-                android:paddingEnd="64dp"
-                android:text="ပရင့်ထုတ်"
-                android:textColor="@color/white"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_label_charge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_weight="1.3"
-                android:gravity="start|center"
-                android:text="ကျသင့်ငွေ"
-                android:textColor="@color/primary_text"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/edit_charge"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/edit_charge" />
-
-
-            <EditText
-                android:id="@+id/edit_charge"
-                android:layout_width="500dp"
-                android:layout_height="80dp"
-                android:layout_marginStart="100dp"
-                android:layout_marginTop="32dp"
-                android:layout_weight="1"
-                android:background="@drawable/background_edit_text2"
-                android:ems="10"
-                android:inputType="number"
-                android:paddingStart="16dp"
-                android:textSize="24sp"
-                app:layout_constraintStart_toEndOf="@+id/tv_label_charge"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_label_claimMoney"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="100dp"
-                android:layout_weight="1.3"
-                android:gravity="start|center"
-                android:text="တောင်းခံရန်ငွေ"
-                android:textColor="@color/primary_text"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/edit_claimMoney"
-                app:layout_constraintEnd_toStartOf="@+id/edit_claimMoney"
-                app:layout_constraintTop_toTopOf="@+id/edit_claimMoney" />
-
-            <EditText
-                android:id="@+id/edit_claimMoney"
-                android:layout_width="500dp"
-                android:layout_height="80dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="32dp"
-                android:layout_weight="1"
-                android:background="@drawable/background_edit_text2"
-                android:ems="10"
-                android:inputType="number"
-                android:paddingStart="16dp"
-                android:textColorHint="@color/secondary_text"
-                android:textSize="24sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view" />
-
-            <TextView
-                android:id="@+id/tv_label_reducedPay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.3"
-                android:gravity="start|center"
-                android:text="လျှော့ပေးငွေ"
-                android:textColor="@color/primary_text"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/edit_reducedPay"
-                app:layout_constraintStart_toStartOf="@+id/tv_label_charge"
-                app:layout_constraintTop_toTopOf="@+id/edit_reducedPay" />
-
-            <EditText
-                android:id="@+id/edit_reducedPay"
-                android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="32dp"
-                android:layout_marginBottom="32dp"
-                android:layout_weight="1"
-                android:background="@drawable/background_edit_text"
-                android:ems="10"
-                android:hint="Type "
-                android:inputType="number"
-                android:paddingStart="16dp"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/image_btn_select"
-                app:layout_constraintStart_toStartOf="@+id/edit_charge"
-                app:layout_constraintTop_toBottomOf="@+id/edit_charge" />
-
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/image_btn_select"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:background="@drawable/background_btn"
-                android:paddingStart="32dp"
-                android:paddingEnd="32dp"
-                android:src="@drawable/right"
-                app:layout_constraintBottom_toBottomOf="@+id/edit_reducedPay"
-                app:layout_constraintEnd_toEndOf="@+id/edit_charge"
-                app:layout_constraintTop_toTopOf="@+id/edit_reducedPay" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

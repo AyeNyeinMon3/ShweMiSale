@@ -45,7 +45,7 @@ class ExchangeOrderFragment:Fragment() {
             alertDialog.dismiss()
         }
         alertDialog.show()
-        alertDialog.window?.setLayout(1000,700)
+
 
         dialogExchangeOrderBinding.btnWithValue.setOnClickListener {
             view?.findNavController()?.navigate(ExchangeOrderFragmentDirections.actionExchangeOrderFragmentToWithValueFragment())

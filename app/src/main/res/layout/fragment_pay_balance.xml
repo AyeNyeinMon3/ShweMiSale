@@ -21,23 +21,24 @@
             android:layout_height="wrap_content"
             android:text="Scan Voucher"
             android:textColor="@color/primary_text"
-            android:textSize="24sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
         <EditText
             android:id="@+id/edit_scanVoucher"
-            android:layout_width="500dp"
-            android:layout_height="80dp"
+            android:layout_width="400dp"
+            android:layout_height="70dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/background_edit_text"
             android:drawableEnd="@drawable/scan"
+            android:drawablePadding="8dp"
             android:ems="10"
             android:hint="Type or scan"
-            android:inputType="number"
-            android:paddingStart="32dp"
-            android:paddingEnd="32dp"
+            android:inputType="text"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
             android:textColorHint="@color/secondary_text"
-            android:textSize="24sp" />
+            android:textSize="22sp" />
     </LinearLayout>
 
     <View
@@ -58,7 +59,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="32dp"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/view">
@@ -69,21 +70,21 @@
             android:layout_height="wrap_content"
             android:text="ဘောင်ချာကျန်ငွေ"
             android:textColor="@color/primary_text"
-            android:textSize="24sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
         <EditText
             android:id="@+id/edit_voucher_balance"
-            android:layout_width="500dp"
-            android:layout_height="80dp"
+            android:layout_width="400dp"
+            android:layout_height="70dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/background_edit_text2"
             android:ems="10"
             android:inputType="number"
-            android:paddingStart="32dp"
-            android:paddingEnd="32dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
             android:textColorHint="@color/secondary_text"
-            android:textSize="24sp" />
+            android:textSize="22sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -102,38 +103,38 @@
             android:layout_height="wrap_content"
             android:text="ပေးသွင်းငွေ"
             android:textColor="@color/primary_text"
-            android:textSize="24sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
         <EditText
             android:id="@+id/edit_deposit"
-            android:layout_width="500dp"
-            android:layout_height="80dp"
+            android:layout_width="400dp"
+            android:layout_height="70dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/background_edit_text"
             android:ems="10"
             android:hint="Type"
             android:inputType="number"
-            android:paddingStart="32dp"
-            android:paddingEnd="32dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
             android:textColorHint="@color/secondary_text"
-            android:textSize="24sp" />
+            android:textSize="22sp" />
     </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_calculate"
         style="@android:style/Widget.Button"
         android:layout_width="wrap_content"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         android:layout_marginEnd="32dp"
         android:background="@drawable/background_btn"
         android:drawableStart="@drawable/right"
-        android:drawablePadding="16dp"
-        android:paddingStart="64dp"
-        android:paddingEnd="64dp"
+        android:drawablePadding="8dp"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
         android:text="တွက်မည်"
         android:textColor="@color/white"
-        android:textSize="24sp"
+        android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout3"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -171,21 +172,21 @@
                     android:layout_height="wrap_content"
                     android:text="ကျန်ငွေ"
                     android:textColor="@color/primary_text"
-                    android:textSize="24sp"
+                    android:textSize="22sp"
                     android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/edit_balance"
-                    android:layout_width="500dp"
-                    android:layout_height="80dp"
+                    android:layout_width="400dp"
+                    android:layout_height="70dp"
                     android:layout_marginTop="8dp"
                     android:background="@drawable/background_edit_text2"
                     android:ems="10"
                     android:inputType="number"
-                    android:paddingStart="32dp"
-                    android:paddingEnd="32dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
                     android:textColorHint="@color/secondary_text"
-                    android:textSize="24sp" />
+                    android:textSize="22sp" />
             </LinearLayout>
 
             <View
@@ -201,16 +202,16 @@
                 android:id="@+id/btn_print"
                 style="@android:style/Widget.Button"
                 android:layout_width="wrap_content"
-                android:layout_height="80dp"
+                android:layout_height="70dp"
                 android:layout_marginBottom="32dp"
                 android:background="@drawable/background_btn"
                 android:drawableStart="@drawable/print"
-                android:drawablePadding="16dp"
-                android:paddingStart="64dp"
-                android:paddingEnd="64dp"
+                android:drawablePadding="8dp"
+                android:paddingStart="32dp"
+                android:paddingEnd="32dp"
                 android:text="ပရင့်ထုတ်"
                 android:textColor="@color/white"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />

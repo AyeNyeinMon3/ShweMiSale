@@ -12,4 +12,7 @@
     <array name="gold_type">
         <item>၁၅ပဲရည်</item>
     </array>
+    <array name="item_type">
+        <item>အခေါက် အခဲ</item>
+    </array>
 </resources>
