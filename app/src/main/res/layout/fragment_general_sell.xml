@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -42,70 +44,28 @@
                 android:background="@color/label_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/include_akouk_sell" />
+                app:layout_constraintTop_toBottomOf="@+id/rv_general_sell" />
 
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/akoukSellFragment_materialToolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/white"
-                android:elevation="5dp"
-                android:theme="@style/ThemeOverlay.AppCompat.Light"
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/btn_add"
+                style="@android:style/Widget.Button"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="end"
+                android:layout_marginTop="70dp"
+                android:layout_marginEnd="32dp"
+                android:background="@drawable/background_btn"
+                android:src="@drawable/plus"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:navigationIcon="@drawable/icon_back"
-                app:title="အခေါက်အရောင်း"
-                app:titleTextColor="@color/primary">
-
-                <androidx.appcompat.widget.AppCompatImageButton
-                    android:id="@+id/btn_add"
-                    style="@android:style/Widget.Button"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_gravity="end"
-                    android:layout_marginEnd="32dp"
-                    android:background="@drawable/background_btn"
-                    android:src="@drawable/plus" />
-
-            </com.google.android.material.appbar.MaterialToolbar>
-
-            <TextView
-                android:id="@+id/tv_label_gold_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:text="ရွှေပေါက်စျေး"
-                android:textColor="@color/primary_text"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/edit_gold_price"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/edit_gold_price" />
-
-            <EditText
-                android:id="@+id/edit_gold_price"
-                android:layout_width="400dp"
-                android:layout_height="70dp"
-                android:layout_marginStart="64dp"
-                android:layout_marginTop="32dp"
-                android:background="@drawable/background_edit_text2"
-                android:ems="10"
-                android:inputType="number"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/tv_label_gold_price"
-                app:layout_constraintTop_toBottomOf="@+id/akoukSellFragment_materialToolbar" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
                 android:id="@+id/linearLayout1"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
                 android:background="@color/primary"
                 android:divider="?android:dividerHorizontal"
@@ -113,15 +73,37 @@
                 android:showDividers="middle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edit_gold_price">
+                app:layout_constraintTop_toBottomOf="@+id/btn_add">
 
                 <TextView
-                    android:id="@+id/tv_label_item_type"
+                    android:id="@+id/tv_label_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.1"
+                    android:gravity="center"
+                    android:text="Group"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_label_content"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="အထည်အမျိုးအစား"
+                    android:text="အကြောင်းအရာ"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_label_quantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.1"
+                    android:gravity="center"
+                    android:text="အခုရေ"
                     android:textColor="@color/white"
                     android:textSize="22sp"
                     android:textStyle="bold" />
@@ -130,7 +112,7 @@
                     android:id="@+id/tv_label_gold_weight"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="1.1"
                     android:gravity="center"
                     android:text="ရွှေချိန်"
                     android:textColor="@color/white"
@@ -138,12 +120,12 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/tv_label_sell_reduce"
+                    android:id="@+id/tv_label_underCount"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="ရောင်းရော့"
+                    android:text="အရော့တွက်"
                     android:textColor="@color/white"
                     android:textSize="22sp"
                     android:textStyle="bold" />
@@ -152,20 +134,9 @@
                     android:id="@+id/tv_label_fee"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="1.1"
                     android:gravity="center"
                     android:text="လက်ခ"
-                    android:textColor="@color/white"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tv_label_nan_htoe_fee"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="နန်းထိုးခ"
                     android:textColor="@color/white"
                     android:textSize="22sp"
                     android:textStyle="bold" />
@@ -183,17 +154,21 @@
 
             </LinearLayout>
 
-            <include
-                android:id="@+id/include_akouk_sell"
-                layout="@layout/include_akouk_sell"
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_general_sell"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="32dp"
+                android:orientation="vertical"
+                android:visibility="invisible"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout1" />
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout1"
+                tools:listitem="@layout/item_general_sell" />
 
             <LinearLayout
                 android:id="@+id/linearLayout2"
@@ -203,7 +178,7 @@
                 android:layout_marginTop="32dp"
                 android:orientation="vertical"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view2">
+                app:layout_constraintTop_toBottomOf="@id/view2">
 
                 <TextView
                     android:id="@+id/tv_label_charge"
@@ -216,6 +191,40 @@
 
                 <EditText
                     android:id="@+id/edit_charge"
+                    android:layout_width="370dp"
+                    android:layout_height="70dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/background_edit_text2"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:textColorHint="@color/secondary_text"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
+                app:layout_constraintStart_toEndOf="@+id/linearLayout2"
+                app:layout_constraintTop_toTopOf="@+id/linearLayout2">
+
+                <TextView
+                    android:id="@+id/tv_label_gold_from_home_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="အိမ်ပါရွှေတန်ဖိုး"
+                    android:textColor="@color/primary_text"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/edit_gold_from_home_value"
                     android:layout_width="370dp"
                     android:layout_height="70dp"
                     android:layout_marginTop="8dp"
@@ -242,16 +251,83 @@
                 app:layout_constraintStart_toEndOf="@+id/linearLayout3"
                 app:srcCompat="@drawable/pen_white" />
 
+            <LinearLayout
+                android:id="@+id/linearLayoutPoloValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="32dp"
+                android:orientation="vertical"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/linearLayout3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/linearLayout3">
+
+                <TextView
+                    android:id="@+id/tv_label_polo_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ပိုလိုတန်ဖိုး"
+                    android:textColor="@color/primary_text"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/edit_polo_value"
+                    android:layout_width="370dp"
+                    android:layout_height="70dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/background_edit_text2"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:textColorHint="@color/secondary_text"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="@+id/linearLayout2"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+                <TextView
+                    android:id="@+id/tv_label_reducedPay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="လျှော့ပေးငွေ"
+                    android:textColor="@color/primary_text"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/edit_reducedPay"
+                    android:layout_width="370dp"
+                    android:layout_height="70dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/background_edit_text"
+                    android:ems="10"
+                    android:hint="Type"
+                    android:inputType="number"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:textColorHint="@color/secondary_text"
+                    android:textSize="22sp" />
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/linearLayout5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
                 android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="@+id/linearLayout3"
-                app:layout_constraintStart_toEndOf="@+id/imageBtn"
-                app:layout_constraintTop_toTopOf="@+id/linearLayout3">
+                app:layout_constraintEnd_toEndOf="@+id/linearLayout3"
+                app:layout_constraintStart_toStartOf="@+id/linearLayout3"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
                 <TextView
                     android:id="@+id/tv_label_deposit"
@@ -352,108 +428,6 @@
                     app:layout_constraintEnd_toEndOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <LinearLayout
-                android:id="@+id/linearLayout7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="32dp"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="@+id/linearLayout4"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/linearLayout4">
-
-                <TextView
-                    android:id="@+id/tv_label_polo_value"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="ပိုလိုတန်ဖိုး"
-                    android:textColor="@color/primary_text"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
-
-                <EditText
-                    android:id="@+id/edit_polo_value"
-                    android:layout_width="370dp"
-                    android:layout_height="70dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/background_edit_text2"
-                    android:ems="10"
-                    android:inputType="number"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    android:textColorHint="@color/secondary_text"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearLayout4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
-                app:layout_constraintEnd_toEndOf="@+id/linearLayout5"
-                app:layout_constraintStart_toStartOf="@+id/linearLayout5"
-                app:layout_constraintTop_toTopOf="@+id/linearLayout2">
-
-                <TextView
-                    android:id="@+id/tv_label_reducedPay"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="လျှော့ပေးငွေ"
-                    android:textColor="@color/primary_text"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
-
-                <EditText
-                    android:id="@+id/edit_reducedPay"
-                    android:layout_width="370dp"
-                    android:layout_height="70dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/background_edit_text"
-                    android:ems="10"
-                    android:hint="Type"
-                    android:inputType="number"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    android:textColorHint="@color/secondary_text"
-                    android:textSize="22sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearLayout3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:orientation="vertical"
-                app:layout_constraintStart_toStartOf="@+id/linearLayout2"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
-
-                <TextView
-                    android:id="@+id/tv_label_gold_from_home_value"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="အိမ်ပါရွှေတန်ဖိုး"
-                    android:textColor="@color/primary_text"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
-
-                <EditText
-                    android:id="@+id/edit_gold_from_home_value"
-                    android:layout_width="370dp"
-                    android:layout_height="70dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/background_edit_text2"
-                    android:ems="10"
-                    android:inputType="number"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    android:textColorHint="@color/secondary_text"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

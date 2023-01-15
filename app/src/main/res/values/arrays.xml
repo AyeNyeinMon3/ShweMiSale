@@ -15,4 +15,10 @@
     <array name="item_type">
         <item>အခေါက် အခဲ</item>
     </array>
+    <array name="group">
+        <item>Choose Group</item>
+    </array>
+    <array name="reason">
+        <item>Reason</item>
+    </array>
 </resources>

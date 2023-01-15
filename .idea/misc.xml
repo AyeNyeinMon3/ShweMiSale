@@ -20,36 +20,51 @@
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/drawable/include_ra.xml" value="0.172" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/drawable/item_stock_code_item.xml" value="0.24" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/drawable/spinner_text_style.xml" value="0.1755" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/aa.xml" value="0.1" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/aaaa.xml" value="0.21965579710144928" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/date_picker_calendar.xml" value="0.264" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/dialog_add_product.xml" value="0.6" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/dialog_akouk_sell_add_product.xml" value="0.16" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/dialog_change_feature.xml" value="0.176" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/dialog_exchange_order.xml" value="0.1216996699669967" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/dialog_gem_weight.xml" value="0.536" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/dialog_general_sell_add_product.xml" value="0.16" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/dialog_gold_from_home.xml" value="0.3093306288032454" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/dialog_minus_percentage.xml" value="0.2" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/dialog_resell_stock_info.xml" value="0.5438356164383562" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/dialog_sell_type.xml" value="0.1" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/dialog_skip.xml" value="0.2" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/dialog_stock_check.xml" value="0.152" />
-        <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_akouk_sell.xml" value="0.6" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_akouk_sell.xml" value="0.4" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_akouk_sell_added.xml" value="0.4" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_create_new.xml" value="0.34236804564907275" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_create_new_sell.xml" value="0.10004125412541254" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_create_pawn.xml" value="0.536" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_customer_info.xml" value="0.536" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_customer_info_sell.xml" value="0.3876953125" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_exchange_order.xml" value="0.4" />
-        <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_gold_from_home.xml" value="0.6" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_general_sell.xml" value="0.4" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_gold_from_home.xml" value="0.2" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_gold_from_home_sell.xml" value="0.4" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_inventory_stock.xml" value="0.536" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_login.xml" value="0.176" />
-        <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_outside_stock.xml" value="0.2255054432348367" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_outside_stock.xml" value="0.536" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_pawn_interest.xml" value="0.536" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_pay_balance.xml" value="0.2" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_receive_new_order.xml" value="0.4" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_receive_new_order_sample_taked.xml" value="0.1" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_resell_stock_info_added_sell.xml" value="0.136" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_scan_stock.xml" value="0.176" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_search_result.xml" value="0.264" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_slide_bar.xml" value="0.1985494106980961" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_start.xml" value="0.4" />
-        <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_stock_detail.xml" value="0.6" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_start_sell.xml" value="0.10004125412541254" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_stock_detail.xml" value="0.176" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_with_kpy.xml" value="0.3202134756504336" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_with_value.xml" value="0.4" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/include_ackouk_sell.xml" value="0.4" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/include_akouk_sell.xml" value="0.1" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/include_checked_radiobtn_1.xml" value="0.128" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/include_checked_radiobtn_2.xml" value="0.176" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/include_checked_radiobtn_3.xml" value="0.16" />
@@ -68,7 +83,7 @@
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/include_radio_only_interest.xml" value="0.4" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/include_radio_pawn_item_sale.xml" value="0.4" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/include_radio_pre_input_output.xml" value="0.536" />
-        <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/include_radio_pre_interest_pay.xml" value="0.4" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/include_radio_pre_interest_pay.xml" value="0.2" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/include_radio_select_investment.xml" value="0.536" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/include_receive_new_order.xml" value="0.4" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/include_search_result.xml" value="0.4" />
@@ -77,9 +92,13 @@
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/item_customer_fav_items.xml" value="0.176" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/item_customer_list.xml" value="0.4" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/item_favorite_items.xml" value="0.1" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/item_gem_weight.xml" value="0.5342465753424658" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/item_general_sell.xml" value="0.4" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/item_gold_from_home.xml" value="0.31015625" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/item_inventory_stock.xml" value="0.264" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/item_outside_stock.xml" value="0.264" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/item_outside_stock_item.xml" value="0.11406765676567657" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/item_resell_stock_info.xml" value="0.264" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/item_sample_list.xml" value="0.536" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/item_stock_check.xml" value="0.264" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/item_stock_code_item.xml" value="0.176" />
@@ -87,6 +106,7 @@
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/nav_header.xml" value="0.2" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/spinner_layout.xml" value="0.20521590423257802" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/spinner_text_style.xml" value="0.1985494106980961" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/spinner_text_style3.xml" value="0.1" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/test.xml" value="0.4" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/menu/nav_drawer_menu.xml" value="0.20521590423257802" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/app/src/main/res/layout/activity_main.xml" value="0.176" />

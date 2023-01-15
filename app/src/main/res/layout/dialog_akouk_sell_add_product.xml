@@ -60,12 +60,12 @@
         android:textColor="@color/primary_text"
         android:textSize="22sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/edit_reducedPay"
+        app:layout_constraintBottom_toBottomOf="@+id/edit_gold_weight_gm"
         app:layout_constraintStart_toStartOf="@+id/tv_label_item_type"
-        app:layout_constraintTop_toTopOf="@+id/edit_reducedPay" />
+        app:layout_constraintTop_toTopOf="@+id/edit_gold_weight_gm" />
 
     <EditText
-        android:id="@+id/edit_reducedPay"
+        android:id="@+id/edit_gold_weight_gm"
         android:layout_width="0dp"
         android:layout_height="70dp"
         android:layout_marginTop="24dp"
@@ -99,9 +99,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="@+id/edit_reducedPay"
-        app:layout_constraintStart_toStartOf="@+id/edit_reducedPay"
-        app:layout_constraintTop_toBottomOf="@+id/edit_reducedPay">
+        app:layout_constraintEnd_toEndOf="@+id/edit_gold_weight_gm"
+        app:layout_constraintStart_toStartOf="@+id/edit_gold_weight_gm"
+        app:layout_constraintTop_toBottomOf="@+id/edit_gold_weight_gm">
 
         <EditText
             android:id="@+id/edit_GW_K"
@@ -232,12 +232,12 @@
         android:textColor="@color/primary_text"
         android:textSize="22sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/edit_reducedPay2"
+        app:layout_constraintBottom_toBottomOf="@+id/edit_fee"
         app:layout_constraintStart_toStartOf="@+id/tv_label_sell_reduce"
-        app:layout_constraintTop_toTopOf="@+id/edit_reducedPay2" />
+        app:layout_constraintTop_toTopOf="@+id/edit_fee" />
 
     <EditText
-        android:id="@+id/edit_reducedPay2"
+        android:id="@+id/edit_fee"
         android:layout_width="0dp"
         android:layout_height="70dp"
         android:layout_marginTop="24dp"
@@ -260,12 +260,12 @@
         android:textColor="@color/primary_text"
         android:textSize="22sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/edit_reducedPay3"
+        app:layout_constraintBottom_toBottomOf="@+id/edit_nan_htoe_fee"
         app:layout_constraintStart_toStartOf="@+id/tv_label_fee"
-        app:layout_constraintTop_toTopOf="@+id/edit_reducedPay3" />
+        app:layout_constraintTop_toTopOf="@+id/edit_nan_htoe_fee" />
 
     <EditText
-        android:id="@+id/edit_reducedPay3"
+        android:id="@+id/edit_nan_htoe_fee"
         android:layout_width="0dp"
         android:layout_height="70dp"
         android:layout_marginTop="24dp"
@@ -279,7 +279,7 @@
         app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/linearLayout2"
-        app:layout_constraintTop_toBottomOf="@+id/edit_reducedPay2" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_fee" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_continue"
@@ -298,5 +298,5 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_reducedPay3" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_nan_htoe_fee" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,18 +10,18 @@ import androidx.navigation.findNavController
 import com.example.shwemisale.CustomerListData
 import com.example.shwemisale.CustomerListRecyclerAdapter
 import com.example.shwemisale.R
-import com.example.shwemisale.databinding.FragmentStartBinding
+import com.example.shwemisale.databinding.FragmentStartSellBinding
 
-class StartFragment : Fragment() {
+class SellStartFragment : Fragment() {
 
-    private lateinit var binding: FragmentStartBinding
+    private lateinit var binding: FragmentStartSellBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return FragmentStartBinding.inflate(inflater).also {
+        return FragmentStartSellBinding.inflate(inflater).also {
             binding = it
         }.root
     }
@@ -41,7 +41,7 @@ class StartFragment : Fragment() {
 
 
         binding.btnNew.setOnClickListener { view:View->
-            view.findNavController().navigate(StartFragmentDirections.actionStartFragmentToCreateNewFragment())
+            view.findNavController().navigate(SellStartFragmentDirections.actionSellStartFragmentToSellCreateNewFragment())
         }
 
         val adapter = CustomerListRecyclerAdapter()

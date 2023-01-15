@@ -10,8 +10,10 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -73,84 +75,6 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tv_label_order_item"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="အော်ဒါထည် အမည်"
-                        android:textColor="@color/primary_text"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:id="@+id/edit_order_item"
-                        android:layout_width="match_parent"
-                        android:layout_height="70dp"
-                        android:layout_marginTop="8dp"
-                        android:background="@drawable/background_edit_text"
-                        android:ems="10"
-                        android:hint="Type"
-                        android:inputType="text"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:textColorHint="@color/secondary_text"
-                        android:textSize="22sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginEnd="32dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tv_label_quantity"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="အခုရေ"
-                        android:textColor="@color/primary_text"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:id="@+id/edit_quantity"
-                        android:layout_width="match_parent"
-                        android:layout_height="70dp"
-                        android:layout_marginTop="8dp"
-                        android:background="@drawable/background_edit_text"
-                        android:ems="10"
-                        android:hint="Type"
-                        android:inputType="number"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:textColorHint="@color/secondary_text"
-                        android:textSize="22sp" />
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearLayout2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout1">
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginEnd="32dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
                         android:id="@+id/tv_label_gold_type"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -200,6 +124,171 @@
                         android:textColorHint="@color/secondary_text"
                         android:textSize="22sp" />
                 </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout1">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_label_order_item"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="အော်ဒါထည် အမည်"
+                        android:textColor="@color/primary_text"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edit_order_item"
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/background_edit_text"
+                        android:ems="10"
+                        android:hint="Type"
+                        android:inputType="text"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:textColorHint="@color/secondary_text"
+                        android:textSize="22sp" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_label_quantity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="အခုရေ"
+                        android:textColor="@color/primary_text"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edit_quantity"
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/background_edit_text"
+                        android:ems="10"
+                        android:hint="Type"
+                        android:inputType="number"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:textColorHint="@color/secondary_text"
+                        android:textSize="22sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_label_one_estimated_underCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="တစ်ခုခန့်မှန်းအရော့တွက်"
+                        android:textColor="@color/primary_text"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/edit_one_estimated_underCount_K"
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/background_edit_text"
+                            android:ems="10"
+                            android:hint="K"
+                            android:inputType="number"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp"
+                            android:textColor="@color/primary_text"
+                            android:textSize="22sp" />
+
+                        <EditText
+                            android:id="@+id/edit_one_estimated_underCount_P"
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/background_edit_text"
+                            android:ems="10"
+                            android:hint="P"
+                            android:inputType="number"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp"
+                            android:textColor="@color/primary_text"
+                            android:textSize="22sp" />
+
+                        <EditText
+                            android:id="@+id/edit_one_estimated_underCount_Y"
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/background_edit_text"
+                            android:ems="10"
+                            android:hint="Y"
+                            android:inputType="number"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp"
+                            android:textColor="@color/primary_text"
+                            android:textSize="22sp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -272,19 +361,6 @@
 
                     </LinearLayout>
                 </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearLayout3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -367,10 +443,10 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tv_label_polo_gold_weight"
+                        android:id="@+id/tv_label_disease_gold_weight"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="ပိုလိုရွှေအလေးချိန်"
+                        android:text="အရော့ပါရွှေချိန်"
                         android:textColor="@color/primary_text"
                         android:textSize="22sp"
                         android:textStyle="bold" />
@@ -382,7 +458,7 @@
                         android:orientation="horizontal">
 
                         <EditText
-                            android:id="@+id/edit_polo_gold_weight_K"
+                            android:id="@+id/edit_disease_GW_K"
                             android:layout_width="match_parent"
                             android:layout_height="70dp"
                             android:layout_marginEnd="16dp"
@@ -397,7 +473,7 @@
                             android:textStyle="bold" />
 
                         <EditText
-                            android:id="@+id/edit_polo_gold_weight_P"
+                            android:id="@+id/edit_disease_GW_P"
                             android:layout_width="match_parent"
                             android:layout_height="70dp"
                             android:layout_marginStart="8dp"
@@ -413,7 +489,7 @@
                             android:textStyle="bold" />
 
                         <EditText
-                            android:id="@+id/edit_polo_gold_weight_Y"
+                            android:id="@+id/edit_disease_GW_Y"
                             android:layout_width="match_parent"
                             android:layout_height="70dp"
                             android:layout_marginStart="16dp"
@@ -429,6 +505,19 @@
 
                     </LinearLayout>
                 </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/linearLayout3">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -512,10 +601,92 @@
                         app:srcCompat="@drawable/pen_white" />
 
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_label_polo_gold_weight"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="ပိုလိုရွှေအလေးချိန်"
+                        android:textColor="@color/primary_text"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/edit_polo_gold_weight_K"
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/background_edit_text2"
+                            android:ems="10"
+                            android:inputType="number"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp"
+                            android:textColor="@color/primary_text"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/edit_polo_gold_weight_P"
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/background_edit_text2"
+                            android:ems="10"
+                            android:inputType="number"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp"
+                            android:textColor="@color/primary_text"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/edit_polo_gold_weight_Y"
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/background_edit_text2"
+                            android:ems="10"
+                            android:inputType="number"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp"
+                            android:textColor="@color/primary_text"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/linearLayout4"
+                android:id="@+id/linearLayout5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
@@ -523,28 +694,27 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+                app:layout_constraintTop_toBottomOf="@id/linearLayout4">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
                     android:layout_marginEnd="32dp"
-                    android:layout_weight="1"
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tv_label_polo_value"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/tv_label_estimated_charge"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="ပိုလိုတန်ဖိုး"
+                        android:text="ခန့်မှန်းကျသင့်ငွေ"
                         android:textColor="@color/primary_text"
                         android:textSize="22sp"
                         android:textStyle="bold" />
 
                     <EditText
-                        android:id="@+id/edit_polo_value"
-                        android:layout_width="match_parent"
+                        android:id="@+id/edit_estimated_charge"
+                        android:layout_width="370dp"
                         android:layout_height="70dp"
                         android:layout_marginTop="8dp"
                         android:background="@drawable/background_edit_text2"
@@ -645,47 +815,119 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/linearLayout5"
+                android:id="@+id/linearLayout6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_label_gem_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ကျောက်ဖိုး"
+                        android:textColor="@color/primary_text"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edit_gem_value"
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/background_edit_text"
+                        android:ems="10"
+                        android:hint="Type"
+                        android:inputType="number"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:textColorHint="@color/secondary_text"
+                        android:textSize="22sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_label_fee"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="လက်ခ"
+                        android:textColor="@color/primary_text"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edit_fee"
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/background_edit_text"
+                        android:ems="10"
+                        android:hint="Type"
+                        android:inputType="number"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:textColorHint="@color/secondary_text"
+                        android:textSize="22sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_label_polo_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ပိုလိုတန်ဖိုး"
+                        android:textColor="@color/primary_text"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edit_polo_value"
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/background_edit_text2"
+                        android:ems="10"
+                        android:inputType="number"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:textColorHint="@color/secondary_text"
+                        android:textSize="22sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="32dp"
                 android:orientation="vertical"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
-
-                <TextView
-                    android:id="@+id/tv_label_estimated_charge"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="ခန့်မှန်းကျသင့်ငွေ"
-                    android:textColor="@color/primary_text"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
-
-                <EditText
-                    android:id="@+id/edit_estimated_charge"
-                    android:layout_width="370dp"
-                    android:layout_height="70dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/background_edit_text2"
-                    android:ems="10"
-                    android:inputType="number"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    android:textColorHint="@color/secondary_text"
-                    android:textSize="22sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearLayout6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="64dp"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="@+id/linearLayout5"
-                app:layout_constraintStart_toEndOf="@+id/linearLayout5"
-                app:layout_constraintTop_toTopOf="@+id/linearLayout5">
+                app:layout_constraintTop_toBottomOf="@id/linearLayout6">
 
                 <TextView
                     android:id="@+id/tv_label_deposit"
@@ -727,18 +969,30 @@
                 android:textColor="@color/white"
                 android:textSize="22sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/linearLayout6"
+                app:layout_constraintBottom_toBottomOf="@+id/linearLayout7"
                 app:layout_constraintEnd_toEndOf="parent" />
 
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="32dp"
+                android:background="@color/label_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/linearLayout7" />
+
             <LinearLayout
-                android:id="@+id/linearLayout7"
+                android:id="@+id/linearLayout8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="32dp"
                 android:orientation="vertical"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
+                app:layout_constraintTop_toBottomOf="@id/view">
 
                 <TextView
                     android:id="@+id/tv_label_balance"
@@ -764,45 +1018,6 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/linearLayout8"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="64dp"
-                android:layout_marginEnd="32dp"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="@+id/linearLayout9"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/linearLayout7"
-                app:layout_constraintTop_toTopOf="@+id/linearLayout7">
-
-                <TextView
-                    android:id="@+id/tv_label_note"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="မှတ်ချက်"
-                    android:textColor="@color/primary_text"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
-
-                <EditText
-                    android:id="@+id/edit_note"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/background_edit_text"
-                    android:ems="10"
-                    android:gravity="top"
-                    android:hint="Type"
-                    android:inputType="text"
-                    android:paddingStart="16dp"
-                    android:paddingTop="16dp"
-                    android:paddingEnd="16dp"
-                    android:textColorHint="@color/secondary_text"
-                    android:textSize="22sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
                 android:id="@+id/linearLayout9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -810,7 +1025,7 @@
                 android:layout_marginTop="32dp"
                 android:orientation="vertical"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout7">
+                app:layout_constraintTop_toBottomOf="@id/linearLayout8">
 
                 <TextView
                     android:id="@+id/tv_label_sample"
@@ -869,6 +1084,45 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/linearLayout10"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="64dp"
+                android:layout_marginEnd="32dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="@+id/linearLayout9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/linearLayout8"
+                app:layout_constraintTop_toTopOf="@+id/linearLayout8">
+
+                <TextView
+                    android:id="@+id/tv_label_note"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="မှတ်ချက်"
+                    android:textColor="@color/primary_text"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/edit_note"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/background_edit_text"
+                    android:ems="10"
+                    android:gravity="top"
+                    android:hint="Type"
+                    android:inputType="text"
+                    android:paddingStart="16dp"
+                    android:paddingTop="16dp"
+                    android:paddingEnd="16dp"
+                    android:textColorHint="@color/secondary_text"
+                    android:textSize="22sp" />
+
+            </LinearLayout>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout"
                 android:layout_width="match_parent"
@@ -879,10 +1133,10 @@
                 android:background="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout9">
+                app:layout_constraintTop_toBottomOf="@id/linearLayout10">
 
                 <View
-                    android:id="@+id/view3"
+                    android:id="@+id/view2"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/label_text"
@@ -908,10 +1162,9 @@
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view3" />
+                    app:layout_constraintTop_toBottomOf="@+id/view2" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

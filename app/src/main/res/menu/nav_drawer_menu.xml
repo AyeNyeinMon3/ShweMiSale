@@ -10,7 +10,7 @@
                     android:icon="@drawable/drawer_icon1">
                     <menu>
                         <item
-                            android:id="@+id/StartFragment"
+                            android:id="@+id/sellStartFragment"
                             android:icon="@drawable/drawer_icon1"
                             android:title="အရောင်း"
                             tools:ignore="DuplicateIds" />

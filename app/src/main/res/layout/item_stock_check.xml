@@ -24,7 +24,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tv_gold_and_gem_weight"
+            android:id="@+id/tv_gold_and_gem_weight_gm"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1.1"

@@ -36,10 +36,6 @@ class OutsideStockFragment:Fragment() {
             OutsideStockData("6","3gm","အသီးကွင်း ဟန်းချိန်း","ဒီလိုပုံံစံရဲ့အဟန့်အတိုင်းလုပ်ပါမယ် ဒီလိုပုံံစံရဲ့အဟန့်အတိုင်းလုပ်ပါမယ်"),
         ))
 
-        binding.OutsideStockFragmentMaterialToolbar.setNavigationIcon(R.drawable.icon_back)
-        binding.OutsideStockFragmentMaterialToolbar.setNavigationOnClickListener {
-            view.findNavController().navigate(OutsideStockFragmentDirections.actionOutsideStockFragmentToReceiveNewOrderFragment())
-        }
 
 
     }

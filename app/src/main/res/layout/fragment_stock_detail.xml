@@ -8,7 +8,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -57,7 +57,8 @@
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
                         android:textColorHint="@color/secondary_text"
-                        android:textSize="22sp" />
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -117,7 +118,8 @@
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
                         android:textColorHint="@color/secondary_text"
-                        android:textSize="22sp" />
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -156,12 +158,12 @@
                         android:layout_marginTop="8dp"
                         android:background="@drawable/background_edit_text"
                         android:ems="10"
-                        android:hint="Type"
                         android:inputType="number"
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
                         android:textColorHint="@color/secondary_text"
-                        android:textSize="22sp" />
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -188,12 +190,12 @@
                         android:layout_marginTop="8dp"
                         android:background="@drawable/background_edit_text"
                         android:ems="10"
-                        android:hint="Type"
                         android:inputType="number"
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
                         android:textColorHint="@color/secondary_text"
-                        android:textSize="22sp" />
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -221,12 +223,12 @@
                         android:layout_marginTop="8dp"
                         android:background="@drawable/background_edit_text"
                         android:ems="10"
-                        android:hint="Type"
                         android:inputType="number"
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
                         android:textColorHint="@color/secondary_text"
-                        android:textSize="22sp" />
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -272,12 +274,12 @@
                             android:layout_weight="1"
                             android:background="@drawable/background_edit_text"
                             android:ems="10"
-                            android:hint="K"
                             android:inputType="number"
                             android:paddingStart="16dp"
                             android:paddingEnd="16dp"
                             android:textColor="@color/primary_text"
-                            android:textSize="22sp" />
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
 
                         <EditText
                             android:id="@+id/edit_gem_weight_P"
@@ -288,12 +290,12 @@
                             android:layout_weight="1"
                             android:background="@drawable/background_edit_text"
                             android:ems="10"
-                            android:hint="P"
                             android:inputType="number"
                             android:paddingStart="16dp"
                             android:paddingEnd="16dp"
                             android:textColor="@color/primary_text"
-                            android:textSize="22sp" />
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
 
                         <EditText
                             android:id="@+id/edit_gem_weight_Y"
@@ -303,12 +305,12 @@
                             android:layout_weight="1"
                             android:background="@drawable/background_edit_text"
                             android:ems="10"
-                            android:hint="Y"
                             android:inputType="number"
                             android:paddingStart="16dp"
                             android:paddingEnd="16dp"
                             android:textColor="@color/primary_text"
-                            android:textSize="22sp" />
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -337,12 +339,12 @@
                         android:layout_marginTop="8dp"
                         android:background="@drawable/background_edit_text"
                         android:ems="10"
-                        android:hint="Type"
                         android:inputType="number"
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
                         android:textColorHint="@color/secondary_text"
-                        android:textSize="22sp" />
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -370,12 +372,12 @@
                         android:layout_marginTop="8dp"
                         android:background="@drawable/background_edit_text"
                         android:ems="10"
-                        android:hint="Type"
                         android:inputType="number"
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
                         android:textColorHint="@color/secondary_text"
-                        android:textSize="22sp" />
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -415,12 +417,12 @@
                         android:layout_marginTop="8dp"
                         android:background="@drawable/background_edit_text"
                         android:ems="10"
-                        android:hint="Type"
                         android:inputType="number"
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
                         android:textColorHint="@color/secondary_text"
-                        android:textSize="22sp" />
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -452,7 +454,8 @@
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
                         android:textColorHint="@color/secondary_text"
-                        android:textSize="22sp" />
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -491,7 +494,8 @@
                             android:paddingStart="16dp"
                             android:paddingEnd="16dp"
                             android:textColor="@color/primary_text"
-                            android:textSize="22sp" />
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
 
                         <EditText
                             android:id="@+id/edit_underCount_P"
@@ -507,7 +511,8 @@
                             android:paddingStart="16dp"
                             android:paddingEnd="16dp"
                             android:textColor="@color/primary_text"
-                            android:textSize="22sp" />
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
 
                         <EditText
                             android:id="@+id/edit_underCount_Y"
@@ -522,7 +527,8 @@
                             android:paddingStart="16dp"
                             android:paddingEnd="16dp"
                             android:textColor="@color/primary_text"
-                            android:textSize="22sp" />
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -560,7 +566,8 @@
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
                     android:textColorHint="@color/secondary_text"
-                    android:textSize="22sp" />
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <androidx.appcompat.widget.AppCompatButton
@@ -636,7 +643,8 @@
                                 android:paddingStart="16dp"
                                 android:paddingEnd="16dp"
                                 android:textColorHint="@color/secondary_text"
-                                android:textSize="22sp" />
+                                android:textSize="22sp"
+                                android:textStyle="bold" />
 
                             <androidx.appcompat.widget.AppCompatImageButton
                                 android:id="@+id/image_btn_select"
@@ -754,7 +762,8 @@
                             android:paddingStart="16dp"
                             android:paddingEnd="16dp"
                             android:textColorHint="@color/secondary_text"
-                            android:textSize="22sp" />
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                 </LinearLayout>

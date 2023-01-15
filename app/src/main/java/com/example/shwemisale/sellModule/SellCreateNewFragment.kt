@@ -8,17 +8,17 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.shwemisale.R
-import com.example.shwemisale.databinding.FragmentCreateNewBinding
+import com.example.shwemisale.databinding.FragmentCreateNewSellBinding
 
-class CreateNewFragment:Fragment() {
-        lateinit var binding: FragmentCreateNewBinding
+class SellCreateNewFragment:Fragment() {
+        lateinit var binding: FragmentCreateNewSellBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return FragmentCreateNewBinding.inflate(inflater).also {
+        return FragmentCreateNewSellBinding.inflate(inflater).also {
             binding = it
         }.root
     }
@@ -36,7 +36,7 @@ class CreateNewFragment:Fragment() {
         binding.spinnerTownship.adapter = adapterTownship
 
         binding.btnSave.setOnClickListener {
-            view.findNavController().navigate(CreateNewFragmentDirections.actionCreateNewFragmentToCustomerInfoFragment())
+            view.findNavController().navigate(SellCreateNewFragmentDirections.actionSellCreateNewFragmentToSellCustomerInfoFragment())
         }
 
     }

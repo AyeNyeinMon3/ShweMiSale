@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.shwemisale.databinding.FragmentCustomerInfoBinding
+import com.example.shwemisale.databinding.FragmentCustomerInfoSellBinding
 import com.example.shwemisale.databinding.ItemCustomerFavItemsBinding
 
 data class CustomerFavItemsData(

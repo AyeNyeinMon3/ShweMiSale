@@ -37,10 +37,6 @@ class InventoryStockFragment:Fragment() {
             InventoryStockData("5","SM-PRD-000000006"),
         ))
 
-        binding.inventoryStockFragmentMaterialToolbar.setNavigationIcon(R.drawable.icon_back)
-        binding.inventoryStockFragmentMaterialToolbar.setNavigationOnClickListener {
-            view.findNavController().navigate(InventoryStockFragmentDirections.actionInventoryStockFragmentToReceiveNewOrderFragment())
-        }
 
 
     }

@@ -5,47 +5,33 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/OutsideStockFragment_materialToolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/white"
-        android:elevation="5dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Light"
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_take"
+        style="@android:style/Widget.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:layout_gravity="end"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/background_btn"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
+        android:text="ယူမည်"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/icon_back"
-        app:title="Sample Take from Outside"
-        app:titleTextColor="@color/primary">
+        app:layout_constraintTop_toTopOf="@+id/linearLayout3" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_take"
-            style="@android:style/Widget.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:layout_gravity="end"
-            android:background="@drawable/background_btn"
-            android:paddingStart="32dp"
-            android:paddingEnd="32dp"
-            android:layout_marginEnd="32dp"
-            android:text="ယူမည်"
-            android:textColor="@color/white"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            tools:layout_editor_absoluteX="1042dp"
-            tools:layout_editor_absoluteY="2dp" />
-
-    </com.google.android.material.appbar.MaterialToolbar>
 
     <ImageView
         android:id="@+id/iv_outside_item"
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="100dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/OutsideStockFragment_materialToolbar"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/outside_item" />
 
     <LinearLayout
@@ -68,7 +54,7 @@
 
         <EditText
             android:id="@+id/edit_order_item_name"
-            android:layout_width="400dp"
+            android:layout_width="370dp"
             android:layout_height="70dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/background_edit_text"
@@ -100,7 +86,7 @@
 
         <EditText
             android:id="@+id/edit_weight"
-            android:layout_width="400dp"
+            android:layout_width="370dp"
             android:layout_height="70dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/background_edit_text"
@@ -118,10 +104,10 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="32dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="16dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
-        app:layout_constraintEnd_toStartOf="@+id/image_btn_select"
+        app:layout_constraintEnd_toStartOf="@+id/btn_take"
         app:layout_constraintStart_toEndOf="@+id/linearLayout1"
         app:layout_constraintTop_toTopOf="@+id/linearLayout1">
 

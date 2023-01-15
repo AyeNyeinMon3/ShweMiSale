@@ -20,10 +20,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     private val startDestinationList = listOf<Int>(
-        R.id.inventoryStockFragment,
-        R.id.outsideStockFragment,
-        R.id.akoukSellFragment,
-        R.id.akoukSellAddedFragment
+
     )
 
 
@@ -50,7 +47,7 @@ class MainActivity : AppCompatActivity() {
                 if(startDestinationList.contains(nd.id))
                     View.GONE
             else View.VISIBLE
-        }
+        }//custom toolbar
 
 
 

@@ -11,5 +11,5 @@
     <color name="primary">#BF1E2E</color>
     <color name="label_text">#C9C9C9</color>
     <color name="secondary_text">#999999</color>
-
+    <color name="base_grey">#EBEBEB</color>
 </resources>
