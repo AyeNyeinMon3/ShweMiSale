@@ -1,4 +1,4 @@
-package com.example.shwemisale.sellModule
+package com.example.shwemisale.buyModule
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,16 +13,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.shwemisale.databinding.DialogChangeFeatureBinding
 import com.example.shwemisale.databinding.DialogSellTypeBinding
 import com.example.shwemisale.databinding.DialogStockCheckBinding
-import com.example.shwemisale.databinding.FragmentGoldFromHomeSellBinding
+import com.example.shwemisale.databinding.FragmentGoldFromHomeBuyBinding
+import com.example.shwemisale.sellModule.GoldFromHomeData
+import com.example.shwemisale.sellModule.GoldFromHomeRecyclerAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
-class SellGoldFromHomeFragment:Fragment() {
+class BuyGoldFromHomeFragment:Fragment() {
 
-    lateinit var binding: FragmentGoldFromHomeSellBinding
+    lateinit var binding: FragmentGoldFromHomeBuyBinding
     lateinit var alertDialogBinding: DialogStockCheckBinding
     lateinit var dialogBinding: DialogChangeFeatureBinding
-    lateinit var dialogSellTypeBinding: DialogSellTypeBinding
 
 
     override fun onCreateView(
@@ -30,24 +31,18 @@ class SellGoldFromHomeFragment:Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return FragmentGoldFromHomeSellBinding.inflate(inflater).also {
+        return FragmentGoldFromHomeBuyBinding.inflate(inflater).also {
             binding = it
         }.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        binding.checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
-//            binding.btnSkip.isVisible = isChecked
-//        }
+
         binding.imageBtnSelect.setOnClickListener {
             showStockCheckDialog()
         }
         binding.btnOther.setOnClickListener {
             showChangeFeatureDialog()
-        }
-
-        binding.btnSkip.setOnClickListener {
-            showSellTypeDialog()
         }
 
 
@@ -68,9 +63,7 @@ class SellGoldFromHomeFragment:Fragment() {
             GoldFromHomeData("12","လက်စွပ်","550,000","0K 1P 6Y","550,000"),
             GoldFromHomeData("13","လက်စွပ်","550,000","0K 1P 6Y","550,000"),
         ))
-        binding.btnContinue.setOnClickListener {
-            view.findNavController().navigate(SellGoldFromHomeFragmentDirections.actionSellGoldFromHomeFragmentToSellResellStockInfoAddedFragment())
-        }
+
     }
 
 
@@ -114,12 +107,12 @@ class SellGoldFromHomeFragment:Fragment() {
         dialogBinding.ivClose.setOnClickListener {
             alertDialog.dismiss()
         }
+        dialogBinding.btnSell.setOnClickListener {
+            view?.findNavController()?.navigate(BuyGoldFromHomeFragmentDirections.actionBuyGoldFromHomeFragmentToSellStartFragment())
+            alertDialog.dismiss()
+        }
         dialogBinding.btnPawn.setOnClickListener {
-            view?.findNavController()?.navigate(SellGoldFromHomeFragmentDirections.actionSellGoldFromHomeFragmentToPawnStartFragment())
-            alertDialog.dismiss()
-        }
-        dialogBinding.btnBuy.setOnClickListener {
-            view?.findNavController()?.navigate(SellGoldFromHomeFragmentDirections.actionSellGoldFromHomeFragmentToBuyStartFragment())
+            view?.findNavController()?.navigate(BuyGoldFromHomeFragmentDirections.actionBuyGoldFromHomeFragmentToPawnStartFragment())
             alertDialog.dismiss()
         }
 
@@ -128,37 +121,5 @@ class SellGoldFromHomeFragment:Fragment() {
 
     }
 
-    fun showSellTypeDialog(){
-        val builder = MaterialAlertDialogBuilder(requireContext())
-        val inflater = LayoutInflater.from(builder.context)
-        dialogSellTypeBinding = DialogSellTypeBinding.inflate(inflater,ConstraintLayout(builder.context),false)
-        builder.setView(dialogSellTypeBinding.root)
-        val alertDialog = builder.create()
-        alertDialog.setCancelable(false)
-        dialogSellTypeBinding.ivClose.setOnClickListener {
-            alertDialog.dismiss()
-        }
-        alertDialog.show()
-
-
-        dialogSellTypeBinding.btnNormalSell.setOnClickListener {
-            view?.findNavController()?.navigate(SellGoldFromHomeFragmentDirections.actionSellGoldFromHomeFragmentToScanStockFragment())
-            alertDialog.dismiss()
-        }
-        dialogSellTypeBinding.btnReceiveNewOrder.setOnClickListener {
-            view?.findNavController()?.navigate(SellGoldFromHomeFragmentDirections.actionSellGoldFromHomeFragmentToReceiveNewOrderFragment())
-            alertDialog.dismiss()
-        }
-        dialogSellTypeBinding.btnAkoukSell.setOnClickListener {
-            view?.findNavController()?.navigate(SellGoldFromHomeFragmentDirections.actionSellGoldFromHomeFragmentToAkoukSellFragment())
-            alertDialog.dismiss()
-        }
-
-        dialogSellTypeBinding.btnGeneralSell.setOnClickListener {
-            view?.findNavController()?.navigate(SellGoldFromHomeFragmentDirections.actionSellGoldFromHomeFragmentToGeneralSellFragment())
-            alertDialog.dismiss()
-        }
-
-    }
 
 }

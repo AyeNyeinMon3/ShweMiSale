@@ -111,7 +111,13 @@ class PawnGoldFromHomeFragment:Fragment() {
         }
         dialogBinding.btnSell.setOnClickListener {
             view?.findNavController()?.navigate(PawnGoldFromHomeFragmentDirections.actionPawnGoldFromHomeFragmentToSellStartFragment())
+            alertDialog.dismiss()
         }
+        dialogBinding.btnBuy.setOnClickListener {
+            view?.findNavController()?.navigate(PawnGoldFromHomeFragmentDirections.actionPawnGoldFromHomeFragmentToBuyStartFragment())
+            alertDialog.dismiss()
+        }
+
         alertDialog.show()
 
 

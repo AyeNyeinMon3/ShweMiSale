@@ -19,6 +19,7 @@
                             android:icon="@drawable/drawer_icon1"
                             android:title="အပေါင်" />
                         <item
+                            android:id="@+id/buyStartFragment"
                             android:icon="@drawable/drawer_icon1"
                             android:title="အဝယ်" />
                     </menu>
