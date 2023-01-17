@@ -39,13 +39,16 @@
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_akouk_sell.xml" value="0.4" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_akouk_sell_added.xml" value="0.4" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_create_new.xml" value="0.34236804564907275" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_create_new_pawn.xml" value="0.10004125412541254" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_create_new_sell.xml" value="0.10004125412541254" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_create_pawn.xml" value="0.536" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_customer_info.xml" value="0.536" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_customer_info_pawn.xml" value="0.10004125412541254" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_customer_info_sell.xml" value="0.3876953125" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_exchange_order.xml" value="0.4" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_general_sell.xml" value="0.4" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_gold_from_home.xml" value="0.2" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_gold_from_home_pawn.xml" value="0.136" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_gold_from_home_sell.xml" value="0.4" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_inventory_stock.xml" value="0.536" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_login.xml" value="0.176" />
@@ -54,11 +57,13 @@
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_pay_balance.xml" value="0.2" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_receive_new_order.xml" value="0.4" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_receive_new_order_sample_taked.xml" value="0.1" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_resell_stock_info_added_pawn.xml" value="0.10004125412541254" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_resell_stock_info_added_sell.xml" value="0.136" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_scan_stock.xml" value="0.176" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_search_result.xml" value="0.264" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_slide_bar.xml" value="0.1985494106980961" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_start.xml" value="0.4" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_start_pawn.xml" value="0.16" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_start_sell.xml" value="0.10004125412541254" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_stock_detail.xml" value="0.176" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_with_kpy.xml" value="0.3202134756504336" />

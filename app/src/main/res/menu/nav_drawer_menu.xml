@@ -15,6 +15,7 @@
                             android:title="အရောင်း"
                             tools:ignore="DuplicateIds" />
                         <item
+                            android:id="@+id/pawnStartFragment"
                             android:icon="@drawable/drawer_icon1"
                             android:title="အပေါင်" />
                         <item

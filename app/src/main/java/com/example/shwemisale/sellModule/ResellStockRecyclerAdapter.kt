@@ -14,7 +14,7 @@ data class ResellStockData(
 
 )
 
-class ItemResellStockRecyclerAdapter() : ListAdapter<ResellStockData, ResellStockViewHolder>(
+class ResellStockRecyclerAdapter() : ListAdapter<ResellStockData, ResellStockViewHolder>(
     ResellStockDiffUtil
 ){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ResellStockViewHolder {
