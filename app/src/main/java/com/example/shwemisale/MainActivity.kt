@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     private val startDestinationList = listOf<Int>(
-
+        R.id.loginFragment
     )
 
 
