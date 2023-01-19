@@ -29,7 +29,7 @@ class StockCheckRecyclerAdapter:ListAdapter<StockCheckData, StockCheckViewHolder
 class StockCheckViewHolder(private var binding:ItemStockCheckBinding):RecyclerView.ViewHolder(binding.root){
     fun bind(data: StockCheckData){
         binding.tvStockCode.text = data.stockCode
-        binding.tvGoldAndGemWeight.text = data.weight
+        binding.tvGoldAndGemWeightGm.text = data.weight
     }
 }
 

@@ -1,4 +1,4 @@
-package com.example.shwemisale.sellModule
+package com.example.shwemisale.pawnModule
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,18 +10,18 @@ import androidx.navigation.findNavController
 import com.example.shwemisale.CustomerListData
 import com.example.shwemisale.CustomerListRecyclerAdapter
 import com.example.shwemisale.R
-import com.example.shwemisale.databinding.FragmentStartBinding
+import com.example.shwemisale.databinding.FragmentStartPawnBinding
 
-class StartFragment : Fragment() {
+class PawnStartFragment : Fragment() {
 
-    private lateinit var binding: FragmentStartBinding
+    private lateinit var binding: FragmentStartPawnBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return FragmentStartBinding.inflate(inflater).also {
+        return FragmentStartPawnBinding.inflate(inflater).also {
             binding = it
         }.root
     }
@@ -41,7 +41,7 @@ class StartFragment : Fragment() {
 
 
         binding.btnNew.setOnClickListener { view:View->
-            view.findNavController().navigate(StartFragmentDirections.actionStartFragmentToCreateNewFragment())
+            view.findNavController().navigate(PawnStartFragmentDirections.actionPawnStartFragmentToPawnCreateNewFragment())
         }
 
         val adapter = CustomerListRecyclerAdapter()

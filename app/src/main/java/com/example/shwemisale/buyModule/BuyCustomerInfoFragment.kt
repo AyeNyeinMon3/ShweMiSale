@@ -1,4 +1,4 @@
-package com.example.shwemisale.sellModule
+package com.example.shwemisale.buyModule
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,18 +8,18 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.shwemisale.CustomerFavItemsData
 import com.example.shwemisale.CustomerFavItemsRecyclerAdapter
-import com.example.shwemisale.databinding.FragmentCustomerInfoBinding
+import com.example.shwemisale.databinding.FragmentCustomerInfoBuyBinding
 
-class CustomerInfoFragment:Fragment() {
+class BuyCustomerInfoFragment:Fragment() {
 
-    lateinit var binding:FragmentCustomerInfoBinding
+    lateinit var binding:FragmentCustomerInfoBuyBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return FragmentCustomerInfoBinding.inflate(inflater).also {
+        return FragmentCustomerInfoBuyBinding.inflate(inflater).also {
             binding= it
         }.root
     }
@@ -42,7 +42,7 @@ class CustomerInfoFragment:Fragment() {
             CustomerFavItemsData("11","စတားဝေးကြိုး","700,000 ကျပ်"),
         ))
         binding.btnContinue.setOnClickListener {
-            view.findNavController().navigate(CustomerInfoFragmentDirections.actionCustomerInfoFragmentToGoldFromHomeFragment())
+            view.findNavController().navigate(BuyCustomerInfoFragmentDirections.actionBuyCustomerInfoFragmentToBuyGoldFromHomeFragment())
         }
 
     }

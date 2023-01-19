@@ -56,7 +56,7 @@
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/image_btn_select"
-            android:layout_width="wrap_content"
+            android:layout_width="70dp"
             android:layout_height="0dp"
             android:layout_marginStart="32dp"
             android:background="@drawable/background_btn"
@@ -66,6 +66,17 @@
             app:layout_constraintBottom_toBottomOf="@+id/edit_voucher_code"
             app:layout_constraintStart_toEndOf="@+id/edit_voucher_code"
             app:layout_constraintTop_toTopOf="@+id/edit_voucher_code" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btn_add"
+            style="@android:style/Widget.Button"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/background_btn"
+            android:src="@drawable/plus"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/image_btn_select" />
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -94,7 +105,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tv_payMoney"
+                android:id="@+id/tv_voucher_purchase_payment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1.1"
@@ -133,14 +144,27 @@
                 android:layout_weight="1.2" />
         </LinearLayout>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_gold_from_home"
+            android:visibility="invisible"
+            android:layout_width="0dp"
+            android:layout_height="300dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            tools:listitem="@layout/item_gold_from_home" />
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+            app:layout_constraintTop_toBottomOf="@+id/rv_gold_from_home">
 
             <View
                 android:id="@+id/view"
@@ -156,10 +180,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="32dp"
-                android:layout_marginTop="32dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@id/view">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -169,7 +192,7 @@
                     android:paddingEnd="64dp">
 
                     <TextView
-                        android:id="@+id/tv_label_payMoney"
+                        android:id="@+id/tv_label_calculate_pledgeMoney"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="တွက်ပြီး အပေါင်ရမည့်ငွေ"
@@ -268,7 +291,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tv_label_pledgeMoney"
+                        android:id="@+id/tv_label_voucher_purchase_payment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="ဘောင်ချာဖွင့်ဝယ်ပေးငွေ"
@@ -277,7 +300,7 @@
                         android:textStyle="bold" />
 
                     <EditText
-                        android:id="@+id/edit_pledgeMoney"
+                        android:id="@+id/edit_voucher_purchase_payment"
                         android:layout_width="match_parent"
                         android:layout_height="70dp"
                         android:layout_marginTop="8dp"
@@ -292,29 +315,29 @@
             </LinearLayout>
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_continue"
+                android:id="@+id/btn_print"
                 style="@android:style/Widget.Button"
                 android:layout_width="wrap_content"
-                android:layout_height="80dp"
-                android:layout_marginTop="32dp"
+                android:layout_height="70dp"
                 android:layout_marginEnd="32dp"
                 android:layout_marginBottom="32dp"
                 android:background="@drawable/background_btn"
+                android:drawableStart="@drawable/print"
+                android:drawablePadding="8dp"
                 android:paddingStart="32dp"
                 android:paddingEnd="32dp"
-                android:text="‌ရှေ့ဆက်"
+                android:text="ပရင့်ထုတ်"
                 android:textColor="@color/white"
                 android:textSize="22sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_other"
                 style="@android:style/Widget.Button"
                 android:layout_width="wrap_content"
-                android:layout_height="80dp"
+                android:layout_height="70dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginBottom="32dp"
@@ -329,22 +352,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_skip"
-                style="@android:style/Widget.Button"
-                android:layout_width="wrap_content"
-                android:layout_height="80dp"
-                android:layout_marginEnd="32dp"
-                android:background="@drawable/background_edit_text"
-                android:paddingStart="32dp"
-                android:paddingEnd="32dp"
-                android:text="ကျော်မည်"
-                android:textColor="@color/primary"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/btn_continue"
-                app:layout_constraintEnd_toStartOf="@+id/btn_continue"
-                app:layout_constraintTop_toTopOf="@+id/btn_continue" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

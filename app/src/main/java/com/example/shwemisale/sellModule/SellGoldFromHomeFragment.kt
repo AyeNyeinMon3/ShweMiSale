@@ -13,13 +13,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.shwemisale.databinding.DialogChangeFeatureBinding
 import com.example.shwemisale.databinding.DialogSellTypeBinding
 import com.example.shwemisale.databinding.DialogStockCheckBinding
-import com.example.shwemisale.databinding.FragmentGoldFromHomeBinding
+import com.example.shwemisale.databinding.FragmentGoldFromHomeSellBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
-class GoldFromHomeFragment:Fragment() {
+class SellGoldFromHomeFragment:Fragment() {
 
-    lateinit var binding: FragmentGoldFromHomeBinding
+    lateinit var binding: FragmentGoldFromHomeSellBinding
     lateinit var alertDialogBinding: DialogStockCheckBinding
     lateinit var dialogBinding: DialogChangeFeatureBinding
     lateinit var dialogSellTypeBinding: DialogSellTypeBinding
@@ -30,7 +30,7 @@ class GoldFromHomeFragment:Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return FragmentGoldFromHomeBinding.inflate(inflater).also {
+        return FragmentGoldFromHomeSellBinding.inflate(inflater).also {
             binding = it
         }.root
     }
@@ -45,19 +45,35 @@ class GoldFromHomeFragment:Fragment() {
         binding.btnOther.setOnClickListener {
             showChangeFeatureDialog()
         }
-        binding.btnContinue.setOnClickListener {
-            view.findNavController().navigate(GoldFromHomeFragmentDirections.actionGoldFromHomeFragmentToCreatePawnFragment())
-        }
+
         binding.btnSkip.setOnClickListener {
             showSellTypeDialog()
         }
+
+
+        val adapter = GoldFromHomeRecyclerAdapter()
+        binding.rvGoldFromHome.adapter = adapter
+        adapter.submitList(listOf(
+            GoldFromHomeData("1","လက်စွပ်","550,000","0K 1P 6Y","550,000"),
+            GoldFromHomeData("2","လက်စွပ်","650,000","0K 1P 6Y","550,000"),
+            GoldFromHomeData("3","လက်စွပ်","750,000","0K 1P 6Y","550,000"),
+            GoldFromHomeData("4","လက်စွပ်","850,000","0K 1P 6Y","550,000"),
+            GoldFromHomeData("5","လက်စွပ်","950,000","0K 1P 6Y","550,000"),
+            GoldFromHomeData("6","လက်စွပ်","150,000","0K 1P 6Y","550,000"),
+            GoldFromHomeData("7","လက်စွပ်","5350,000","0K 1P 6Y","550,000"),
+            GoldFromHomeData("8","လက်စွပ်","5550,000","0K 1P 6Y","550,000"),
+            GoldFromHomeData("9","လက်စွပ်","5506,000","0K 1P 6Y","550,000"),
+            GoldFromHomeData("10","လက်စွပ်","5507,000","0K 1P 6Y","550,000"),
+            GoldFromHomeData("11","လက်စွပ်","550,000","0K 1P 6Y","550,000"),
+            GoldFromHomeData("12","လက်စွပ်","550,000","0K 1P 6Y","550,000"),
+            GoldFromHomeData("13","လက်စွပ်","550,000","0K 1P 6Y","550,000"),
+        ))
+        binding.btnContinue.setOnClickListener {
+            view.findNavController().navigate(SellGoldFromHomeFragmentDirections.actionSellGoldFromHomeFragmentToSellResellStockInfoAddedFragment())
+        }
     }
 
-    val checkAdapter = StockCheckRecyclerAdapter()
-    val dummyList = listOf(
-        StockCheckData("1","alhe","2y3"),
-        StockCheckData("2","alhe","2y3"),
-    )
+
     fun showStockCheckDialog() {
             val builder = MaterialAlertDialogBuilder(requireContext())
             val inflater = LayoutInflater.from(builder.context)
@@ -67,6 +83,7 @@ class GoldFromHomeFragment:Fragment() {
         alertDialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT)
             alertDialog.setCancelable(false)
             alertDialogBinding.btnContinue.setOnClickListener {
+                binding.rvGoldFromHome.visibility = View.VISIBLE
                 alertDialog.dismiss()
             }
             alertDialogBinding.ivClose.setOnClickListener {
@@ -80,8 +97,7 @@ class GoldFromHomeFragment:Fragment() {
             )
         )
 
-        alertDialogBinding.rvStockCheck.adapter = checkAdapter
-        checkAdapter.submitList(dummyList)
+
             alertDialog.show()
 
 
@@ -98,6 +114,15 @@ class GoldFromHomeFragment:Fragment() {
         dialogBinding.ivClose.setOnClickListener {
             alertDialog.dismiss()
         }
+        dialogBinding.btnPawn.setOnClickListener {
+            view?.findNavController()?.navigate(SellGoldFromHomeFragmentDirections.actionSellGoldFromHomeFragmentToPawnStartFragment())
+            alertDialog.dismiss()
+        }
+        dialogBinding.btnBuy.setOnClickListener {
+            view?.findNavController()?.navigate(SellGoldFromHomeFragmentDirections.actionSellGoldFromHomeFragmentToBuyStartFragment())
+            alertDialog.dismiss()
+        }
+
         alertDialog.show()
 
 
@@ -117,15 +142,20 @@ class GoldFromHomeFragment:Fragment() {
 
 
         dialogSellTypeBinding.btnNormalSell.setOnClickListener {
-            view?.findNavController()?.navigate(GoldFromHomeFragmentDirections.actionGoldFromHomeFragmentToScanStockFragment())
+            view?.findNavController()?.navigate(SellGoldFromHomeFragmentDirections.actionSellGoldFromHomeFragmentToScanStockFragment())
             alertDialog.dismiss()
         }
         dialogSellTypeBinding.btnReceiveNewOrder.setOnClickListener {
-            view?.findNavController()?.navigate(GoldFromHomeFragmentDirections.actionGoldFromHomeFragmentToReceiveNewOrderFragment())
+            view?.findNavController()?.navigate(SellGoldFromHomeFragmentDirections.actionSellGoldFromHomeFragmentToReceiveNewOrderFragment())
             alertDialog.dismiss()
         }
         dialogSellTypeBinding.btnAkoukSell.setOnClickListener {
-            view?.findNavController()?.navigate(GoldFromHomeFragmentDirections.actionGoldFromHomeFragmentToAkoukSellFragment())
+            view?.findNavController()?.navigate(SellGoldFromHomeFragmentDirections.actionSellGoldFromHomeFragmentToAkoukSellFragment())
+            alertDialog.dismiss()
+        }
+
+        dialogSellTypeBinding.btnGeneralSell.setOnClickListener {
+            view?.findNavController()?.navigate(SellGoldFromHomeFragmentDirections.actionSellGoldFromHomeFragmentToGeneralSellFragment())
             alertDialog.dismiss()
         }
 

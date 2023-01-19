@@ -1,4 +1,4 @@
-package com.example.shwemisale.sellModule
+package com.example.shwemisale.pawnModule
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,17 +8,17 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.shwemisale.R
-import com.example.shwemisale.databinding.FragmentCreateNewBinding
+import com.example.shwemisale.databinding.FragmentCreateNewPawnBinding
 
-class CreateNewFragment:Fragment() {
-        lateinit var binding: FragmentCreateNewBinding
+class PawnCreateNewFragment:Fragment() {
+        lateinit var binding: FragmentCreateNewPawnBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return FragmentCreateNewBinding.inflate(inflater).also {
+        return FragmentCreateNewPawnBinding.inflate(inflater).also {
             binding = it
         }.root
     }
@@ -36,7 +36,7 @@ class CreateNewFragment:Fragment() {
         binding.spinnerTownship.adapter = adapterTownship
 
         binding.btnSave.setOnClickListener {
-            view.findNavController().navigate(CreateNewFragmentDirections.actionCreateNewFragmentToCustomerInfoFragment())
+            view.findNavController().navigate(PawnCreateNewFragmentDirections.actionPawnCreateNewFragmentToPawnCustomerInfoFragment())
         }
 
     }
