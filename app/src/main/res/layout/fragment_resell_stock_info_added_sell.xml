@@ -667,6 +667,9 @@
                     android:textSize="22sp"
                     android:textStyle="bold" />
 
+
+
+
                 <EditText
                     android:id="@+id/edit_repurchase_price"
                     android:layout_width="match_parent"
@@ -679,6 +682,8 @@
                     android:paddingEnd="16dp"
                     android:textColorHint="@color/secondary_text"
                     android:textSize="22sp" />
+
+
             </LinearLayout>
 
             <LinearLayout

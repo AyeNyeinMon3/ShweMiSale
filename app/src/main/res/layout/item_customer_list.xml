@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="70dp">
+    android:layout_height="70dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="0dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="?android:dividerHorizontal"
         android:orientation="horizontal"
+        android:divider="@color/white"
         android:showDividers="middle">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:divider="?android:dividerHorizontal"
             android:orientation="horizontal"
+            android:divider="@color/white"
             android:showDividers="middle">
 
             <TextView
@@ -57,8 +59,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1.2"
-            android:divider="?android:dividerHorizontal"
             android:orientation="horizontal"
+            android:divider="@color/white"
             android:showDividers="middle">
 
             <TextView
