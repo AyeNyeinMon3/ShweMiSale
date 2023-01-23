@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/DELL/AndroidStudioProjects/ShweMiSale/app/src/main/res/drawable/loading_img.xml" value="0.1185" />
+        <entry key="..\:/Users/DELL/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/activity_main.xml" value="0.3058252427184466" />
+        <entry key="..\:/Users/DELL/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/dialog_change_feature.xml" value="0.3058252427184466" />
         <entry key="..\:/Users/DELL/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/dialog_stock_check.xml" value="0.4" />
         <entry key="..\:/Users/DELL/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_login.xml" value="0.3058252427184466" />
         <entry key="..\:/Users/DELL/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_pawn_interest.xml" value="0.3058252427184466" />
