@@ -31,6 +31,7 @@ class AuthRepoImpl @Inject constructor(
         return try {
             val response = authService.login(userName, password)
             if (response.isSuccessful && response.body() != null) {
+                localDatabase.saveToken(response.body()!!.data!!.token.orEmpty())
                 Resource.Success(response.body()!!.data!!.token)
             } else {
                 Resource.Error(response.errorBody()!!.string())

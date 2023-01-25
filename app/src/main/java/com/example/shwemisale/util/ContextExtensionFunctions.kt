@@ -7,10 +7,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.shwemi.R
-import com.example.shwemi.databinding.CustomChipItemBinding
-import com.example.shwemi.databinding.LoadingDialogBinding
-import com.example.shwemi.databinding.ShwemiSuccessDialogBinding
+import com.example.shwemisale.R
+import com.example.shwemisale.databinding.CustomChipItemBinding
+import com.example.shwemisale.databinding.LoadingDialogBinding
+import com.example.shwemisale.databinding.ShwemiSuccessDialogBinding
+
 import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 

@@ -40,6 +40,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:hint="Username"
+        app:helperText="required *"
+        app:helperTextTextColor="@color/primary"
         android:textColorHint="@color/primary"
         app:hintTextAppearance="@style/LoginHintText"
         app:layout_constraintEnd_toEndOf="@+id/iv_logo"
@@ -49,6 +51,7 @@
         app:startIconTint="@color/primary">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
@@ -73,6 +76,7 @@
         app:startIconTint="@color/primary">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"

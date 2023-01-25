@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.ShweMiSale" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.ShweMiSale" parent="Base.Theme.ShweMiSale">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryVariant">@color/primary</item>
@@ -26,5 +26,26 @@
     </style>
     <style name="DrawerIconStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="color">@color/primary</item>
+    </style>
+
+    <style name="Base.Theme.ShweMiSale" parent="Based.Theme.MaterialThemeBuilder">
+        <item name="textAppearanceHeadline1">@style/TextAppearance.ShweMi.Headline1</item>
+        <item name="textAppearanceHeadline2">@style/TextAppearance.ShweMi.Headline2</item>
+        <item name="textAppearanceHeadline3">@style/TextAppearance.ShweMi.Headline3</item>
+        <item name="textAppearanceHeadline4">@style/TextAppearance.ShweMi.Headline4</item>
+        <item name="textAppearanceHeadline5">@style/TextAppearance.ShweMi.Headline5</item>
+        <item name="textAppearanceHeadline6">@style/TextAppearance.ShweMi.Headline6</item>
+        <item name="textAppearanceSubtitle1">@style/TextAppearance.ShweMi.Subtitle1</item>
+        <item name="textAppearanceSubtitle2">@style/TextAppearance.ShweMi.Subtitle2</item>
+        <item name="textAppearanceBody1">@style/TextAppearance.ShweMi.Body1</item>
+        <item name="textAppearanceBody2">@style/TextAppearance.ShweMi.Body2</item>
+        <item name="textAppearanceButton">@style/TextAppearance.ShweMi.Button</item>
+        <item name="textAppearanceCaption">@style/TextAppearance.ShweMi.Caption</item>
+        <item name="textAppearanceOverline">@style/TextAppearance.ShweMi.Overline</item>
+
+    </style>
+    <style name="Based.Theme.MaterialThemeBuilder" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowTranslucentStatus">false</item>
+
     </style>
 </resources>

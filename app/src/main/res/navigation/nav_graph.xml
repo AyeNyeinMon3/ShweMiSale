@@ -19,7 +19,7 @@
         android:label="အပေါင်အရင်းသွင်း/အတိုးသပ်" />
     <fragment
         android:id="@+id/sellStartFragment"
-        android:name="com.example.shwemisale.sellModule.SellStartFragment"
+        android:name="com.example.shwemisale.sellModule.sellStart.SellStartFragment"
         android:label="ဝယ်သူရှာရန်" >
         <action
             android:id="@+id/action_sellStartFragment_to_sellCreateNewFragment"

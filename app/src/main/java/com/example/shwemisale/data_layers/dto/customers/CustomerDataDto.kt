@@ -1,6 +1,7 @@
 package com.example.shwemisale.data_layers.dto.customers
 
-import com.example.shwemisale.data_layers.domain.CustomerDataDomain
+import com.example.shwemisale.data_layers.domain.customers.CustomerDataDomain
+
 
 data class CustomerDataResponse(
     val data:CustomerDataDto
@@ -20,7 +21,7 @@ data class CustomerDataDto(
     val township_name:String?,
 )
 
-fun CustomerDataDto.asDomain():CustomerDataDomain{
+fun CustomerDataDto.asDomain(): CustomerDataDomain {
     return CustomerDataDomain(
         id =id.orEmpty(),
         code =code.orEmpty(),
