@@ -28,12 +28,12 @@ class SellCreateNewFragment:Fragment() {
             R.array.state,
             R.layout.spinner_text_style
         )
-        binding.spinnerState.adapter = adapterState
+       // binding.spinnerState.adapter = adapterState
         val adapterTownship = ArrayAdapter.createFromResource(requireContext(),
             R.array.township,
             R.layout.spinner_text_style
         )
-        binding.spinnerTownship.adapter = adapterTownship
+      //  binding.spinnerTownship.adapter = adapterTownship
 
         binding.btnSave.setOnClickListener {
             view.findNavController().navigate(SellCreateNewFragmentDirections.actionSellCreateNewFragmentToSellCustomerInfoFragment())

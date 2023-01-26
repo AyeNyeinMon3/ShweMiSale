@@ -7,9 +7,9 @@
 
     <ImageView
         android:id="@+id/iv_scan"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
-        android:layout_marginStart="32dp"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="120dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -17,8 +17,8 @@
 
     <ImageView
         android:id="@+id/iv_scanner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         app:layout_constraintBottom_toBottomOf="@+id/iv_scan"
         app:layout_constraintEnd_toEndOf="@+id/iv_scan"
         app:layout_constraintStart_toStartOf="@+id/iv_scan"
@@ -31,8 +31,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:text="QR ကုဒ်"
-        android:textSize="18sp"
         android:textColor="@color/primary_text"
+        android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@+id/iv_scan"
         app:layout_constraintStart_toStartOf="@+id/iv_scan" />
 
@@ -42,126 +42,192 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="or"
+        android:textAppearance="@style/TextAppearance.ShweMi.Headline6"
         android:textColor="@color/secondary_text"
-        android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/iv_scan"
         app:layout_constraintStart_toEndOf="@+id/iv_scan"
         app:layout_constraintTop_toTopOf="@+id/iv_scan" />
 
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout_name"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="45dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_scan"
-        app:layout_constraintEnd_toStartOf="@+id/image_btn_search"
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp"
+        app:boxStrokeColor="@color/edit_text_color"
+        app:boxStrokeWidth="1dp"
+        app:hintEnabled="false"
+        app:errorEnabled="false"
+        app:layout_constraintEnd_toStartOf="@+id/textInputLayout_spinner_state"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/tv_or"
         app:layout_constraintTop_toTopOf="@+id/iv_scan">
 
-        <LinearLayout
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_name"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="16dp"
-            android:layout_weight="1"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:hint="အမည်"
+            android:inputType="textPersonName"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+            android:textColor="@color/primary_text"
+            android:textColorHint="@color/secondary_text"
+             />
 
-            <EditText
-                android:id="@+id/edit_name"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="12dp"
-                android:layout_weight="1"
-                android:background="@drawable/background_edit_text"
-                android:ems="10"
-                android:hint="အမည်"
-                android:inputType="textPersonName"
-                android:paddingStart="16sp"
-                android:textColor="@color/primary_text"
-                android:textColorHint="@color/secondary_text"
-                android:textSize="22sp" />
-
-            <Spinner
-                android:id="@+id/spinner_state"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="12dp"
-                android:layout_weight="1"
-                android:background="@drawable/background_spinner"
-                android:entries="@array/state"
-                android:spinnerMode="dropdown" />
-
-            <Spinner
-                android:id="@+id/spinner_township"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="24dp"
-                android:layout_weight="1"
-                android:background="@drawable/background_spinner"
-                android:entries="@array/township"
-                android:spinnerMode="dropdown" />
+    </com.google.android.material.textfield.TextInputLayout>
 
 
-        </LinearLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout_spinner_state"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_weight="1"
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp"
+        app:boxStrokeColor="@color/edit_text_color"
+        app:boxStrokeWidth="1dp"
+        app:hintEnabled="false"
+        app:layout_constraintEnd_toStartOf="@+id/textInputLayout_spinner_township"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/textInputLayout_name"
+        app:layout_constraintTop_toTopOf="@+id/textInputLayout_name">
 
-        <LinearLayout
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/spinner_state"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="16dp"
-            android:layout_weight="1"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:inputType="none"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+            android:textColor="@color/primary_text" />
 
-            <EditText
-                android:id="@+id/edit_phNumber"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="12dp"
-                android:layout_weight="1"
-                android:background="@drawable/background_edit_text"
-                android:ems="10"
-                android:hint="ဖုန်းနံပါတ်"
-                android:inputType="number"
-                android:paddingStart="16sp"
-                android:textColor="@color/primary_text"
-                android:textColorHint="@color/secondary_text"
-                android:textSize="22sp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/edit_NRC"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="12dp"
-                android:layout_weight="1"
-                android:background="@drawable/background_edit_text"
-                android:ems="10"
-                android:hint="မှတ်ပုံတင်"
-                android:inputType="textPersonName"
-                android:paddingStart="16sp"
-                android:textColor="@color/primary_text"
-                android:textColorHint="@color/secondary_text"
-                android:textSize="22sp" />
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout_spinner_township"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_weight="1"
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp"
+        app:boxStrokeColor="@color/edit_text_color"
+        app:boxStrokeWidth="1dp"
+        app:hintEnabled="false"
+        app:layout_constraintEnd_toStartOf="@+id/image_btn_search"
+        app:layout_constraintStart_toEndOf="@+id/textInputLayout_spinner_state"
+        app:layout_constraintTop_toTopOf="@+id/textInputLayout_spinner_state">
 
-            <TextView
-                android:id="@+id/tv_birth_date"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="24dp"
-                android:layout_weight="1"
-                android:background="@drawable/background_edit_text"
-                android:drawableEnd="@drawable/calendar"
-                android:gravity="start|center"
-                android:paddingStart="16sp"
-                android:paddingEnd="32dp"
-                android:text="မွေးနေ့"
-                android:textColor="@color/primary_text"
-                android:textSize="22sp" />
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/spinner_township"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:inputType="none"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+            android:textColor="@color/primary_text" />
 
-        </LinearLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    </LinearLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout_phNumber"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp"
+        app:boxStrokeColor="@color/edit_text_color"
+        app:boxStrokeWidth="1dp"
+        app:hintEnabled="false"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_scan"
+        app:layout_constraintEnd_toStartOf="@+id/textInputLayout_NRC"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tv_or">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_phNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="ဖုန်းနံပါတ်"
+            android:inputType="number"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+            android:textColor="@color/primary_text"
+            android:textColorHint="@color/secondary_text" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout_NRC"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp"
+        app:boxStrokeColor="@color/edit_text_color"
+        app:boxStrokeWidth="1dp"
+        app:hintEnabled="false"
+        app:layout_constraintBottom_toBottomOf="@+id/textInputLayout_phNumber"
+        app:layout_constraintEnd_toStartOf="@+id/tv_birth_date"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/textInputLayout_phNumber">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_NRC"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="မှတ်ပုံတင်"
+            android:inputType="textPersonName"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+            android:textColor="@color/primary_text"
+            android:textColorHint="@color/secondary_text" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tv_birth_date"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_weight="1"
+        android:background="@drawable/background_edit_text"
+        android:drawableEnd="@drawable/calendar"
+        android:gravity="start|center"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="မွေးနေ့"
+        android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+        android:textColor="@color/primary_text"
+        app:layout_constraintBottom_toBottomOf="@+id/textInputLayout_NRC"
+        app:layout_constraintEnd_toStartOf="@+id/image_btn_search"
+        app:layout_constraintStart_toEndOf="@+id/textInputLayout_NRC"
+        app:layout_constraintTop_toTopOf="@+id/textInputLayout_NRC" />
 
     <TextView
         android:id="@+id/tv_label_information"
@@ -170,28 +236,29 @@
         android:layout_marginBottom="8dp"
         android:text="အချက်အလက်"
         android:textColor="@color/primary_text"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout" />
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/textInputLayout_name"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout_name" />
 
     <ImageButton
         android:id="@+id/image_btn_search"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginEnd="32dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/background_btn"
         android:contentDescription="search"
+        app:layout_constraintBottom_toBottomOf="@+id/textInputLayout_spinner_township"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/linearLayout"
+        app:layout_constraintTop_toTopOf="@+id/textInputLayout_spinner_township"
         app:srcCompat="@drawable/search" />
 
     <View
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="16dp"
         android:background="@color/label_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -201,31 +268,34 @@
         android:id="@+id/tv_label_customer_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="ဝယ်သူစာရင်း"
+        android:textAppearance="@style/TextAppearance.ShweMi.Headline6"
         android:textColor="@color/primary_text"
-        android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_new"
-        style="@android:style/Widget.Button"
         android:layout_width="wrap_content"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/background_btn"
         android:drawableLeft="@drawable/plus"
         android:drawablePadding="8dp"
-        android:paddingStart="32dp"
-        android:paddingEnd="32dp"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
         android:text="အသစ်"
+        android:textAppearance="@style/TextAppearance.ShweMi.Button"
         android:textColor="@color/white"
-        android:textSize="22sp"
         android:textStyle="bold"
+        app:cornerRadius="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
@@ -249,11 +319,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        android:background="@color/white">
+        app:layout_constraintStart_toStartOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"

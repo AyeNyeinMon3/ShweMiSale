@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="70dp"
+    android:layout_height="45dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginTop="8dp"
     app:cardCornerRadius="0dp"
@@ -29,8 +29,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="ဒေါ်ကလျာနွဲ့မူရာခင်"
+                android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                 android:textColor="@color/black"
-                android:textSize="22sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -40,8 +40,8 @@
                 android:layout_weight="1.1"
                 android:gravity="center"
                 android:text=" 09 420 12 3456 "
+                android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                 android:textColor="@color/black"
-                android:textSize="22sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -51,8 +51,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="၁၄/ဟသတ(နိုင်)၁၂၃၄၅၆"
+                android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                 android:textColor="@color/black"
-                android:textSize="22sp"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -72,8 +72,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="၀၅-၁၂-၁၉၆၇"
+                android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                 android:textColor="@color/black"
-                android:textSize="22sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -83,8 +83,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="ဟင်္သာတ"
+                android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                 android:textColor="@color/black"
-                android:textSize="22sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -94,8 +94,8 @@
                 android:layout_weight="1.1"
                 android:gravity="center"
                 android:text="မရှိ"
+                android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                 android:textColor="@color/black"
-                android:textSize="22sp"
                 android:textStyle="bold" />
 
             <ImageView
