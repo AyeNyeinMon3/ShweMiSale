@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="LoginHintText" parent="TextAppearance.AppCompat">
-        <item name="android:textSize">22sp</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/primary</item>
     </style>
 
     <style name="itemText" parent="TextAppearance.AppCompat">
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
     <style name="chipText" parent="TextAppearance.AppCompat">
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">22sp</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
     <style name="materialCard_x"  parent="@style/Widget.MaterialComponents.CardView">

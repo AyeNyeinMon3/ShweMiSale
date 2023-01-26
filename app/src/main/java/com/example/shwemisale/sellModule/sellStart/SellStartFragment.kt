@@ -48,12 +48,12 @@ class SellStartFragment : Fragment() {
             R.array.state,
             R.layout.spinner_text_style
         )
-        binding.spinnerState.adapter = adapterState
+//        binding.spinnerState.adapter = adapterState
         var adapterTown = ArrayAdapter.createFromResource(requireContext(),
             R.array.township,
             R.layout.spinner_text_style
         )
-        binding.spinnerTownship.adapter = adapterTown
+        //binding.spinnerTownship.adapter = adapterTown
 
 
 
