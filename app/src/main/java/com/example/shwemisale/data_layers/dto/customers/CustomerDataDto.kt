@@ -4,7 +4,7 @@ import com.example.shwemisale.data_layers.domain.customers.CustomerDataDomain
 
 
 data class CustomerDataResponse(
-    val data:CustomerDataDto
+    val data:List<CustomerDataDto>
 )
 
 data class CustomerDataDto(

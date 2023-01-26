@@ -6,6 +6,9 @@ import android.database.Cursor
 import android.icu.util.ValueIterator
 import android.net.Uri
 import android.provider.MediaStore
+import android.text.TextUtils
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.shwemisale.R
@@ -98,4 +101,9 @@ fun getRealPathFromUri(context: Context, contentUri: Uri): String? {
     }
 }
 
+fun AutoCompleteTextView.showDropdown(adapter: ArrayAdapter<String>?) {
+    if (!TextUtils.isEmpty(this.text.toString())) {
+        adapter?.filter?.filter(null)
+    }
+}
 

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -27,6 +28,8 @@ class SellStartFragment : Fragment() {
     private lateinit var binding: FragmentStartSellBinding
     private val viewModel by viewModels<SellStartViewModel>()
     private lateinit var loading : AlertDialog
+    private var selectedProvinceId = ""
+    private var selectedTownshipId = ""
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,6 +43,7 @@ class SellStartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loading = requireContext().getAlertDialog()
+        networkcall()
         val adapterState = ArrayAdapter.createFromResource(requireContext(),
             R.array.state,
             R.layout.spinner_text_style
@@ -68,7 +72,7 @@ class SellStartFragment : Fragment() {
             CustomerListData("6","ဒေါ်ကလျာနွဲ့မူရာခင်"," 09 420 12 3456 ","၁၄/ဟသတ(နိုင်)၁၂၃၄၅၆","၀၅-၁၂-၁၉၆၇","ဟင်္သာတ","ရှိ"),
         ))
 
-        viewModel.getProfile()
+
         viewModel.profileLiveData.observe(viewLifecycleOwner){
             when (it){
                 is Resource.Loading->{
@@ -76,12 +80,16 @@ class SellStartFragment : Fragment() {
                 }
                 is Resource.Success->{
                     loading.dismiss()
-
+                    viewModel.resetProfileLiveData()
                 }
                 is Resource.Error->{
                     loading.dismiss()
-                    if (it.message == "TOKEN_EXPIRED" || it.message == "TOKEN_NOT_PROVIDED" || it.message == "TOKEN_INVALID"){
+                    if (it.message == "TOKEN_EXPIRED" || it.message == "TOKEN_NOT_PROVIDED" || it.message == "TOKEN_INVALID" ){
                         findNavController().navigate(SellStartFragmentDirections.actionSellStartFragmentToLoginFragment())
+                    }
+                    if (it.message == "Server Error"){
+                        findNavController().navigate(SellStartFragmentDirections.actionSellStartFragmentToLoginFragment())
+                        Toast.makeText(requireContext(),it.message,Toast.LENGTH_LONG).show()
                     }
                     viewModel.resetProfileLiveData()
                 }
@@ -89,6 +97,70 @@ class SellStartFragment : Fragment() {
             }
         }
 
+
+        viewModel.provinceLiveData.observe(viewLifecycleOwner){
+            when (it){
+                is Resource.Loading->{
+                    loading.show()
+                }
+                is Resource.Success->{
+                    loading.dismiss()
+                    val list = it.data!!.map { it.name }
+                    val arrayAdapter = ArrayAdapter(requireContext(),R.layout.item_drop_down_text,list)
+                    viewModel.resetProvinceLiveData()
+
+                }
+                is Resource.Error->{
+                    loading.dismiss()
+
+                    viewModel.resetProvinceLiveData()
+                }
+                else -> {}
+            }
+        }
+
+
+        viewModel.townShipLiveData.observe(viewLifecycleOwner){
+            when (it){
+                is Resource.Loading->{
+                    loading.show()
+                }
+                is Resource.Success->{
+                    loading.dismiss()
+                    val list = it.data!!.map { it.name }
+                    val arrayAdapter = ArrayAdapter(requireContext(),R.layout.item_drop_down_text,list)
+                    viewModel.resetTownshipLiveData()
+
+                }
+                is Resource.Error->{
+                    loading.dismiss()
+
+                    viewModel.resetTownshipLiveData()
+                }
+                else -> {}
+            }
+        }
+
+        binding.imageBtnSearch.setOnClickListener {
+            viewModel.searchCustomerData(null,
+            binding.editName.text.toString(),
+            binding.editPhNumber.text.toString(),
+            binding.tvBirthDate.text.toString(),
+            null,
+                selectedProvinceId,
+                selectedTownshipId,
+                null,
+                binding.editNRC.text.toString()
+            )
+        }
+
+
+    }
+
+    fun networkcall(){
+        viewModel.getProfile()
+        viewModel.getProvince()
+        viewModel.getTownShip()
     }
 
 }

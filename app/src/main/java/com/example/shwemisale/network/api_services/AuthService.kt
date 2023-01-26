@@ -3,6 +3,7 @@ package com.example.shwemisale.network.api_services
 import com.example.shwemi.network.dto.auth.LoginApiResponse
 import com.example.shwemi.network.dto.auth.ProfileApiResponse
 import com.example.shwemi.network.dto.auth.RefreshTokenApiResponse
+import com.example.shwemisale.data_layers.dto.auth.LogOutApiResponse
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
@@ -24,4 +25,9 @@ interface AuthService {
     suspend fun getProfile(
         @Header("Authorization") token:String
     ): Response<ProfileApiResponse>
+
+    @POST("api/auth/logout")
+    suspend fun logout(
+        @Header("Authorization") token:String
+    ): Response<LogOutApiResponse>
 }

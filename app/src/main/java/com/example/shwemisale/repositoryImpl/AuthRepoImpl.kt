@@ -42,6 +42,20 @@ class AuthRepoImpl @Inject constructor(
 
     }
 
+    override suspend fun logout(): Resource<String> {
+        return try {
+            val response = authService.logout(localDatabase.getAccessToken().orEmpty())
+            if (response.isSuccessful && response.body() != null) {
+                localDatabase.removeToken()
+                Resource.Success(response.body()!!.response.message)
+            } else {
+                Resource.Error(response.errorBody()!!.string())
+            }
+        } catch (e: Exception) {
+            Resource.Error(e.message)
+        }
+    }
+
 
     override suspend fun getProfile(): Resource<String> {
         return try {
@@ -57,6 +71,8 @@ class AuthRepoImpl @Inject constructor(
                         response.errorBody()?.parseError()
 
                     Resource.Error(getErrorMessageFromHashMap(errorMessageWithMap!!))
+                }else if (response.code() == 500) {
+                    Resource.Error("Server Error")
                 }else{
                     Resource.Error(errorMessage)
                 }
