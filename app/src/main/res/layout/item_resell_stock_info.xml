@@ -2,7 +2,7 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="300dp"
+    android:layout_width="200dp"
     android:layout_height="wrap_content"
     android:layout_marginBottom="24dp"
     app:cardCornerRadius="10dp"
@@ -22,7 +22,7 @@
             android:text="TextView"
             android:textAlignment="center"
             android:textColor="@color/primary_text"
-            android:textSize="22sp"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -39,29 +39,40 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_item" />
 
-        <ImageButton
-            android:id="@+id/image_btn_minus"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="24dp"
-            android:background="@drawable/background_btn"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_minus"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:insetBottom="0dp"
+            android:insetLeft="0dp"
+            android:insetRight="0dp"
+            android:insetTop="0dp"
+            app:cornerRadius="10dp"
+            app:icon="@drawable/minus_white"
+            app:iconGravity="textStart"
+            app:iconPadding="1dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view"
-            app:srcCompat="@drawable/minus_white" />
+            app:layout_constraintTop_toBottomOf="@+id/view" />
 
-        <ImageButton
-            android:id="@+id/image_btn_plus"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="24dp"
-            android:background="@drawable/background_btn"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_plus"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:insetBottom="0dp"
+            android:insetLeft="0dp"
+            android:insetRight="0dp"
+            android:insetTop="0dp"
+            app:cornerRadius="10dp"
+            app:icon="@drawable/plus"
+            app:iconSize="10dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view"
-            app:srcCompat="@drawable/plus" />
+            app:layout_constraintTop_toBottomOf="@+id/view" />
 
         <TextView
             android:id="@+id/tv_number"
@@ -69,12 +80,12 @@
             android:layout_height="wrap_content"
             android:text="TextView"
             android:textColor="@color/primary_text"
-            android:textSize="22sp"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/image_btn_minus"
-            app:layout_constraintEnd_toStartOf="@+id/image_btn_plus"
-            app:layout_constraintStart_toEndOf="@+id/image_btn_minus"
-            app:layout_constraintTop_toTopOf="@+id/image_btn_minus" />
+            app:layout_constraintBottom_toBottomOf="@+id/btn_minus"
+            app:layout_constraintEnd_toStartOf="@+id/btn_plus"
+            app:layout_constraintStart_toEndOf="@+id/btn_minus"
+            app:layout_constraintTop_toTopOf="@+id/btn_minus" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

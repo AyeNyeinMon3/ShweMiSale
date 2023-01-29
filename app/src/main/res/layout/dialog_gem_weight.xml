@@ -2,8 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/tv_label_gem_weight"
@@ -12,16 +12,16 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:text="ကျောက်ချိန် ဖြည့်ပါ"
+        android:textAppearance="@style/TextAppearance.ShweMi.Body2"
         android:textColor="@color/primary_text"
-        android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/iv_close"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -33,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="32dp"
         android:background="@color/primary"
         android:orientation="horizontal"
@@ -48,8 +48,8 @@
             android:layout_weight="1.1"
             android:gravity="center"
             android:text="ကျောက်အလုံးရေ"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
             android:textColor="@color/white"
-            android:textSize="22sp"
             android:textStyle="bold" />
 
         <TextView
@@ -59,8 +59,8 @@
             android:layout_weight="1.1"
             android:gravity="center"
             android:text="1လုံးအလေးချိန်(gm)"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
             android:textColor="@color/white"
-            android:textSize="22sp"
             android:textStyle="bold" />
 
         <TextView
@@ -70,8 +70,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="1လုံးအလေးချိန်(KPY)"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
             android:textColor="@color/white"
-            android:textSize="22sp"
             android:textStyle="bold" />
 
         <TextView
@@ -81,25 +81,28 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="စုစုပေါင်းအလေးချိန်(KPY)"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
             android:textColor="@color/white"
-            android:textSize="22sp"
             android:textStyle="bold" />
     </LinearLayout>
 
-    <androidx.appcompat.widget.AppCompatButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_continue"
-        style="@android:style/Widget.Button"
         android:layout_width="wrap_content"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
-        android:background="@drawable/background_btn"
-        android:paddingStart="32dp"
-        android:paddingEnd="32dp"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
         android:text="‌ရှေ့ဆက်"
+        android:textAppearance="@style/TextAppearance.ShweMi.Body2"
         android:textColor="@color/white"
-        android:textSize="22sp"
         android:textStyle="bold"
+        app:cornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

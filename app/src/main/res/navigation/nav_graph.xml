@@ -172,6 +172,9 @@
         <action
             android:id="@+id/action_pawnGoldFromHomeFragment_to_buyStartFragment"
             app:destination="@id/buyStartFragment" />
+        <action
+            android:id="@+id/action_pawnGoldFromHomeFragment_to_pawnResellStockInfoAddedFragment"
+            app:destination="@id/pawnResellStockInfoAddedFragment" />
     </fragment>
     <fragment
         android:id="@+id/createPawnFragment"
@@ -211,5 +214,16 @@
         <action
             android:id="@+id/action_buyGoldFromHomeFragment_to_sellStartFragment"
             app:destination="@id/sellStartFragment" />
+        <action
+            android:id="@+id/action_buyGoldFromHomeFragment_to_buyResellStockInfoAddedFragment"
+            app:destination="@id/buyResellStockInfoAddedFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/buyResellStockInfoAddedFragment"
+        android:name="com.example.shwemisale.buyModule.BuyResellStockInfoAddedFragment"
+        android:label="ပြန်သွင်းထည်အချက်အလက်" />
+    <fragment
+        android:id="@+id/pawnResellStockInfoAddedFragment"
+        android:name="com.example.shwemisale.pawnModule.PawnResellStockInfoAddedFragment"
+        android:label="ပြန်သွင်းထည်အချက်အလက်" />
 </navigation>

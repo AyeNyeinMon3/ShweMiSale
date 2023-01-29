@@ -38,13 +38,15 @@ class PawnGoldFromHomeFragment:Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        binding.imageBtnSelect.setOnClickListener {
+        binding.btnSelect.setOnClickListener {
             showStockCheckDialog()
         }
         binding.btnOther.setOnClickListener {
             showChangeFeatureDialog()
         }
-
+        binding.btnAdd.setOnClickListener {
+            view.findNavController().navigate(PawnGoldFromHomeFragmentDirections.actionPawnGoldFromHomeFragmentToPawnResellStockInfoAddedFragment())
+        }
 
         val adapter = GoldFromHomeRecyclerAdapter()
         binding.rvGoldFromHome.adapter = adapter
