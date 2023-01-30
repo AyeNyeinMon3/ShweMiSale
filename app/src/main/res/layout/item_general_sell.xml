@@ -9,7 +9,7 @@
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="55dp"
         android:orientation="horizontal"
         android:divider="@color/white"
         android:showDividers="middle"
@@ -27,7 +27,7 @@
             android:gravity="center"
             android:text="Group 1"
             android:textColor="@color/primary_text"
-            android:textSize="22sp"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
             android:textStyle="bold" />
 
         <TextView
@@ -38,7 +38,7 @@
             android:gravity="center"
             android:text="အရောင်တင်"
             android:textColor="@color/primary_text"
-            android:textSize="22sp"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
             android:textStyle="bold" />
 
         <TextView
@@ -49,7 +49,7 @@
             android:gravity="center"
             android:text="3"
             android:textColor="@color/primary_text"
-            android:textSize="22sp"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
             android:textStyle="bold" />
 
         <TextView
@@ -60,7 +60,7 @@
             android:gravity="center"
             android:text="4.56 gm"
             android:textColor="@color/primary_text"
-            android:textSize="22sp"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
             android:textStyle="bold" />
 
         <TextView
@@ -71,7 +71,7 @@
             android:gravity="center"
             android:text="0K 0P 1Y"
             android:textColor="@color/primary_text"
-            android:textSize="22sp"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
             android:textStyle="bold" />
 
         <TextView
@@ -82,7 +82,7 @@
             android:gravity="center"
             android:text="1,000"
             android:textColor="@color/primary_text"
-            android:textSize="22sp"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
             android:textStyle="bold" />
 
         <TextView
@@ -93,7 +93,7 @@
             android:gravity="center"
             android:text="15,000"
             android:textColor="@color/primary_text"
-            android:textSize="22sp"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
             android:textStyle="bold" />
 
     </LinearLayout>

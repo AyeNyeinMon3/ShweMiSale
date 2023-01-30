@@ -65,13 +65,13 @@ class AkoukSellFragment:Fragment() {
         alertDialog.setCancelable(false)
 
         val spinnerAdapter = ArrayAdapter.createFromResource(requireContext(), R.array.item_type,R.layout.spinner_text_style_2)
-        dialogAlertBinding.spinnerItemType.adapter = spinnerAdapter
+       // dialogAlertBinding.spinnerItemType.adapter = spinnerAdapter
 
         dialogAlertBinding.ivClose.setOnClickListener {
             alertDialog.dismiss()
         }
         alertDialog.show()
-        alertDialog.window?.setLayout(750,900)
+       // alertDialog.window?.setLayout(750,900)
 
         dialogAlertBinding.btnContinue.setOnClickListener {
             binding.rvAkoukSell.visibility= View.VISIBLE

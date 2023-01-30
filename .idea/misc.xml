@@ -30,7 +30,7 @@
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/date_picker_calendar.xml" value="0.264" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/dialog_add_product.xml" value="0.6" />
-        <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/dialog_akouk_sell_add_product.xml" value="0.16" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/dialog_akouk_sell_add_product.xml" value="0.176" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/dialog_change_feature.xml" value="0.176" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/dialog_exchange_order.xml" value="0.1216996699669967" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/dialog_gem_weight.xml" value="0.264" />
@@ -79,7 +79,7 @@
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_start_pawn.xml" value="0.264" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_start_sell.xml" value="0.152" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_stock_detail.xml" value="0.4" />
-        <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_with_kpy.xml" value="0.4" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_with_kpy.xml" value="0.2" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/fragment_with_value.xml" value="0.264" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/include_ackouk_sell.xml" value="0.4" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/ShweMiSale/app/src/main/res/layout/include_akouk_sell.xml" value="0.1" />
