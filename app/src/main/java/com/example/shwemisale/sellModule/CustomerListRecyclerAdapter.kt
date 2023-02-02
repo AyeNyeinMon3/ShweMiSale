@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.shwemisale.data_layers.ui_models.customers.CustomerDataUiModel
 import com.example.shwemisale.databinding.ItemCustomerListBinding
 import java.util.*
 
@@ -21,7 +22,7 @@ data class CustomerListData(
     val account : String,
 )
 
-class CustomerListRecyclerAdapter() : ListAdapter<CustomerListData,CustomerListViewHolder>(CustomerListDiffUtils){
+class CustomerListRecyclerAdapter() : ListAdapter<CustomerDataUiModel,CustomerListViewHolder>(CustomerListDiffUtils){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomerListViewHolder {
         return CustomerListViewHolder(ItemCustomerListBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }
@@ -34,13 +35,13 @@ class CustomerListRecyclerAdapter() : ListAdapter<CustomerListData,CustomerListV
 }
 
 class CustomerListViewHolder(private var binding: ItemCustomerListBinding):RecyclerView.ViewHolder(binding.root){
-    fun bind(data: CustomerListData){
+    fun bind(data: CustomerDataUiModel){
         binding.tvName.text = data.name
-        binding.tvPhNumber.text = data.phNumber
-        binding.tvNRC.text = data.NRC
-        binding.tvBirthDate.text = data.birthDate
-        binding.tvTownship.text = data.township
-        binding.tvAcc.text = data.account
+        binding.tvPhNumber.text = data.phone
+        binding.tvNRC.text = "-"
+        binding.tvBirthDate.text = data.date_of_birth
+        binding.tvTownship.text = data.township_name
+        binding.tvAcc.text = "-"
 //        while (true){
 //            binding.ivArrow.setImageResource(R.drawable.side_arrow)
 //
@@ -50,12 +51,12 @@ class CustomerListViewHolder(private var binding: ItemCustomerListBinding):Recyc
 
 }
 
-object CustomerListDiffUtils:DiffUtil.ItemCallback<CustomerListData>(){
-    override fun areItemsTheSame(oldItem: CustomerListData, newItem: CustomerListData): Boolean {
+object CustomerListDiffUtils:DiffUtil.ItemCallback<CustomerDataUiModel>(){
+    override fun areItemsTheSame(oldItem: CustomerDataUiModel, newItem: CustomerDataUiModel): Boolean {
         return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItem: CustomerListData, newItem: CustomerListData): Boolean{
+    override fun areContentsTheSame(oldItem: CustomerDataUiModel, newItem: CustomerDataUiModel): Boolean{
         return oldItem == newItem
     }
 
