@@ -60,16 +60,16 @@ class GeneralSellFragment:Fragment() {
         alertDialog.setCancelable(false)
 
         val spinnerGroupAdapter = ArrayAdapter.createFromResource(requireContext(), R.array.group, R.layout.spinner_text_style_2)
-        dialogAlertBinding.spinnerGroup.adapter = spinnerGroupAdapter
+       // dialogAlertBinding.spinnerGroup.adapter = spinnerGroupAdapter
 
         val spinnerContentAdapter = ArrayAdapter.createFromResource(requireContext(), R.array.reason, R.layout.spinner_text_style_2)
-        dialogAlertBinding.spinnerContent.adapter = spinnerContentAdapter
+       // dialogAlertBinding.spinnerContent.adapter = spinnerContentAdapter
 
         dialogAlertBinding.ivClose.setOnClickListener {
             alertDialog.dismiss()
         }
         alertDialog.show()
-        alertDialog.window?.setLayout(750,900)
+        //alertDialog.window?.setLayout(750,900)
 
         dialogAlertBinding.btnContinue.setOnClickListener {
             binding.rvGeneralSell.visibility = View.VISIBLE

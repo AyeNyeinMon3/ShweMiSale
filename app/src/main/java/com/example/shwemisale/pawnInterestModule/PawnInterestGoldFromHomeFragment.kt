@@ -37,7 +37,7 @@ class PawnInterestGoldFromHomeFragment:Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        binding.imageBtnSelect.setOnClickListener {
+        binding.btnSelect.setOnClickListener {
             showStockCheckDialog()
         }
 

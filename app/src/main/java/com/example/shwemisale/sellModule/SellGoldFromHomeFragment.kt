@@ -39,7 +39,7 @@ class SellGoldFromHomeFragment:Fragment() {
 //        binding.checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
 //            binding.btnSkip.isVisible = isChecked
 //        }
-        binding.imageBtnSelect.setOnClickListener {
+        binding.btnSelect.setOnClickListener {
             showStockCheckDialog()
         }
         binding.btnOther.setOnClickListener {
@@ -68,7 +68,7 @@ class SellGoldFromHomeFragment:Fragment() {
             GoldFromHomeData("12","လက်စွပ်","550,000","0K 1P 6Y","550,000"),
             GoldFromHomeData("13","လက်စွပ်","550,000","0K 1P 6Y","550,000"),
         ))
-        binding.btnContinue.setOnClickListener {
+        binding.btnAdd.setOnClickListener {
             view.findNavController().navigate(SellGoldFromHomeFragmentDirections.actionSellGoldFromHomeFragmentToSellResellStockInfoAddedFragment())
         }
     }

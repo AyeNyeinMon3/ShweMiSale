@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/iv_logo_bg"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,8 +19,8 @@
 
     <ImageView
         android:id="@+id/iv_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         app:layout_constraintBottom_toBottomOf="@+id/iv_logo_bg"
         app:layout_constraintEnd_toEndOf="@+id/iv_logo_bg"
         app:layout_constraintStart_toStartOf="@+id/iv_logo_bg"
@@ -31,10 +31,10 @@
         android:id="@+id/tv_label_logged"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:text="Logged in as"
         android:textColor="@color/white"
-        android:textSize="14sp"
+        android:textSize="12sp"
         app:layout_constraintStart_toStartOf="@+id/tv_name"
         app:layout_constraintTop_toBottomOf="@+id/iv_logo_bg" />
 
@@ -42,10 +42,10 @@
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:text="Aye Aye Thu"
+        android:textAppearance="@style/TextAppearance.ShweMi.Headline6"
         android:textColor="@color/white"
-        android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/btn_logout"
         app:layout_constraintStart_toStartOf="@+id/btn_logout"
@@ -53,17 +53,25 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_logout"
-        style="@android:style/Widget.Button"
-        android:layout_width="220dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
         android:layout_marginBottom="32dp"
-        app:backgroundTint="@color/white"
+        android:backgroundTint="@color/white"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        android:paddingStart="50dp"
+        android:paddingEnd="50dp"
         android:text="Logout"
+        android:textAppearance="@style/TextAppearance.ShweMi.Body2"
         android:textColor="@color/primary"
-        android:textSize="22sp"
+        android:textStyle="bold"
+        app:cornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

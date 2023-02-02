@@ -10,12 +10,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
         <ImageView
             android:id="@+id/iv_bg"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
-            android:layout_marginStart="32dp"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="100dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -23,8 +22,8 @@
 
         <ImageView
             android:id="@+id/iv_camera"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             app:layout_constraintBottom_toBottomOf="@+id/iv_bg"
             app:layout_constraintEnd_toEndOf="@+id/iv_bg"
             app:layout_constraintStart_toStartOf="@+id/iv_bg"
@@ -38,20 +37,24 @@
             android:layout_marginStart="32dp"
             android:text="ပြန်သွင်းထည်"
             android:textColor="@color/primary_text"
-            android:textSize="22sp"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/btn_add"
             app:layout_constraintStart_toEndOf="@+id/iv_bg"
             app:layout_constraintTop_toTopOf="@+id/btn_add" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_add"
-            style="@android:style/Widget.Button"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_marginStart="16dp"
-            android:background="@drawable/background_btn"
-            android:src="@drawable/plus"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            android:insetLeft="0dp"
+            app:cornerRadius="10dp"
+            app:icon="@drawable/plus"
+            app:iconSize="15dp"
             app:layout_constraintStart_toEndOf="@+id/tv_label_resell_stock"
             app:layout_constraintTop_toTopOf="@+id/iv_bg" />
 
@@ -62,7 +65,7 @@
             android:layout_marginStart="16dp"
             android:text="စုစုပေါင်းအခုရေ -"
             android:textColor="@color/primary_text"
-            android:textSize="22sp"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/btn_add"
             app:layout_constraintStart_toEndOf="@+id/btn_add"
@@ -75,7 +78,7 @@
             android:layout_marginStart="8dp"
             android:text="3"
             android:textColor="@color/primary"
-            android:textSize="22sp"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/tv_label_total_stock"
             app:layout_constraintStart_toEndOf="@+id/tv_label_total_stock"
@@ -94,8 +97,8 @@
                 android:id="@+id/chip_1"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
-                android:layout_height="70dp"
-                android:textSize="22sp"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                 app:chipBackgroundColor="@color/white"
                 app:chipCornerRadius="10dp"
                 app:chipEndPadding="16dp"
@@ -107,8 +110,8 @@
                 android:id="@+id/chip_2"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
-                android:layout_height="70dp"
-                android:textSize="22sp"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                 app:chipBackgroundColor="@color/white"
                 app:chipCornerRadius="10dp"
                 app:chipEndPadding="16dp"
@@ -123,7 +126,7 @@
             android:id="@+id/linearLayout1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -133,8 +136,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="24dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -143,34 +146,32 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="အမျိုးအစား*"
+                    android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                     android:textColor="@color/primary_text"
-                    android:textSize="22sp"
                     android:textStyle="bold" />
 
                 <RadioGroup
                     android:id="@+id/radioGroup_type"
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="4dp"
                     android:orientation="horizontal">
 
                     <RadioButton
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:paddingStart="8dp"
                         android:text="အပြင်ထည်"
-                        android:textColor="@color/primary_text"
-                        android:textSize="22sp" />
+                        android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                        android:textColor="@color/primary_text" />
 
                     <RadioButton
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:paddingStart="8dp"
                         android:text="တံဆိပ်ပါအထည်"
-                        android:textColor="@color/primary_text"
-                        android:textSize="22sp" />
+                        android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                        android:textColor="@color/primary_text" />
 
                 </RadioGroup>
             </LinearLayout>
@@ -178,8 +179,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -188,25 +189,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="ပစ္စည်းအခြေအနေ*"
+                    android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                     android:textColor="@color/primary_text"
-                    android:textSize="22sp"
                     android:textStyle="bold" />
 
                 <RadioGroup
                     android:id="@+id/radioGroup_stock_condition"
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="4dp"
                     android:orientation="horizontal">
 
                     <RadioButton
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:paddingStart="8dp"
                         android:text="Damage"
-                        android:textColor="@color/primary_text"
-                        android:textSize="22sp" />
+                        android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                        android:textColor="@color/primary_text" />
 
                     <RadioButton
                         android:layout_width="match_parent"
@@ -214,8 +214,8 @@
                         android:layout_weight="1"
                         android:paddingStart="8dp"
                         android:text="Good"
-                        android:textColor="@color/primary_text"
-                        android:textSize="22sp" />
+                        android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                        android:textColor="@color/primary_text" />
 
                     <RadioButton
                         android:layout_width="match_parent"
@@ -223,8 +223,8 @@
                         android:layout_weight="1"
                         android:paddingStart="8dp"
                         android:text="Not to go"
-                        android:textColor="@color/primary_text"
-                        android:textSize="22sp" />
+                        android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                        android:textColor="@color/primary_text" />
 
                 </RadioGroup>
             </LinearLayout>
@@ -232,8 +232,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="16dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -242,41 +242,55 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="‌‌ရွှေ+ကျောက်ချိန်*"
+                    android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                     android:textColor="@color/primary_text"
-                    android:textSize="22sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp">
 
-                    <EditText
-                        android:id="@+id/edit_gold_and_gem_weight_gm"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayout_gold_and_gem_weight_gm"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_height="45dp"
                         android:layout_weight="1"
-                        android:background="@drawable/background_edit_text"
-                        android:ems="10"
-                        android:hint="အလေးချိန်(gm)"
-                        android:inputType="number"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:textColorHint="@color/secondary_text"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="@color/edit_text_color"
+                        app:boxStrokeWidth="1dp"
+                        app:errorEnabled="false"
+                        app:hintEnabled="false">
 
-                    <androidx.appcompat.widget.AppCompatImageButton
-                        android:id="@+id/image_btn_select_gold_and_gem_weight_gm"
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_gold_and_gem_weight_gm"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="အလေးချိန်(gm)"
+                            android:inputType="number"
+                            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                            android:textColor="@color/primary_text"
+                            android:textColorHint="@color/secondary_text"
+                            android:textStyle="bold" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_select_gold_and_gem_weight_gm"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="45dp"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_weight="3"
-                        android:background="@drawable/background_btn"
-                        android:paddingStart="32dp"
-                        android:paddingEnd="32dp"
-                        android:src="@drawable/right" />
+                        android:layout_weight="3.5"
+                        android:insetLeft="0dp"
+                        android:insetTop="0dp"
+                        android:insetRight="0dp"
+                        android:insetBottom="0dp"
+                        app:cornerRadius="10dp"
+                        app:icon="@drawable/right"
+                        app:iconSize="15dp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -285,9 +299,9 @@
             android:id="@+id/view"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="32dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
             android:background="@color/base_grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -297,7 +311,7 @@
             android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -306,8 +320,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="24dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -316,61 +330,94 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="‌‌ရွှေ+ကျောက်ချိန်*"
+                    android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                     android:textColor="@color/primary_text"
-                    android:textSize="22sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="4dp"
                     android:orientation="horizontal">
 
-                    <EditText
-                        android:id="@+id/edit_gold_and_gem_weight_K"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayout_gold_and_gem_weight_K"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"
+                        android:layout_height="45dp"
                         android:layout_marginEnd="16dp"
                         android:layout_weight="1"
-                        android:background="@drawable/background_edit_text"
-                        android:ems="10"
-                        android:inputType="number"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:textColor="@color/primary_text"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="@color/edit_text_color"
+                        app:boxStrokeWidth="1dp"
+                        app:errorEnabled="false"
+                        app:hintEnabled="false">
 
-                    <EditText
-                        android:id="@+id/edit_gold_and_gem_weight_P"
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_gold_and_gem_weight_K"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                            android:textColor="@color/primary_text"
+                            android:textStyle="bold" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayout_gold_and_gem_weight_P"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"
+                        android:layout_height="45dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
                         android:layout_weight="1"
-                        android:background="@drawable/background_edit_text"
-                        android:ems="10"
-                        android:inputType="number"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:textColor="@color/primary_text"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="@color/edit_text_color"
+                        app:boxStrokeWidth="1dp"
+                        app:errorEnabled="false"
+                        app:hintEnabled="false">
 
-                    <EditText
-                        android:id="@+id/edit_gold_and_gem_weight_Y"
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_gold_and_gem_weight_P"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                            android:textColor="@color/primary_text"
+                            android:textStyle="bold" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayout_gold_and_gem_weight_Y"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"
+                        android:layout_height="45dp"
                         android:layout_marginStart="16dp"
                         android:layout_weight="1"
-                        android:background="@drawable/background_edit_text"
-                        android:ems="10"
-                        android:inputType="number"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:textColor="@color/primary_text"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="@color/edit_text_color"
+                        app:boxStrokeWidth="1dp"
+                        app:errorEnabled="false"
+                        app:hintEnabled="false">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_gold_and_gem_weight_Y"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                            android:textColor="@color/primary_text"
+                            android:textStyle="bold" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
             </LinearLayout>
@@ -378,8 +425,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -388,84 +435,124 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="ကျောက်ချိန်(KPY)*"
+                    android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                     android:textColor="@color/primary_text"
-                    android:textSize="22sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="4dp"
                     android:orientation="horizontal">
 
-                    <EditText
-                        android:id="@+id/edit_gem_weight_K"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayout_gem_weight_K"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"
+                        android:layout_height="45dp"
                         android:layout_marginEnd="16dp"
                         android:layout_weight="1"
-                        android:background="@drawable/background_edit_text"
-                        android:ems="10"
-                        android:hint="K"
-                        android:inputType="number"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:textColor="@color/primary_text"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="@color/edit_text_color"
+                        app:boxStrokeWidth="1dp"
+                        app:errorEnabled="false"
+                        app:hintEnabled="false">
 
-                    <EditText
-                        android:id="@+id/edit_gem_weight_P"
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_gem_weight_K"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="K"
+                            android:inputType="number"
+                            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                            android:textColor="@color/primary_text"
+                            android:textColorHint="@color/secondary_text"
+                            android:textStyle="bold" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayout_gem_weight_P"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"
+                        android:layout_height="45dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
                         android:layout_weight="1"
-                        android:background="@drawable/background_edit_text"
-                        android:ems="10"
-                        android:hint="P"
-                        android:inputType="number"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:textColor="@color/primary_text"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="@color/edit_text_color"
+                        app:boxStrokeWidth="1dp"
+                        app:errorEnabled="false"
+                        app:hintEnabled="false">
 
-                    <EditText
-                        android:id="@+id/edit_gem_weight_Y"
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_gem_weight_P"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="P"
+                            android:inputType="number"
+                            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                            android:textColor="@color/primary_text"
+                            android:textColorHint="@color/secondary_text"
+                            android:textStyle="bold" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayout_gem_weight_Y"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"
+                        android:layout_height="45dp"
                         android:layout_marginStart="16dp"
                         android:layout_weight="1"
-                        android:background="@drawable/background_edit_text"
-                        android:ems="10"
-                        android:hint="Y"
-                        android:inputType="number"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:textColor="@color/primary_text"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="@color/edit_text_color"
+                        app:boxStrokeWidth="1dp"
+                        app:errorEnabled="false"
+                        app:hintEnabled="false">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_gem_weight_Y"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Y"
+                            android:inputType="number"
+                            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                            android:textColor="@color/primary_text"
+                            android:textColorHint="@color/secondary_text"
+                            android:textStyle="bold" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
 
-                <ImageButton
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_add_gem_weight_KPY"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
                     android:layout_gravity="end"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/background_btn"
-                    android:padding="16dp"
-                    app:srcCompat="@drawable/plus" />
+                    android:layout_marginTop="8dp"
+                    android:insetLeft="0dp"
+                    android:insetTop="0dp"
+                    android:insetRight="0dp"
+                    android:insetBottom="0dp"
+                    app:cornerRadius="10dp"
+                    app:icon="@drawable/plus"
+                    app:iconSize="15dp" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="16dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -474,84 +561,122 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="ဂျီးချိန်(KPY)*"
+                    android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                     android:textColor="@color/primary_text"
-                    android:textSize="22sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="4dp"
                     android:orientation="horizontal">
 
-                    <EditText
-                        android:id="@+id/edit_gee_weight_K"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayout_gee_weight_K"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"
+                        android:layout_height="45dp"
                         android:layout_marginEnd="16dp"
                         android:layout_weight="1"
-                        android:background="@drawable/background_edit_text"
-                        android:ems="10"
-                        android:hint="K"
-                        android:inputType="number"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:textColor="@color/primary_text"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="@color/edit_text_color"
+                        app:boxStrokeWidth="1dp"
+                        app:errorEnabled="false"
+                        app:hintEnabled="false">
 
-                    <EditText
-                        android:id="@+id/edit_gee_weight_P"
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_gee_weight_K"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="K"
+                            android:inputType="number"
+                            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                            android:textColor="@color/primary_text"
+                            android:textColorHint="@color/secondary_text"
+                            android:textStyle="bold" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayout_gee_weight_P"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"
+                        android:layout_height="45dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
                         android:layout_weight="1"
-                        android:background="@drawable/background_edit_text"
-                        android:ems="10"
-                        android:hint="P"
-                        android:inputType="number"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:textColor="@color/primary_text"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="@color/edit_text_color"
+                        app:boxStrokeWidth="1dp"
+                        app:errorEnabled="false"
+                        app:hintEnabled="false">
 
-                    <EditText
-                        android:id="@+id/edit_gee_weight_Y"
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_gee_weight_P"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="P"
+                            android:inputType="number"
+                            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                            android:textColor="@color/primary_text"
+                            android:textColorHint="@color/secondary_text"
+                            android:textStyle="bold" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayout_gee_weight_Y"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"
+                        android:layout_height="45dp"
                         android:layout_marginStart="16dp"
                         android:layout_weight="1"
-                        android:background="@drawable/background_edit_text"
-                        android:ems="10"
-                        android:hint="Y"
-                        android:inputType="number"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:textColor="@color/primary_text"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="@color/edit_text_color"
+                        app:boxStrokeWidth="1dp"
+                        app:errorEnabled="false"
+                        app:hintEnabled="false">
 
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_gee_weight_Y"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Y"
+                            android:inputType="number"
+                            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                            android:textColor="@color/primary_text"
+                            android:textColorHint="@color/secondary_text"
+                            android:textStyle="bold" />
+                    </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
-        <androidx.appcompat.widget.AppCompatButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_calculate"
-            style="@android:style/Widget.Button"
             android:layout_width="wrap_content"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:layout_marginEnd="32dp"
-            android:background="@drawable/background_btn"
-            android:drawableStart="@drawable/right"
-            android:drawablePadding="8dp"
-            android:paddingStart="32dp"
-            android:paddingEnd="32dp"
+            android:layout_marginEnd="16dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            android:insetLeft="0dp"
+            app:cornerRadius="10dp"
+            app:icon="@drawable/right"
+            app:iconSize="15dp"
             android:text="တွက်မည်"
             android:textColor="@color/white"
-            android:textSize="22sp"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
@@ -560,9 +685,9 @@
             android:id="@+id/view2"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="32dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
             android:background="@color/base_grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -572,7 +697,7 @@
             android:id="@+id/linearLayout3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -581,8 +706,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="24dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -591,61 +716,95 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="‌‌ရွှေချိန်(KPY)"
+                    android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                     android:textColor="@color/primary_text"
-                    android:textSize="22sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="4dp"
                     android:orientation="horizontal">
 
-                    <EditText
-                        android:id="@+id/edit_gold_weight_K"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayout_gold_weight_K"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"
+                        android:layout_height="45dp"
                         android:layout_marginEnd="16dp"
                         android:layout_weight="1"
-                        android:background="@drawable/background_edit_text2"
-                        android:ems="10"
-                        android:inputType="number"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:textColor="@color/primary_text"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="@color/edit_text_color_2"
+                        app:boxStrokeWidth="1dp"
+                        app:errorEnabled="false"
+                        app:hintEnabled="false">
 
-                    <EditText
-                        android:id="@+id/edit_gold_weight_P"
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_gold_weight_K"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                            android:textColor="@color/primary_text"
+                            android:textStyle="bold" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayout_gold_weight_P"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"
+                        android:layout_height="45dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
                         android:layout_weight="1"
-                        android:background="@drawable/background_edit_text2"
-                        android:ems="10"
-                        android:inputType="number"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:textColor="@color/primary_text"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="@color/edit_text_color_2"
+                        app:boxStrokeWidth="1dp"
+                        app:errorEnabled="false"
+                        app:hintEnabled="false">
 
-                    <EditText
-                        android:id="@+id/edit_gold_weight_Y"
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_gold_weight_P"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                            android:textColor="@color/primary_text"
+                            android:textStyle="bold" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayout_gold_weight_Y"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"
+                        android:layout_height="45dp"
                         android:layout_marginStart="16dp"
                         android:layout_weight="1"
-                        android:background="@drawable/background_edit_text2"
-                        android:ems="10"
-                        android:inputType="number"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:textColor="@color/primary_text"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="@color/edit_text_color_2"
+                        app:boxStrokeWidth="1dp"
+                        app:errorEnabled="false"
+                        app:hintEnabled="false">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_gold_weight_Y"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                            android:textColor="@color/primary_text"
+                            android:textStyle="bold" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
 
                 </LinearLayout>
             </LinearLayout>
@@ -653,8 +812,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -663,21 +822,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="ပြန်ဝယ်စျေး*"
+                    android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                     android:textColor="@color/primary_text"
-                    android:textSize="22sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="4dp"
                     android:background="@drawable/background_text_view"
-                    android:elevation="3dp">
+                    android:elevation="3dp"
+                    android:orientation="horizontal">
 
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"
+                        android:layout_height="45dp"
                         android:layout_weight="1"
                         app:cardBackgroundColor="#CC535F"
                         app:shapeAppearanceOverlay="@style/materialCard_x">
@@ -686,22 +845,22 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:gravity="center_vertical"
-                            android:paddingStart="40dp"
-                            android:paddingEnd="40dp"
+                            android:paddingStart="30dp"
+                            android:paddingEnd="30dp"
                             android:text="x"
+                            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                             android:textColor="@color/white"
-                            android:textSize="22sp"
                             android:textStyle="bold" />
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.divider.MaterialDivider
                         android:layout_width="1dp"
-                        android:layout_height="70dp"
-                        android:background="#FCDEE0"/>
+                        android:layout_height="45dp"
+                        android:background="#FCDEE0" />
 
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"
+                        android:layout_height="45dp"
                         android:layout_weight="1"
                         app:cardBackgroundColor="#FFF5F5"
                         app:shapeAppearanceOverlay="@style/materialCard_y">
@@ -710,22 +869,22 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:gravity="center_vertical"
-                            android:paddingStart="40dp"
-                            android:paddingEnd="40dp"
+                            android:paddingStart="30dp"
+                            android:paddingEnd="30dp"
                             android:text="y"
+                            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                             android:textColor="@color/primary"
-                            android:textSize="22sp"
                             android:textStyle="bold" />
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.divider.MaterialDivider
                         android:layout_width="1dp"
-                        android:layout_height="70dp"
-                        android:background="#FCDEE0"/>
+                        android:layout_height="45dp"
+                        android:background="#FCDEE0" />
 
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"
+                        android:layout_height="45dp"
                         android:layout_weight="1"
                         app:cardBackgroundColor="#FFF5F5"
                         app:shapeAppearanceOverlay="@style/materialCard_z">
@@ -734,38 +893,48 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:gravity="center_vertical"
-                            android:paddingStart="40dp"
-                            android:paddingEnd="40dp"
+                            android:paddingStart="30dp"
+                            android:paddingEnd="30dp"
                             android:text="z"
+                            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                             android:textColor="@color/primary"
-                            android:textSize="22sp"
                             android:textStyle="bold" />
                     </com.google.android.material.card.MaterialCardView>
 
                 </LinearLayout>
 
-
-                <EditText
-                    android:id="@+id/edit_repurchase_price"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayout_repurchase_price"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/background_edit_text"
-                    android:ems="10"
-                    android:inputType="number"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    android:textColorHint="@color/secondary_text"
-                    android:textSize="22sp" />
+                    android:layout_height="45dp"
+                    android:layout_marginTop="8dp"
+                    app:boxCornerRadiusBottomEnd="10dp"
+                    app:boxCornerRadiusBottomStart="10dp"
+                    app:boxCornerRadiusTopEnd="10dp"
+                    app:boxCornerRadiusTopStart="10dp"
+                    app:boxStrokeColor="@color/edit_text_color"
+                    app:boxStrokeWidth="1dp"
+                    app:errorEnabled="false"
+                    app:hintEnabled="false">
 
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_repurchase_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                        android:textColor="@color/primary_text"
+                        android:textStyle="bold" />
+                </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="16dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -774,22 +943,34 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="ရွှေရည် (Carat)*"
+                    android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                     android:textColor="@color/primary_text"
-                    android:textSize="22sp"
                     android:textStyle="bold" />
 
-                <EditText
-                    android:id="@+id/edit_gold_quality"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayout_gold_quality"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/background_edit_text"
-                    android:ems="10"
-                    android:inputType="number"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    android:textColorHint="@color/secondary_text"
-                    android:textSize="22sp" />
+                    android:layout_height="45dp"
+                    android:layout_marginTop="4dp"
+                    app:boxCornerRadiusBottomEnd="10dp"
+                    app:boxCornerRadiusBottomStart="10dp"
+                    app:boxCornerRadiusTopEnd="10dp"
+                    app:boxCornerRadiusTopStart="10dp"
+                    app:boxStrokeColor="@color/edit_text_color"
+                    app:boxStrokeWidth="1dp"
+                    app:errorEnabled="false"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_gold_quality"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                        android:textColor="@color/primary_text"
+                        android:textStyle="bold" />
+                </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
         </LinearLayout>
 
@@ -797,9 +978,9 @@
             android:id="@+id/constraintLayout1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="32dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
             android:background="@drawable/background_constraint_layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -809,42 +990,32 @@
                 android:id="@+id/checkBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="32dp"
-                android:scaleX="1.5"
-                android:scaleY="1.5"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:text="အထွေထွေစားရိတ် ထည့်ပေးမည်"
+                android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                android:textColor="@color/primary_text"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tv_label_check_box"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="အထွေထွေစားရိတ် ထည့်ပေးမည်"
-                android:textColor="@color/primary_text"
-                android:textSize="22sp"
-                app:layout_constraintBottom_toBottomOf="@+id/checkBox"
-                app:layout_constraintStart_toEndOf="@+id/checkBox"
-                app:layout_constraintTop_toTopOf="@+id/checkBox" />
 
             <TextView
                 android:id="@+id/tv_label_reminder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:text="*Fieldတစ်ခုအနည်းဆုံးထည့်‌‌ပေးရန်လိုအပ်ပါသည်။"
                 android:textColor="@color/primary"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_label_check_box"
-                app:layout_constraintStart_toEndOf="@+id/tv_label_check_box"
-                app:layout_constraintTop_toTopOf="@+id/tv_label_check_box" />
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/checkBox"
+                app:layout_constraintStart_toEndOf="@+id/checkBox"
+                app:layout_constraintTop_toTopOf="@+id/checkBox" />
 
             <LinearLayout
                 android:id="@+id/linearLayout4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="24dp"
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -853,8 +1024,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginEnd="32dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="24dp"
                     android:layout_weight="1"
                     android:orientation="vertical">
 
@@ -863,64 +1034,100 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="ထည့်ပေးအရော့"
+                        android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                         android:textColor="@color/primary_text"
-                        android:textSize="22sp"
                         android:textStyle="bold" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="4dp"
                         android:orientation="horizontal">
 
-                        <EditText
-                            android:id="@+id/edit_add_reduced_K"
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/textInputLayout_add_reduced_K"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                             android:layout_width="match_parent"
-                            android:layout_height="70dp"
+                            android:layout_height="45dp"
                             android:layout_marginEnd="16dp"
                             android:layout_weight="1"
-                            android:background="@drawable/background_edit_text"
-                            android:ems="10"
-                            android:hint="K"
-                            android:inputType="number"
-                            android:paddingStart="16dp"
-                            android:paddingEnd="16dp"
-                            android:textColor="@color/primary_text"
-                            android:textSize="22sp"
-                            android:textStyle="bold" />
+                            app:boxCornerRadiusBottomEnd="10dp"
+                            app:boxCornerRadiusBottomStart="10dp"
+                            app:boxCornerRadiusTopEnd="10dp"
+                            app:boxCornerRadiusTopStart="10dp"
+                            app:boxStrokeColor="@color/edit_text_color"
+                            app:boxStrokeWidth="1dp"
+                            app:errorEnabled="false"
+                            app:hintEnabled="false">
 
-                        <EditText
-                            android:id="@+id/edit_add_reduced_P"
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edt_add_reduced_K"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="K"
+                                android:inputType="number"
+                                android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                                android:textColor="@color/primary_text"
+                                android:textColorHint="@color/secondary_text"
+                                android:textStyle="bold" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/textInputLayout_add_reduced_P"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                             android:layout_width="match_parent"
-                            android:layout_height="70dp"
+                            android:layout_height="45dp"
                             android:layout_marginStart="8dp"
                             android:layout_marginEnd="8dp"
                             android:layout_weight="1"
-                            android:background="@drawable/background_edit_text"
-                            android:ems="10"
-                            android:hint="P"
-                            android:inputType="number"
-                            android:paddingStart="16dp"
-                            android:paddingEnd="16dp"
-                            android:textColor="@color/primary_text"
-                            android:textSize="22sp"
-                            android:textStyle="bold" />
+                            app:boxCornerRadiusBottomEnd="10dp"
+                            app:boxCornerRadiusBottomStart="10dp"
+                            app:boxCornerRadiusTopEnd="10dp"
+                            app:boxCornerRadiusTopStart="10dp"
+                            app:boxStrokeColor="@color/edit_text_color"
+                            app:boxStrokeWidth="1dp"
+                            app:errorEnabled="false"
+                            app:hintEnabled="false">
 
-                        <EditText
-                            android:id="@+id/edit_add_reduced_Y"
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edt_add_reduced_P"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="P"
+                                android:inputType="number"
+                                android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                                android:textColor="@color/primary_text"
+                                android:textColorHint="@color/secondary_text"
+                                android:textStyle="bold" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/textInputLayout_add_reduced_Y"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                             android:layout_width="match_parent"
-                            android:layout_height="70dp"
+                            android:layout_height="45dp"
                             android:layout_marginStart="16dp"
                             android:layout_weight="1"
-                            android:background="@drawable/background_edit_text"
-                            android:ems="10"
-                            android:hint="Y"
-                            android:inputType="number"
-                            android:paddingStart="16dp"
-                            android:paddingEnd="16dp"
-                            android:textColor="@color/primary_text"
-                            android:textSize="22sp"
-                            android:textStyle="bold" />
+                            app:boxCornerRadiusBottomEnd="10dp"
+                            app:boxCornerRadiusBottomStart="10dp"
+                            app:boxCornerRadiusTopEnd="10dp"
+                            app:boxCornerRadiusTopStart="10dp"
+                            app:boxStrokeColor="@color/edit_text_color"
+                            app:boxStrokeWidth="1dp"
+                            app:errorEnabled="false"
+                            app:hintEnabled="false">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edt_add_reduced_Y"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Y"
+                                android:inputType="number"
+                                android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                                android:textColor="@color/primary_text"
+                                android:textColorHint="@color/secondary_text"
+                                android:textStyle="bold" />
+                        </com.google.android.material.textfield.TextInputLayout>
 
                     </LinearLayout>
                 </LinearLayout>
@@ -928,8 +1135,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginEnd="32dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
                     android:layout_weight="1"
                     android:orientation="vertical">
 
@@ -938,49 +1145,64 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="ကျောက်ဖိုး/စိန်ဖိုး"
+                        android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                         android:textColor="@color/primary_text"
-                        android:textSize="22sp"
                         android:textStyle="bold" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp">
 
-                        <EditText
-                            android:id="@+id/edit_gem_diamond_value"
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/textInputLayout_gem_diamond_value"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                             android:layout_width="match_parent"
-                            android:layout_height="70dp"
-                            android:layout_marginTop="8dp"
+                            android:layout_height="45dp"
                             android:layout_weight="1"
-                            android:background="@drawable/background_edit_text"
-                            android:ems="10"
-                            android:hint="Type"
-                            android:inputType="number"
-                            android:paddingStart="16dp"
-                            android:paddingEnd="16dp"
-                            android:textColorHint="@color/secondary_text"
-                            android:textSize="22sp"
-                            android:textStyle="bold" />
+                            app:boxCornerRadiusBottomEnd="10dp"
+                            app:boxCornerRadiusBottomStart="10dp"
+                            app:boxCornerRadiusTopEnd="10dp"
+                            app:boxCornerRadiusTopStart="10dp"
+                            app:boxStrokeColor="@color/edit_text_color"
+                            app:boxStrokeWidth="1dp"
+                            app:errorEnabled="false"
+                            app:hintEnabled="false">
 
-                        <androidx.appcompat.widget.AppCompatImageButton
-                            android:id="@+id/image_btn_percentage"
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edt_gem_diamond_value"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Type"
+                                android:inputType="number"
+                                android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                                android:textColor="@color/primary_text"
+                                android:textColorHint="@color/secondary_text"
+                                android:textStyle="bold" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_percentage"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="45dp"
                             android:layout_marginStart="16dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_weight="3"
-                            android:background="@drawable/background_btn"
-                            android:paddingStart="32dp"
-                            android:paddingEnd="32dp"
-                            android:src="@drawable/percentage" />
+                            android:layout_weight="3.5"
+                            android:insetLeft="0dp"
+                            android:insetTop="0dp"
+                            android:insetRight="0dp"
+                            android:insetBottom="0dp"
+                            app:cornerRadius="10dp"
+                            app:icon="@drawable/percentage"
+                            app:iconSize="15dp" />
+
                     </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginEnd="32dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="16dp"
                     android:layout_weight="1"
                     android:orientation="vertical">
 
@@ -989,33 +1211,45 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="လျှော့ပြီးကျောက်ဖိုး/စိန်ဖိုး"
+                        android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                         android:textColor="@color/primary_text"
-                        android:textSize="22sp"
                         android:textStyle="bold" />
 
-                    <EditText
-                        android:id="@+id/edit_reduced_gem_diamond_value"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayout_reduced_gem_diamond_value"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"
-                        android:layout_marginTop="8dp"
-                        android:background="@drawable/background_edit_text"
-                        android:ems="10"
-                        android:inputType="number"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:textColorHint="@color/secondary_text"
-                        android:textSize="22sp" />
+                        android:layout_height="45dp"
+                        android:layout_marginTop="4dp"
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="@color/edit_text_color"
+                        app:boxStrokeWidth="1dp"
+                        app:errorEnabled="false"
+                        app:hintEnabled="false">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_reduced_gem_diamond_value"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                            android:textColor="@color/primary_text"
+                            android:textStyle="bold" />
+                    </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
             </LinearLayout>
 
 
             <LinearLayout
                 android:id="@+id/linearLayoutFee"
-                android:layout_width="370dp"
+                android:layout_width="270dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginBottom="32dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
                 android:layout_weight="1"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -1027,33 +1261,45 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="လက်ခ"
+                    android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                     android:textColor="@color/primary_text"
-                    android:textSize="22sp"
                     android:textStyle="bold" />
 
-                <EditText
-                    android:id="@+id/edit_fee"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayout_fee"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/background_edit_text"
-                    android:ems="10"
-                    android:inputType="number"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    android:hint="Type"
-                    android:textColorHint="@color/secondary_text"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
+                    android:layout_height="45dp"
+                    android:layout_marginTop="4dp"
+                    app:boxCornerRadiusBottomEnd="10dp"
+                    app:boxCornerRadiusBottomStart="10dp"
+                    app:boxCornerRadiusTopEnd="10dp"
+                    app:boxCornerRadiusTopStart="10dp"
+                    app:boxStrokeColor="@color/edit_text_color"
+                    app:boxStrokeWidth="1dp"
+                    app:errorEnabled="false"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_fee"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Type"
+                        android:inputType="number"
+                        android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                        android:textColor="@color/primary_text"
+                        android:textColorHint="@color/secondary_text"
+                        android:textStyle="bold" />
+                </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/linearLayoutPTclipValue"
-                android:layout_width="370dp"
+                android:layout_width="270dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginStart="44dp"
+                android:layout_marginTop="24dp"
                 android:layout_weight="1"
                 android:orientation="vertical"
                 app:layout_constraintStart_toEndOf="@+id/linearLayoutFee"
@@ -1064,43 +1310,58 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="PT/အောက်ခံကလစ်ဖိုး"
+                    android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                     android:textColor="@color/primary_text"
-                    android:textSize="22sp"
                     android:textStyle="bold" />
 
-                <EditText
-                    android:id="@+id/edit_PTclip_value"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayout_PTclip_value"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/background_edit_text"
-                    android:ems="10"
-                    android:inputType="number"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    android:hint="Type"
-                    android:textColorHint="@color/secondary_text"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
+                    android:layout_height="45dp"
+                    android:layout_marginTop="4dp"
+                    app:boxCornerRadiusBottomEnd="10dp"
+                    app:boxCornerRadiusBottomStart="10dp"
+                    app:boxCornerRadiusTopEnd="10dp"
+                    app:boxCornerRadiusTopStart="10dp"
+                    app:boxStrokeColor="@color/edit_text_color"
+                    app:boxStrokeWidth="1dp"
+                    app:errorEnabled="false"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_PTclip_value"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Type"
+                        android:inputType="number"
+                        android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                        android:textColor="@color/primary_text"
+                        android:textColorHint="@color/secondary_text"
+                        android:textStyle="bold" />
+                </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.appcompat.widget.AppCompatButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_calculate_2"
-            style="@android:style/Widget.Button"
             android:layout_width="wrap_content"
-            android:layout_height="70dp"
-            android:layout_marginTop="32dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="32dp"
-            android:background="@drawable/background_btn"
-            android:drawableStart="@drawable/right"
-            android:drawablePadding="8dp"
-            android:paddingStart="32dp"
-            android:paddingEnd="32dp"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
             android:text="တွက်မည်"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
             android:textColor="@color/white"
-            android:textSize="22sp"
             android:textStyle="bold"
+            app:cornerRadius="10dp"
+            app:icon="@drawable/right"
+            app:iconSize="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/constraintLayout1" />
 
@@ -1108,9 +1369,9 @@
             android:id="@+id/view3"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="32dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
             android:background="@color/base_grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -1119,10 +1380,10 @@
 
         <LinearLayout
             android:id="@+id/linearLayoutPaymentFromShop"
-            android:layout_width="400dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:layout_weight="1"
             android:orientation="vertical"
             app:layout_constraintStart_toStartOf="parent"
@@ -1133,32 +1394,43 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="ဆိုင်မှဝယ်ပေးငွေ"
+                android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                 android:textColor="@color/primary_text"
-                android:textSize="22sp"
                 android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/edit_payment_from_shop"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout_payment_from_shop"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/background_edit_text2"
-                android:ems="10"
-                android:inputType="number"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:textColorHint="@color/secondary_text"
-                android:textSize="22sp"
-                android:textStyle="bold" />
+                android:layout_height="45dp"
+                android:layout_marginTop="4dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxStrokeColor="@color/edit_text_color_2"
+                app:boxStrokeWidth="1dp"
+                app:errorEnabled="false"
+                app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_payment_from_shop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                    android:textColor="@color/primary_text"
+                    android:textStyle="bold" />
+            </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout2"
-            android:layout_width="400dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
             android:background="@drawable/background_constraint_layout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/linearLayoutPaymentFromShop">
@@ -1180,40 +1452,55 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="သတ်မှတ် အပေါင်စျေး"
+                    android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                     android:textColor="@color/primary_text"
-                    android:textSize="22sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp">
 
-                    <EditText
-                        android:id="@+id/edit_fixed_mortgage_price"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayout_fixed_mortgage_price"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_height="45dp"
                         android:layout_weight="1"
-                        android:background="@drawable/background_edit_text"
-                        android:ems="10"
-                        android:inputType="number"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:textColorHint="@color/secondary_text"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="@color/edit_text_color"
+                        app:boxStrokeWidth="1dp"
+                        app:errorEnabled="false"
+                        app:hintEnabled="false">
 
-                    <androidx.appcompat.widget.AppCompatImageButton
-                        android:id="@+id/image_btn_select_fixed_mortgage_price"
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_fixed_mortgage_price"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                            android:textColor="@color/primary_text"
+                            android:textColorHint="@color/secondary_text"
+                            android:textStyle="bold" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_select_fixed_mortgage_price"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="45dp"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_weight="3"
-                        android:background="@drawable/background_btn"
-                        android:paddingStart="32dp"
-                        android:paddingEnd="32dp"
-                        android:src="@drawable/right" />
+                        android:layout_weight="3.5"
+                        android:insetLeft="0dp"
+                        android:insetTop="0dp"
+                        android:insetRight="0dp"
+                        android:insetBottom="0dp"
+                        app:cornerRadius="10dp"
+                        app:icon="@drawable/right"
+                        app:iconSize="15dp" />
+
                 </LinearLayout>
             </LinearLayout>
 
@@ -1237,23 +1524,34 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="အပေါင်ရမည့်ငွေ"
+                    android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                     android:textColor="@color/primary_text"
-                    android:textSize="22sp"
                     android:textStyle="bold" />
 
-                <EditText
-                    android:id="@+id/edit_pledgeMoney"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayout_pledgeMoney"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/background_edit_text2"
-                    android:ems="10"
-                    android:inputType="number"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    android:textColorHint="@color/secondary_text"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
+                    android:layout_height="45dp"
+                    android:layout_marginTop="4dp"
+                    app:boxCornerRadiusBottomEnd="10dp"
+                    app:boxCornerRadiusBottomStart="10dp"
+                    app:boxCornerRadiusTopEnd="10dp"
+                    app:boxCornerRadiusTopStart="10dp"
+                    app:boxStrokeColor="@color/edit_text_color_2"
+                    app:boxStrokeWidth="1dp"
+                    app:errorEnabled="false"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_pledgeMoney"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                        android:textColor="@color/primary_text"
+                        android:textStyle="bold" />
+                </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
 
@@ -1264,7 +1562,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
+            android:layout_marginEnd="16dp"
             android:background="@drawable/background_constraint_layout"
             app:layout_constraintBottom_toBottomOf="@+id/constraintLayout2"
             app:layout_constraintEnd_toEndOf="parent"
@@ -1273,7 +1571,7 @@
 
             <LinearLayout
                 android:id="@+id/linearLayoutPurchasePrice"
-                android:layout_width="420dp"
+                android:layout_width="320dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
@@ -1286,50 +1584,68 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="ဝယ်စျေး"
+                    android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                     android:textColor="@color/primary_text"
-                    android:textSize="22sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp">
 
-                    <EditText
-                        android:id="@+id/edit_purchase_price"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayout_purchase_price"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_height="45dp"
                         android:layout_weight="1"
-                        android:background="@drawable/background_edit_text"
-                        android:ems="10"
-                        android:inputType="number"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:textColorHint="@color/secondary_text"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="@color/edit_text_color"
+                        app:boxStrokeWidth="1dp"
+                        app:errorEnabled="false"
+                        app:hintEnabled="false">
 
-                    <androidx.appcompat.widget.AppCompatImageButton
-                        android:id="@+id/image_btn_select_purchase_price"
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_purchase_price"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                            android:textColor="@color/primary_text"
+                            android:textColorHint="@color/secondary_text"
+                            android:textStyle="bold" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_select_purchase_price"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="45dp"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_weight="3.5"
-                        android:background="@drawable/background_btn"
-                        android:paddingStart="32dp"
-                        android:paddingEnd="32dp"
-                        android:src="@drawable/right" />
+                        android:layout_weight="4.3"
+                        android:insetLeft="0dp"
+                        android:insetTop="0dp"
+                        android:insetRight="0dp"
+                        android:insetBottom="0dp"
+                        app:cornerRadius="10dp"
+                        app:icon="@drawable/right"
+                        app:iconSize="15dp" />
+
                 </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/linearLayoutVoucherPurchasePayment"
-                android:layout_width="370dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
                 android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@+id/linearLayoutReducedVoucherPurchasePayment"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayoutPurchasePrice">
 
@@ -1338,52 +1654,70 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="ဘောင်ချာဖွင့်ဝယ်ပေးငွေ"
+                    android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                     android:textColor="@color/primary_text"
-                    android:textSize="22sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp">
 
-                    <EditText
-                        android:id="@+id/edit_voucher_purchase_payment"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayout_voucher_purchase_payment"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_height="45dp"
                         android:layout_weight="1"
-                        android:background="@drawable/background_edit_text"
-                        android:ems="10"
-                        android:hint="Type"
-                        android:inputType="number"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:textColorHint="@color/secondary_text"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="@color/edit_text_color"
+                        app:boxStrokeWidth="1dp"
+                        app:errorEnabled="false"
+                        app:hintEnabled="false">
 
-                    <androidx.appcompat.widget.AppCompatImageButton
-                        android:id="@+id/image_btn_percentage_voucher_purchase_payment"
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_voucher_purchase_payment"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:hint="Type"
+                            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                            android:textColor="@color/primary_text"
+                            android:textColorHint="@color/secondary_text"
+                            android:textStyle="bold" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_percentage_voucher_purchase_payment"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="45dp"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_weight="3"
-                        android:background="@drawable/background_btn"
-                        android:paddingStart="32dp"
-                        android:paddingEnd="32dp"
-                        android:src="@drawable/percentage" />
+                        android:layout_weight="3.5"
+                        android:insetLeft="0dp"
+                        android:insetTop="0dp"
+                        android:insetRight="0dp"
+                        android:insetBottom="0dp"
+                        app:cornerRadius="10dp"
+                        app:icon="@drawable/percentage"
+                        app:iconSize="15dp" />
+
                 </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/linearLayoutReducedVoucherPurchasePayment"
-                android:layout_width="370dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="@+id/linearLayoutVoucherPurchasePayment"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/linearLayoutVoucherPurchasePayment"
                 app:layout_constraintTop_toTopOf="@+id/linearLayoutVoucherPurchasePayment">
 
                 <TextView
@@ -1391,40 +1725,55 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="လျှော့ပြီးဘောင်ချာဖွင့်ဝယ်ပေးငွေ"
+                    android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                     android:textColor="@color/primary_text"
-                    android:textSize="22sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp">
 
-                    <EditText
-                        android:id="@+id/edit_reduced_voucher_purchase_payment"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayout_reduced_voucher_purchase_payment"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_height="45dp"
                         android:layout_weight="1"
-                        android:background="@drawable/background_edit_text"
-                        android:ems="10"
-                        android:inputType="number"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:textColorHint="@color/secondary_text"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="@color/edit_text_color"
+                        app:boxStrokeWidth="1dp"
+                        app:errorEnabled="false"
+                        app:hintEnabled="false">
 
-                    <androidx.appcompat.widget.AppCompatImageButton
-                        android:id="@+id/image_btn_select_reduced_voucher_purchase_payment"
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_reduced_voucher_purchase_payment"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                            android:textColor="@color/primary_text"
+                            android:textColorHint="@color/secondary_text"
+                            android:textStyle="bold" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_select_reduced_voucher_purchase_payment"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="45dp"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_weight="3"
-                        android:background="@drawable/background_btn"
-                        android:paddingStart="32dp"
-                        android:paddingEnd="32dp"
-                        android:src="@drawable/right" />
+                        android:layout_weight="3.5"
+                        android:insetLeft="0dp"
+                        android:insetTop="0dp"
+                        android:insetRight="0dp"
+                        android:insetBottom="0dp"
+                        app:cornerRadius="10dp"
+                        app:icon="@drawable/right"
+                        app:iconSize="15dp" />
+
                 </LinearLayout>
             </LinearLayout>
 
@@ -1432,10 +1781,10 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout4"
-            android:layout_width="400dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
             android:layout_marginBottom="32dp"
             android:background="@drawable/background_constraint_layout"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -1459,40 +1808,55 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="ဘောင်ချာဖွင့်ဝယ်စျေး"
+                    android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                     android:textColor="@color/primary_text"
-                    android:textSize="22sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp">
 
-                    <EditText
-                        android:id="@+id/edit_voucher_purchase_price"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayout_voucher_purchase_price"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_height="45dp"
                         android:layout_weight="1"
-                        android:background="@drawable/background_edit_text"
-                        android:ems="10"
-                        android:inputType="number"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:textColorHint="@color/secondary_text"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="@color/edit_text_color"
+                        app:boxStrokeWidth="1dp"
+                        app:errorEnabled="false"
+                        app:hintEnabled="false">
 
-                    <androidx.appcompat.widget.AppCompatImageButton
-                        android:id="@+id/image_btn_select_voucher_purchase_price"
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_voucher_purchase_price"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                            android:textColor="@color/primary_text"
+                            android:textColorHint="@color/secondary_text"
+                            android:textStyle="bold" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_select_voucher_purchase_price"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="45dp"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_weight="3"
-                        android:background="@drawable/background_btn"
-                        android:paddingStart="32dp"
-                        android:paddingEnd="32dp"
-                        android:src="@drawable/right" />
+                        android:layout_weight="3.5"
+                        android:insetLeft="0dp"
+                        android:insetTop="0dp"
+                        android:insetRight="0dp"
+                        android:insetBottom="0dp"
+                        app:cornerRadius="10dp"
+                        app:icon="@drawable/right"
+                        app:iconSize="15dp" />
+
                 </LinearLayout>
             </LinearLayout>
 
@@ -1515,61 +1879,95 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="‌‌ရွှေချိန်(KPY)"
+                    android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                     android:textColor="@color/primary_text"
-                    android:textSize="22sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="4dp"
                     android:orientation="horizontal">
 
-                    <EditText
-                        android:id="@+id/edit_gold_weight_KPY_K"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayout_gold_weight_KPY_K"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"
+                        android:layout_height="45dp"
                         android:layout_marginEnd="16dp"
                         android:layout_weight="1"
-                        android:background="@drawable/background_edit_text2"
-                        android:ems="10"
-                        android:inputType="number"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:textColor="@color/primary_text"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="@color/edit_text_color_2"
+                        app:boxStrokeWidth="1dp"
+                        app:errorEnabled="false"
+                        app:hintEnabled="false">
 
-                    <EditText
-                        android:id="@+id/edit_gold_weight_KPY_P"
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_gold_weight_KPY_K"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                            android:textColor="@color/primary_text"
+                            android:textStyle="bold" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayout_gold_weight_KPY_P"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"
+                        android:layout_height="45dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
                         android:layout_weight="1"
-                        android:background="@drawable/background_edit_text2"
-                        android:ems="10"
-                        android:inputType="number"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:textColor="@color/primary_text"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="@color/edit_text_color_2"
+                        app:boxStrokeWidth="1dp"
+                        app:errorEnabled="false"
+                        app:hintEnabled="false">
 
-                    <EditText
-                        android:id="@+id/edit_gold_weight_KPY_Y"
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_gold_weight_KPY_P"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                            android:textColor="@color/primary_text"
+                            android:textStyle="bold" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayout_gold_weight_KPY_Y"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"
+                        android:layout_height="45dp"
                         android:layout_marginStart="16dp"
                         android:layout_weight="1"
-                        android:background="@drawable/background_edit_text2"
-                        android:ems="10"
-                        android:inputType="number"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:textColor="@color/primary_text"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="@color/edit_text_color_2"
+                        app:boxStrokeWidth="1dp"
+                        app:errorEnabled="false"
+                        app:hintEnabled="false">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_gold_weight_KPY_Y"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                            android:textColor="@color/primary_text"
+                            android:textStyle="bold" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
 
                 </LinearLayout>
             </LinearLayout>
@@ -1578,7 +1976,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout5"
-            android:layout_width="500dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:background="@drawable/background_constraint_layout"
@@ -1588,7 +1986,7 @@
 
             <LinearLayout
                 android:id="@+id/linearLayoutPriceFromPurchaseVoucher"
-                android:layout_width="360dp"
+                android:layout_width="270dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
@@ -1601,38 +1999,47 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="အဝယ်ဘောင်ချာမှစျေး"
+                    android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                     android:textColor="@color/primary_text"
-                    android:textSize="22sp"
                     android:textStyle="bold" />
 
-                <EditText
-                    android:id="@+id/edit_price_from_purchase_voucher"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayout_price_from_purchase_voucher"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/background_edit_text"
-                    android:ems="10"
-                    android:inputType="number"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    android:textColorHint="@color/secondary_text"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
+                    android:layout_height="45dp"
+                    android:layout_marginTop="4dp"
+                    app:boxCornerRadiusBottomEnd="10dp"
+                    app:boxCornerRadiusBottomStart="10dp"
+                    app:boxCornerRadiusTopEnd="10dp"
+                    app:boxCornerRadiusTopStart="10dp"
+                    app:boxStrokeColor="@color/edit_text_color"
+                    app:boxStrokeWidth="1dp"
+                    app:errorEnabled="false"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_price_from_purchase_voucher"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                        android:textColor="@color/primary_text"
+                        android:textStyle="bold" />
+                </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:id="@+id/linearLayout11"
+                android:layout_width="270dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
-                android:layout_marginEnd="16dp"
                 android:layout_marginBottom="24dp"
                 android:layout_weight="1"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayoutPriceFromPurchaseVoucher">
 
@@ -1641,110 +2048,160 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="‌‌အဝယ်သို့ထည့်ပေးရွှေချိန်"
+                    android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                     android:textColor="@color/primary_text"
-                    android:textSize="22sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="4dp"
                     android:orientation="horizontal">
 
-                    <EditText
-                        android:id="@+id/edit_add_purchase_gold_weight_K"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayout_add_purchase_gold_weight_K"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"
+                        android:layout_height="45dp"
                         android:layout_marginEnd="16dp"
                         android:layout_weight="1"
-                        android:background="@drawable/background_edit_text"
-                        android:ems="10"
-                        android:inputType="number"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:textColor="@color/primary_text"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="@color/edit_text_color"
+                        app:boxStrokeWidth="1dp"
+                        app:errorEnabled="false"
+                        app:hintEnabled="false">
 
-                    <EditText
-                        android:id="@+id/edit_add_purchase_gold_weight_P"
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_add_purchase_gold_weight_K"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                            android:textColor="@color/primary_text"
+                            android:textStyle="bold" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayout_add_purchase_gold_weight_P"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"
+                        android:layout_height="45dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
                         android:layout_weight="1"
-                        android:background="@drawable/background_edit_text"
-                        android:ems="10"
-                        android:inputType="number"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:textColor="@color/primary_text"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="@color/edit_text_color"
+                        app:boxStrokeWidth="1dp"
+                        app:errorEnabled="false"
+                        app:hintEnabled="false">
 
-                    <EditText
-                        android:id="@+id/edit_add_purchase_gold_weight_Y"
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_add_purchase_gold_weight_p"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                            android:textColor="@color/primary_text"
+                            android:textStyle="bold" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayout_add_purchase_gold_weight_Y"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"
+                        android:layout_height="45dp"
                         android:layout_marginStart="16dp"
                         android:layout_weight="1"
-                        android:background="@drawable/background_edit_text"
-                        android:ems="10"
-                        android:inputType="number"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:textColor="@color/primary_text"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="@color/edit_text_color"
+                        app:boxStrokeWidth="1dp"
+                        app:errorEnabled="false"
+                        app:hintEnabled="false">
 
-                    <androidx.appcompat.widget.AppCompatImageButton
-                        android:id="@+id/image_btn_select_add_purchase_gold_weight"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="45dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/background_btn"
-                        android:paddingStart="32dp"
-                        android:paddingEnd="32dp"
-                        android:src="@drawable/right" />
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_add_purchase_gold_weight_Y"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                            android:textColor="@color/primary_text"
+                            android:textStyle="bold" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
             </LinearLayout>
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_select_add_purchase_gold_weight"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="24dp"
+                android:layout_weight="1"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                app:cornerRadius="10dp"
+                app:icon="@drawable/right"
+                app:iconSize="15dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/linearLayout11" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.appcompat.widget.AppCompatButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_continue"
-            style="@android:style/Widget.Button"
             android:layout_width="wrap_content"
-            android:layout_height="70dp"
-            android:layout_marginEnd="32dp"
-            android:background="@drawable/background_btn"
-            android:paddingStart="32dp"
-            android:paddingEnd="32dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:insetLeft="0dp"
+            android:insetBottom="0dp"
+            android:insetRight="0dp"
+            android:insetTop="0dp"
+            app:cornerRadius="10dp"
             android:text="‌ရှေ့ဆက်မည်"
             android:textColor="@color/white"
-            android:textSize="22sp"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/constraintLayout5"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_cancel"
-            style="@android:style/Widget.Button"
             android:layout_width="0dp"
-            android:layout_height="70dp"
-            android:layout_marginBottom="32dp"
-            android:background="@drawable/background_edit_text"
-            android:paddingStart="32dp"
-            android:paddingEnd="32dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:backgroundTint="@color/white"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
             android:text="ပယ်ဖျက်"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
             android:textColor="@color/primary"
-            android:textSize="22sp"
             android:textStyle="bold"
+            app:cornerRadius="10dp"
             app:layout_constraintBottom_toTopOf="@+id/btn_continue"
             app:layout_constraintEnd_toEndOf="@+id/btn_continue"
-            app:layout_constraintStart_toStartOf="@+id/btn_continue" />
+            app:layout_constraintStart_toStartOf="@+id/btn_continue"
+            app:strokeColor="@color/primary"
+            app:strokeWidth="1dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

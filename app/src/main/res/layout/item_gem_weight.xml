@@ -8,7 +8,7 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="55dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:orientation="horizontal"
@@ -17,92 +17,161 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
-            android:id="@+id/edit_gem_quantity"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout_gem_quantity"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="45dp"
+            android:layout_weight="1.1"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
-            android:layout_weight="1.1"
-            android:background="@drawable/background_edit_text"
-            android:hint="Amount"
-            android:paddingStart="16dp"
-            android:textColor="@color/primary_text"
-            android:textColorHint="@color/secondary_text"
-            android:textSize="22sp"
-            android:textStyle="bold" />
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            app:boxCornerRadiusTopEnd="10dp"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusBottomEnd="10dp"
+            app:boxCornerRadiusTopStart="10dp"
+            app:boxStrokeColor="@color/edit_text_color"
+            app:boxStrokeWidth="1dp"
+            app:hintEnabled="false"
+            app:errorEnabled="false"
+            android:layout_gravity="center">
 
-        <EditText
-            android:id="@+id/edit_one_gem_weight_gm"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_gem_quantity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:hint="Amount"
+                android:textColorHint="@color/secondary_text"
+                android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                android:textColor="@color/primary_text"
+                android:textStyle="bold"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout_one_gem_weight_gm"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="45dp"
+            android:layout_weight="1.1"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
-            android:layout_weight="1.1"
-            android:background="@drawable/background_edit_text"
-            android:hint="Gm"
-            android:paddingStart="16dp"
-            android:textColor="@color/primary_text"
-            android:textColorHint="@color/secondary_text"
-            android:textSize="22sp"
-            android:textStyle="bold" />
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            app:boxCornerRadiusTopEnd="10dp"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusBottomEnd="10dp"
+            app:boxCornerRadiusTopStart="10dp"
+            app:boxStrokeColor="@color/edit_text_color"
+            app:boxStrokeWidth="1dp"
+            app:hintEnabled="false"
+            app:errorEnabled="false"
+            android:layout_gravity="center">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_one_gem_weight_gm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:hint="Gm"
+                android:textColorHint="@color/secondary_text"
+                android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                android:textColor="@color/primary_text"
+                android:textStyle="bold"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="45dp"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_gravity="center">
 
-            <EditText
-                android:id="@+id/edit_one_gem_weight_K"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout_one_gem_weight_K"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:layout_height="match_parent"
                 android:layout_marginEnd="16dp"
                 android:layout_weight="1"
-                android:background="@drawable/background_edit_text"
-                android:ems="10"
-                android:hint="K"
-                android:inputType="number"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:textColor="@color/primary_text"
-                android:textSize="22sp"
-                android:textStyle="bold" />
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxStrokeColor="@color/edit_text_color"
+                app:boxStrokeWidth="1dp"
+                app:errorEnabled="false"
+                app:hintEnabled="false">
 
-            <EditText
-                android:id="@+id/edit_one_gem_weight_P"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_one_gem_weight_K"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="K"
+                    android:inputType="number"
+                    android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                    android:textColor="@color/primary_text"
+                    android:textColorHint="@color/secondary_text"
+                    android:textStyle="bold" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout_one_gem_weight_P"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
-                android:background="@drawable/background_edit_text"
-                android:ems="10"
-                android:hint="P"
-                android:inputType="number"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:textColor="@color/primary_text"
-                android:textSize="22sp"
-                android:textStyle="bold" />
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxStrokeColor="@color/edit_text_color"
+                app:boxStrokeWidth="1dp"
+                app:errorEnabled="false"
+                app:hintEnabled="false">
 
-            <EditText
-                android:id="@+id/edit_one_gem_weight_Y"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_one_gem_weight_P"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="P"
+                    android:inputType="number"
+                    android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                    android:textColor="@color/primary_text"
+                    android:textColorHint="@color/secondary_text"
+                    android:textStyle="bold" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout_one_gem_weight_Y"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:layout_height="match_parent"
                 android:layout_marginStart="16dp"
                 android:layout_weight="1"
-                android:background="@drawable/background_edit_text"
-                android:ems="10"
-                android:hint="Y"
-                android:inputType="number"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:textColor="@color/primary_text"
-                android:textSize="22sp"
-                android:textStyle="bold" />
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxStrokeColor="@color/edit_text_color"
+                app:boxStrokeWidth="1dp"
+                app:errorEnabled="false"
+                app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_one_gem_weight_Y"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Y"
+                    android:inputType="number"
+                    android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                    android:textColor="@color/primary_text"
+                    android:textColorHint="@color/secondary_text"
+                    android:textStyle="bold" />
+            </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
 
@@ -118,7 +187,7 @@
             android:paddingStart="16dp"
             android:textColor="@color/primary_text"
             android:textColorHint="@color/secondary_text"
-            android:textSize="22sp"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
             android:textStyle="bold" />
     </LinearLayout>
 

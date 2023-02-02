@@ -5,97 +5,108 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <androidx.appcompat.widget.AppCompatButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_click"
-        style="@android:style/Widget.Button"
         android:layout_width="wrap_content"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="24dp"
-        android:background="@drawable/background_btn"
-        android:paddingStart="32dp"
-        android:paddingEnd="32dp"
+        android:layout_marginEnd="16dp"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
         android:text="တိုးယူသက်သက်"
+        android:textAppearance="@style/TextAppearance.ShweMi.Body2"
         android:textColor="@color/white"
-        android:textSize="22sp"
         android:textStyle="bold"
+        app:cornerRadius="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="470dp"
+    <TextView
+        android:id="@+id/tv_label_increment"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
-        android:orientation="horizontal"
+        android:layout_marginStart="16dp"
+        android:gravity="center|start"
+        android:text="တိုးယူငွေ"
+        android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+        android:textColor="@color/primary_text"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/textInputLayout_increment"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textInputLayout_increment" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout_increment"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="250dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp"
+        app:boxStrokeColor="@color/edit_text_color"
+        app:boxStrokeWidth="1dp"
+        app:errorEnabled="false"
+        app:hintEnabled="false"
+        app:layout_constraintStart_toEndOf="@+id/tv_label_increment"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/tv_label_increment"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_increment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:gravity="center|start"
-            android:text="တိုးယူငွေ"
-            android:textColor="@color/primary_text"
-            android:textSize="22sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/edit_increment"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_weight="1"
-            android:background="@drawable/background_edit_text"
-            android:ems="10"
+            android:layout_height="wrap_content"
             android:hint="Type"
             android:inputType="number"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:textSize="22sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="470dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
-
-        <TextView
-            android:id="@+id/tv_label_gold_from_home"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:gravity="center|start"
-            android:text="အိမ်ပါရွှေ"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
             android:textColor="@color/primary_text"
-            android:textSize="22sp"
-            android:textStyle="bold" />
+            android:textColorHint="@color/secondary_text" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_goldFromHome"
-            style="@android:style/Widget.Button"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_marginEnd="100dp"
-            android:layout_weight="1"
-            android:background="@drawable/background_edit_text"
-            android:drawableStart="@drawable/plus"
-            android:drawableTint="@color/primary"
-            android:paddingStart="32dp"
-            android:paddingEnd="32dp"
-            android:text="အိမ်ပါရွှေ"
-            android:textColor="@color/primary"
-            android:textSize="22sp"
-            android:textStyle="bold" />
+    <TextView
+        android:id="@+id/tv_label_gold_from_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:gravity="center|start"
+        android:text="အိမ်ပါရွှေ"
+        android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+        android:textColor="@color/primary_text"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_plus"
+        app:layout_constraintStart_toStartOf="@+id/tv_label_increment"
+        app:layout_constraintTop_toTopOf="@+id/btn_plus" />
 
-    </LinearLayout>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_plus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="@color/white"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="32dp"
+        android:text="အိမ်ပါရွှေ"
+        android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+        android:textColor="@color/primary"
+        android:textStyle="bold"
+        app:cornerRadius="10dp"
+        app:icon="@drawable/plus"
+        app:iconSize="15dp"
+        app:iconTint="@color/primary"
+        app:iconPadding="16dp"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout_increment"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_increment"
+        app:strokeColor="@color/primary"
+        app:strokeWidth="1dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

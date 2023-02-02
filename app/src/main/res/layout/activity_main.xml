@@ -52,7 +52,7 @@
                 app:itemTextColor="@color/primary_text"
                 app:itemVerticalPadding="16dp"
                 app:itemHorizontalPadding="16dp"
-                app:itemMaxLines="2"
+                app:itemMaxLines="1"
                 app:itemTextAppearance="@style/itemText">
 
             </com.google.android.material.navigation.NavigationView>

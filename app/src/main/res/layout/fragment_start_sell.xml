@@ -240,17 +240,22 @@
         app:layout_constraintBottom_toTopOf="@+id/textInputLayout_name"
         app:layout_constraintStart_toStartOf="@+id/textInputLayout_name" />
 
-    <ImageButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/image_btn_search"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/background_btn"
         android:contentDescription="search"
+        android:insetLeft="0dp"
+        android:insetBottom="0dp"
+        android:insetRight="0dp"
+        android:insetTop="0dp"
+        app:cornerRadius="10dp"
+        app:icon="@drawable/search"
+        app:iconSize="15dp"
         app:layout_constraintBottom_toBottomOf="@+id/textInputLayout_spinner_township"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textInputLayout_spinner_township"
-        app:srcCompat="@drawable/search" />
+        app:layout_constraintTop_toTopOf="@+id/textInputLayout_spinner_township" />
 
     <View
         android:id="@+id/view"
@@ -283,8 +288,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:drawableLeft="@drawable/plus"
-        android:drawablePadding="8dp"
+        app:icon="@drawable/plus"
+        app:iconSize="15dp"
         android:insetLeft="0dp"
         android:insetTop="0dp"
         android:insetRight="0dp"

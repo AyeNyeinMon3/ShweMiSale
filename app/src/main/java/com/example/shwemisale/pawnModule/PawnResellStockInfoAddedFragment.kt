@@ -36,10 +36,10 @@ class PawnResellStockInfoAddedFragment:Fragment (){
         binding.btnAddGemWeightKPY.setOnClickListener {
             showDialogGemWeight()
         }
-        binding.imageBtnPercentage.setOnClickListener {
+        binding.btnPercentage.setOnClickListener {
             showDialogMinusPercentage()
         }
-        binding.imageBtnPercentageVoucherPurchasePayment.setOnClickListener {
+        binding.btnPercentageVoucherPurchasePayment.setOnClickListener {
             showDialogMinusPercentage()
         }
     }
@@ -61,7 +61,7 @@ class PawnResellStockInfoAddedFragment:Fragment (){
         }
 
         alertDialog.show()
-        alertDialog.window?.setLayout(900,750)
+        //alertDialog.window?.setLayout(900,750)
     }
     fun showDialogGemWeight(){
         val builder = MaterialAlertDialogBuilder(requireContext())
@@ -78,7 +78,7 @@ class PawnResellStockInfoAddedFragment:Fragment (){
             alertDialog.dismiss()
         }
         alertDialog.show()
-        alertDialog.window?.setLayout(900,750)
+        //alertDialog.window?.setLayout(900,750)
     }
     fun showDialogMinusPercentage(){
         val builder = MaterialAlertDialogBuilder(requireContext())

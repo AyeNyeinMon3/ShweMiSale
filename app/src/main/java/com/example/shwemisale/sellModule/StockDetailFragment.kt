@@ -24,6 +24,6 @@ class StockDetailFragment:Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             val adapter = ArrayAdapter.createFromResource(requireContext(), R.array.content,R.layout.spinner_text_style_3)
-        binding.spinnerContent.adapter = adapter
+       // binding.spinnerContent.adapter = adapter
     }
 }

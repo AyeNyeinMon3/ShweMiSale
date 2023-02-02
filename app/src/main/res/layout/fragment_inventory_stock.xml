@@ -6,58 +6,70 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_take"
-        style="@android:style/Widget.Button"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_calculate"
         android:layout_width="wrap_content"
-        android:layout_height="70dp"
-        android:layout_gravity="end"
-        android:layout_marginEnd="32dp"
-        android:background="@drawable/background_btn"
-        android:paddingStart="32dp"
-        android:paddingEnd="32dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
         android:text="ယူမည်"
+        android:textAppearance="@style/TextAppearance.ShweMi.Body2"
         android:textColor="@color/white"
-        android:textSize="22sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/edit_scan_stock_code"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textInputLayout_scan_stock_code"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/edit_scan_stock_code" />
-
+        app:layout_constraintTop_toTopOf="@+id/textInputLayout_scan_stock_code" />
 
 
     <TextView
         android:id="@+id/tv_label_scan_stock_code"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="16dp"
         android:text="Scan Stock Code"
+        android:textAppearance="@style/TextAppearance.ShweMi.Body2"
         android:textColor="@color/primary_text"
-        android:textSize="22sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/edit_scan_stock_code"
+        app:layout_constraintBottom_toBottomOf="@+id/textInputLayout_scan_stock_code"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/edit_scan_stock_code" />
+        app:layout_constraintTop_toTopOf="@+id/textInputLayout_scan_stock_code" />
 
-    <EditText
-        android:id="@+id/edit_scan_stock_code"
-        android:layout_width="400dp"
-        android:layout_height="70dp"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout_scan_stock_code"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="100dp"
-        android:background="@drawable/background_edit_text"
-        android:ems="10"
-        android:hint="Type or Scan"
-        android:inputType="textPersonName"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:textColor="@color/primary_text"
-        android:textColorHint="@color/label_text"
-        android:textSize="22sp"
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp"
+        app:boxStrokeColor="@color/edit_text_color"
+        app:boxStrokeWidth="1dp"
+        app:errorEnabled="false"
+        app:hintEnabled="false"
         app:layout_constraintStart_toEndOf="@+id/tv_label_scan_stock_code"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_scan_stock_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Type or Scan"
+            android:inputType="number"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+            android:textColor="@color/primary_text"
+            android:textColorHint="@color/secondary_text"
+            app:layout_constraintStart_toEndOf="@+id/tv_label_scan_stock_code"
+            app:layout_constraintTop_toTopOf="parent" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <View
         android:id="@+id/view"
@@ -67,7 +79,7 @@
         android:background="@color/label_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_scan_stock_code" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_scan_stock_code" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_inventory_stock_item"

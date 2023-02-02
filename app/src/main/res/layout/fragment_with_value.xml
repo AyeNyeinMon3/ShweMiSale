@@ -1,313 +1,402 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="80dp"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tv_label_total_value"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="အထည်တန်ဖိုးပေါင်း"
-            android:textColor="@color/primary_text"
-            android:textSize="22sp"
-            android:textStyle="bold" />
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="100dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
-            android:id="@+id/edit_voucher_balance"
-            android:layout_width="400dp"
-            android:layout_height="70dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/background_edit_text2"
-            android:ems="10"
-            android:inputType="number"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:textColorHint="@color/secondary_text"
-            android:textSize="22sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="@+id/linearLayout1"
-        app:layout_constraintStart_toEndOf="@+id/linearLayout1"
-        app:layout_constraintTop_toTopOf="@+id/linearLayout1">
-
-        <TextView
-            android:id="@+id/tv_label_gold_from_home_value"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="အိမ်ပါရွှေတန်ဖိုး"
-            android:textColor="@color/primary_text"
-            android:textSize="22sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/edit_gold_from_home_value"
-            android:layout_width="280dp"
-            android:layout_height="70dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/background_edit_text2"
-            android:ems="10"
-            android:inputType="number"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:textColorHint="@color/secondary_text"
-            android:textSize="22sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout1">
-
-        <TextView
-            android:id="@+id/tv_label_old_voucher_payment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="ဘောင်ချာ‌‌‌‌ဟောင်းပေးသွင်း‌ငွေ"
-            android:textColor="@color/primary_text"
-            android:textSize="22sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/edit_old_voucher_payment"
-            android:layout_width="400dp"
-            android:layout_height="70dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/background_edit_text2"
-            android:ems="10"
-            android:inputType="number"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:textColorHint="@color/secondary_text"
-            android:textSize="22sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout2"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
-
-        <TextView
-            android:id="@+id/tv_label_reducedPay"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="လျှော့ပေးငွေ"
-            android:textColor="@color/primary_text"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/edit_reducedPay"
-            android:layout_width="400dp"
-            android:layout_height="70dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/background_edit_text"
-            android:ems="10"
-            android:inputType="number"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:textColorHint="@color/secondary_text"
-            android:textSize="22sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
-
-        <TextView
-            android:id="@+id/tv_label_charge"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="ကျသင့်ငွေ"
-            android:textColor="@color/primary_text"
-            android:textSize="22sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/edit_charge"
-            android:layout_width="400dp"
-            android:layout_height="70dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/background_edit_text2"
-            android:ems="10"
-            android:inputType="number"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:textColorHint="@color/secondary_text"
-            android:textSize="22sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout4"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout4"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
-
-        <TextView
-            android:id="@+id/tv_label_deposit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="ပေးသွင်းငွေ"
-            android:textColor="@color/primary_text"
-            android:textSize="22sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/edit_deposit"
-            android:layout_width="400dp"
-            android:layout_height="70dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/background_edit_text"
-            android:ems="10"
-            android:hint="Type"
-            android:inputType="number"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:textColorHint="@color/secondary_text"
-            android:textSize="22sp" />
-
-    </LinearLayout>
-
-    <ImageButton
-        android:id="@+id/imageBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="70dp"
-        android:background="@drawable/background_btn"
-        android:paddingStart="32dp"
-        android:paddingEnd="32dp"
-        app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout4"
-        app:srcCompat="@drawable/pen_white" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_calculate"
-        style="@android:style/Widget.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="70dp"
-        android:layout_marginEnd="32dp"
-        android:background="@drawable/background_btn"
-        android:drawableStart="@drawable/right"
-        android:drawablePadding="8dp"
-        android:paddingStart="32dp"
-        android:paddingEnd="32dp"
-        android:text="တွက်မည်"
-        android:textColor="@color/white"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/linearLayout6"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            android:background="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <LinearLayout
-                android:id="@+id/linearLayout7"
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/tv_label_total_value"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:layout_marginBottom="32dp"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view">
+                android:text="အထည်တန်ဖိုးပေါင်း"
+                android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                android:textColor="@color/primary_text"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/tv_label_balance"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout_total_value"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="300dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="4dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxStrokeColor="@color/edit_text_color_2"
+                app:boxStrokeWidth="1dp"
+                app:errorEnabled="false"
+                app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_total_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="ကျန်ငွေ"
-                    android:textColor="@color/primary_text"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
-
-                <EditText
-                    android:id="@+id/edit_balance"
-                    android:layout_width="400dp"
-                    android:layout_height="70dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/background_edit_text2"
-                    android:ems="10"
                     android:inputType="number"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    android:textColorHint="@color/secondary_text"
-                    android:textSize="22sp" />
-            </LinearLayout>
+                    android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                    android:textColor="@color/primary_text" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <View
-                android:id="@+id/view"
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="64dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@+id/linearLayout1"
+            app:layout_constraintStart_toEndOf="@+id/linearLayout1"
+            app:layout_constraintTop_toTopOf="@+id/linearLayout1">
+
+            <TextView
+                android:id="@+id/tv_label_gold_from_home_value"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/label_text"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_height="wrap_content"
+                android:text="အိမ်ပါရွှေတန်ဖိုး"
+                android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                android:textColor="@color/primary_text"
+                android:textStyle="bold" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_print"
-                style="@android:style/Widget.Button"
-                android:layout_width="wrap_content"
-                android:layout_height="70dp"
-                android:layout_marginBottom="32dp"
-                android:background="@drawable/background_btn"
-                android:drawableStart="@drawable/print"
-                android:drawablePadding="8dp"
-                android:paddingStart="32dp"
-                android:paddingEnd="32dp"
-                android:text="ပရင့်ထုတ်"
-                android:textColor="@color/white"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout_gold_from_home_value"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="230dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="4dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxStrokeColor="@color/edit_text_color_2"
+                app:boxStrokeWidth="1dp"
+                app:errorEnabled="false"
+                app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_gold_from_home_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                    android:textColor="@color/primary_text" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout1">
+
+            <TextView
+                android:id="@+id/tv_label_old_voucher_payment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ဘောင်ချာ‌‌‌‌ဟောင်းပေးသွင်း‌ငွေ"
+                android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                android:textColor="@color/primary_text"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout_old_voucher_payment"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="300dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="4dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxStrokeColor="@color/edit_text_color_2"
+                app:boxStrokeWidth="1dp"
+                app:errorEnabled="false"
+                app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_old_voucher_payment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                    android:textColor="@color/primary_text" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout2"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+            <TextView
+                android:id="@+id/tv_label_reducedPay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="လျှော့ပေးငွေ"
+                android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                android:textColor="@color/primary_text"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout_reducedPay"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="300dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="4dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxStrokeColor="@color/edit_text_color"
+                app:boxStrokeWidth="1dp"
+                app:errorEnabled="false"
+                app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_reducedPay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Auto or Type"
+                    android:inputType="number"
+                    android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                    android:textColor="@color/primary_text"
+                    android:textColorHint="@color/secondary_text" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+
+            <TextView
+                android:id="@+id/tv_label_charge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ကျသင့်ငွေ"
+                android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                android:textColor="@color/primary_text"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout_charge"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="300dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="4dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxStrokeColor="@color/edit_text_color_2"
+                app:boxStrokeWidth="1dp"
+                app:errorEnabled="false"
+                app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_charge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                    android:textColor="@color/primary_text" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="@+id/linearLayout4"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout4"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
+
+            <TextView
+                android:id="@+id/tv_label_deposit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ပေးသွင်းငွေ"
+                android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                android:textColor="@color/primary_text"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout_deposit"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="300dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="4dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxStrokeColor="@color/edit_text_color"
+                app:boxStrokeWidth="1dp"
+                app:errorEnabled="false"
+                app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_deposit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Type"
+                    android:inputType="number"
+                    android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                    android:textColor="@color/primary_text"
+                    android:textColorHint="@color/secondary_text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_edit"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="16dp"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            app:cornerRadius="10dp"
+            app:icon="@drawable/pen_white"
+            app:iconSize="15dp"
+            app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
+            app:layout_constraintStart_toEndOf="@+id/linearLayout2" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_calculate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            app:icon="@drawable/right"
+            app:iconSize="15dp"
+            android:text="တွက်မည်"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:cornerRadius="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/linearLayout6"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
+        <LinearLayout
+            android:id="@+id/linearLayout7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="32dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view">
+
+            <TextView
+                android:id="@+id/tv_label_balance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ကျန်ငွေ"
+                android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                android:textColor="@color/primary_text"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout_balance"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="300dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="4dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxStrokeColor="@color/edit_text_color_2"
+                app:boxStrokeWidth="1dp"
+                app:errorEnabled="false"
+                app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_balance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                    android:textColor="@color/primary_text" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/label_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_print"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="32dp"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="ပရင့်ထုတ်"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:cornerRadius="10dp"
+            app:icon="@drawable/print"
+            app:iconSize="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

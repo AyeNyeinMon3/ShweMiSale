@@ -38,11 +38,14 @@ class BuyGoldFromHomeFragment:Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        binding.imageBtnSelect.setOnClickListener {
+        binding.btnSelect.setOnClickListener {
             showStockCheckDialog()
         }
         binding.btnOther.setOnClickListener {
             showChangeFeatureDialog()
+        }
+        binding.btnAdd.setOnClickListener {
+            view.findNavController().navigate(BuyGoldFromHomeFragmentDirections.actionBuyGoldFromHomeFragmentToBuyResellStockInfoAddedFragment())
         }
 
 
