@@ -7,6 +7,7 @@ import com.example.shwemi.network.UnsafeOkHttpClient
 import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.network.api_services.AuthService
 import com.example.shwemisale.network.api_services.CustomerService
+import com.example.shwemisale.network.api_services.NormalSaleService
 import com.example.shwemisale.repositoryImpl.AuthRepoImpl
 import dagger.Lazy
 import dagger.Module
@@ -86,5 +87,9 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideCustomerService(retrofit: Retrofit) = retrofit.create<CustomerService>()
+
+    @Provides
+    @Singleton
+    fun provideNormalSaleService(retrofit: Retrofit) = retrofit.create<NormalSaleService>()
 
 }

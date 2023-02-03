@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/sellCreateNewFragment"
-        android:name="com.example.shwemisale.sellModule.SellCreateNewFragment"
+        android:name="com.example.shwemisale.sellModule.addUser.SellCreateNewFragment"
         android:label="ဝယ်သူအသစ် ပြုလုပ်မည်" >
         <action
             android:id="@+id/action_sellCreateNewFragment_to_sellCustomerInfoFragment"
@@ -38,7 +38,7 @@
     </fragment>
     <fragment
         android:id="@+id/sellCustomerInfoFragment"
-        android:name="com.example.shwemisale.sellModule.SellCustomerInfoFragment"
+        android:name="com.example.shwemisale.sellModule.normalSale.customerInfo.SellCustomerInfoFragment"
         android:label="ဝယ်သူ့အချက်အလက်" >
         <action
             android:id="@+id/action_sellCustomerInfoFragment_to_sellGoldFromHomeFragment"
@@ -46,7 +46,7 @@
     </fragment>
     <fragment
         android:id="@+id/sellGoldFromHomeFragment"
-        android:name="com.example.shwemisale.sellModule.SellGoldFromHomeFragment"
+        android:name="com.example.shwemisale.sellModule.goldFromHome.SellGoldFromHomeFragment"
         android:label="အိမ်ပါရွှေ" >
         <action
             android:id="@+id/action_sellGoldFromHomeFragment_to_scanStockFragment"
@@ -72,7 +72,7 @@
     </fragment>
     <fragment
         android:id="@+id/scanStockFragment"
-        android:name="com.example.shwemisale.sellModule.ScanStockFragment"
+        android:name="com.example.shwemisale.sellModule.normalSaleScanStock.ScanStockFragment"
         android:label="ပုံမှန်အရောင်း" >
         <action
             android:id="@+id/action_scanStockFragment_to_exchangeOrderFragment"
@@ -102,7 +102,7 @@
         android:label="အထွေထွေအရောင်း" />
     <fragment
         android:id="@+id/exchangeOrderFragment"
-        android:name="com.example.shwemisale.sellModule.ExchangeOrderFragment"
+        android:name="com.example.shwemisale.sellModule.exchangeOrderAndOldItem.ExchangeOrderFragment"
         android:label="အထည်‌‌‌ဟောင်းအလဲ နှင့် အော်ဒါပြန်ရွေး " >
         <action
             android:id="@+id/action_exchangeOrderFragment_to_withValueFragment"
@@ -113,11 +113,11 @@
     </fragment>
     <fragment
         android:id="@+id/withValueFragment"
-        android:name="com.example.shwemisale.sellModule.WithValueFragment"
+        android:name="com.example.shwemisale.sellModule.openVoucher.withValue.WithValueFragment"
         android:label="တန်ဖိုးဖြင့် ဘောင်ချာဖွင့်မည်" />
     <fragment
         android:id="@+id/withKPYFragment"
-        android:name="com.example.shwemisale.sellModule.WithKPYFragment"
+        android:name="com.example.shwemisale.sellModule.openVoucher.withKPY.WithKPYFragment"
         android:label="ကျပ်ပဲရွေးဖြင့် ဘောင်ချာဖွင့်မည်" />
     <fragment
         android:id="@+id/inventoryStockFragment"
@@ -133,7 +133,7 @@
         android:label="Stock Detail" />
     <fragment
         android:id="@+id/sellResellStockInfoAddedFragment"
-        android:name="com.example.shwemisale.sellModule.SellResellStockInfoAddedFragment"
+        android:name="com.example.shwemisale.sellModule.goldFromHomeInfo.SellResellStockInfoAddedFragment"
         android:label="ပြန်သွင်းထည်အချက်အလက်" />
     <fragment
         android:id="@+id/pawnStartFragment"

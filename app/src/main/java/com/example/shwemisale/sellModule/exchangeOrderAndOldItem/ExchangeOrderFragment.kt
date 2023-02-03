@@ -1,4 +1,4 @@
-package com.example.shwemisale.sellModule
+package com.example.shwemisale.sellModule.exchangeOrderAndOldItem
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,7 +13,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class ExchangeOrderFragment:Fragment() {
 
-    lateinit var binding:FragmentExchangeOrderBinding
+    lateinit var binding: FragmentExchangeOrderBinding
     lateinit var dialogExchangeOrderBinding: DialogExchangeOrderBinding
 
     override fun onCreateView(
@@ -28,6 +28,9 @@ class ExchangeOrderFragment:Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.btnContinue.setOnClickListener {
+            showExchangeOrderDialog()
+        }
+        binding.btnSkip.setOnClickListener {
             showExchangeOrderDialog()
         }
 

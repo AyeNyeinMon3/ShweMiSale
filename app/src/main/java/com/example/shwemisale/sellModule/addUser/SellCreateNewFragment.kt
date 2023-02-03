@@ -1,4 +1,4 @@
-package com.example.shwemisale.sellModule
+package com.example.shwemisale.sellModule.addUser
 
 import android.os.Bundle
 import android.view.LayoutInflater

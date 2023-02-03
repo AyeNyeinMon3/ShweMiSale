@@ -1,4 +1,4 @@
-package com.example.shwemisale.sellModule
+package com.example.shwemisale.sellModule.goldFromHome
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,6 +14,8 @@ import com.example.shwemisale.databinding.DialogChangeFeatureBinding
 import com.example.shwemisale.databinding.DialogSellTypeBinding
 import com.example.shwemisale.databinding.DialogStockCheckBinding
 import com.example.shwemisale.databinding.FragmentGoldFromHomeSellBinding
+import com.example.shwemisale.sellModule.GoldFromHomeData
+import com.example.shwemisale.sellModule.GoldFromHomeRecyclerAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
@@ -47,6 +49,9 @@ class SellGoldFromHomeFragment:Fragment() {
         }
 
         binding.btnSkip.setOnClickListener {
+            showSellTypeDialog()
+        }
+        binding.btnContinue.setOnClickListener {
             showSellTypeDialog()
         }
 

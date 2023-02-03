@@ -1,22 +1,22 @@
-package com.example.shwemisale.sellModule
+package com.example.shwemisale.sellModule.openVoucher.withValue
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.shwemisale.databinding.FragmentWithKpyBinding
+import com.example.shwemisale.databinding.FragmentWithValueBinding
 
-class WithKPYFragment:Fragment() {
+class WithValueFragment:Fragment() {
 
-    lateinit var binding:FragmentWithKpyBinding
+    lateinit var binding:FragmentWithValueBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return FragmentWithKpyBinding.inflate(inflater).also {
+        return FragmentWithValueBinding.inflate(inflater).also {
             binding = it
         }.root
     }

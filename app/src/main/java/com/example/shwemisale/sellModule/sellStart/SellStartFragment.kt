@@ -172,14 +172,14 @@ class SellStartFragment : Fragment() {
 
         binding.imageBtnSearch.setOnClickListener {
             viewModel.searchCustomerData(null,
-            binding.edtName.text.toString(),
-            binding.edtPhNumber.text.toString(),
+            binding.editName.text.toString(),
+            binding.editPhNumber.text.toString(),
             binding.tvBirthDate.text.toString(),
             null,
                 selectedProvinceId,
                 selectedTownshipId,
                 null,
-                binding.edtNRC.text.toString()
+                binding.editNRC.text.toString()
             )
         }
 

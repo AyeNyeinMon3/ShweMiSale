@@ -1,18 +1,16 @@
-package com.example.shwemisale.sellModule
+package com.example.shwemisale.sellModule.goldFromHomeInfo
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
+import android.view.WindowManager
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
-import com.example.shwemisale.R
 import com.example.shwemisale.databinding.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-class SellResellStockInfoAddedFragment:Fragment (){
+class SellResellStockInfoAddedFragment : Fragment() {
 
     lateinit var binding: FragmentResellStockInfoAddedSellBinding
     lateinit var dialogBinding: DialogResellStockInfoBinding
@@ -44,11 +42,13 @@ class SellResellStockInfoAddedFragment:Fragment (){
         }
     }
 
-    fun showDialogResellStockInfo(){
+    fun showDialogResellStockInfo() {
         val builder = MaterialAlertDialogBuilder(requireContext())
         val inflater = LayoutInflater.from(builder.context)
-        dialogBinding = DialogResellStockInfoBinding.inflate(inflater,
-            ConstraintLayout(builder.context),false)
+        dialogBinding = DialogResellStockInfoBinding.inflate(
+            inflater,
+            ConstraintLayout(builder.context), false
+        )
         builder.setView(dialogBinding.root)
         val alertDialog = builder.create()
         alertDialog.setCancelable(false)
@@ -61,15 +61,43 @@ class SellResellStockInfoAddedFragment:Fragment (){
         }
 
         alertDialog.show()
-       // alertDialog.window?.setLayout(900,750)
+        // alertDialog.window?.setLayout(900,750)
     }
-    fun showDialogGemWeight(){
+
+    fun showDialogGemWeight() {
         val builder = MaterialAlertDialogBuilder(requireContext())
         val inflater = LayoutInflater.from(builder.context)
-        dialogGemWeightBinding = DialogGemWeightBinding.inflate(inflater,ConstraintLayout(builder.context),false)
+        dialogGemWeightBinding =
+            DialogGemWeightBinding.inflate(inflater, ConstraintLayout(builder.context), false)
         builder.setView(dialogGemWeightBinding.root)
         val alertDialog = builder.create()
+        alertDialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT)
         alertDialog.setCancelable(false)
+        val adapter = GemWeightRecyclerAdapter()
+        dialogGemWeightBinding.rvGemWeight.adapter = adapter
+        adapter.submitList(
+            listOf(
+                GemWeightInResellStock(
+                    "1", "2", "30", "2", "3",
+                ),
+                GemWeightInResellStock(
+                    "2", "2", "30", "2", "3",
+                    ),
+                GemWeightInResellStock(
+                    "3", "2", "30", "2", "3"
+                ),
+                GemWeightInResellStock(
+                    "4", "2", "30", "2", "3"
+                ),
+                GemWeightInResellStock(
+                    "5", "2", "30", "2", "3"
+                ),
+                GemWeightInResellStock(
+                    "6", "2", "30", "2", "3"
+                ),
+
+            )
+        )
 
         dialogGemWeightBinding.btnContinue.setOnClickListener {
             alertDialog.dismiss()
@@ -78,12 +106,14 @@ class SellResellStockInfoAddedFragment:Fragment (){
             alertDialog.dismiss()
         }
         alertDialog.show()
-       // alertDialog.window?.setLayout(900,750)
+        // alertDialog.window?.setLayout(900,750)
     }
-    fun showDialogMinusPercentage(){
+
+    fun showDialogMinusPercentage() {
         val builder = MaterialAlertDialogBuilder(requireContext())
         val inflater = LayoutInflater.from(builder.context)
-        dialogMinusPercentageBinding = DialogMinusPercentageBinding.inflate(inflater,ConstraintLayout(builder.context),false)
+        dialogMinusPercentageBinding =
+            DialogMinusPercentageBinding.inflate(inflater, ConstraintLayout(builder.context), false)
         builder.setView(dialogMinusPercentageBinding.root)
         val alertDialog = builder.create()
         alertDialog.setCancelable(false)
