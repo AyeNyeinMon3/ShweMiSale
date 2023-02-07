@@ -78,7 +78,7 @@ class SellResellStockInfoAddedFragment : Fragment() {
         adapter.submitList(
             listOf(
                 GemWeightInResellStock(
-                    "1", "2", "30", "2", "3",
+                    "1", "2", "30", "2", "12345",
                 ),
                 GemWeightInResellStock(
                     "2", "2", "30", "2", "3",

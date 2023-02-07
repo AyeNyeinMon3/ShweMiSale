@@ -37,6 +37,9 @@ class GemWeightInResellStockViewHolder(private var binding: ItemGemWeightBinding
         binding.edtOneGemWeightK.setText(data.weightForOneKPY)
         binding.edtOneGemWeightP.setText(data.weightForOneKPY)
         binding.edtOneGemWeightY.setText(data.weightForOneKPY)
+        binding.tvTotalWeightK.setText(data.totalWeightKPY)
+        binding.tvTotalWeightP.setText(data.totalWeightKPY)
+        binding.tvTotalWeightY.setText(data.totalWeightKPY)
     }
 }
 
