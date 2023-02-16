@@ -14,10 +14,11 @@ data class CustomerDataDomain(
     val township_id:String,
     val province_name:String,
     val township_name:String,
+    val nrc:String
 )
 
 fun CustomerDataDomain.asUiModel(): CustomerDataUiModel {
     return CustomerDataUiModel(
-        id, code, name, phone, date_of_birth, gender, address, province_id, township_id, province_name, township_name
+        id, code, name, phone, date_of_birth, gender, address, province_id, township_id, province_name, township_name,nrc
     )
 }

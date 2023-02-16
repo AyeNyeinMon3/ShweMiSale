@@ -20,7 +20,8 @@ import androidx.navigation.ui.NavigationUI
 import com.example.shwemi.util.Resource
 import com.example.shwemi.util.getAlertDialog
 import com.example.shwemisale.databinding.ActivityMainBinding
-import com.example.shwemisale.sellModule.sellStart.SellStartFragmentDirections
+import com.example.shwemisale.room_database.AppDatabase
+import com.example.shwemisale.screen.sellModule.sellStart.SellStartFragmentDirections
 import com.google.android.material.button.MaterialButton
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -63,6 +64,7 @@ class MainActivity : AppCompatActivity() {
         binding.navView.getHeaderView(0).findViewById<MaterialButton>(R.id.btn_logout).setOnClickListener {
             viewModel.logout()
         }
+
         binding.navView.setNavigationItemSelectedListener { menuItem->
             when(menuItem.itemId){
                 R.id.btn_logout->{
@@ -111,6 +113,9 @@ class MainActivity : AppCompatActivity() {
         return NavigationUI.navigateUp(navController, drawerLayout)
     }
 
-
+    override fun onDestroy() {
+        super.onDestroy()
+        deleteDatabase("AppDatabase")
+    }
 
 }

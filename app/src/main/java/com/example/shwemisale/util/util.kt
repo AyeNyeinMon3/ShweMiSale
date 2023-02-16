@@ -9,6 +9,7 @@ import android.provider.MediaStore
 import android.text.TextUtils
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.EditText
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.shwemisale.R
@@ -28,14 +29,14 @@ import javax.inject.Inject
 import kotlin.collections.HashMap
 
 
-inline fun <reified T> ResponseBody.parseError(): T? {
+inline fun <reified T> ResponseBody.parseErrorWithDataClass(errorJsonString:String): T? {
     val moshi = Moshi.Builder().build()
     val builder = Moshi.Builder().build()
 //    val parser = moshi.adapter(T::class.java)
     val parser = moshi.adapter(T::class.java)
-    val response = this.string()
+
     try {
-        return parser.fromJson(response)
+        return parser.fromJson(errorJsonString)
     } catch (e: JsonDataException) {
         e.printStackTrace()
     }
@@ -49,11 +50,11 @@ fun getErrorMessageFromHashMap(errorMessage:Map<String,List<String>>):String{
     return value.toString()
 }
 
-inline fun ResponseBody.parseError(): Map<String,List<String>>?{
+inline fun ResponseBody.parseError(errorJsonString:String): Map<String,List<String>>?{
     val moshi = Moshi.Builder().build()
     val type = Types.newParameterizedType(Map::class.java, String::class.java, List::class.javaObjectType)
     val adapter = moshi.adapter<Map<String, List<String>>>(type)
-    var jsonObject = JSONObject(this.string())
+    var jsonObject = JSONObject(errorJsonString)
 
 
     try {
@@ -104,6 +105,14 @@ fun getRealPathFromUri(context: Context, contentUri: Uri): String? {
 fun AutoCompleteTextView.showDropdown(adapter: ArrayAdapter<String>?) {
     if (!TextUtils.isEmpty(this.text.toString())) {
         adapter?.filter?.filter(null)
+    }
+}
+
+fun generateNumberFromEditText(editText: EditText):String{
+    return if (editText.text.isNullOrEmpty()){
+        "0"
+    }else{
+        editText.text.toString()
     }
 }
 

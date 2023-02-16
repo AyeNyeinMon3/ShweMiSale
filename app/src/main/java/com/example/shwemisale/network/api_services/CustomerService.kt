@@ -1,17 +1,15 @@
 package com.example.shwemisale.network.api_services
 
 import com.example.shwemi.network.dto.auth.ProfileApiResponse
-import com.example.shwemisale.data_layers.dto.customers.CustomerDataResponse
-import com.example.shwemisale.data_layers.dto.customers.CustomerWhistListApiResponse
-import com.example.shwemisale.data_layers.dto.customers.ProvinceApiResponse
-import com.example.shwemisale.data_layers.dto.customers.TownshipApiResponse
+import com.example.shwemisale.data_layers.dto.SimpleResponse
+import com.example.shwemisale.data_layers.dto.customers.*
 import retrofit2.Response
 import retrofit2.http.*
 
 interface CustomerService {
 
-    @GET("api/customers/{customerId}/scan")
-    suspend fun getCustomerDataByCode(
+    @GET("api/customers/search")
+    suspend fun searchCustomerData(
         @Header("Authorization") token:String?,
         @Query("code") code:String?,
         @Query("name") name:String?,
@@ -37,13 +35,13 @@ interface CustomerService {
     ): Response<ProvinceApiResponse>
 
 
-    @GET("api/provinces")
+    @GET("api/townships")
     suspend fun getTownship(
         @Header("Authorization") token:String,
     ): Response<TownshipApiResponse>
 
     @FormUrlEncoded
-    @GET("api/customers/store")
+    @POST("api/customers/store")
     suspend fun addNewUser(
         @Header("Authorization") token:String,
         @Field("name") name:String,
@@ -54,5 +52,5 @@ interface CustomerService {
         @Field("township_id") township_id:String,
         @Field("address") address:String,
         @Field("nrc") nrc:String,
-    ): Response<CustomerDataResponse>
+    ): Response<AddNewCustomerResponse>
 }

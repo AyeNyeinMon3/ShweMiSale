@@ -99,11 +99,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginEnd="7dp"
         android:text="ဖုန်းနံပါတ်"
         android:textAppearance="@style/TextAppearance.ShweMi.Body2"
         android:textColor="@color/primary_text"
         app:layout_constraintBottom_toBottomOf="@+id/tv_label_name"
-        app:layout_constraintStart_toEndOf="@+id/tv_NRC"
+        app:layout_constraintEnd_toStartOf="@+id/tv_phNumber"
+        app:layout_constraintStart_toEndOf="@+id/tv_name"
         app:layout_constraintTop_toTopOf="@+id/tv_label_name" />
 
     <TextView
@@ -174,7 +176,7 @@
         android:background="@color/label_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_address" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_label_NRC" />
 
     <TextView
         android:id="@+id/tv_label_customer_favItems"

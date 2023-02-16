@@ -1,8 +1,11 @@
 package com.example.shwemisale.repositoryImpl
 
+import com.example.shwemi.network.dto.ResponseDto
 import com.example.shwemi.util.Resource
 import com.example.shwemi.util.getErrorMessageFromHashMap
 import com.example.shwemi.util.parseError
+import com.example.shwemi.util.parseErrorWithDataClass
+import com.example.shwemisale.data_layers.dto.SimpleError
 import com.example.shwemisale.data_layers.dto.auth.AuthError
 import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.network.api_services.AuthService
@@ -63,20 +66,22 @@ class AuthRepoImpl @Inject constructor(
 
             if (response.isSuccessful && response.body() != null) {
                 Resource.Success(response.body()!!.data!!.name)
+            } else if (response.code() == 500) {
+                Resource.Error("500 Server Error")
             } else {
-                val errorMessage =
-                    response.errorBody()?.parseError<AuthError>()?.message
-                if (errorMessage.isNullOrEmpty()){
-                    val errorMessageWithMap =
-                        response.errorBody()?.parseError()
-
-                    Resource.Error(getErrorMessageFromHashMap(errorMessageWithMap!!))
-                }else if (response.code() == 500) {
-                    Resource.Error("Server Error")
-                }else{
-                    Resource.Error(errorMessage)
+                val errorJsonString = response.errorBody()?.string().orEmpty()
+                val singleError =
+                    response.errorBody()?.parseErrorWithDataClass<ResponseDto>(errorJsonString)
+                if (singleError != null) {
+                    Resource.Error(singleError.message)
+                } else {
+                    val errorMessage =
+                        response.errorBody()?.parseError(errorJsonString)
+                    val list: List<Map.Entry<String, Any>> =
+                        ArrayList<Map.Entry<String, Any>>(errorMessage!!.entries)
+                    val (key, value) = list[0]
+                    Resource.Error(value.toString())
                 }
-
             }
         } catch (e: Exception) {
             Resource.Error(e.message)

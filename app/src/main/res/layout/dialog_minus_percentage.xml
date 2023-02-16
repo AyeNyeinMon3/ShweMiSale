@@ -29,7 +29,7 @@
         app:srcCompat="@drawable/close" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout"
+        android:id="@+id/til_percent"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="0dp"
         android:layout_height="45dp"
@@ -49,10 +49,11 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_label_amount">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_percent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Type percentage.Eg.10"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:textAppearance="@style/TextAppearance.ShweMi.Body2"
             android:textColor="@color/primary_text"
             android:textColorHint="@color/secondary_text" />
@@ -78,6 +79,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/til_percent"
         app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>

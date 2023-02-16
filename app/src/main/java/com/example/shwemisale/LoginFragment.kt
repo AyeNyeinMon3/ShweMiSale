@@ -13,7 +13,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.shwemi.util.Resource
 import com.example.shwemi.util.getAlertDialog
 import com.example.shwemisale.databinding.FragmentLoginBinding
-import com.example.shwemisale.sellModule.sellStart.SellStartViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

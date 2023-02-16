@@ -34,6 +34,9 @@
             app:boxCornerRadiusTopEnd="10dp"
             app:boxCornerRadiusTopStart="10dp"
             app:boxStrokeColor="@color/edit_text_color"
+            app:endIconDrawable="@drawable/ic_qr_scan"
+            app:endIconMode="custom"
+            app:endIconTintMode="screen"
             app:boxStrokeWidth="1dp"
             app:errorEnabled="false"
             app:hintEnabled="false"
@@ -44,7 +47,6 @@
                 android:id="@+id/edt_scanVoucher"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/type_scan"
                 android:hint="Type or Scan Voucher Code"
                 android:inputType="textPersonName"
                 android:textAppearance="@style/TextAppearance.ShweMi.Body2"
@@ -131,7 +133,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tv_pledgeMoney"
+                android:id="@+id/tv_pawn_price"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1.1"
@@ -151,11 +153,10 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_gold_from_home"
             android:layout_width="0dp"
-            android:layout_height="150dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:orientation="vertical"
-            android:visibility="invisible"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -398,9 +399,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_other"
-            android:layout_width="wrap_content"
+        <RadioGroup
+            android:id="@+id/radio_gp_other"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
@@ -411,13 +412,53 @@
             android:insetBottom="0dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:text="အခြား"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_skip"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+            <RadioButton
+                android:id="@+id/radio_pawn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="အပေါင်"
+                android:buttonTint="@color/primary"/>
+            <RadioButton
+                android:id="@+id/radio_buy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/primary"
+                android:text="အဝယ်"/>
+            <RadioButton
+                android:id="@+id/radio_sale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/primary"
+                android:text="အရောင်း"/>
+        </RadioGroup>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_print"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="32dp"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            app:icon="@drawable/print"
+            app:iconSize="15dp"
+            android:text="ပရင့်ထုတ်"
             android:textAppearance="@style/TextAppearance.ShweMi.Body2"
             android:textColor="@color/white"
             android:textStyle="bold"
             app:cornerRadius="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
         <com.google.android.material.button.MaterialButton

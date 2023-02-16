@@ -1,10 +1,12 @@
 package com.example.shwemisale.data_layers.dto.customers
 
 import com.example.shwemisale.data_layers.domain.customers.CustomerDataDomain
+import com.example.shwemisale.pagingSource.PagingMeta
 
 
 data class CustomerDataResponse(
-    val data:List<CustomerDataDto>
+    val data:List<CustomerDataDto>,
+    val meta:PagingMeta
 )
 
 data class CustomerDataDto(
@@ -19,6 +21,7 @@ data class CustomerDataDto(
     val township_id:String?,
     val province_name:String?,
     val township_name:String?,
+    val nrc:String?
 )
 
 fun CustomerDataDto.asDomain(): CustomerDataDomain {
@@ -34,5 +37,6 @@ fun CustomerDataDto.asDomain(): CustomerDataDomain {
         township_id =township_id.orEmpty(),
         province_name =province_name.orEmpty(),
         township_name =township_name.orEmpty(),
+        nrc = nrc.orEmpty()
     )
 }

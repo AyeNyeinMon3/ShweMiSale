@@ -2,8 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/chip_gp"
@@ -12,17 +12,19 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:visibility="visible"
+        app:singleSelection="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/chip_1"
+            android:id="@+id/chip_small"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="အသေး"
             android:textAppearance="@style/chipText"
-            android:textColor="@color/primary"
+            android:checked="true"
+            android:checkable="true"
             app:chipBackgroundColor="@color/white"
             app:chipCornerRadius="10dp"
             app:chipEndPadding="16dp"
@@ -31,14 +33,14 @@
             app:chipStrokeWidth="1dp" />
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/chip_2"
+            android:id="@+id/chip_large"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:text="အကြီး"
+            android:checkable="true"
             android:textAppearance="@style/chipText"
-            android:textColor="@color/primary"
             app:chipBackgroundColor="@color/white"
             app:chipCornerRadius="10dp"
             app:chipEndPadding="16dp"
@@ -60,19 +62,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chip_gp" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
+    <ScrollView
+        android:id="@+id/scroll_view_items"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
+        android:fillViewport="true"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintBottom_toTopOf="@+id/btn_continue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view"
-        app:spanCount="3"
-        tools:listitem="@layout/item_resell_stock_info" />
+        app:layout_constraintTop_toBottomOf="@+id/view">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_gp_rebuy_items"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="16dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            tools:listitem="@layout/item_resell_stock_info" />
+
+    </ScrollView>
 
     <View
         android:id="@+id/view2"
@@ -83,15 +99,14 @@
         android:background="@color/primary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+        app:layout_constraintTop_toBottomOf="@+id/scroll_view_items" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_continue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="16dp"
         android:insetLeft="0dp"
         android:insetTop="0dp"
         android:insetRight="0dp"
@@ -104,8 +119,7 @@
         android:textStyle="bold"
         app:cornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view2" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageView
         android:id="@+id/iv_close"
@@ -117,5 +131,107 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/close" />
 
+    <TextView
+        android:id="@+id/tv_label_name_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/name_tag"
+        android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+        android:textSize="23sp"
+        app:layout_constraintBottom_toBottomOf="@+id/chip_gp"
+        app:layout_constraintStart_toEndOf="@+id/chip_gp"
+        app:layout_constraintTop_toTopOf="@+id/chip_gp" />
 
+    <TextView
+        android:id="@+id/tv_name_tag"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+        android:textColor="@color/primary"
+        android:textSize="23sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_label_name_tag"
+        app:layout_constraintStart_toEndOf="@+id/tv_label_name_tag"
+        app:layout_constraintTop_toTopOf="@+id/tv_label_name_tag"
+        tools:text="blah blah" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_minus"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        app:cornerRadius="10dp"
+        app:icon="@drawable/minus_white"
+        app:iconGravity="textStart"
+        app:iconPadding="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tv_number"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view2" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_plus"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        app:cornerRadius="10dp"
+        app:icon="@drawable/plus"
+        app:iconSize="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_continue"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tv_number"
+        app:layout_constraintTop_toBottomOf="@+id/view2" />
+
+    <TextView
+        android:id="@+id/tv_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="0"
+        android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+        android:textColor="@color/primary_text"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_minus"
+        app:layout_constraintEnd_toStartOf="@+id/btn_plus"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btn_minus"
+        app:layout_constraintTop_toTopOf="@+id/btn_minus" />
+
+    <TextView
+        android:id="@+id/tv_count_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+        android:textColor="@color/primary"
+        android:textSize="23sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_name_tag"
+        app:layout_constraintStart_toEndOf="@+id/tv_name_tag"
+        app:layout_constraintTop_toTopOf="@+id/tv_name_tag"
+        tools:text="4" />
+
+    <TextView
+        android:id="@+id/tv_size_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+        android:textColor="@color/primary"
+        android:textSize="23sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_count_tag"
+        app:layout_constraintStart_toEndOf="@+id/tv_count_tag"
+        app:layout_constraintTop_toTopOf="@+id/tv_count_tag"
+        tools:text="large" />
 </androidx.constraintlayout.widget.ConstraintLayout>

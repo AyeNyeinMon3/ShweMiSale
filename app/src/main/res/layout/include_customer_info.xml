@@ -11,104 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
+        app:singleSelection="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_chain"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ဆွဲကြိုး"
-            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
-            android:textColor="@color/chip_text_color"
-            app:chipBackgroundColor="@color/white"
-            app:chipCornerRadius="10dp"
-            app:chipEndPadding="16dp"
-            app:chipStartPadding="16dp"
-            app:chipStrokeColor="@color/secondary_text"
-            app:chipStrokeWidth="1dp" />
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_bracelet"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="လက်ကောက်"
-            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
-            android:textColor="@color/chip_text_color"
-            app:chipBackgroundColor="@color/white"
-            app:chipCornerRadius="10dp"
-            app:chipEndPadding="16dp"
-            app:chipStartPadding="16dp"
-            app:chipStrokeColor="@color/secondary_text"
-            app:chipStrokeWidth="1dp" />
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_ear_drop"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="နားဆွဲ"
-            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
-            android:textColor="@color/chip_text_color"
-            app:chipBackgroundColor="@color/white"
-            app:chipCornerRadius="10dp"
-            app:chipEndPadding="16dp"
-            app:chipStartPadding="16dp"
-            app:chipStrokeColor="@color/secondary_text"
-            app:chipStrokeWidth="1dp" />
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_earring"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="နားကပ်"
-            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
-            android:textColor="@color/chip_text_color"
-            app:chipBackgroundColor="@color/white"
-            app:chipCornerRadius="10dp"
-            app:chipEndPadding="16dp"
-            app:chipStartPadding="16dp"
-            app:chipStrokeColor="@color/secondary_text"
-            app:chipStrokeWidth="1dp" />
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_chain2"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="ဘယက်"
-            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
-            android:textColor="@color/chip_text_color"
-            app:chipBackgroundColor="@color/white"
-            app:chipCornerRadius="10dp"
-            app:chipEndPadding="16dp"
-            app:chipStartPadding="16dp"
-            app:chipStrokeColor="@color/secondary_text"
-            app:chipStrokeWidth="1dp" />
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_hand_chain"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="ဟန်းချိန်း"
-            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
-            android:textColor="@color/chip_text_color"
-            app:chipBackgroundColor="@color/white"
-            app:chipCornerRadius="10dp"
-            app:chipEndPadding="16dp"
-            app:chipStartPadding="16dp"
-            app:chipStrokeColor="@color/secondary_text"
-            app:chipStrokeWidth="1dp" />
     </com.google.android.material.chip.ChipGroup>
 
 

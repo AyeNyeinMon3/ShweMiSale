@@ -1,5 +1,10 @@
 package com.example.shwemisale.data_layers.ui_models.customers
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+
+@Parcelize
 data class CustomerDataUiModel(
     val id:String,
     val code:String,
@@ -12,4 +17,5 @@ data class CustomerDataUiModel(
     val township_id:String,
     val province_name:String,
     val township_name:String,
-)
+    val nrc:String
+):Parcelable

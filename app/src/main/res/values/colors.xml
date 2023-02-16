@@ -12,4 +12,7 @@
     <color name="label_text">#C9C9C9</color>
     <color name="secondary_text">#999999</color>
     <color name="base_grey">#EBEBEB</color>
+
+    <color name="base_pink">#CC535F</color>
+    <color name="base_low_pink">#FFF5F5</color>
 </resources>

@@ -5,10 +5,9 @@ import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.example.shwemi.network.UnsafeOkHttpClient
 import com.example.shwemisale.localDataBase.LocalDatabase
-import com.example.shwemisale.network.api_services.AuthService
-import com.example.shwemisale.network.api_services.CustomerService
-import com.example.shwemisale.network.api_services.NormalSaleService
+import com.example.shwemisale.network.api_services.*
 import com.example.shwemisale.repositoryImpl.AuthRepoImpl
+import com.example.shwemisale.room_database.AppDatabase
 import dagger.Lazy
 import dagger.Module
 import dagger.Provides
@@ -35,7 +34,11 @@ class NetworkModule {
             .client(okHttpClient)
             .build()
     }
-
+    @Singleton
+    @Provides
+    fun provideRoomDatabase(@ApplicationContext context: Context)  : AppDatabase {
+        return AppDatabase.create(context)
+    }
 
     @Provides
     @Singleton
@@ -91,5 +94,13 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideNormalSaleService(retrofit: Retrofit) = retrofit.create<NormalSaleService>()
+
+    @Provides
+    @Singleton
+    fun provideGoldFromHomeService(retrofit: Retrofit) = retrofit.create<GoldFromHomeService>()
+
+    @Provides
+    @Singleton
+    fun provideCalculationService(retrofit: Retrofit) = retrofit.create<CalculationService>()
 
 }
