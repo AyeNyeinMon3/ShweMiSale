@@ -138,9 +138,7 @@ class SellResellStockInfoAddedFragment : Fragment() {
             if (args.id != null){
 
             }else{
-                viewModel.saveStockFromHome(
 
-                )
             }
 
         }

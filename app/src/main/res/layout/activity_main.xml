@@ -24,6 +24,7 @@
                     android:layout_height="?attr/actionBarSize"
                     android:elevation="5dp"
                     android:background="@color/white"
+                    app:navigationIcon="@drawable/ic_menu"
                     android:theme="@style/ThemeOverlay.AppCompat.Light"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -53,12 +54,7 @@
                 app:itemVerticalPadding="16dp"
                 app:itemHorizontalPadding="16dp"
                 app:itemMaxLines="1"
-                app:itemTextAppearance="@style/itemText">
-
-            </com.google.android.material.navigation.NavigationView>
-
+                app:itemTextAppearance="@style/itemText"/>
 
         </androidx.drawerlayout.widget.DrawerLayout>
-
-
 </layout>

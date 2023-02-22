@@ -41,4 +41,37 @@ interface StockFromHomeInfoDao {
 
     @Query("update `stock-from-home` set reduced_cost = :reducedCost where  id = :id")
     fun updateReducedCost(id: String,  reducedCost: String)
+
+    @Query("update `stock-from-home` set wastage_ywae = :wastageYwae where  id = :id")
+    fun updateWastageYwae(id: String,  wastageYwae: String)
+
+    @Query("update `stock-from-home` set oldStockCondition = :oldStockCondition where  id = :id")
+    fun updateOldStockCondition(id: String,  oldStockCondition: String)
+
+    @Query("update `stock-from-home` set oldStockGQinCarat = :oldStockGQinCarat where  id = :id")
+    fun updateOldStockGQinCarat(id: String,  oldStockGQinCarat: String)
+
+    @Query("update `stock-from-home` set oldStockImpurityWeightY = :oldStockImpurityWeightY where  id = :id")
+    fun updateOldStockImpurityWeightY(id: String,  oldStockImpurityWeightY: String)
+
+    @Query("update `stock-from-home` set oldStockABuyingPrice = :oldstockABuyingPrice where  id = :id")
+    fun updateOldStockABuyingPrice(id: String,  oldstockABuyingPrice: String)
+
+    @Query("update `stock-from-home` set oldStockb_voucher_buying_value = :bPrice where  id = :id")
+    fun updateBprice(id: String,  bPrice: String)
+
+    @Query("update `stock-from-home` set oldStockc_voucher_buying_value = :cPrice where  id = :id")
+    fun updateCprice(id: String,  cPrice: String)
+
+    @Query("update `stock-from-home` set oldStockDGoldWeightY = :dPrice where  id = :id")
+    fun updateDprice(id: String,  dPrice: String)
+
+    @Query("update `stock-from-home` set oldStockEPriceFromNewVoucher = :ePrice where  id = :id")
+    fun updateEprice(id: String,  ePrice: String)
+
+    @Query("update `stock-from-home` set oldStockFVoucherShownGoldWeightY = :fPrice where  id = :id")
+    fun updateFprice(id: String,  fPrice: String)
+
+
+
 }

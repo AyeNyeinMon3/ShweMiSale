@@ -4,4 +4,6 @@
     <string name="small_size">Small</string>
     <string name="large_size">Large</string>
     <string name="save">သိမ်းမည်</string>
+    <string name="nav_open">Open</string>
+    <string name="nav_close">Close</string>
 </resources>

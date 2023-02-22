@@ -3,32 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
-            <group android:checkableBehavior="single">
-                <item
-                    android:title="အရောင်းနှင့်အပေါင်လက်ခံ"
-                    android:icon="@drawable/drawer_icon1">
-                    <menu>
-                        <item
-                            android:id="@+id/sellStartFragment"
-                            android:icon="@drawable/drawer_icon1"
-                            android:title="အရောင်း"
-                            tools:ignore="DuplicateIds" />
-                        <item
-                            android:id="@+id/pawnStartFragment"
-                            android:icon="@drawable/drawer_icon1"
-                            android:title="အပေါင်" />
-                        <item
-                            android:id="@+id/buyStartFragment"
-                            android:icon="@drawable/drawer_icon1"
-                            android:title="အဝယ်" />
-                    </menu>
-                </item>
-
-
-            </group>
-
-
+    <item
+        android:id="@+id/sellStartFragment"
+        android:icon="@drawable/drawer_icon1"
+        android:title="အရောင်း"
+        />
     <item
         android:id="@+id/pawnInterestFragment"
         android:icon="@drawable/drawer_icon2"

@@ -103,4 +103,12 @@ class NetworkModule {
     @Singleton
     fun provideCalculationService(retrofit: Retrofit) = retrofit.create<CalculationService>()
 
+    @Provides
+    @Singleton
+    fun provideProductService(retrofit: Retrofit) = retrofit.create<ProductService>()
+
+    @Provides
+    @Singleton
+    fun providePawnService(retrofit: Retrofit) = retrofit.create<PawnService>()
+
 }

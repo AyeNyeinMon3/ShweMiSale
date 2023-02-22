@@ -11,7 +11,9 @@ import androidx.navigation.findNavController
 import com.example.shwemisale.R
 import com.example.shwemisale.databinding.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class BuyResellStockInfoAddedFragment:Fragment (){
 
     lateinit var binding: FragmentResellStockInfoAddedBuyBinding
