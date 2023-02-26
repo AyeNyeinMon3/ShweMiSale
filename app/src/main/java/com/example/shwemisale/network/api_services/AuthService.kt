@@ -14,6 +14,11 @@ interface AuthService {
         @Header("Authorization") token: String
     ): Call<RefreshTokenApiResponse>
 
+    @GET("api/auth/refreshed")
+    fun refreshTokenLog(
+        @Header("Authorization") token: String
+    ): Call<RefreshTokenApiResponse>
+
     @FormUrlEncoded
     @POST("api/auth/login")
     suspend fun login(

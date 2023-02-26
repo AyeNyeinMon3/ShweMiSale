@@ -1,10 +1,11 @@
-package com.example.shwemisale.screen.sellModule
+package com.example.shwemisale.screen.sellModule.generalSale
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.shwemisale.data_layers.dto.GeneralSaleDto
 import com.example.shwemisale.databinding.ItemGeneralSellBinding
 
 data class GeneralSellData(
@@ -18,7 +19,9 @@ data class GeneralSellData(
     val charge:String
 )
 
-class GeneralSellRecyclerAdapter:ListAdapter<GeneralSellData,GeneralSellViewHolder>(GeneralSellDiffUtil){
+class GeneralSellRecyclerAdapter:ListAdapter<GeneralSaleDto, GeneralSellViewHolder>(
+    GeneralSellDiffUtil
+){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GeneralSellViewHolder {
         return GeneralSellViewHolder(ItemGeneralSellBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }
@@ -31,25 +34,25 @@ class GeneralSellRecyclerAdapter:ListAdapter<GeneralSellData,GeneralSellViewHold
 }
 
 class GeneralSellViewHolder(private var binding: ItemGeneralSellBinding): RecyclerView.ViewHolder(binding.root){
-    fun bind(data: GeneralSellData){
-        binding.tvGroup.text = data.group
-        binding.tvCharge.text = data.charge
-        binding.tvFee.text = data.fee
-        binding.tvUnderCount.text = data.underCount
-        binding.tvGoldWeight.text = data.goldWeight
-        binding.tvQuantity.text = data.quantity
-        binding.tvContent.text=data.content
+    fun bind(data: GeneralSaleDto){
+//        binding.tvGroup.text = data.group
+//        binding.tvCharge.text = data.charge
+//        binding.tvFee.text = data.fee
+        binding.tvUnderCount.text = data.qty
+        binding.tvGoldWeight.text = data.gold_weight_gm
+        binding.tvQuantity.text = data.qty
+        binding.tvContent.text=data.name
     }
 
 
 }
 
-object GeneralSellDiffUtil: DiffUtil.ItemCallback<GeneralSellData>(){
-    override fun areItemsTheSame(oldItem: GeneralSellData, newItem: GeneralSellData): Boolean {
+object GeneralSellDiffUtil: DiffUtil.ItemCallback<GeneralSaleDto>(){
+    override fun areItemsTheSame(oldItem: GeneralSaleDto, newItem: GeneralSaleDto): Boolean {
         return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItem: GeneralSellData, newItem: GeneralSellData): Boolean{
+    override fun areContentsTheSame(oldItem: GeneralSaleDto, newItem: GeneralSaleDto): Boolean{
         return oldItem == newItem
     }
 

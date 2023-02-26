@@ -1,5 +1,9 @@
 package com.example.shwemisale.data_layers.ui_models.product
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class ProductInfoUiModel(
     val id:String,
     val code:String,
@@ -12,5 +16,7 @@ data class ProductInfoUiModel(
     val promotion_discount:String,
     val pt_and_clip_cost:String,
     val maintenance_cost:String,
-)
+    val gold_weight_ywae:String,
+    var wastage_weight_ywae:String
+):Parcelable
 

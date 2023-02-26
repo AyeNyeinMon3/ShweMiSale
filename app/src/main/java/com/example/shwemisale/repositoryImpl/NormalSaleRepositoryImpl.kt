@@ -1,6 +1,5 @@
 package com.example.shwemisale.repositoryImpl
 
-import com.example.shwemi.network.dto.ResponseDto
 import com.example.shwemi.util.Resource
 import com.example.shwemi.util.parseError
 import com.example.shwemi.util.parseErrorWithDataClass
@@ -21,7 +20,6 @@ class NormalSaleRepositoryImpl @Inject constructor(
     private val normalSaleService: NormalSaleService
 ) : NormalSaleRepository {
     override suspend fun getPaidAmountOfVoucher(
-        token: String,
         voucherCode: String
     ): Resource<String> {
         return try {
@@ -54,7 +52,6 @@ class NormalSaleRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getGoldPrices(
-        token: String,
         productIdList: List<String>
     ): Resource<GoldPriceDto> {
         return try {
@@ -87,7 +84,6 @@ class NormalSaleRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getVoucherInfoWithKPY(
-        token: String,
         productIdList: List<String>
     ): Resource<VoucherInfoWithKPYDto> {
         return try {
@@ -120,7 +116,6 @@ class NormalSaleRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getVoucherInfoWithValue(
-        token: String,
         productIdList: List<String>
     ): Resource<VoucherInfoWithValueResponse> {
         return try {
@@ -153,7 +148,6 @@ class NormalSaleRepositoryImpl @Inject constructor(
     }
 
     override suspend fun submitWithKPY(
-        token: String,
         productIdList: List<MultipartBody.Part>?,
         user_id: String?,
         paid_amount: String?,
@@ -182,7 +176,7 @@ class NormalSaleRepositoryImpl @Inject constructor(
         oldStockDGoldWeightY: List<MultipartBody.Part>?,
         oldStockEPriceFromNewVoucher: List<MultipartBody.Part>?,
         oldStockFVoucherShownGoldWeightY: List<MultipartBody.Part>?
-    ): Resource<ResponseDto> {
+    ): Resource<String> {
         return try {
             val response = normalSaleService.submitWithKPY(
                 localDatabase.getAccessToken().orEmpty(),
@@ -217,7 +211,7 @@ class NormalSaleRepositoryImpl @Inject constructor(
             )
 
             if (response.isSuccessful && response.body() != null) {
-                Resource.Success(response.body()!!.response)
+                Resource.Success(response.body()!!.response.message)
             } else {
                 val errorJsonString = response.errorBody()?.string().orEmpty()
                 val singleError =
@@ -240,7 +234,6 @@ class NormalSaleRepositoryImpl @Inject constructor(
     }
 
     override suspend fun submitWithValue(
-        token: String,
         productIdList: List<MultipartBody.Part>?,
         user_id: String?,
         paid_amount: String?,
@@ -269,7 +262,7 @@ class NormalSaleRepositoryImpl @Inject constructor(
         oldStockDGoldWeightY: List<MultipartBody.Part>?,
         oldStockEPriceFromNewVoucher: List<MultipartBody.Part>?,
         oldStockFVoucherShownGoldWeightY: List<MultipartBody.Part>?
-    ): Resource<ResponseDto> {
+    ): Resource<String> {
         return try {
             val response = normalSaleService.submitWithValue(
                 localDatabase.getAccessToken().orEmpty(),
@@ -304,7 +297,7 @@ class NormalSaleRepositoryImpl @Inject constructor(
             )
 
             if (response.isSuccessful && response.body() != null) {
-                Resource.Success(response.body()!!.response)
+                Resource.Success(response.body()!!.response.message)
             } else {
                 val errorJsonString = response.errorBody()?.string().orEmpty()
                 val singleError =
@@ -327,7 +320,6 @@ class NormalSaleRepositoryImpl @Inject constructor(
     }
 
     override suspend fun submitOrderSale(
-        token: String,
         name: String,
         gold_type_id: String,
         gold_price: String,
@@ -371,7 +363,7 @@ class NormalSaleRepositoryImpl @Inject constructor(
         oldStockEPriceFromNewVoucher: List<MultipartBody.Part>?,
         oldStockFVoucherShownGoldWeightY: List<MultipartBody.Part>?,
         oldStockSampleListId: List<MultipartBody.Part>?
-    ): Resource<ResponseDto> {
+    ): Resource<String> {
         return try {
             val response = normalSaleService.submitOrderSale(
                 localDatabase.getAccessToken().orEmpty(),
@@ -421,7 +413,7 @@ class NormalSaleRepositoryImpl @Inject constructor(
             )
 
             if (response.isSuccessful && response.body() != null) {
-                Resource.Success(response.body()!!.response)
+                Resource.Success(response.body()!!.response.message)
             } else {
                 val errorJsonString = response.errorBody()?.string().orEmpty()
                 val singleError =
@@ -444,7 +436,6 @@ class NormalSaleRepositoryImpl @Inject constructor(
     }
 
     override suspend fun submitPureGoldSale(
-        token: String,
         itemsGoldWeightYwae: List<MultipartBody.Part>?,
         itemsWastageYwae: List<MultipartBody.Part>?,
         itemsMaintenanceCost: List<MultipartBody.Part>?,
@@ -478,7 +469,7 @@ class NormalSaleRepositoryImpl @Inject constructor(
         oldStockEPriceFromNewVoucher: List<MultipartBody.Part>?,
         oldStockFVoucherShownGoldWeightY: List<MultipartBody.Part>?,
         oldStockSampleListId: List<MultipartBody.Part>?
-    ): Resource<ResponseDto> {
+    ): Resource<String> {
         return try {
             val response = normalSaleService.submitPureGoldSale(
                 localDatabase.getAccessToken().orEmpty(),
@@ -518,7 +509,7 @@ class NormalSaleRepositoryImpl @Inject constructor(
             )
 
             if (response.isSuccessful && response.body() != null) {
-                Resource.Success(response.body()!!.response)
+                Resource.Success(response.body()!!.response.message)
             } else {
                 val errorJsonString = response.errorBody()?.string().orEmpty()
                 val singleError =
@@ -541,7 +532,6 @@ class NormalSaleRepositoryImpl @Inject constructor(
     }
 
     override suspend fun submitGeneralSale(
-        token: String,
         itemsGeneralSaleItemId: List<MultipartBody.Part>?,
         itemsQty: List<MultipartBody.Part>?,
         itemsGoldWeightYwae: List<MultipartBody.Part>?,
@@ -573,7 +563,7 @@ class NormalSaleRepositoryImpl @Inject constructor(
         oldStockDGoldWeightY: List<MultipartBody.Part>?,
         oldStockEPriceFromNewVoucher: List<MultipartBody.Part>?,
         oldStockFVoucherShownGoldWeightY: List<MultipartBody.Part>?
-    ): Resource<ResponseDto> {
+    ): Resource<String> {
         return try {
             val response = normalSaleService.submitGeneralSale(
                 localDatabase.getAccessToken().orEmpty(),
@@ -611,7 +601,7 @@ class NormalSaleRepositoryImpl @Inject constructor(
             )
 
             if (response.isSuccessful && response.body() != null) {
-                Resource.Success(response.body()!!.response)
+                Resource.Success(response.body()!!.response.message)
             } else {
                 val errorJsonString = response.errorBody()?.string().orEmpty()
                 val singleError =
@@ -633,7 +623,7 @@ class NormalSaleRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getGeneralSalesItems(token: String): Resource<List<GeneralSaleDto>> {
+    override suspend fun getGeneralSalesItems(): Resource<List<GeneralSaleDto>> {
         return try {
             val response = normalSaleService.getGeneralSalesItems(
                 localDatabase.getAccessToken().orEmpty(),

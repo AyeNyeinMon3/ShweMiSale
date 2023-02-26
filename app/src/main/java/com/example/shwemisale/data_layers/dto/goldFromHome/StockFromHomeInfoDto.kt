@@ -1,5 +1,6 @@
 package com.example.shwemisale.data_layers.dto.goldFromHome
 
+import com.example.shwemisale.data_layers.ShweMiFile
 import com.example.shwemisale.data_layers.domain.goldFromHome.StockFromHomeInfoDomain
 
 data class StockFromeHomeInfoResponse(
@@ -16,7 +17,7 @@ data class StockFromHomeInfoDto(
     val gem_weight_ywae: Double?,
     val gold_and_gem_weight_gm: Double?,
     val gold_price: Int?,
-    val image: String?,
+    val file: ShweMiFile?,
     val maintenance_cost: Int?,
     val name: String?,
     val pt_and_clip_cost: Int?,
@@ -34,7 +35,7 @@ fun StockFromHomeInfoDto.asDomain():StockFromHomeInfoDomain{
         gem_weight_ywae = gem_weight_ywae?:0.0,
         gold_and_gem_weight_gm = gold_and_gem_weight_gm?:0.0,
         gold_price = gold_price?:0,
-        image = image.orEmpty(),
+        file = file,
         name = name.orEmpty(),
         maintenance_cost = maintenance_cost?:0,
         pt_and_clip_cost = pt_and_clip_cost?:0,

@@ -1,10 +1,7 @@
 package com.example.shwemisale.screen.goldFromHome
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
+import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -17,12 +14,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shwemi.util.Resource
 import com.example.shwemi.util.getAlertDialog
+import com.example.shwemi.util.hideKeyboard
 import com.example.shwemisale.data_layers.domain.goldFromHome.asUiModel
 import com.example.shwemisale.data_layers.ui_models.goldFromHome.StockWeightByVoucherUiModel
 import com.example.shwemisale.databinding.DialogChangeFeatureBinding
 import com.example.shwemisale.databinding.DialogSellTypeBinding
 import com.example.shwemisale.databinding.DialogStockCheckBinding
 import com.example.shwemisale.databinding.FragmentGoldFromHomeSellBinding
+import com.example.shwemisale.qrscan.getBarLauncher
+import com.example.shwemisale.qrscan.scanQrCode
 import com.example.shwemisale.screen.sellModule.GoldFromHomeData
 import com.example.shwemisale.screen.sellModule.GoldFromHomeRecyclerAdapter
 import com.example.shwemisale.screen.sellModule.StockCheckRecyclerAdapter
@@ -40,6 +40,7 @@ class SellGoldFromHomeFragment : Fragment() {
     lateinit var dialogSellTypeBinding: DialogSellTypeBinding
     private val viewModel by viewModels<GoldFromHomeViewModel>()
     private lateinit var loading: AlertDialog
+    private lateinit var barlauncer: Any
 
 
     override fun onCreateView(
@@ -57,17 +58,43 @@ class SellGoldFromHomeFragment : Fragment() {
 //            binding.btnSkip.isVisible = isChecked
 //        }
         loading = requireContext().getAlertDialog()
+        barlauncer = this.getBarLauncher(requireContext()) {
+            binding.edtScanVoucher.setText(it)
+            viewModel.getStockWeightByVoucher(it)
+        }
+        binding.textInputLayoutScanVoucher.setEndIconOnClickListener {
+            this.scanQrCode(requireContext(), barlauncer)
+        }
+        binding.edtScanVoucher.setOnKeyListener(object : View.OnKeyListener {
+            override fun onKey(v: View?, keyCode: Int, event: KeyEvent): Boolean {
+                // If the event is a key-down event on the "enter" button
+                if (event.action == KeyEvent.ACTION_DOWN &&
+                    keyCode == KeyEvent.KEYCODE_ENTER
+                ) {
+                    // Perform action on key press
+                    viewModel.getStockWeightByVoucher(binding.edtScanVoucher.text.toString())
+                    hideKeyboard(activity, binding.edtScanVoucher)
+                    return true
+                }
+                return false
+            }
+        })
+
         binding.btnSelect.setOnClickListener {
             viewModel.getStockWeightByVoucher(binding.edtScanVoucher.text.toString())
         }
         val adapter = GoldFromHomeRecyclerAdapter({
-            findNavController().navigate(SellGoldFromHomeFragmentDirections.actionSellGoldFromHomeFragmentToSellResellStockInfoAddedFragment(it))
-        },{
+            findNavController().navigate(
+                SellGoldFromHomeFragmentDirections.actionSellGoldFromHomeFragmentToSellResellStockInfoAddedFragment(
+                    it
+                )
+            )
+        }, {
             viewModel.deleteStock(it)
         })
         binding.rvGoldFromHome.adapter = adapter
 
-        if (viewModel.stockFromHomeListInAppDatabase.isNotEmpty()){
+        if (viewModel.stockFromHomeListInAppDatabase.isNotEmpty()) {
             adapter.submitList(viewModel.stockFromHomeListInAppDatabase)
         }
         viewModel.stockWeightByVoucherLiveData.observe(viewLifecycleOwner) {
@@ -78,10 +105,11 @@ class SellGoldFromHomeFragment : Fragment() {
                 is Resource.Success -> {
                     loading.dismiss()
                     showStockCheckDialog(it.data!!)
+
                 }
                 is Resource.Error -> {
                     loading.dismiss()
-                    Toast.makeText(requireContext(),it.message,Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -93,12 +121,40 @@ class SellGoldFromHomeFragment : Fragment() {
                 is Resource.Success -> {
                     loading.dismiss()
                     adapter.submitList(it.data!!)
+                    var finalPawnPrice = 0
+                    it.data!!.map { it.calculatedPriceForPawn }.forEach {
+                        finalPawnPrice += it?.toInt() ?: 0
+                    }
+                    var finalGoldWeightY = 0.0
+                    it.data!!.map { it.oldStockDGoldWeightY }.forEach {
+                        finalGoldWeightY += it?.toDouble() ?: 0.0
+                    }
+                    var finalVoucherPaidAmount = 0
+                    it.data!!.map { it.oldStockc_voucher_buying_value }.forEach {
+                        finalVoucherPaidAmount += it?.toInt() ?: 0
+                    }
+                    viewModel.saveStockFromHomeInfoFinal(
+                        finalPawnPrice.toString(),
+                        finalGoldWeightY.toString(),
+                        finalVoucherPaidAmount.toString()
+                    )
 
+                    val finalItem = viewModel.getStockFromHomeInfoFinal()
+                    val goldWeightKpy = getKPYFromYwae(finalItem.finalGoldWeightY.toDouble())
+                    binding.editGoldWeightK.setText(goldWeightKpy[0].toInt().toString())
+                    binding.editGoldWeightP.setText(goldWeightKpy[1].toInt().toString())
+                    binding.editGoldWeightY.setText(goldWeightKpy[2].let {
+                        String.format(
+                            "%.2f",
+                            it
+                        )
+                    })
+                    binding.edtCalculatePledgeMoney.setText(finalItem.finalPawnPrice)
+                    binding.edtVoucherPurchasePayment.setText(finalItem.finalVoucherPaidAmount)
                 }
                 is Resource.Error -> {
                     loading.dismiss()
-                    Toast.makeText(requireContext(),it.message,Toast.LENGTH_LONG).show()
-
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -138,7 +194,11 @@ class SellGoldFromHomeFragment : Fragment() {
 
         binding.btnAdd.setOnClickListener {
             view.findNavController()
-                .navigate(SellGoldFromHomeFragmentDirections.actionSellGoldFromHomeFragmentToSellResellStockInfoAddedFragment(null))
+                .navigate(
+                    SellGoldFromHomeFragmentDirections.actionSellGoldFromHomeFragmentToSellResellStockInfoAddedFragment(
+                        null
+                    )
+                )
         }
     }
 
@@ -169,8 +229,10 @@ class SellGoldFromHomeFragment : Fragment() {
 
 
         alertDialogBinding.btnContinue.setOnClickListener {
-            val productIdList = viewModel.stockWeightByVoucherLiveData.value!!.data!!.filter { it.isChecked }.map { it.id }
-            viewModel.getStockInfoByVoucher(binding.edtScanVoucher.text.toString(),productIdList)
+            val productIdList =
+                viewModel.stockWeightByVoucherLiveData.value!!.data!!.filter { it.isChecked }
+                    .map { it.id }
+            viewModel.getStockInfoByVoucher(binding.edtScanVoucher.text.toString(), productIdList)
             viewModel.resetstockWeightByVoucherLiveData()
             alertDialog.dismiss()
         }

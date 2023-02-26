@@ -1,6 +1,5 @@
 package com.example.shwemisale.repository
 
-import com.example.shwemi.network.dto.ResponseDto
 import com.example.shwemi.util.Resource
 import com.example.shwemisale.data_layers.dto.SimpleResponse
 import com.example.shwemisale.data_layers.dto.pawn.PawnInterestRateApiResponse
@@ -15,18 +14,15 @@ import retrofit2.http.*
 interface PawnRepository {
 
     suspend fun getPawnInterestRate(
-        token:String,
     ): Resource<List<PawnInterestRateDto>>
 
 
     suspend fun getPawnVoucherScan(
-        token:String,
         voucherCode:String,
     ): Resource<PawnVoucherScanDto>
 
 
     suspend fun storePawn(
-        token:String,
         user_id:String?,
         total_debt_amount:String?,
         interest_rate:String?,
@@ -68,28 +64,25 @@ interface PawnRepository {
 
         oldStockFVoucherShownGoldWeightY:List<MultipartBody.Part>?,
 
-        ): Resource<ResponseDto>
+        ): Resource<String>
 
 
     suspend fun createPrepaidDebt(
-        token:String,
         voucherCode:String,
         prepaid_debt:String,
 
         reduced_amount:String,
-    ): Resource<ResponseDto>
+    ): Resource<String>
 
     suspend fun createPrepaidInterest(
-        token:String,
         voucherCode:String,
 
         number_of_months:String,
         reduced_amount:String,
-    ): Resource<ResponseDto>
+    ): Resource<String>
 
 
     suspend fun increaseDebt(
-        token:String,
         voucherCode:String,
 
         increased_debt:String,
@@ -128,11 +121,10 @@ interface PawnRepository {
         oldStockEPriceFromNewVoucher:List<MultipartBody.Part>?,
 
         oldStockFVoucherShownGoldWeightY:List<MultipartBody.Part>?,
-    ): Resource<ResponseDto>
+    ): Resource<String>
 
 
     suspend fun payInterestAndIncreaseDebt(
-        token:String,
         voucherCode:String,
         increased_debt:String,
         reduced_amount:String,
@@ -170,47 +162,42 @@ interface PawnRepository {
         oldStockEPriceFromNewVoucher:List<MultipartBody.Part>?,
 
         oldStockFVoucherShownGoldWeightY:List<MultipartBody.Part>?,
-    ): Resource<ResponseDto>
+    ): Resource<String>
 
 
 
     suspend fun payInterest(
-        token:String,
         voucherCode:String,
 
         reduced_amount:String,
-    ): Resource<ResponseDto>
+    ): Resource<String>
 
 
     suspend fun payInterestAndSettleDebt(
-        token:String,
         voucherCode:String,
 
         reduced_amount:String,
 
         debt:String,
-    ): Resource<ResponseDto>
+    ): Resource<String>
 
 
     suspend fun payInterestAndReturnStock(
-        token:String,
         voucherCode:String,
         reduced_amount:String,
         debt:String,
 
         old_stock_id:String,
-    ): Resource<ResponseDto>
+    ): Resource<String>
 
 
     suspend fun settle(
-        token:String,
         voucherCode:String,
         reduced_amount:String,
-    ): Resource<ResponseDto>
+    ): Resource<String>
 
 
     suspend fun sellOldStock(
-        token:String,
         voucherCode:String,
         reduced_amount:String,
 
@@ -247,5 +234,5 @@ interface PawnRepository {
         oldStockEPriceFromNewVoucher:List<MultipartBody.Part>?,
 
         oldStockFVoucherShownGoldWeightY:List<MultipartBody.Part>?,
-    ): Resource<ResponseDto>
+    ): Resource<String>
 }

@@ -27,7 +27,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_label_interest_date"
+        android:id="@+id/tv_one"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -36,12 +36,12 @@
         android:textAppearance="@style/TextAppearance.ShweMi.Body2"
         android:textColor="@color/primary_text"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/textInputLayout_interest_date"
+        app:layout_constraintBottom_toBottomOf="@+id/til_one"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textInputLayout_interest_date" />
+        app:layout_constraintTop_toTopOf="@+id/til_one" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout_interest_date"
+        android:id="@+id/til_one"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="250dp"
         android:layout_height="45dp"
@@ -54,11 +54,11 @@
         app:boxStrokeWidth="1dp"
         app:errorEnabled="false"
         app:hintEnabled="false"
-        app:layout_constraintStart_toStartOf="@+id/textInputLayout_interest_charge"
+        app:layout_constraintStart_toStartOf="@+id/til_three"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edt_interest_date"
+            android:id="@+id/edt_one"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
@@ -67,7 +67,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:id="@+id/tv_label_interest_charge"
+        android:id="@+id/tv_three"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -76,12 +76,12 @@
         android:textAppearance="@style/TextAppearance.ShweMi.Body2"
         android:textColor="@color/primary_text"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/textInputLayout_interest_charge"
+        app:layout_constraintBottom_toBottomOf="@+id/til_three"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textInputLayout_interest_charge" />
+        app:layout_constraintTop_toTopOf="@+id/til_three" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout_interest_charge"
+        android:id="@+id/til_three"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="250dp"
         android:layout_height="45dp"
@@ -95,11 +95,11 @@
         app:boxStrokeWidth="1dp"
         app:errorEnabled="false"
         app:hintEnabled="false"
-        app:layout_constraintStart_toEndOf="@+id/tv_label_interest_charge"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_interest_date">
+        app:layout_constraintStart_toEndOf="@+id/tv_three"
+        app:layout_constraintTop_toBottomOf="@+id/til_one">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edt_interest_charge"
+            android:id="@+id/edt_three"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
@@ -108,7 +108,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:id="@+id/tv_label_investmentPay"
+        android:id="@+id/tv_two"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -117,12 +117,12 @@
         android:textAppearance="@style/TextAppearance.ShweMi.Body2"
         android:textColor="@color/primary_text"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/textInputLayout_investmentPay"
-        app:layout_constraintStart_toEndOf="@+id/textInputLayout_interest_date"
-        app:layout_constraintTop_toTopOf="@+id/textInputLayout_investmentPay" />
+        app:layout_constraintBottom_toBottomOf="@+id/til_two"
+        app:layout_constraintStart_toEndOf="@+id/til_one"
+        app:layout_constraintTop_toTopOf="@+id/til_two" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout_investmentPay"
+        android:id="@+id/til_two"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="250dp"
         android:layout_height="45dp"
@@ -135,11 +135,11 @@
         app:boxStrokeWidth="1dp"
         app:errorEnabled="false"
         app:hintEnabled="false"
-        app:layout_constraintStart_toEndOf="@+id/tv_label_investmentPay"
-        app:layout_constraintTop_toTopOf="@+id/textInputLayout_interest_date">
+        app:layout_constraintStart_toEndOf="@+id/tv_two"
+        app:layout_constraintTop_toTopOf="@+id/til_one">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edt_increment"
+            android:id="@+id/edt_two"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Type"
@@ -160,7 +160,7 @@
         android:textColor="@color/primary_text"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/btn_edit"
-        app:layout_constraintStart_toStartOf="@+id/tv_label_investmentPay"
+        app:layout_constraintStart_toStartOf="@+id/tv_two"
         app:layout_constraintTop_toTopOf="@+id/btn_edit" />
 
     <com.google.android.material.button.MaterialButton
@@ -180,12 +180,12 @@
         android:textColor="@color/primary"
         android:textStyle="bold"
         app:cornerRadius="10dp"
-        app:icon="@drawable/minus"
+        app:icon="@drawable/ic_gold_from_home"
         app:iconSize="15dp"
         app:iconTint="@color/primary"
         app:iconPadding="16dp"
-        app:layout_constraintStart_toStartOf="@+id/textInputLayout_investmentPay"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_investmentPay"
+        app:layout_constraintStart_toStartOf="@+id/til_two"
+        app:layout_constraintTop_toBottomOf="@+id/til_two"
         app:strokeColor="@color/primary"
         app:strokeWidth="1dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

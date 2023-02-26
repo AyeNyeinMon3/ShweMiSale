@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.shwemisale.data_layers.ui_models.product.ProductInfoUiModel
 import com.example.shwemisale.databinding.ItemStockCodeItemBinding
 
 data class StockCodeData(
@@ -14,7 +15,7 @@ data class StockCodeData(
     val price:String
 )
 
-class StockCodeRecyclerAdapter:ListAdapter<StockCodeData,StockCodeViewHolder>(StockCodeDiffUtil) {
+class StockCodeRecyclerAdapter:ListAdapter<ProductInfoUiModel,StockCodeViewHolder>(StockCodeDiffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StockCodeViewHolder {
        return StockCodeViewHolder(ItemStockCodeItemBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }
@@ -26,19 +27,19 @@ class StockCodeRecyclerAdapter:ListAdapter<StockCodeData,StockCodeViewHolder>(St
 }
 
 class StockCodeViewHolder(private val binding: ItemStockCodeItemBinding):RecyclerView.ViewHolder(binding.root){
-    fun bind(data: StockCodeData){
+    fun bind(data: ProductInfoUiModel){
         binding.tvCode.text=data.code
         binding.tvSize.text=data.size
-        binding.tvPrice.text=data.price
+        binding.tvPrice.text=data.jewellery_type_id
     }
 }
 
-object StockCodeDiffUtil:DiffUtil.ItemCallback<StockCodeData>(){
-    override fun areItemsTheSame(oldItem: StockCodeData, newItem: StockCodeData): Boolean {
+object StockCodeDiffUtil:DiffUtil.ItemCallback<ProductInfoUiModel>(){
+    override fun areItemsTheSame(oldItem: ProductInfoUiModel, newItem: ProductInfoUiModel): Boolean {
         return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItem: StockCodeData, newItem: StockCodeData): Boolean {
+    override fun areContentsTheSame(oldItem: ProductInfoUiModel, newItem: ProductInfoUiModel): Boolean {
           return oldItem == newItem
     }
 

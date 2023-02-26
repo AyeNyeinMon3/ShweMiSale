@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.shwemi.util.Resource
 import com.example.shwemisale.data_layers.domain.customers.CustomerDataDomain
 import com.example.shwemisale.data_layers.domain.customers.CustomerWhistListDomain
+import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.repositoryImpl.CustomerRepoImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -14,7 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SellCustomerInfoViewModel @Inject constructor(
-    private val customerRepoImpl: CustomerRepoImpl
+    private val customerRepoImpl: CustomerRepoImpl,
+    private val localDatabase: LocalDatabase
 ) :ViewModel(){
     //addUser
     private val _customerWhistListLiveData = MutableLiveData<Resource<List<CustomerWhistListDomain>>?>()
@@ -27,6 +29,10 @@ class SellCustomerInfoViewModel @Inject constructor(
             _customerWhistListLiveData.value = customerRepoImpl.getCustomerWhistList(customerId)
         }
 
+    }
+
+    fun saveCustomerId(id:String){
+        localDatabase.saveCustomerId(id)
     }
 
 }

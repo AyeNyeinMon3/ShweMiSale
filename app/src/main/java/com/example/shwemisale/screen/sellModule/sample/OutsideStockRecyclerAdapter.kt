@@ -1,11 +1,10 @@
-package com.example.shwemisale.screen.sellModule
+package com.example.shwemisale.screen.sellModule.sample
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.shwemisale.databinding.ItemInventoryStockBinding
 import com.example.shwemisale.databinding.ItemOutsideStockBinding
 
 data class OutsideStockData(
@@ -15,7 +14,9 @@ data class OutsideStockData(
     val specification : String
 )
 
-class OutsideStockRecyclerAdapter:ListAdapter<OutsideStockData,OutsideStockViewHolder>(OutsideStockDiffUtil) {
+class OutsideStockRecyclerAdapter:ListAdapter<OutsideStockData, OutsideStockViewHolder>(
+    OutsideStockDiffUtil
+) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OutsideStockViewHolder {
         return OutsideStockViewHolder(ItemOutsideStockBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }

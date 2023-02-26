@@ -1,4 +1,4 @@
-package com.example.shwemisale.screen.sellModule
+package com.example.shwemisale.screen.sellModule.sample
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -12,7 +12,9 @@ data class InventoryStockData(
     val code : String
 )
 
-class InventoryStockRecyclerAdapter:ListAdapter<InventoryStockData,InventoryStockViewHolder>(InventoryStockDiffUtil) {
+class InventoryStockRecyclerAdapter:ListAdapter<InventoryStockData, InventoryStockViewHolder>(
+    InventoryStockDiffUtil
+) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InventoryStockViewHolder {
         return InventoryStockViewHolder(ItemInventoryStockBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }

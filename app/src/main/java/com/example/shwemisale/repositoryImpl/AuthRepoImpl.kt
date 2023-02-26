@@ -21,6 +21,21 @@ class AuthRepoImpl @Inject constructor(
             val responseCall = authService.refreshToken(localDatabase.getAccessToken().orEmpty())
             val response = responseCall.execute()
             if (response.body() != null) {
+                refreshTokenLog()
+                Resource.Success(response.body()!!.data!!.token)
+            } else {
+                Resource.Error(response.errorBody()?.string().orEmpty())
+            }
+        } catch (e: Exception) {
+            Resource.Error(e.message)
+        }
+    }
+
+    override fun refreshTokenLog(): Resource<String> {
+        return try {
+            val responseCall = authService.refreshTokenLog(localDatabase.getAccessToken().orEmpty())
+            val response = responseCall.execute()
+            if (response.body() != null) {
                 Resource.Success(response.body()!!.data!!.token)
             } else {
                 Resource.Error(response.errorBody()?.string().orEmpty())

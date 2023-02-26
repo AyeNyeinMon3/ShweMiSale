@@ -7,14 +7,18 @@ import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.shwemisale.databinding.DialogExchangeOrderBinding
 import com.example.shwemisale.databinding.FragmentExchangeOrderBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ExchangeOrderFragment:Fragment() {
 
     lateinit var binding: FragmentExchangeOrderBinding
     lateinit var dialogExchangeOrderBinding: DialogExchangeOrderBinding
+    private val args by navArgs<ExchangeOrderFragmentArgs>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,7 +59,7 @@ class ExchangeOrderFragment:Fragment() {
             alertDialog.dismiss()
         }
         dialogExchangeOrderBinding.btnWithKPY.setOnClickListener {
-            view?.findNavController()?.navigate(ExchangeOrderFragmentDirections.actionExchangeOrderFragmentToWithKPYFragment())
+            view?.findNavController()?.navigate(ExchangeOrderFragmentDirections.actionExchangeOrderFragmentToWithKPYFragment(args.scannedProducts))
             alertDialog.dismiss()
         }
     }

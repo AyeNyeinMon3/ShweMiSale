@@ -66,13 +66,12 @@ class GemWeightInResellStockViewHolder(
         binding.edtOneGemWeightY.setText(data.weightForOneY)
         binding.btnCalculate.isVisible = data.totalWeightKPY.isEmpty()
         binding.tvTotalWeightKPY.isVisible = data.totalWeightKPY.isNotEmpty()
-        if(data.totalWeightKPY.isNotEmpty()){
-            binding.edtOneGemWeightGm.isEnabled = false
-            binding.edtOneGemWeightK.isEnabled = false
-            binding.edtOneGemWeightP.isEnabled = false
-            binding.edtOneGemWeightY.isEnabled = false
-            binding.edtGemQuantity.isEnabled = false
-        }
+        binding.edtOneGemWeightGm.isEnabled = data.totalWeightKPY.isEmpty()
+        binding.edtOneGemWeightK.isEnabled = data.totalWeightKPY.isEmpty()
+        binding.edtOneGemWeightP.isEnabled = data.totalWeightKPY.isEmpty()
+        binding.edtOneGemWeightY.isEnabled = data.totalWeightKPY.isEmpty()
+        binding.edtGemQuantity.isEnabled = data.totalWeightKPY.isEmpty()
+
 
         binding.btnCalculate.setOnClickListener {
             if (data.gemCount.isNotEmpty()){

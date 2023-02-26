@@ -1,6 +1,5 @@
 package com.example.shwemisale.repositoryImpl
 
-import com.example.shwemi.network.dto.ResponseDto
 import com.example.shwemi.util.Resource
 import com.example.shwemi.util.parseError
 import com.example.shwemi.util.parseErrorWithDataClass
@@ -17,7 +16,7 @@ class PawnRepositoryImpl @Inject constructor(
     private val localDatabase: LocalDatabase,
     private val pawnService: PawnService
 ) : PawnRepository {
-    override suspend fun getPawnInterestRate(token: String): Resource<List<PawnInterestRateDto>> {
+    override suspend fun getPawnInterestRate(): Resource<List<PawnInterestRateDto>> {
         return try {
             val response = pawnService.getPawnInterestRate(
                 localDatabase.getAccessToken().orEmpty(),
@@ -47,7 +46,6 @@ class PawnRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getPawnVoucherScan(
-        token: String,
         voucherCode: String
     ): Resource<PawnVoucherScanDto> {
         return try {
@@ -80,7 +78,6 @@ class PawnRepositoryImpl @Inject constructor(
     }
 
     override suspend fun storePawn(
-        token: String,
         user_id: String?,
         total_debt_amount: String?,
         interest_rate: String?,
@@ -110,7 +107,7 @@ class PawnRepositoryImpl @Inject constructor(
         oldStockDGoldWeightY: List<MultipartBody.Part>?,
         oldStockEPriceFromNewVoucher: List<MultipartBody.Part>?,
         oldStockFVoucherShownGoldWeightY: List<MultipartBody.Part>?
-    ): Resource<ResponseDto> {
+    ): Resource<String> {
         return try {
             val response = pawnService.storePawn(
                 localDatabase.getAccessToken().orEmpty(),
@@ -146,7 +143,7 @@ class PawnRepositoryImpl @Inject constructor(
             )
 
             if (response.isSuccessful && response.body() != null) {
-                Resource.Success(response.body()!!.response)
+                Resource.Success(response.body()!!.response.message)
             } else {
                 val errorJsonString = response.errorBody()?.string().orEmpty()
                 val singleError =
@@ -169,11 +166,10 @@ class PawnRepositoryImpl @Inject constructor(
     }
 
     override suspend fun createPrepaidDebt(
-        token: String,
         voucherCode: String,
         prepaid_debt: String,
         reduced_amount: String
-    ): Resource<ResponseDto> {
+    ): Resource<String> {
         return try {
             val response = pawnService.createPrepaidDebt(
                 localDatabase.getAccessToken().orEmpty(),
@@ -181,7 +177,7 @@ class PawnRepositoryImpl @Inject constructor(
             )
 
             if (response.isSuccessful && response.body() != null) {
-                Resource.Success(response.body()!!.response)
+                Resource.Success(response.body()!!.response.message)
             } else {
                 val errorJsonString = response.errorBody()?.string().orEmpty()
                 val singleError =
@@ -204,11 +200,10 @@ class PawnRepositoryImpl @Inject constructor(
     }
 
     override suspend fun createPrepaidInterest(
-        token: String,
         voucherCode: String,
         number_of_months: String,
         reduced_amount: String
-    ): Resource<ResponseDto> {
+    ): Resource<String> {
         return try {
             val response = pawnService.createPrepaidInterest(
                 localDatabase.getAccessToken().orEmpty(),
@@ -216,7 +211,7 @@ class PawnRepositoryImpl @Inject constructor(
             )
 
             if (response.isSuccessful && response.body() != null) {
-                Resource.Success(response.body()!!.response)
+                Resource.Success(response.body()!!.response.message)
             } else {
                 val errorJsonString = response.errorBody()?.string().orEmpty()
                 val singleError =
@@ -239,7 +234,6 @@ class PawnRepositoryImpl @Inject constructor(
     }
 
     override suspend fun increaseDebt(
-        token: String,
         voucherCode: String,
         increased_debt: String,
         reduced_amount: String,
@@ -266,7 +260,7 @@ class PawnRepositoryImpl @Inject constructor(
         oldStockDGoldWeightY: List<MultipartBody.Part>?,
         oldStockEPriceFromNewVoucher: List<MultipartBody.Part>?,
         oldStockFVoucherShownGoldWeightY: List<MultipartBody.Part>?
-    ): Resource<ResponseDto> {
+    ): Resource<String> {
         return try {
             val response = pawnService.increaseDebt(
                 localDatabase.getAccessToken().orEmpty(),
@@ -299,7 +293,7 @@ class PawnRepositoryImpl @Inject constructor(
             )
 
             if (response.isSuccessful && response.body() != null) {
-                Resource.Success(response.body()!!.response)
+                Resource.Success(response.body()!!.response.message)
             } else {
                 val errorJsonString = response.errorBody()?.string().orEmpty()
                 val singleError =
@@ -322,7 +316,6 @@ class PawnRepositoryImpl @Inject constructor(
     }
 
     override suspend fun payInterestAndIncreaseDebt(
-        token: String,
         voucherCode: String,
         increased_debt: String,
         reduced_amount: String,
@@ -349,7 +342,7 @@ class PawnRepositoryImpl @Inject constructor(
         oldStockDGoldWeightY: List<MultipartBody.Part>?,
         oldStockEPriceFromNewVoucher: List<MultipartBody.Part>?,
         oldStockFVoucherShownGoldWeightY: List<MultipartBody.Part>?
-    ): Resource<ResponseDto> {
+    ): Resource<String> {
         return try {
             val response = pawnService.payInterestAndIncreaseDebt(
                 localDatabase.getAccessToken().orEmpty(),
@@ -382,7 +375,7 @@ class PawnRepositoryImpl @Inject constructor(
             )
 
             if (response.isSuccessful && response.body() != null) {
-                Resource.Success(response.body()!!.response)
+                Resource.Success(response.body()!!.response.message)
             } else {
                 val errorJsonString = response.errorBody()?.string().orEmpty()
                 val singleError =
@@ -405,10 +398,9 @@ class PawnRepositoryImpl @Inject constructor(
     }
 
     override suspend fun payInterest(
-        token: String,
         voucherCode: String,
         reduced_amount: String
-    ): Resource<ResponseDto> {
+    ): Resource<String> {
         return try {
             val response = pawnService.payInterest(
                 localDatabase.getAccessToken().orEmpty(),
@@ -416,7 +408,7 @@ class PawnRepositoryImpl @Inject constructor(
             )
 
             if (response.isSuccessful && response.body() != null) {
-                Resource.Success(response.body()!!.response)
+                Resource.Success(response.body()!!.response.message)
             } else {
                 val errorJsonString = response.errorBody()?.string().orEmpty()
                 val singleError =
@@ -439,11 +431,10 @@ class PawnRepositoryImpl @Inject constructor(
     }
 
     override suspend fun payInterestAndSettleDebt(
-        token: String,
         voucherCode: String,
         reduced_amount: String,
         debt: String
-    ): Resource<ResponseDto> {
+    ): Resource<String> {
         return try {
             val response = pawnService.payInterestAndSettleDebt(
                 localDatabase.getAccessToken().orEmpty(),
@@ -451,7 +442,7 @@ class PawnRepositoryImpl @Inject constructor(
             )
 
             if (response.isSuccessful && response.body() != null) {
-                Resource.Success(response.body()!!.response)
+                Resource.Success(response.body()!!.response.message)
             } else {
                 val errorJsonString = response.errorBody()?.string().orEmpty()
                 val singleError =
@@ -474,12 +465,11 @@ class PawnRepositoryImpl @Inject constructor(
     }
 
     override suspend fun payInterestAndReturnStock(
-        token: String,
         voucherCode: String,
         reduced_amount: String,
         debt: String,
         old_stock_id: String
-    ): Resource<ResponseDto> {
+    ): Resource<String> {
         return try {
             val response = pawnService.payInterestAndReturnStock(
                 localDatabase.getAccessToken().orEmpty(),
@@ -487,7 +477,7 @@ class PawnRepositoryImpl @Inject constructor(
             )
 
             if (response.isSuccessful && response.body() != null) {
-                Resource.Success(response.body()!!.response)
+                Resource.Success(response.body()!!.response.message)
             } else {
                 val errorJsonString = response.errorBody()?.string().orEmpty()
                 val singleError =
@@ -510,10 +500,9 @@ class PawnRepositoryImpl @Inject constructor(
     }
 
     override suspend fun settle(
-        token: String,
         voucherCode: String,
         reduced_amount: String
-    ): Resource<ResponseDto> {
+    ): Resource<String> {
         return try {
             val response = pawnService.settle(
                 localDatabase.getAccessToken().orEmpty(),
@@ -521,7 +510,7 @@ class PawnRepositoryImpl @Inject constructor(
             )
 
             if (response.isSuccessful && response.body() != null) {
-                Resource.Success(response.body()!!.response)
+                Resource.Success(response.body()!!.response.message)
             } else {
                 val errorJsonString = response.errorBody()?.string().orEmpty()
                 val singleError =
@@ -544,7 +533,6 @@ class PawnRepositoryImpl @Inject constructor(
     }
 
     override suspend fun sellOldStock(
-        token: String,
         voucherCode: String,
         reduced_amount: String,
         old_stocks_nameList: List<MultipartBody.Part>?,
@@ -570,7 +558,7 @@ class PawnRepositoryImpl @Inject constructor(
         oldStockDGoldWeightY: List<MultipartBody.Part>?,
         oldStockEPriceFromNewVoucher: List<MultipartBody.Part>?,
         oldStockFVoucherShownGoldWeightY: List<MultipartBody.Part>?
-    ): Resource<ResponseDto> {
+    ): Resource<String> {
         return try {
             val response = pawnService.sellOldStock(
                 localDatabase.getAccessToken().orEmpty(),
@@ -602,7 +590,7 @@ class PawnRepositoryImpl @Inject constructor(
             )
 
             if (response.isSuccessful && response.body() != null) {
-                Resource.Success(response.body()!!.response)
+                Resource.Success(response.body()!!.response.message)
             } else {
                 val errorJsonString = response.errorBody()?.string().orEmpty()
                 val singleError =

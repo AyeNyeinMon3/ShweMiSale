@@ -2,12 +2,13 @@ package com.example.shwemisale.room_database.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.shwemisale.data_layers.ShweMiFile
 import com.example.shwemisale.data_layers.domain.goldFromHome.StockFromHomeInfoDomain
 import com.example.shwemisale.data_layers.ui_models.goldFromHome.StockFromHomeInfoUiModel
 
 @Entity(tableName = "stock-from-home")
 data class StockFromHomeInfoEntity(
-    @PrimaryKey val id: String,
+    @PrimaryKey val id: String?,
     val code: String?,
     val derived_gold_type_id: String?,
 
@@ -23,7 +24,7 @@ data class StockFromHomeInfoEntity(
     val gold_and_gem_weight_gm: String?,
 
     val gold_price: String?,
-    val image: String?,
+    val file: ShweMiFileEntity?,
     val maintenance_cost: String?,
     val name: String?,
     val pt_and_clip_cost: String?,
@@ -64,7 +65,7 @@ fun StockFromHomeInfoEntity.asUiModel(): StockFromHomeInfoUiModel {
         gem_weight_ywae,
         gold_and_gem_weight_gm,
         gold_price,
-        image,
+        file?.asDomain(),
         maintenance_cost,
         name,
         pt_and_clip_cost,
@@ -97,7 +98,7 @@ fun StockFromHomeInfoDomain.asEntity(): StockFromHomeInfoEntity {
         gem_weight_ywae = gem_weight_ywae.toString(),
         gold_and_gem_weight_gm = gold_and_gem_weight_gm.toString(),
         gold_price = gold_price.toString(),
-        image = image,
+        file = file?.asEntity(),
         maintenance_cost = maintenance_cost.toString(),
         name = name,
         pt_and_clip_cost = pt_and_clip_cost.toString(),
@@ -121,6 +122,26 @@ fun StockFromHomeInfoDomain.asEntity(): StockFromHomeInfoEntity {
     )
 }
 
+@Entity(tableName = "shweMiFile")
+data class ShweMiFileEntity(
+    val id:String?,
+    val type:String?,
+    val url:String?
+)
+
+
+fun ShweMiFile.asEntity():ShweMiFileEntity{
+    return ShweMiFileEntity(
+        id, type, url
+    )
+}
+
+
+fun ShweMiFileEntity.asDomain():ShweMiFile{
+    return ShweMiFile(
+        id, type, url
+    )
+}
 /** ui matching */
 // productIdList:List<MultipartBody.Part>?,// done
 // user_id:MultipartBody.Part?,// done

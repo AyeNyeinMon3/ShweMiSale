@@ -95,4 +95,7 @@ dependencies {
     implementation("androidx.room:room-ktx:2.3.0")
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:2.3.0")
+
+    implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
+
 }

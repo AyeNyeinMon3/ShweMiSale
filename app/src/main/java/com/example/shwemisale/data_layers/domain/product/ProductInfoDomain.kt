@@ -28,6 +28,8 @@ fun ProductInfoDomain.asUiModel(): ProductInfoUiModel {
         gem_value,
         promotion_discount,
         pt_and_clip_cost,
-        maintenance_cost
+        maintenance_cost,
+        "",
+        ""
     )
 }

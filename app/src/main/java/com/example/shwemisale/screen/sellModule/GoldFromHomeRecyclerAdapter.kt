@@ -38,6 +38,7 @@ class GoldFromHomeViewHolder(private var binding: ItemGoldFromHomeBinding,
         binding.tvVoucherPurchasePayment.text = data.oldStockc_voucher_buying_value
         binding.tvPawnPrice.text = data.calculatedPriceForPawn
         binding.tvResellItem.text = data.name
+
         binding.ivEdit.setOnClickListener {
             editClick(data.id)
         }

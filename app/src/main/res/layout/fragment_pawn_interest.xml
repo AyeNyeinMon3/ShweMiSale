@@ -367,7 +367,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/radioGroup2">
 
                     <include
-                        android:id="@+id/include_radioBtn"
+                        android:id="@+id/include_payment_box"
                         layout="@layout/include_radio_select_investment"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"

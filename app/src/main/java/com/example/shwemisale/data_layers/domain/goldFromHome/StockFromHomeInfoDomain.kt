@@ -1,5 +1,6 @@
 package com.example.shwemisale.data_layers.domain.goldFromHome
 
+import com.example.shwemisale.data_layers.ShweMiFile
 import com.example.shwemisale.data_layers.dto.goldFromHome.StockFromHomeInfoDto
 import com.example.shwemisale.data_layers.ui_models.goldFromHome.StockFromHomeInfoUiModel
 import com.example.shwemisale.screen.goldFromHome.getKPYFromYwae
@@ -14,7 +15,7 @@ data class StockFromHomeInfoDomain(
     val gem_weight_ywae: Double,
     val gold_and_gem_weight_gm: Double,
     val gold_price: Int,
-    val image: String,
+    val file: ShweMiFile?,
     val maintenance_cost: Int,
     val name: String,
     val pt_and_clip_cost: Int,

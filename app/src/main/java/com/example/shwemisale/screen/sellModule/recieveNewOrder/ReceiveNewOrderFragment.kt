@@ -1,4 +1,4 @@
-package com.example.shwemisale.screen.sellModule
+package com.example.shwemisale.screen.sellModule.recieveNewOrder
 
 import android.os.Bundle
 import android.view.LayoutInflater

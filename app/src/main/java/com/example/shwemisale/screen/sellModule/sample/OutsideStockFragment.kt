@@ -1,12 +1,10 @@
-package com.example.shwemisale.screen.sellModule
+package com.example.shwemisale.screen.sellModule.sample
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
-import com.example.shwemisale.R
 import com.example.shwemisale.databinding.FragmentOutsideStockBinding
 
 class OutsideStockFragment:Fragment() {

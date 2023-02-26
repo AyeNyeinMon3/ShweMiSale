@@ -7,9 +7,12 @@ import android.icu.util.ValueIterator
 import android.net.Uri
 import android.provider.MediaStore
 import android.text.TextUtils
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.EditText
+import androidx.fragment.app.FragmentActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.shwemisale.R
@@ -114,5 +117,10 @@ fun generateNumberFromEditText(editText: EditText):String{
     }else{
         editText.text.toString()
     }
+}
+
+fun hideKeyboard(activity: FragmentActivity?, view: View) {
+    val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.hideSoftInputFromWindow(view.windowToken, 0)
 }
 

@@ -20,6 +20,7 @@ import com.example.shwemisale.databinding.DialogGemWeightBinding
 import com.example.shwemisale.databinding.DialogMinusPercentageBinding
 import com.example.shwemisale.databinding.DialogResellStockInfoBinding
 import com.example.shwemisale.databinding.FragmentResellStockInfoAddedSellBinding
+import com.example.shwemisale.room_database.entity.StockFromHomeInfoEntity
 import com.example.shwemisale.screen.goldFromHome.getKPYFromYwae
 import com.example.shwemisale.screen.goldFromHome.getKyatsFromKPY
 import com.example.shwemisale.screen.goldFromHome.getYwaeFromGram
@@ -76,9 +77,9 @@ class SellResellStockInfoAddedFragment : Fragment() {
         }
         binding.radioGroupType.setOnCheckedChangeListener { radioGroup, checkedId ->
             var lastValue = binding.edtRepurchasePrice.text.toString()
-            if (checkedId == binding.radioBtnOldStock.id){
+            if (checkedId == binding.radioBtnOldStock.id) {
                 binding.edtRepurchasePrice.setText("")
-            }else{
+            } else {
                 binding.edtRepurchasePrice.setText(lastValue)
             }
         }
@@ -135,10 +136,83 @@ class SellResellStockInfoAddedFragment : Fragment() {
 
         binding.btnContinue.setOnClickListener {
             val item = viewModel.getStockInfoFromDataBase(args.id.orEmpty())
-            if (args.id != null){
+            val diamondGemValue = if (binding.edtReducedGemDiamondValue.text.isNullOrEmpty()) {
+                generateNumberFromEditText(binding.edtGemDiamondValue).toDouble()
+            } else {
+                generateNumberFromEditText(binding.edtReducedGemDiamondValue).toDouble()
+            }
+            val otherReducedCosts =
+                diamondGemValue + generateNumberFromEditText(binding.edtFee).toDouble() + generateNumberFromEditText(
+                    binding.edtPTclipValue
+                ).toDouble()
+            val wastageYwae = getYwaeFromKPY(
+                generateNumberFromEditText(binding.edtAddReducedK).toInt(),
+                generateNumberFromEditText(binding.edtAddReducedP).toInt(),
+                generateNumberFromEditText(binding.edtAddReducedY).toDouble(),
+            )
+            val goldAndGemWeight = getYwaeFromKPY(
+                generateNumberFromEditText(binding.edtAddReducedK).toInt(),
+                generateNumberFromEditText(binding.edtAddReducedP).toInt(),
+                generateNumberFromEditText(binding.edtAddReducedY).toDouble(),
+            )
 
-            }else{
+            val gemWeightYwae = getYwaeFromKPY(
+                generateNumberFromEditText(binding.edtGemWeightK).toInt(),
+                generateNumberFromEditText(binding.edtGemWeightP).toInt(),
+                generateNumberFromEditText(binding.edtGemWeightY).toDouble(),
+            )
+            val impurityYwae = getYwaeFromKPY(
+                generateNumberFromEditText(binding.edtGeeWeightK).toInt(),
+                generateNumberFromEditText(binding.edtGeeWeightP).toInt(),
+                generateNumberFromEditText(binding.edtGeeWeightY).toDouble(),
+            )
 
+            val oldStockDGoldWeightY = getYwaeFromKPY(
+                generateNumberFromEditText(binding.edtPriceDK).toInt(),
+                generateNumberFromEditText(binding.edtPriceDP).toInt(),
+                generateNumberFromEditText(binding.edtPriceDY).toDouble(),
+            )
+
+            val oldStockFVoucherShownGoldWeightY = getYwaeFromKPY(
+                generateNumberFromEditText(binding.edtPriceFK).toInt(),
+                generateNumberFromEditText(binding.edtPriceFP).toInt(),
+                generateNumberFromEditText(binding.edtPriceFY).toDouble(),
+            )
+
+            if (args.id != null) {
+                viewModel.updateStockFromHome(
+                    item.id,
+                    viewModel.nameTag,
+                    oldStockDGoldWeightY.toString(),//derived net gold weight need to confirm
+                    diamondGemValue.toString(),
+                    gemWeightYwae.toString(),
+                    binding.edtGoldAndGemWeightGm.text.toString(),
+                    "gold-price",
+                    binding.edtFee.text.toString(),
+                    binding.edtPTclipValue.text.toString(),
+                    binding.edtRepurchasePrice.text.toString(),
+                    otherReducedCosts.toString(),
+                    binding.edtDecidedPawnPrice.text.toString(),
+                    binding.edtPawnPrice.text.toString(),
+                    wastageYwae.toString(),
+                    viewModel.horizontalOption+","+viewModel.verticalOption+","+viewModel.size,
+                    binding.edtGoldQuality.text.toString(),
+                    impurityYwae.toString(),
+                    binding.edtPriceA.text.toString(),
+                    binding.edtPriceB.text.toString(),
+                    binding.edtPriceC.text.toString(),
+                    oldStockDGoldWeightY.toString(),
+                    binding.edtPriceE.text.toString(),
+                    oldStockFVoucherShownGoldWeightY.toString(),
+                )
+            } else {
+                //TODO discuss with yelu to handle new items
+//                viewModel.saveStockFromHome(
+//                    StockFromHomeInfoEntity(
+//                        null,
+//
+//                    )
+//                )
             }
 
         }
@@ -247,13 +321,13 @@ class SellResellStockInfoAddedFragment : Fragment() {
         binding.edtFee.setText(item.maintenance_cost)
         binding.edtPTclipValue.setText(item.pt_and_clip_cost)
 
-        val wastageKPY = getKPYFromYwae(item.wastage_ywae?.toDouble()?:0.0)
+        val wastageKPY = getKPYFromYwae(item.wastage_ywae?.toDouble() ?: 0.0)
         binding.edtAddReducedK.setText(wastageKPY[0].toInt().toString())
         binding.edtAddReducedP.setText(wastageKPY[1].toInt().toString())
         binding.edtAddReducedY.setText(wastageKPY[2].let { String.format("%.2f", it) })
 
 
-        binding.ivBg.loadImageWithGlide(item.image)
+        binding.ivBg.loadImageWithGlide(item.file?.url)
         binding.ivCamera.isVisible = false
 
         binding.edtRepurchasePrice.setText(item.gold_price)
@@ -292,9 +366,9 @@ class SellResellStockInfoAddedFragment : Fragment() {
         binding.edtGoldQuality.setText(String.format("%.2f", gqInCarat))
     }
 
-    fun calculateRebuyPriceFromGQ(){
+    fun calculateRebuyPriceFromGQ() {
         val gqInCarat = generateNumberFromEditText(binding.edtGoldQuality).toDouble()
-        val rebuyPrice = gqInCarat /24 * viewModel.hundredPercentGoldPrice.toInt()
+        val rebuyPrice = gqInCarat / 24 * viewModel.hundredPercentGoldPrice.toInt()
         binding.edtRepurchasePrice.setText(rebuyPrice.toInt().toString())
     }
 
@@ -338,7 +412,7 @@ class SellResellStockInfoAddedFragment : Fragment() {
             goldKyat * generateNumberFromEditText(binding.edtRepurchasePrice).toDouble()
         }
 
-        binding.edtPaymentFromShop.setText( buyPriceFromShop.toInt().toString())
+        binding.edtPaymentFromShop.setText(buyPriceFromShop.toInt().toString())
     }
 
     fun calculateDecidedPawnPrice() {
@@ -363,7 +437,7 @@ class SellResellStockInfoAddedFragment : Fragment() {
         }
 
         val pawnPrice = if (hasotherReducedCost) {
-            (goldKyat) * generateNumberFromEditText(binding.edtDecidedPawnPrice).toDouble()+diamondGemValue
+            (goldKyat) * generateNumberFromEditText(binding.edtDecidedPawnPrice).toDouble() + diamondGemValue
 
         } else {
             (goldKyat) * generateNumberFromEditText(binding.edtDecidedPawnPrice).toDouble()
@@ -394,7 +468,7 @@ class SellResellStockInfoAddedFragment : Fragment() {
                 binding.edtPTclipValue
             ).toDouble()
         val priceB = if (hasotherReducedCost) {
-            (goldKyat + reducedKyat) * generateNumberFromEditText(binding.edtPriceA).toDouble()+otherReducedCosts
+            (goldKyat + reducedKyat) * generateNumberFromEditText(binding.edtPriceA).toDouble() + otherReducedCosts
         } else {
             (goldKyat) * generateNumberFromEditText(binding.edtPriceA).toDouble()
         }
@@ -441,9 +515,9 @@ class SellResellStockInfoAddedFragment : Fragment() {
     }
 
     fun calculatePriceD(hasotherReducedCost: Boolean) {
-        val priceB = if (binding.edtReducedPriceB.text.isNullOrEmpty()){
+        val priceB = if (binding.edtReducedPriceB.text.isNullOrEmpty()) {
             generateNumberFromEditText(binding.edtPriceB).toDouble()
-        }else{
+        } else {
             generateNumberFromEditText(binding.edtReducedPriceB).toDouble()
         }
         val priceC = generateNumberFromEditText(binding.edtPriceC).toDouble()
@@ -462,9 +536,9 @@ class SellResellStockInfoAddedFragment : Fragment() {
                 binding.edtPTclipValue
             ).toDouble()
         val priceD = if (hasotherReducedCost) {
-            ((priceB - otherReducedCosts) / priceC)*128 - reducedYwae
+            ((priceB - otherReducedCosts) / priceC) * 128 - reducedYwae
         } else {
-            ((priceB) / priceC)*128
+            ((priceB) / priceC) * 128
         }
 
         val priceDKPY = getKPYFromYwae(priceD)
@@ -582,8 +656,8 @@ class SellResellStockInfoAddedFragment : Fragment() {
             )
         })
         alertDialog.setCancelable(false)
-        val adapter = GemWeightRecyclerAdapter(viewModel) {id->
-            viewModel.gemWeightCustomList.remove(viewModel.gemWeightCustomList.find { it.id == id  })
+        val adapter = GemWeightRecyclerAdapter(viewModel) { id ->
+            viewModel.gemWeightCustomList.remove(viewModel.gemWeightCustomList.find { it.id == id })
 
         }
         dialogGemWeightBinding.rvGemWeight.adapter = adapter
@@ -648,7 +722,8 @@ class SellResellStockInfoAddedFragment : Fragment() {
             val percentValue =
                 (generateNumberFromEditText(binding.edtGemDiamondValue).toDouble()) * percent / 100
 
-            val result = generateNumberFromEditText(binding.edtGemDiamondValue).toDouble() - percentValue
+            val result =
+                generateNumberFromEditText(binding.edtGemDiamondValue).toDouble() - percentValue
             binding.edtReducedGemDiamondValue.setText(result.toInt().toString())
             alertDialog.dismiss()
         }
@@ -758,7 +833,8 @@ class SellResellStockInfoAddedFragment : Fragment() {
         binding.textInputLayoutFee.isEnabled = true
         binding.textInputLayoutPTclipValue.isEnabled = true
     }
-    fun resetPricesValue(){
+
+    fun resetPricesValue() {
         binding.edtDecidedPawnPrice.setText("")
         binding.edtPawnPrice.setText("")
         binding.edtPriceA.setText("")

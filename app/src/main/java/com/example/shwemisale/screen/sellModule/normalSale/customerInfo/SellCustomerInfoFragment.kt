@@ -45,6 +45,7 @@ class SellCustomerInfoFragment:Fragment() {
         loading = requireContext().getAlertDialog()
         val adapter = CustomerFavItemsRecyclerAdapter()
         binding.includeCustomerInfo.rvCustomerFavItems.adapter = adapter
+        viewModel.saveCustomerId(args.customerData.id)
         binding.tvAddress.text = args.customerData.address
         binding.tvBirthDate.text = args.customerData.date_of_birth
         binding.tvName.text = args.customerData.name

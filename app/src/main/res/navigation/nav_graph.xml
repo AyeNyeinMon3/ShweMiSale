@@ -92,7 +92,7 @@
     </fragment>
     <fragment
         android:id="@+id/receiveNewOrderFragment"
-        android:name="com.example.shwemisale.screen.sellModule.ReceiveNewOrderFragment"
+        android:name="com.example.shwemisale.screen.sellModule.recieveNewOrder.ReceiveNewOrderFragment"
         android:label="‌အော်ဒါအသစ်လက်ခံ" >
         <action
             android:id="@+id/action_receiveNewOrderFragment_to_inventoryStockFragment"
@@ -103,11 +103,11 @@
     </fragment>
     <fragment
         android:id="@+id/akoukSellFragment"
-        android:name="com.example.shwemisale.screen.sellModule.AkoukSellFragment"
+        android:name="com.example.shwemisale.screen.sellModule.goldBlockSale.AkoukSellFragment"
         android:label="အခေါက်အရောင်း" />
     <fragment
         android:id="@+id/generalSellFragment"
-        android:name="com.example.shwemisale.screen.sellModule.GeneralSellFragment"
+        android:name="com.example.shwemisale.screen.sellModule.generalSale.GeneralSellFragment"
         android:label="အထွေထွေအရောင်း" />
     <fragment
         android:id="@+id/exchangeOrderFragment"
@@ -119,6 +119,9 @@
         <action
             android:id="@+id/action_exchangeOrderFragment_to_withKPYFragment"
             app:destination="@id/withKPYFragment" />
+        <argument
+            android:name="scannedProducts"
+            app:argType="com.example.shwemisale.data_layers.ui_models.product.ProductInfoUiModel[]" />
     </fragment>
     <fragment
         android:id="@+id/withValueFragment"
@@ -127,18 +130,22 @@
     <fragment
         android:id="@+id/withKPYFragment"
         android:name="com.example.shwemisale.screen.sellModule.openVoucher.withKPY.WithKPYFragment"
-        android:label="ကျပ်ပဲရွေးဖြင့် ဘောင်ချာဖွင့်မည်" />
+        android:label="ကျပ်ပဲရွေးဖြင့် ဘောင်ချာဖွင့်မည်" >
+        <argument
+            android:name="scannedProducts"
+            app:argType="com.example.shwemisale.data_layers.ui_models.product.ProductInfoUiModel[]" />
+    </fragment>
     <fragment
         android:id="@+id/inventoryStockFragment"
-        android:name="com.example.shwemisale.screen.sellModule.InventoryStockFragment"
+        android:name="com.example.shwemisale.screen.sellModule.sample.InventoryStockFragment"
         android:label="Sample Take from Inventory" />
     <fragment
         android:id="@+id/outsideStockFragment"
-        android:name="com.example.shwemisale.screen.sellModule.OutsideStockFragment"
+        android:name="com.example.shwemisale.screen.sellModule.sample.OutsideStockFragment"
         android:label="Sample Take from Outside" />
     <fragment
         android:id="@+id/stockDetailFragment"
-        android:name="com.example.shwemisale.screen.sellModule.StockDetailFragment"
+        android:name="com.example.shwemisale.screen.sellModule.normalSaleScanStock.detail.StockDetailFragment"
         android:label="Stock Detail" />
     <fragment
         android:id="@+id/sellResellStockInfoAddedFragment"

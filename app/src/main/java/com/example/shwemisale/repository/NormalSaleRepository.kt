@@ -1,6 +1,5 @@
 package com.example.shwemisale.repository
 
-import com.example.shwemi.network.dto.ResponseDto
 import com.example.shwemi.util.Resource
 import com.example.shwemisale.data_layers.dto.GeneralSaleApiResponse
 import com.example.shwemisale.data_layers.dto.GeneralSaleDto
@@ -15,277 +14,267 @@ import retrofit2.http.*
 
 interface NormalSaleRepository {
     suspend fun getPaidAmountOfVoucher(
-        token: String,
         voucherCode: String
     ): Resource<String>
 
     suspend fun getGoldPrices(
-        token: String,
-        productIdList:List<String>
+        productIdList: List<String>
     ): Resource<GoldPriceDto>
 
     suspend fun getVoucherInfoWithKPY(
-        token: String,
-        productIdList:List<String>
+        productIdList: List<String>
     ): Resource<VoucherInfoWithKPYDto>
 
     suspend fun getVoucherInfoWithValue(
-        token: String,
-        productIdList:List<String>
+        productIdList: List<String>
     ): Resource<VoucherInfoWithValueResponse>
 
     suspend fun submitWithKPY(
-        token:String,
-         productIdList:List<MultipartBody.Part>?,
-         user_id: String?,
-         paid_amount: String?,
-         reduced_cost: String?,
-
-         old_voucher_paid_amount: MultipartBody.Part?,
-         old_stocks_nameList:List<MultipartBody.Part>?,
-         oldStockImageIds:List<MultipartBody.Part>?,
-         oldStockImageFile:List<MultipartBody.Part>?,
-         oldStockCondition:List<MultipartBody.Part>?,
-
-         oldStockGemWeightY:List<MultipartBody.Part>?,
-
-         oldStockGoldGemWeightY:List<MultipartBody.Part>?,
-
-         oldStockImpurityWeightY:List<MultipartBody.Part>?,
-
-         oldStockGoldWeightY:List<MultipartBody.Part>?,
-
-         oldStockWastageWeightY:List<MultipartBody.Part>?,
-
-         oldStockRebuyPrice:List<MultipartBody.Part>?,
-         oldStockGQinCarat:List<MultipartBody.Part>?,
-         oldStockMaintenance_cost:List<MultipartBody.Part>?,
-         oldStockGemValue:List<MultipartBody.Part>?,
-         oldStockPTAndClipCost:List<MultipartBody.Part>?,
-         oldStockCalculatedBuyingValue:List<MultipartBody.Part>?,
-         oldStockPriceForPawn:List<MultipartBody.Part>?,
-         oldStockCalculatedForPawn:List<MultipartBody.Part>?,
-
-         oldStockABuyingPrice:List<MultipartBody.Part>?,
-         oldStockb_voucher_buying_value:List<MultipartBody.Part>?,
-         oldStockc_voucher_buying_price:List<MultipartBody.Part>?,
-
-         oldStockDGoldWeightY:List<MultipartBody.Part>?,
-
-         oldStockEPriceFromNewVoucher:List<MultipartBody.Part>?,
-
-         oldStockFVoucherShownGoldWeightY:List<MultipartBody.Part>?,
-
-        ):Resource<ResponseDto>
-
-
-    suspend fun submitWithValue(
-        token:String,
-         productIdList:List<MultipartBody.Part>?,
+        productIdList: List<MultipartBody.Part>?,
         user_id: String?,
         paid_amount: String?,
         reduced_cost: String?,
 
         old_voucher_paid_amount: MultipartBody.Part?,
-        old_stocks_nameList:List<MultipartBody.Part>?,
-        oldStockImageIds:List<MultipartBody.Part>?,
-        oldStockImageFile:List<MultipartBody.Part>?,
-        oldStockCondition:List<MultipartBody.Part>?,
+        old_stocks_nameList: List<MultipartBody.Part>?,
+        oldStockImageIds: List<MultipartBody.Part>?,
+        oldStockImageFile: List<MultipartBody.Part>?,
+        oldStockCondition: List<MultipartBody.Part>?,
 
-        oldStockGoldGemWeightY:List<MultipartBody.Part>?,
+        oldStockGemWeightY: List<MultipartBody.Part>?,
 
-        oldStockGemWeightY:List<MultipartBody.Part>?,
+        oldStockGoldGemWeightY: List<MultipartBody.Part>?,
 
-        oldStockImpurityWeightY:List<MultipartBody.Part>?,
+        oldStockImpurityWeightY: List<MultipartBody.Part>?,
 
-        oldStockGoldWeightY:List<MultipartBody.Part>?,
+        oldStockGoldWeightY: List<MultipartBody.Part>?,
 
-        oldStockWastageWeightY:List<MultipartBody.Part>?,
+        oldStockWastageWeightY: List<MultipartBody.Part>?,
 
-        oldStockRebuyPrice:List<MultipartBody.Part>?,
-        oldStockGQinCarat:List<MultipartBody.Part>?,
-        oldStockMaintenance_cost:List<MultipartBody.Part>?,
-        oldStockGemValue:List<MultipartBody.Part>?,
-        oldStockPTAndClipCost:List<MultipartBody.Part>?,
-        oldStockCalculatedBuyingValue:List<MultipartBody.Part>?,
-        oldStockPriceForPawn:List<MultipartBody.Part>?,
-        oldStockCalculatedForPawn:List<MultipartBody.Part>?,
+        oldStockRebuyPrice: List<MultipartBody.Part>?,
+        oldStockGQinCarat: List<MultipartBody.Part>?,
+        oldStockMaintenance_cost: List<MultipartBody.Part>?,
+        oldStockGemValue: List<MultipartBody.Part>?,
+        oldStockPTAndClipCost: List<MultipartBody.Part>?,
+        oldStockCalculatedBuyingValue: List<MultipartBody.Part>?,
+        oldStockPriceForPawn: List<MultipartBody.Part>?,
+        oldStockCalculatedForPawn: List<MultipartBody.Part>?,
 
-        oldStockABuyingPrice:List<MultipartBody.Part>?,
-        oldStockb_voucher_buying_value:List<MultipartBody.Part>?,
-        oldStockc_voucher_buying_price:List<MultipartBody.Part>?,
+        oldStockABuyingPrice: List<MultipartBody.Part>?,
+        oldStockb_voucher_buying_value: List<MultipartBody.Part>?,
+        oldStockc_voucher_buying_price: List<MultipartBody.Part>?,
 
-        oldStockDGoldWeightY:List<MultipartBody.Part>?,
+        oldStockDGoldWeightY: List<MultipartBody.Part>?,
 
-        oldStockEPriceFromNewVoucher:List<MultipartBody.Part>?,
+        oldStockEPriceFromNewVoucher: List<MultipartBody.Part>?,
 
-        oldStockFVoucherShownGoldWeightY:List<MultipartBody.Part>?,
+        oldStockFVoucherShownGoldWeightY: List<MultipartBody.Part>?,
 
-        ):Resource<ResponseDto>
+        ): Resource<String>
+
+
+    suspend fun submitWithValue(
+        productIdList: List<MultipartBody.Part>?,
+        user_id: String?,
+        paid_amount: String?,
+        reduced_cost: String?,
+
+        old_voucher_paid_amount: MultipartBody.Part?,
+        old_stocks_nameList: List<MultipartBody.Part>?,
+        oldStockImageIds: List<MultipartBody.Part>?,
+        oldStockImageFile: List<MultipartBody.Part>?,
+        oldStockCondition: List<MultipartBody.Part>?,
+
+        oldStockGoldGemWeightY: List<MultipartBody.Part>?,
+
+        oldStockGemWeightY: List<MultipartBody.Part>?,
+
+        oldStockImpurityWeightY: List<MultipartBody.Part>?,
+
+        oldStockGoldWeightY: List<MultipartBody.Part>?,
+
+        oldStockWastageWeightY: List<MultipartBody.Part>?,
+
+        oldStockRebuyPrice: List<MultipartBody.Part>?,
+        oldStockGQinCarat: List<MultipartBody.Part>?,
+        oldStockMaintenance_cost: List<MultipartBody.Part>?,
+        oldStockGemValue: List<MultipartBody.Part>?,
+        oldStockPTAndClipCost: List<MultipartBody.Part>?,
+        oldStockCalculatedBuyingValue: List<MultipartBody.Part>?,
+        oldStockPriceForPawn: List<MultipartBody.Part>?,
+        oldStockCalculatedForPawn: List<MultipartBody.Part>?,
+
+        oldStockABuyingPrice: List<MultipartBody.Part>?,
+        oldStockb_voucher_buying_value: List<MultipartBody.Part>?,
+        oldStockc_voucher_buying_price: List<MultipartBody.Part>?,
+
+        oldStockDGoldWeightY: List<MultipartBody.Part>?,
+
+        oldStockEPriceFromNewVoucher: List<MultipartBody.Part>?,
+
+        oldStockFVoucherShownGoldWeightY: List<MultipartBody.Part>?,
+
+        ): Resource<String>
 
 
     /** New Order Sales */
 
     suspend fun submitOrderSale(
-        token:String,
-        name:String,
-        gold_type_id:String,
-         gold_price:String,
-        total_gold_weight_ywae:String,
-        est_unit_wastage_ywae:String,
-        qty:String,
-         gem_value:String,
-         maintenance_cost:String,
-         date_of_delivery:String,
-         is_delivered:String,
-         remark:String,
-         user_id:String,
-         paid_amount:String,
-        reduced_cost:String,
+        name: String,
+        gold_type_id: String,
+        gold_price: String,
+        total_gold_weight_ywae: String,
+        est_unit_wastage_ywae: String,
+        qty: String,
+        gem_value: String,
+        maintenance_cost: String,
+        date_of_delivery: String,
+        is_delivered: String,
+        remark: String,
+        user_id: String,
+        paid_amount: String,
+        reduced_cost: String,
 
-        itemsGeneralSaleItemId:List<MultipartBody.Part>?,
-        itemsQty:List<MultipartBody.Part>?,
-        itemsGoldWeightGm:List<MultipartBody.Part>?,
-        itemsWastageYwae:List<MultipartBody.Part>?,
-        itemsMaintenanceCost:List<MultipartBody.Part>?,
+        itemsGeneralSaleItemId: List<MultipartBody.Part>?,
+        itemsQty: List<MultipartBody.Part>?,
+        itemsGoldWeightGm: List<MultipartBody.Part>?,
+        itemsWastageYwae: List<MultipartBody.Part>?,
+        itemsMaintenanceCost: List<MultipartBody.Part>?,
 
-        old_stocks_nameList:List<MultipartBody.Part>?,
-        oldStockImageIds:List<MultipartBody.Part>?,
-        oldStockImageFile:List<MultipartBody.Part>?,
-        oldStockCondition:List<MultipartBody.Part>?,
+        old_stocks_nameList: List<MultipartBody.Part>?,
+        oldStockImageIds: List<MultipartBody.Part>?,
+        oldStockImageFile: List<MultipartBody.Part>?,
+        oldStockCondition: List<MultipartBody.Part>?,
 
-        oldStockGoldGemWeightY:List<MultipartBody.Part>?,
+        oldStockGoldGemWeightY: List<MultipartBody.Part>?,
 
-        oldStockGemWeightY:List<MultipartBody.Part>?,
+        oldStockGemWeightY: List<MultipartBody.Part>?,
 
-        oldStockImpurityWeightY:List<MultipartBody.Part>?,
+        oldStockImpurityWeightY: List<MultipartBody.Part>?,
 
-        oldStockGoldWeightY:List<MultipartBody.Part>?,
+        oldStockGoldWeightY: List<MultipartBody.Part>?,
 
-        oldStockWastageWeightY:List<MultipartBody.Part>?,
+        oldStockWastageWeightY: List<MultipartBody.Part>?,
 
-        oldStockRebuyPrice:List<MultipartBody.Part>?,
-        oldStockGQinCarat:List<MultipartBody.Part>?,
-        oldStockMaintenance_cost:List<MultipartBody.Part>?,
-        oldStockGemValue:List<MultipartBody.Part>?,
-        oldStockPTAndClipCost:List<MultipartBody.Part>?,
-        oldStockCalculatedBuyingValue:List<MultipartBody.Part>?,
-        oldStockPriceForPawn:List<MultipartBody.Part>?,
-        oldStockCalculatedForPawn:List<MultipartBody.Part>?,
+        oldStockRebuyPrice: List<MultipartBody.Part>?,
+        oldStockGQinCarat: List<MultipartBody.Part>?,
+        oldStockMaintenance_cost: List<MultipartBody.Part>?,
+        oldStockGemValue: List<MultipartBody.Part>?,
+        oldStockPTAndClipCost: List<MultipartBody.Part>?,
+        oldStockCalculatedBuyingValue: List<MultipartBody.Part>?,
+        oldStockPriceForPawn: List<MultipartBody.Part>?,
+        oldStockCalculatedForPawn: List<MultipartBody.Part>?,
 
-        oldStockABuyingPrice:List<MultipartBody.Part>?,
-        oldStockb_voucher_buying_value:List<MultipartBody.Part>?,
-        oldStockc_voucher_buying_price:List<MultipartBody.Part>?,
+        oldStockABuyingPrice: List<MultipartBody.Part>?,
+        oldStockb_voucher_buying_value: List<MultipartBody.Part>?,
+        oldStockc_voucher_buying_price: List<MultipartBody.Part>?,
 
-        oldStockDGoldWeightY:List<MultipartBody.Part>?,
+        oldStockDGoldWeightY: List<MultipartBody.Part>?,
 
-        oldStockEPriceFromNewVoucher:List<MultipartBody.Part>?,
+        oldStockEPriceFromNewVoucher: List<MultipartBody.Part>?,
 
-        oldStockFVoucherShownGoldWeightY:List<MultipartBody.Part>?,
+        oldStockFVoucherShownGoldWeightY: List<MultipartBody.Part>?,
 
-        oldStockSampleListId:List<MultipartBody.Part>?
-    ):Resource<ResponseDto>
+        oldStockSampleListId: List<MultipartBody.Part>?
+    ): Resource<String>
 
 
     suspend fun submitPureGoldSale(
-        token:String,
-        itemsGoldWeightYwae:List<MultipartBody.Part>?,
-        itemsWastageYwae:List<MultipartBody.Part>?,
+        itemsGoldWeightYwae: List<MultipartBody.Part>?,
+        itemsWastageYwae: List<MultipartBody.Part>?,
         itemsMaintenanceCost: List<MultipartBody.Part>?,
-        itemsThreadingFees:List<MultipartBody.Part>?,
-        itemsType:List<MultipartBody.Part>?,
-         gold_price:String,
-        user_id:String,
-      paid_amount:String,
-        reduced_cost:String,
+        itemsThreadingFees: List<MultipartBody.Part>?,
+        itemsType: List<MultipartBody.Part>?,
+        gold_price: String,
+        user_id: String,
+        paid_amount: String,
+        reduced_cost: String,
 
-        old_stocks_nameList:List<MultipartBody.Part>?,
-        oldStockImageIds:List<MultipartBody.Part>?,
-        oldStockImageFile:List<MultipartBody.Part>?,
-        oldStockCondition:List<MultipartBody.Part>?,
+        old_stocks_nameList: List<MultipartBody.Part>?,
+        oldStockImageIds: List<MultipartBody.Part>?,
+        oldStockImageFile: List<MultipartBody.Part>?,
+        oldStockCondition: List<MultipartBody.Part>?,
 
-        oldStockGoldGemWeightY:List<MultipartBody.Part>?,
+        oldStockGoldGemWeightY: List<MultipartBody.Part>?,
 
-        oldStockGemWeightY:List<MultipartBody.Part>?,
+        oldStockGemWeightY: List<MultipartBody.Part>?,
 
-        oldStockImpurityWeightY:List<MultipartBody.Part>?,
+        oldStockImpurityWeightY: List<MultipartBody.Part>?,
 
-        oldStockGoldWeightY:List<MultipartBody.Part>?,
+        oldStockGoldWeightY: List<MultipartBody.Part>?,
 
-        oldStockWastageWeightY:List<MultipartBody.Part>?,
+        oldStockWastageWeightY: List<MultipartBody.Part>?,
 
-        oldStockRebuyPrice:List<MultipartBody.Part>?,
-        oldStockGQinCarat:List<MultipartBody.Part>?,
-        oldStockMaintenance_cost:List<MultipartBody.Part>?,
-        oldStockGemValue:List<MultipartBody.Part>?,
-        oldStockPTAndClipCost:List<MultipartBody.Part>?,
-        oldStockCalculatedBuyingValue:List<MultipartBody.Part>?,
-        oldStockPriceForPawn:List<MultipartBody.Part>?,
-        oldStockCalculatedForPawn:List<MultipartBody.Part>?,
+        oldStockRebuyPrice: List<MultipartBody.Part>?,
+        oldStockGQinCarat: List<MultipartBody.Part>?,
+        oldStockMaintenance_cost: List<MultipartBody.Part>?,
+        oldStockGemValue: List<MultipartBody.Part>?,
+        oldStockPTAndClipCost: List<MultipartBody.Part>?,
+        oldStockCalculatedBuyingValue: List<MultipartBody.Part>?,
+        oldStockPriceForPawn: List<MultipartBody.Part>?,
+        oldStockCalculatedForPawn: List<MultipartBody.Part>?,
 
-        oldStockABuyingPrice:List<MultipartBody.Part>?,
-        oldStockb_voucher_buying_value:List<MultipartBody.Part>?,
-        oldStockc_voucher_buying_price:List<MultipartBody.Part>?,
+        oldStockABuyingPrice: List<MultipartBody.Part>?,
+        oldStockb_voucher_buying_value: List<MultipartBody.Part>?,
+        oldStockc_voucher_buying_price: List<MultipartBody.Part>?,
 
-        oldStockDGoldWeightY:List<MultipartBody.Part>?,
+        oldStockDGoldWeightY: List<MultipartBody.Part>?,
 
-        oldStockEPriceFromNewVoucher:List<MultipartBody.Part>?,
+        oldStockEPriceFromNewVoucher: List<MultipartBody.Part>?,
 
-        oldStockFVoucherShownGoldWeightY:List<MultipartBody.Part>?,
+        oldStockFVoucherShownGoldWeightY: List<MultipartBody.Part>?,
 
-        oldStockSampleListId:List<MultipartBody.Part>?
-    ):Resource<ResponseDto>
+        oldStockSampleListId: List<MultipartBody.Part>?
+    ): Resource<String>
 
 
     suspend fun submitGeneralSale(
-        token:String,
         itemsGeneralSaleItemId: List<MultipartBody.Part>?,
         itemsQty: List<MultipartBody.Part>?,
-        itemsGoldWeightYwae:List<MultipartBody.Part>?,
-        itemsWastageYwae:List<MultipartBody.Part>?,
+        itemsGoldWeightYwae: List<MultipartBody.Part>?,
+        itemsWastageYwae: List<MultipartBody.Part>?,
         itemsMaintenanceCost: List<MultipartBody.Part>?,
-         user_id:String,
-        paid_amount:String,
-         reduced_cost:String,
+        user_id: String,
+        paid_amount: String,
+        reduced_cost: String,
 
-        old_stocks_nameList:List<MultipartBody.Part>?,
-        oldStockImageIds:List<MultipartBody.Part>?,
-        oldStockImageFile:List<MultipartBody.Part>?,
-        oldStockCondition:List<MultipartBody.Part>?,
+        old_stocks_nameList: List<MultipartBody.Part>?,
+        oldStockImageIds: List<MultipartBody.Part>?,
+        oldStockImageFile: List<MultipartBody.Part>?,
+        oldStockCondition: List<MultipartBody.Part>?,
 
-        oldStockGoldGemWeightY:List<MultipartBody.Part>?,
+        oldStockGoldGemWeightY: List<MultipartBody.Part>?,
 
-        oldStockGemWeightY:List<MultipartBody.Part>?,
+        oldStockGemWeightY: List<MultipartBody.Part>?,
 
-        oldStockImpurityWeightY:List<MultipartBody.Part>?,
+        oldStockImpurityWeightY: List<MultipartBody.Part>?,
 
-        oldStockGoldWeightY:List<MultipartBody.Part>?,
+        oldStockGoldWeightY: List<MultipartBody.Part>?,
 
-        oldStockWastageWeightY:List<MultipartBody.Part>?,
+        oldStockWastageWeightY: List<MultipartBody.Part>?,
 
-        oldStockRebuyPrice:List<MultipartBody.Part>?,
-        oldStockGQinCarat:List<MultipartBody.Part>?,
-        oldStockMaintenance_cost:List<MultipartBody.Part>?,
-        oldStockGemValue:List<MultipartBody.Part>?,
-        oldStockPTAndClipCost:List<MultipartBody.Part>?,
-        oldStockCalculatedBuyingValue:List<MultipartBody.Part>?,
-        oldStockPriceForPawn:List<MultipartBody.Part>?,
-        oldStockCalculatedForPawn:List<MultipartBody.Part>?,
+        oldStockRebuyPrice: List<MultipartBody.Part>?,
+        oldStockGQinCarat: List<MultipartBody.Part>?,
+        oldStockMaintenance_cost: List<MultipartBody.Part>?,
+        oldStockGemValue: List<MultipartBody.Part>?,
+        oldStockPTAndClipCost: List<MultipartBody.Part>?,
+        oldStockCalculatedBuyingValue: List<MultipartBody.Part>?,
+        oldStockPriceForPawn: List<MultipartBody.Part>?,
+        oldStockCalculatedForPawn: List<MultipartBody.Part>?,
 
-        oldStockABuyingPrice:List<MultipartBody.Part>?,
-        oldStockb_voucher_buying_value:List<MultipartBody.Part>?,
-        oldStockc_voucher_buying_price:List<MultipartBody.Part>?,
+        oldStockABuyingPrice: List<MultipartBody.Part>?,
+        oldStockb_voucher_buying_value: List<MultipartBody.Part>?,
+        oldStockc_voucher_buying_price: List<MultipartBody.Part>?,
 
-        oldStockDGoldWeightY:List<MultipartBody.Part>?,
+        oldStockDGoldWeightY: List<MultipartBody.Part>?,
 
-        oldStockEPriceFromNewVoucher:List<MultipartBody.Part>?,
+        oldStockEPriceFromNewVoucher: List<MultipartBody.Part>?,
 
-        oldStockFVoucherShownGoldWeightY:List<MultipartBody.Part>?,
+        oldStockFVoucherShownGoldWeightY: List<MultipartBody.Part>?,
 
-        ):Resource<ResponseDto>
+        ): Resource<String>
 
 
     suspend fun getGeneralSalesItems(
-        token:String,
-    ):Resource<List<GeneralSaleDto>>
+    ): Resource<List<GeneralSaleDto>>
 }

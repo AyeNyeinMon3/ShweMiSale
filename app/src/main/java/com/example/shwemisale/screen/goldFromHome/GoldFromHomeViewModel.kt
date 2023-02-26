@@ -11,6 +11,7 @@ import com.example.shwemisale.data_layers.ui_models.goldFromHome.StockFromHomeIn
 import com.example.shwemisale.data_layers.ui_models.goldFromHome.StockWeightByVoucherUiModel
 import com.example.shwemisale.repositoryImpl.GoldFromHomeRepositoryImpl
 import com.example.shwemisale.room_database.AppDatabase
+import com.example.shwemisale.room_database.entity.StockFromHomeFinalInfo
 import com.example.shwemisale.room_database.entity.asUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -72,6 +73,21 @@ class GoldFromHomeViewModel @Inject constructor(
             appDatabase.stockFromHomeInfoDao.deleteStockFromHomeInfo(id)
             _stockInfoByVoucherLiveData.value = Resource.Success(appDatabase.stockFromHomeInfoDao.getStockFromHomeInfo().map { it.asUiModel() })
         }
+    }
+    fun saveStockFromHomeInfoFinal(
+        finalPawnPrice:String,
+        finalGoldWeightY:String,
+        finalVoucherPaidAmount:String
+    ){
+        viewModelScope.launch {
+            appDatabase.stockFromHomeFinalInfoDao.saveStockFromHomeFinalInfo(
+                StockFromHomeFinalInfo(finalPawnPrice, finalGoldWeightY, finalVoucherPaidAmount)
+            )
+        }
+    }
+
+    fun getStockFromHomeInfoFinal():StockFromHomeFinalInfo{
+        return appDatabase.stockFromHomeFinalInfoDao.getStockFromHomeFinalInfo()
     }
 
 }

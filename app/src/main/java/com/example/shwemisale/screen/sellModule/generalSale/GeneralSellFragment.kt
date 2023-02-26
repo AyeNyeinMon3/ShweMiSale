@@ -1,4 +1,4 @@
-package com.example.shwemisale.screen.sellModule
+package com.example.shwemisale.screen.sellModule.generalSale
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,18 +6,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
+import androidx.fragment.app.viewModels
 import com.example.shwemisale.R
 import com.example.shwemisale.databinding.DialogGeneralSellAddProductBinding
 import com.example.shwemisale.databinding.FragmentGeneralSellBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class GeneralSellFragment:Fragment() {
 
     lateinit var binding: FragmentGeneralSellBinding
     lateinit var dialogAlertBinding:DialogGeneralSellAddProductBinding
+    private val viewModel by viewModels<GeneralSaleViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,6 +46,7 @@ class GeneralSellFragment:Fragment() {
             GeneralSellData("9","Group 9","အရောင်တင်","3","3.5 gm","0K 0P 1Y","1,000","15,000"),
         ))
 
+        viewModel.submitGeneralSaleLiveData
         binding.btnAdd.setOnClickListener {
             showDialogAddProduct()
         }

@@ -1,4 +1,4 @@
-package com.example.shwemisale.screen.sellModule
+package com.example.shwemisale.screen.sellModule.goldBlockSale
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -17,7 +17,7 @@ data class AkoukSellData(
     val charge:String
 )
 
-class AkoukSellRecyclerAdapter:ListAdapter<AkoukSellData,AkoukSellViewHolder>(AkoukSellDiffUtil){
+class AkoukSellRecyclerAdapter:ListAdapter<AkoukSellData, AkoukSellViewHolder>(AkoukSellDiffUtil){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AkoukSellViewHolder {
         return AkoukSellViewHolder(ItemAkoukSellBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }

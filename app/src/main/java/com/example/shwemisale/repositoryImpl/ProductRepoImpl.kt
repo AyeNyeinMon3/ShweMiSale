@@ -20,7 +20,6 @@ class ProductRepoImpl @Inject constructor(
     private val productService: ProductService
 ) :ProductRepository {
     override suspend fun getProductInfo(
-        token: String,
         productId: String
     ): Resource<ProductInfoDomain> {
         return try {
@@ -53,7 +52,7 @@ class ProductRepoImpl @Inject constructor(
     }
 
     override suspend fun getProductSizeAndReason(
-        token: String,
+
         productId: String
     ): Resource<ProductSizeAndReasonDomain> {
         return try {
@@ -86,7 +85,7 @@ class ProductRepoImpl @Inject constructor(
     }
 
     override suspend fun updateProductInfo(
-        token: String,
+
         productId: String,
         gold_and_gem_weight_gm: String?,
         gem_weight_ywae: String?,
@@ -97,7 +96,7 @@ class ProductRepoImpl @Inject constructor(
         pt_and_clip_cost: String?,
         general_sale_item_id: String?,
         new_clip_wt_gm: String?
-    ): Resource<ResponseDto> {
+    ): Resource<String> {
         return try {
             val response = productService.updateProductInfo(
                 localDatabase.getAccessToken().orEmpty(),
@@ -106,7 +105,7 @@ class ProductRepoImpl @Inject constructor(
             )
 
             if (response.isSuccessful && response.body() != null) {
-                Resource.Success(response.body()!!.response)
+                Resource.Success(response.body()!!.response.message)
             } else {
                 val errorJsonString = response.errorBody()?.string().orEmpty()
                 val singleError =

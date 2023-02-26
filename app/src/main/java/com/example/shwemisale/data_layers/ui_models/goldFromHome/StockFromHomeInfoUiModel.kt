@@ -1,9 +1,10 @@
 package com.example.shwemisale.data_layers.ui_models.goldFromHome
 
+import com.example.shwemisale.data_layers.ShweMiFile
 import retrofit2.http.Part
 
 data class StockFromHomeInfoUiModel(
-     val id: String,
+    val id: String,
     val code: String?,
     val derived_gold_type_id: String?,
 
@@ -19,7 +20,7 @@ data class StockFromHomeInfoUiModel(
     val gold_and_gem_weight_gm: String?,
 
     val gold_price: String?,
-    val image: String?,
+    val file: ShweMiFile?,
     val maintenance_cost: String?,
     val name: String?,
     val pt_and_clip_cost: String?,
