@@ -4,10 +4,12 @@ import com.example.shwemisale.data_layers.dto.GeneralSaleApiResponse
 import com.example.shwemisale.data_layers.dto.SimpleResponse
 import com.example.shwemisale.data_layers.dto.calculation.GoldPriceResponse
 import com.example.shwemisale.data_layers.dto.customers.CustomerWhistListApiResponse
+import com.example.shwemisale.data_layers.dto.sample.CheckInventorySampleResponse
 import com.example.shwemisale.data_layers.dto.voucher.PaidAmountOfVoucherResponse
 import com.example.shwemisale.data_layers.dto.voucher.VoucherInfoWithKPYResponse
 import com.example.shwemisale.data_layers.dto.voucher.VoucherInfoWithValueResponse
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -36,22 +38,24 @@ interface NormalSaleService {
         @Query("product_id[]")productIdList:List<String>
     ): Response<VoucherInfoWithValueResponse>
 
+    @JvmSuppressWildcards
     @POST("api/sales/normal/store/kpy")
-    @FormUrlEncoded
     @Multipart
     suspend fun submitWithKPY(
         @Header("Authorization") token:String,
         @Part productIdList:List<MultipartBody.Part>?,
-        @Field("user_id") user_id:String?,
-        @Field("paid_amount") paid_amount:String?,
-        @Field("reduced_cost") reduced_cost:String?,
+        @Part("user_id") user_id:RequestBody?,
+        @Part("paid_amount") paid_amount:RequestBody?,
+        @Part("reduced_cost") reduced_cost:RequestBody?,
 
         @Part old_voucher_paid_amount:MultipartBody.Part?,
         @Part old_stocks_nameList:List<MultipartBody.Part>?,
+
         @Part oldStockImageIds:List<MultipartBody.Part>?,
         @Part oldStockImageFile:List<MultipartBody.Part>?,
         @Part oldStockCondition:List<MultipartBody.Part>?,
-
+        @Part old_stock_qty:List<MultipartBody.Part>?,
+        @Part old_stock_size:List<MultipartBody.Part>?,
         @Part oldStockGemWeightY:List<MultipartBody.Part>?,
 
         @Part oldStockGoldGemWeightY:List<MultipartBody.Part>?,
@@ -134,7 +138,6 @@ interface NormalSaleService {
     /** New Order Sales */
 
     @POST("api/sales/order/store")
-    @FormUrlEncoded
     @Multipart
     suspend fun submitOrderSale(
         @Header("Authorization") token:String,
@@ -198,7 +201,6 @@ interface NormalSaleService {
 
 
     @POST("api/sales/pure-gold/store")
-    @FormUrlEncoded
     @Multipart
     suspend fun submitPureGoldSale(
         @Header("Authorization") token:String,
@@ -207,10 +209,10 @@ interface NormalSaleService {
         @Part itemsMaintenanceCost: List<MultipartBody.Part>?,
         @Part itemsThreadingFees:List<MultipartBody.Part>?,
         @Part itemsType:List<MultipartBody.Part>?,
-        @Field("gold_price") gold_price:String,
-        @Field("user_id") user_id:String,
-        @Field("paid_amount") paid_amount:String,
-        @Field("reduced_cost") reduced_cost:String,
+        @Part("gold_price") gold_price:String,
+        @Part("user_id") user_id:String,
+        @Part("paid_amount") paid_amount:String,
+        @Part("reduced_cost") reduced_cost:String,
 
         @Part old_stocks_nameList:List<MultipartBody.Part>?,
         @Part oldStockImageIds:List<MultipartBody.Part>?,
@@ -304,6 +306,26 @@ interface NormalSaleService {
     suspend fun getGeneralSalesItems(
         @Header("Authorization") token:String,
         ):Response<GeneralSaleApiResponse>
+    @GET("api/products/{productId}/check-samples")
+    suspend fun checkInventorySample(
+        @Header("Authorization") token:String,
+        @Path("productId")productId:String
+    ):Response<CheckInventorySampleResponse>
 
+    @FormUrlEncoded
+    @POST("api/samples/inventory/take")
+    suspend fun saveSample(
+        @Header("Authorization") token: String,
+        @FieldMap sample: HashMap<String, String>
+    ): Response<SimpleResponse>
 
+    @Multipart
+    @POST("api/samples/outside/take")
+    suspend fun saveOutsideSample(
+        @Header("Authorization") token: String,
+        @Part("name") name: RequestBody?,
+        @Part("weight_gm") weight_gm: RequestBody?,
+        @Part("specification") specification: RequestBody?,
+        @Part image: MultipartBody.Part
+    ):Response<CheckInventorySampleResponse>
 }

@@ -2,6 +2,7 @@ package com.example.shwemisale.network.api_services
 
 import com.example.shwemisale.data_layers.dto.SimpleResponse
 import com.example.shwemisale.data_layers.dto.product.ProductDto
+import com.example.shwemisale.data_layers.dto.product.ProductIdResponse
 import com.example.shwemisale.data_layers.dto.product.ProductInfoApiResponse
 import com.example.shwemisale.data_layers.dto.product.ProductSizeAndReasonApiResponse
 import retrofit2.Response
@@ -14,6 +15,12 @@ interface ProductService {
         @Header("Authorization") token:String,
         @Path("productId")productId:String
     ):Response<ProductInfoApiResponse>
+
+    @GET("api/products/{productCode}/scan")
+    suspend fun getProductId(
+        @Header("Authorization") token:String,
+        @Path("productCode")productCode:String
+    ):Response<ProductIdResponse>
 
     @GET("api/products/{productId}/sizes-and-reasons")
     suspend fun getProductSizeAndReason(
@@ -35,5 +42,6 @@ interface ProductService {
         @Field("pt_and_clip_cost")pt_and_clip_cost:String?,
         @Field("general_sale_item_id")general_sale_item_id:String?,
         @Field("new_clip_wt_gm")new_clip_wt_gm:String?,
+        @Field("old_clip_wt_gm")old_clip_wt_gm:String?,
         ):Response<SimpleResponse>
 }

@@ -58,7 +58,7 @@ class NetworkModule {
 //                        .header("Accept-Encoding", "identity")
                         .addHeader("content-type", "application/json")
                         .addHeader("Accept", "application/json")
-                        .addHeader("Authorization", "Bearer ${localDatabase.getAccessToken()}")
+                        .addHeader("Authorization", "${localDatabase.getAccessToken()}")
                         .build()
                 chain.proceed(request)
             })

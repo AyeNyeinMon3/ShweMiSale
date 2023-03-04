@@ -21,7 +21,7 @@ class AuthRepoImpl @Inject constructor(
             val responseCall = authService.refreshToken(localDatabase.getAccessToken().orEmpty())
             val response = responseCall.execute()
             if (response.body() != null) {
-                refreshTokenLog()
+
                 Resource.Success(response.body()!!.data!!.token)
             } else {
                 Resource.Error(response.errorBody()?.string().orEmpty())
@@ -65,6 +65,7 @@ class AuthRepoImpl @Inject constructor(
             val response = authService.logout(localDatabase.getAccessToken().orEmpty())
             if (response.isSuccessful && response.body() != null) {
                 localDatabase.removeToken()
+                localDatabase.clearSharedPreference()
                 Resource.Success(response.body()!!.response.message)
             } else {
                 Resource.Error(response.errorBody()!!.string())

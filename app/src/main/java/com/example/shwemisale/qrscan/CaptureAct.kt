@@ -14,8 +14,8 @@ import com.example.shwemisale.databinding.ActivityQrScanBinding
 import com.journeyapps.barcodescanner.CaptureManager
 import com.journeyapps.barcodescanner.DecoratedBarcodeView
 import com.journeyapps.barcodescanner.ViewfinderView
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
-
 
 class CaptureAct:Activity() {
     private lateinit var binding: ActivityQrScanBinding
@@ -24,7 +24,7 @@ class CaptureAct:Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_qr_scan)
+        binding = DataBindingUtil.setContentView<ActivityQrScanBinding>(this, R.layout.activity_qr_scan)
         val barcodeScannerView = binding.zxingBarcodeScanner
 
 //        val browse = binding.btnBrowseFromGallery

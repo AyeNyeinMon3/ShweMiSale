@@ -31,8 +31,24 @@ class ResellStockRecyclerAdapter() : ListAdapter<RebuyItemDto, ResellStockViewHo
 
 class ResellStockViewHolder(private var binding: ItemResellStockInfoBinding): RecyclerView.ViewHolder(binding.root){
     fun bind(data: RebuyItemDto){
-       binding.tvItem.text = data.name
+        binding.tvItem.text = data.name
+        var count = 0
+        binding.btnMinus.isEnabled = data.qty>0
 
+        binding.btnPlus.setOnClickListener {
+            count++
+            binding.tvNumber.text = count.toString()
+            data.qty = count
+            binding.btnMinus.isEnabled = count>0
+
+        }
+        binding.btnMinus.setOnClickListener {
+            count--
+            binding.tvNumber.text = count.toString()
+            data.qty = count
+            binding.btnMinus.isEnabled = count>0
+
+        }
 
     }
 

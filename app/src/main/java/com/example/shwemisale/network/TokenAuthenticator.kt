@@ -31,6 +31,7 @@ class TokenAuthenticator @Inject constructor(
                 }
                 is Resource.Success->{
                     localDatabase.saveToken(refreshToken.data.orEmpty())
+                    authRepo.get().refreshTokenLog()
                     result = response.request.newBuilder()
                         .header("Authorization", localDatabase.getAccessToken().orEmpty())
                         .build().also {

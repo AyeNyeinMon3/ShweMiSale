@@ -5,10 +5,11 @@ import androidx.room.PrimaryKey
 import com.example.shwemisale.data_layers.ShweMiFile
 import com.example.shwemisale.data_layers.domain.goldFromHome.StockFromHomeInfoDomain
 import com.example.shwemisale.data_layers.ui_models.goldFromHome.StockFromHomeInfoUiModel
+import com.example.shwemisale.screen.goldFromHome.getYwaeFromGram
 
 @Entity(tableName = "stock-from-home")
 data class StockFromHomeInfoEntity(
-    @PrimaryKey val id: String?,
+    @PrimaryKey val id: String,
     val code: String?,
     val derived_gold_type_id: String?,
 
@@ -20,13 +21,17 @@ data class StockFromHomeInfoEntity(
 
 
     val gem_weight_ywae: String?,
+    val goldWeightYwae:String?,
 
     val gold_and_gem_weight_gm: String?,
 
     val gold_price: String?,
-    val file: ShweMiFileEntity?,
+    val image: String?,
+    val imageId: String?,
     val maintenance_cost: String?,
     val name: String?,
+    val qty:String?,
+    val size:String?,
     val pt_and_clip_cost: String?,
     val reduced_cost: String?,
 
@@ -50,7 +55,6 @@ data class StockFromHomeInfoEntity(
     val oldStockEPriceFromNewVoucher: String?,
     val oldStockFVoucherShownGoldWeightY: String?,
 
-    val old_voucher_paid_amount: String?,
 
     )
 
@@ -58,14 +62,18 @@ fun StockFromHomeInfoEntity.asUiModel(): StockFromHomeInfoUiModel {
     return StockFromHomeInfoUiModel(
         id.toString(),
         code,
+        qty,
+        size,
         derived_gold_type_id,
         derived_net_gold_weight_kpy,
         derived_net_gold_weight_ywae,
         gem_value,
         gem_weight_ywae,
+        goldWeightYwae,
         gold_and_gem_weight_gm,
         gold_price,
-        file?.asDomain(),
+        image,
+        imageId,
         maintenance_cost,
         name,
         pt_and_clip_cost,
@@ -83,7 +91,6 @@ fun StockFromHomeInfoEntity.asUiModel(): StockFromHomeInfoUiModel {
         oldStockDGoldWeightY,
         oldStockEPriceFromNewVoucher,
         oldStockFVoucherShownGoldWeightY,
-        old_voucher_paid_amount
     )
 }
 
@@ -96,11 +103,15 @@ fun StockFromHomeInfoDomain.asEntity(): StockFromHomeInfoEntity {
         derived_net_gold_weight_ywae = derived_net_gold_weight_ywae.toString(),
         gem_value = gem_value.toString(),
         gem_weight_ywae = gem_weight_ywae.toString(),
+        goldWeightYwae = (getYwaeFromGram(gold_and_gem_weight_gm.toDouble()) - gem_weight_ywae).toString(),
         gold_and_gem_weight_gm = gold_and_gem_weight_gm.toString(),
         gold_price = gold_price.toString(),
-        file = file?.asEntity(),
+        image = image,
+        imageId=imageId,
         maintenance_cost = maintenance_cost.toString(),
         name = name,
+        qty = "0",
+        size = "small",
         pt_and_clip_cost = pt_and_clip_cost.toString(),
         reduced_cost = "",
         wastage_ywae = wastage_ywae.toString(),
@@ -118,7 +129,6 @@ fun StockFromHomeInfoDomain.asEntity(): StockFromHomeInfoEntity {
         oldStockDGoldWeightY = "",
         oldStockEPriceFromNewVoucher = "",
         oldStockFVoucherShownGoldWeightY = "",
-        old_voucher_paid_amount = ""
     )
 }
 

@@ -31,11 +31,20 @@ interface StockFromHomeInfoDao {
     @Query("DELETE FROM `stock-from-home`" )
     suspend fun deleteAllStockFromHomeInfo()
 
-    @Query("update `stock-from-home` set file = :file where  id = :id")
-    fun updateFile(id: String, file: ShweMiFile)
+    @Query("update `stock-from-home` set image = :image where  id = :id")
+    fun updateImage(id: String, image: String)
+
+    @Query("update `stock-from-home` set imageId = :imageId where  id = :id")
+    fun updateImageId(id: String, imageId: String?)
 
     @Query("update `stock-from-home` set name = :name where  id = :id")
     fun updateName(id: String, name: String)
+
+    @Query("update `stock-from-home` set qty = :qty where  id = :id")
+    fun updateQty(id: String, qty: String)
+
+    @Query("update `stock-from-home` set size = :size where  id = :id")
+    fun updateSize(id: String, size: String)
 
     @Query("update `stock-from-home` set derived_net_gold_weight_ywae = :derived_net_gold_weight_ywae where  id = :id")
     fun updateDerivedNetGoldWeightYwae(id: String, derived_net_gold_weight_ywae: String)
@@ -99,6 +108,11 @@ interface StockFromHomeInfoDao {
 
     @Query("update `stock-from-home` set oldStockFVoucherShownGoldWeightY = :oldStockFVoucherShownGoldWeightY where  id = :id")
     fun updateFprice(id: String,  oldStockFVoucherShownGoldWeightY: String)
+
+    @Query("update `stock-from-home` set goldWeightYwae = :goldWeightYwae where  id = :id")
+    fun updateGoldWeighYwae(id: String,  goldWeightYwae: String)
+
+
 
 //val derived_gold_type_id: String?,
 //

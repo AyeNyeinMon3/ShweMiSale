@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.shwemi.util.Resource
 import com.example.shwemisale.data_layers.domain.product.ProductInfoDomain
 import com.example.shwemisale.data_layers.domain.product.ProductSizeAndReasonDomain
+import com.example.shwemisale.data_layers.dto.calculation.GoldTypePriceDto
 import com.example.shwemisale.data_layers.ui_models.product.ProductInfoUiModel
 import com.example.shwemisale.repositoryImpl.ProductRepoImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,10 +24,25 @@ class ScanStockViewModel @Inject constructor(
     val productInfoLiveData: LiveData<Resource<ProductInfoDomain>>
         get() = _productInfoLiveData
 
+    fun resetProductInfoLiveData(){
+        _productInfoLiveData.value = null
+    }
+
+    private val _productIdLiveData = MutableLiveData<Resource<String>>()
+    val productIdLiveData: LiveData<Resource<String>>
+        get() = _productIdLiveData
+
     fun getProductInfo(productId: String) {
         viewModelScope.launch {
             _productInfoLiveData.value = Resource.Loading()
             _productInfoLiveData.value = productRepoImpl.getProductInfo(productId)
+        }
+    }
+
+    fun getProductId(productCode: String) {
+        viewModelScope.launch {
+            _productIdLiveData.value = Resource.Loading()
+            _productIdLiveData.value = productRepoImpl.getProductId(productCode)
         }
     }
 
@@ -57,7 +73,8 @@ class ScanStockViewModel @Inject constructor(
         edit_reason_id: String?,
         pt_and_clip_cost: String?,
         general_sale_item_id: String?,
-        new_clip_wt_gm: String?
+        new_clip_wt_gm: String?,
+        old_clip_wt_gm:String?,
     ) {
         viewModelScope.launch {
             _updateProductInfoLiveData.value = Resource.Loading()
@@ -71,8 +88,20 @@ class ScanStockViewModel @Inject constructor(
                 edit_reason_id,
                 pt_and_clip_cost,
                 general_sale_item_id,
-                new_clip_wt_gm
+                new_clip_wt_gm,
+                old_clip_wt_gm
             )
+        }
+    }
+
+    private val _goldTypePriceLiveData = MutableLiveData<Resource<List<GoldTypePriceDto>>>()
+    val goldTypePriceLiveData: LiveData<Resource<List<GoldTypePriceDto>>>
+        get() = _goldTypePriceLiveData
+
+    fun getGoldTypePrice(goldTypeId:String){
+        _goldTypePriceLiveData.value= Resource.Loading()
+        viewModelScope.launch {
+            _goldTypePriceLiveData.value = productRepoImpl.getGoldType(goldTypeId)
         }
     }
 }

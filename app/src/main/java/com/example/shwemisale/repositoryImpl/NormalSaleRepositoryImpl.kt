@@ -7,12 +7,14 @@ import com.example.shwemisale.data_layers.dto.GeneralSaleDto
 import com.example.shwemisale.data_layers.dto.SimpleError
 import com.example.shwemisale.data_layers.dto.calculation.GoldPriceDto
 import com.example.shwemisale.data_layers.dto.customers.asDomain
+import com.example.shwemisale.data_layers.dto.sample.SampleDto
 import com.example.shwemisale.data_layers.dto.voucher.VoucherInfoWithKPYDto
 import com.example.shwemisale.data_layers.dto.voucher.VoucherInfoWithValueResponse
 import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.network.api_services.NormalSaleService
 import com.example.shwemisale.repository.NormalSaleRepository
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import javax.inject.Inject
 
 class NormalSaleRepositoryImpl @Inject constructor(
@@ -149,14 +151,16 @@ class NormalSaleRepositoryImpl @Inject constructor(
 
     override suspend fun submitWithKPY(
         productIdList: List<MultipartBody.Part>?,
-        user_id: String?,
-        paid_amount: String?,
-        reduced_cost: String?,
+        user_id: RequestBody?,
+        paid_amount: RequestBody?,
+        reduced_cost: RequestBody?,
         old_voucher_paid_amount: MultipartBody.Part?,
         old_stocks_nameList: List<MultipartBody.Part>?,
         oldStockImageIds: List<MultipartBody.Part>?,
         oldStockImageFile: List<MultipartBody.Part>?,
         oldStockCondition: List<MultipartBody.Part>?,
+        old_stock_qty: List<MultipartBody.Part>?,
+        old_stock_size: List<MultipartBody.Part>?,
         oldStockGemWeightY: List<MultipartBody.Part>?,
         oldStockGoldGemWeightY: List<MultipartBody.Part>?,
         oldStockImpurityWeightY: List<MultipartBody.Part>?,
@@ -189,6 +193,8 @@ class NormalSaleRepositoryImpl @Inject constructor(
                 oldStockImageIds,
                 oldStockImageFile,
                 oldStockCondition,
+                old_stock_qty,
+                old_stock_size,
                 oldStockGemWeightY,
                 oldStockGoldGemWeightY,
                 oldStockImpurityWeightY,
@@ -627,6 +633,104 @@ class NormalSaleRepositoryImpl @Inject constructor(
         return try {
             val response = normalSaleService.getGeneralSalesItems(
                 localDatabase.getAccessToken().orEmpty(),
+            )
+
+            if (response.isSuccessful && response.body() != null) {
+                Resource.Success(response.body()!!.data)
+            } else {
+                val errorJsonString = response.errorBody()?.string().orEmpty()
+                val singleError =
+                    response.errorBody()?.parseErrorWithDataClass<SimpleError>(errorJsonString)
+                if (singleError != null) {
+                    Resource.Error(singleError.response.message)
+                } else {
+                    val errorMessage =
+                        response.errorBody()?.parseError(errorJsonString)
+                    val list: List<Map.Entry<String, Any>> =
+                        ArrayList<Map.Entry<String, Any>>(errorMessage!!.entries)
+                    val (key, value) = list[0]
+                    Resource.Error(value.toString())
+                }
+
+            }
+        } catch (e: Exception) {
+            Resource.Error(e.message)
+        }
+    }
+
+    override suspend fun checkSample(productId: String): Resource<SampleDto> {
+        return try {
+            val response = normalSaleService.checkInventorySample(
+                localDatabase.getAccessToken().orEmpty(),
+                productId
+            )
+
+            if (response.isSuccessful && response.body() != null) {
+                Resource.Success(response.body()!!.data)
+            } else {
+                val errorJsonString = response.errorBody()?.string().orEmpty()
+                val singleError =
+                    response.errorBody()?.parseErrorWithDataClass<SimpleError>(errorJsonString)
+                if (singleError != null) {
+                    Resource.Error(singleError.response.message)
+                } else {
+                    val errorMessage =
+                        response.errorBody()?.parseError(errorJsonString)
+                    val list: List<Map.Entry<String, Any>> =
+                        ArrayList<Map.Entry<String, Any>>(errorMessage!!.entries)
+                    val (key, value) = list[0]
+                    Resource.Error(value.toString())
+                }
+
+            }
+        } catch (e: Exception) {
+            Resource.Error(e.message)
+        }
+    }
+
+    override suspend fun saveSample(sample: HashMap<String, String>): Resource<String> {
+        return try {
+            val response = normalSaleService.saveSample(
+                localDatabase.getAccessToken().orEmpty(),
+                sample
+            )
+
+            if (response.isSuccessful && response.body() != null) {
+                Resource.Success(response.body()!!.response.message)
+            } else {
+                val errorJsonString = response.errorBody()?.string().orEmpty()
+                val singleError =
+                    response.errorBody()?.parseErrorWithDataClass<SimpleError>(errorJsonString)
+                if (singleError != null) {
+                    Resource.Error(singleError.response.message)
+                } else {
+                    val errorMessage =
+                        response.errorBody()?.parseError(errorJsonString)
+                    val list: List<Map.Entry<String, Any>> =
+                        ArrayList<Map.Entry<String, Any>>(errorMessage!!.entries)
+                    val (key, value) = list[0]
+                    Resource.Error(value.toString())
+                }
+
+            }
+        } catch (e: Exception) {
+            Resource.Error(e.message)
+        }
+    }
+
+    override suspend fun saveOutsideSample(
+        name: RequestBody?,
+        weight: RequestBody?,
+        specification: RequestBody?,
+        image: MultipartBody.Part
+    ): Resource<SampleDto> {
+        return try {
+            val response = normalSaleService.saveOutsideSample(
+                localDatabase.getAccessToken().orEmpty(),
+                name,
+                weight,
+                specification,
+                image
             )
 
             if (response.isSuccessful && response.body() != null) {

@@ -134,6 +134,8 @@
         <argument
             android:name="scannedProducts"
             app:argType="com.example.shwemisale.data_layers.ui_models.product.ProductInfoUiModel[]" />
+        <argument android:name="old_voucher_paid_amount"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/inventoryStockFragment"
@@ -146,7 +148,11 @@
     <fragment
         android:id="@+id/stockDetailFragment"
         android:name="com.example.shwemisale.screen.sellModule.normalSaleScanStock.detail.StockDetailFragment"
-        android:label="Stock Detail" />
+        android:label="Stock Detail" >
+        <argument
+            android:name="productInfo"
+            app:argType="com.example.shwemisale.data_layers.ui_models.product.ProductInfoUiModel" />
+    </fragment>
     <fragment
         android:id="@+id/sellResellStockInfoAddedFragment"
         android:name="com.example.shwemisale.screen.goldFromHomeInfo.SellResellStockInfoAddedFragment"

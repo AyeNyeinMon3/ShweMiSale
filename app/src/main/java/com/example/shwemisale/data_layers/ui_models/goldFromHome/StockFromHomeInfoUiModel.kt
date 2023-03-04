@@ -6,6 +6,8 @@ import retrofit2.http.Part
 data class StockFromHomeInfoUiModel(
     val id: String,
     val code: String?,
+    val qty:String?,
+    val size:String?,
     val derived_gold_type_id: String?,
 
     val derived_net_gold_weight_kpy: String?,
@@ -16,11 +18,13 @@ data class StockFromHomeInfoUiModel(
 
 
     val gem_weight_ywae: String?,
+    val goldWeightYwae:String?,
 
     val gold_and_gem_weight_gm: String?,
 
     val gold_price: String?,
-    val file: ShweMiFile?,
+    val image: String?,
+    val imageId: String?,
     val maintenance_cost: String?,
     val name: String?,
     val pt_and_clip_cost: String?,
@@ -45,8 +49,6 @@ data class StockFromHomeInfoUiModel(
     val oldStockDGoldWeightY:String?,
     val oldStockEPriceFromNewVoucher:String?,
     val oldStockFVoucherShownGoldWeightY:String?,
-
-    val old_voucher_paid_amount:String?,
 
     )
 //

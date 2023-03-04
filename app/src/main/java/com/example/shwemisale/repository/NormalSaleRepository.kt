@@ -5,10 +5,12 @@ import com.example.shwemisale.data_layers.dto.GeneralSaleApiResponse
 import com.example.shwemisale.data_layers.dto.GeneralSaleDto
 import com.example.shwemisale.data_layers.dto.SimpleResponse
 import com.example.shwemisale.data_layers.dto.calculation.GoldPriceDto
+import com.example.shwemisale.data_layers.dto.sample.SampleDto
 import com.example.shwemisale.data_layers.dto.voucher.PaidAmountOfVoucherResponse
 import com.example.shwemisale.data_layers.dto.voucher.VoucherInfoWithKPYDto
 import com.example.shwemisale.data_layers.dto.voucher.VoucherInfoWithValueResponse
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -31,16 +33,17 @@ interface NormalSaleRepository {
 
     suspend fun submitWithKPY(
         productIdList: List<MultipartBody.Part>?,
-        user_id: String?,
-        paid_amount: String?,
-        reduced_cost: String?,
+        user_id: RequestBody?,
+        paid_amount: RequestBody?,
+        reduced_cost: RequestBody?,
 
         old_voucher_paid_amount: MultipartBody.Part?,
         old_stocks_nameList: List<MultipartBody.Part>?,
         oldStockImageIds: List<MultipartBody.Part>?,
         oldStockImageFile: List<MultipartBody.Part>?,
         oldStockCondition: List<MultipartBody.Part>?,
-
+        old_stock_qty: List<MultipartBody.Part>?,
+        old_stock_size: List<MultipartBody.Part>?,
         oldStockGemWeightY: List<MultipartBody.Part>?,
 
         oldStockGoldGemWeightY: List<MultipartBody.Part>?,
@@ -277,4 +280,13 @@ interface NormalSaleRepository {
 
     suspend fun getGeneralSalesItems(
     ): Resource<List<GeneralSaleDto>>
+
+    suspend fun checkSample(productId: String): Resource<SampleDto>
+    suspend fun saveSample(sample: HashMap<String, String>): Resource<String>
+    suspend fun saveOutsideSample(
+        name: RequestBody?,
+        weight: RequestBody?,
+        specification: RequestBody?,
+        image: MultipartBody.Part
+    ): Resource<SampleDto>
 }

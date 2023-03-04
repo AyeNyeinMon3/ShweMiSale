@@ -93,9 +93,39 @@ class SellGoldFromHomeFragment : Fragment() {
             viewModel.deleteStock(it)
         })
         binding.rvGoldFromHome.adapter = adapter
-
+        viewModel.getStockFromHomeListFromAppdatabase()
         if (viewModel.stockFromHomeListInAppDatabase.isNotEmpty()) {
             adapter.submitList(viewModel.stockFromHomeListInAppDatabase)
+            var finalPawnPrice = 0
+            viewModel.stockFromHomeListInAppDatabase.map { it.calculatedPriceForPawn?:"0" }.forEach {
+                finalPawnPrice += it.let { if (it.isEmpty()) 0 else it.toInt() }
+            }
+            var finalGoldWeightY = 0.0
+            viewModel.stockFromHomeListInAppDatabase.map { it.oldStockDGoldWeightY?:"0.0" }.forEach {
+                finalGoldWeightY += it.let { if (it.isEmpty()) 0.0 else it.toDouble() }
+            }
+            var finalVoucherPaidAmount = 0
+            viewModel.stockFromHomeListInAppDatabase.map { it.oldStockc_voucher_buying_value?:"0" }.forEach {
+                finalVoucherPaidAmount += it.let { if (it.isEmpty()) 0 else it.toInt() }
+            }
+            viewModel.saveStockFromHomeInfoFinal(
+                finalPawnPrice.toString(),
+                finalGoldWeightY.toString(),
+                finalVoucherPaidAmount.toString()
+            )
+
+            val finalItem = viewModel.getStockFromHomeInfoFinal()
+                val goldWeightKpy = getKPYFromYwae(finalItem.finalGoldWeightY.let { if (it.isEmpty()) 0.0 else it.toDouble() })
+                binding.editGoldWeightK.setText(goldWeightKpy[0].toInt().toString())
+                binding.editGoldWeightP.setText(goldWeightKpy[1].toInt().toString())
+                binding.editGoldWeightY.setText(goldWeightKpy[2].let {
+                    String.format(
+                        "%.2f",
+                        it
+                    )
+                })
+                binding.edtCalculatePledgeMoney.setText(finalItem.finalPawnPrice)
+                binding.edtVoucherPurchasePayment.setText(finalItem.finalVoucherPaidAmount)
         }
         viewModel.stockWeightByVoucherLiveData.observe(viewLifecycleOwner) {
             when (it) {
@@ -121,36 +151,6 @@ class SellGoldFromHomeFragment : Fragment() {
                 is Resource.Success -> {
                     loading.dismiss()
                     adapter.submitList(it.data!!)
-                    var finalPawnPrice = 0
-                    it.data!!.map { it.calculatedPriceForPawn }.forEach {
-                        finalPawnPrice += it?.toInt() ?: 0
-                    }
-                    var finalGoldWeightY = 0.0
-                    it.data!!.map { it.oldStockDGoldWeightY }.forEach {
-                        finalGoldWeightY += it?.toDouble() ?: 0.0
-                    }
-                    var finalVoucherPaidAmount = 0
-                    it.data!!.map { it.oldStockc_voucher_buying_value }.forEach {
-                        finalVoucherPaidAmount += it?.toInt() ?: 0
-                    }
-                    viewModel.saveStockFromHomeInfoFinal(
-                        finalPawnPrice.toString(),
-                        finalGoldWeightY.toString(),
-                        finalVoucherPaidAmount.toString()
-                    )
-
-                    val finalItem = viewModel.getStockFromHomeInfoFinal()
-                    val goldWeightKpy = getKPYFromYwae(finalItem.finalGoldWeightY.toDouble())
-                    binding.editGoldWeightK.setText(goldWeightKpy[0].toInt().toString())
-                    binding.editGoldWeightP.setText(goldWeightKpy[1].toInt().toString())
-                    binding.editGoldWeightY.setText(goldWeightKpy[2].let {
-                        String.format(
-                            "%.2f",
-                            it
-                        )
-                    })
-                    binding.edtCalculatePledgeMoney.setText(finalItem.finalPawnPrice)
-                    binding.edtVoucherPurchasePayment.setText(finalItem.finalVoucherPaidAmount)
                 }
                 is Resource.Error -> {
                     loading.dismiss()

@@ -4,7 +4,7 @@
     package="com.example.shwemisale">
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET" /><uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
     <application
         android:name=".ShweMiSaleAppication"
         android:allowBackup="false"
@@ -30,6 +30,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".qrscan.CaptureAct"
+            android:screenOrientation="portrait"
+            android:stateNotNeeded="true" />
     </application>
 
 </manifest>

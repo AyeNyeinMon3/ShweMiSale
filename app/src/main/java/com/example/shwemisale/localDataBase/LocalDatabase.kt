@@ -28,17 +28,17 @@ class LocalDatabase @Inject constructor(@ApplicationContext private val context:
         return "Bearer $token"
     }
 
-    fun saveCustomerId(token:String){
-        sharedPref.edit{putString(ACCESS_TOKEN,token)}
+    fun saveCustomerId(customerId:String){
+        sharedPref.edit{putString(CUSTOMER_ID,customerId)}
     }
 
     fun removeCustomerId(){
-        sharedPref.edit { remove(ACCESS_TOKEN) }
+        sharedPref.edit { remove(CUSTOMER_ID) }
     }
 
     fun getAccessCustomerId():String?{
-        val token =  sharedPref.getString(ACCESS_TOKEN, "0")
-        return "$token"
+        val customerId =  sharedPref.getString(CUSTOMER_ID, "")
+        return "$customerId"
     }
 
     fun clearSharedPreference(){

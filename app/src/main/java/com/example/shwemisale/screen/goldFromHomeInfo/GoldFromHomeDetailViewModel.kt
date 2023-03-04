@@ -23,6 +23,8 @@ class GoldFromHomeDetailViewModel @Inject constructor(
     private val appDatabase: AppDatabase
 ) :ViewModel(){
     var nameTag = ""
+    var rebuyItemList = listOf<RebuyItemDto>()
+    var totalQty = 0
 
     var horizontalOption = "Damage"
     var verticalOption = "X"
@@ -75,7 +77,7 @@ class GoldFromHomeDetailViewModel @Inject constructor(
     fun getGoldTypePrice(){
         _goldTypePriceLiveData.value= Resource.Loading()
         viewModelScope.launch {
-            _goldTypePriceLiveData.value = goldFromHomeRepositoryImpl.getGoldType()
+            _goldTypePriceLiveData.value = goldFromHomeRepositoryImpl.getGoldType("1")
         }
     }
 
@@ -126,6 +128,9 @@ class GoldFromHomeDetailViewModel @Inject constructor(
     fun updateStockFromHome(
         id:String,
         name:String,
+        qty:String,
+        size:String,
+        goldWeightYwae:String,
         derived_net_gold_weight_ywae:String,
         gemValue:String,
         gemWeightYwae:String,
@@ -150,6 +155,9 @@ class GoldFromHomeDetailViewModel @Inject constructor(
     ){
         viewModelScope.launch {
             appDatabase.stockFromHomeInfoDao.updateName(id,name)
+            appDatabase.stockFromHomeInfoDao.updateQty(id,qty)
+            appDatabase.stockFromHomeInfoDao.updateSize(id,size)
+            appDatabase.stockFromHomeInfoDao.updateGoldWeighYwae(id,goldWeightYwae)
             appDatabase.stockFromHomeInfoDao.updateDerivedNetGoldWeightYwae(id,derived_net_gold_weight_ywae)
             appDatabase.stockFromHomeInfoDao.updateGemValue(id,gemValue)
             appDatabase.stockFromHomeInfoDao.updateGemWeightYwae(id,gemWeightYwae)
@@ -172,6 +180,13 @@ class GoldFromHomeDetailViewModel @Inject constructor(
             appDatabase.stockFromHomeInfoDao.updateDprice(id,oldStockDGoldWeightY)
             appDatabase.stockFromHomeInfoDao.updateEprice(id,ePrice)
             appDatabase.stockFromHomeInfoDao.updateFprice(id,oldStockFVoucherShownGoldWeightY)
+        }
+    }
+
+    var selectedImagePath = ""
+    fun saveImage(id:String,path:String){
+        viewModelScope.launch {
+            appDatabase.stockFromHomeInfoDao.updateImage(id,path)
         }
     }
 }

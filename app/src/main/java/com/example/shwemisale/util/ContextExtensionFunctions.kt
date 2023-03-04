@@ -38,7 +38,6 @@ fun ImageView.loadImageWithGlide(url:String?){
     url?.let {
         Glide.with(this).asBitmap().load(it).apply(
             RequestOptions.placeholderOf(R.drawable.loading_animation)
-                .override(100,100)
                 .error(R.drawable.ic_broken_image)
         ).into(this)
     }

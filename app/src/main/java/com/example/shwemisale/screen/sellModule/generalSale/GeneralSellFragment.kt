@@ -34,17 +34,17 @@ class GeneralSellFragment:Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val adapter = GeneralSellRecyclerAdapter()
         binding.rvGeneralSell.adapter = adapter
-        adapter.submitList(listOf(
-            GeneralSellData("1","Group 1","အရောင်တင်","3","3.5 gm","0K 0P 1Y","1,000","15,000"),
-            GeneralSellData("2","Group 2","အရောင်တင်","3","3.5 gm","0K 0P 1Y","1,000","15,000"),
-            GeneralSellData("3","Group 3","အရောင်တင်","3","3.5 gm","0K 0P 1Y","1,000","15,000"),
-            GeneralSellData("4","Group 4","အရောင်တင်","3","3.5 gm","0K 0P 1Y","1,000","15,000"),
-            GeneralSellData("5","Group 5","အရောင်တင်","3","3.5 gm","0K 0P 1Y","1,000","15,000"),
-            GeneralSellData("6","Group 6","အရောင်တင်","3","3.5 gm","0K 0P 1Y","1,000","15,000"),
-            GeneralSellData("7","Group 7","အရောင်တင်","3","3.5 gm","0K 0P 1Y","1,000","15,000"),
-            GeneralSellData("8","Group 8","အရောင်တင်","3","3.5 gm","0K 0P 1Y","1,000","15,000"),
-            GeneralSellData("9","Group 9","အရောင်တင်","3","3.5 gm","0K 0P 1Y","1,000","15,000"),
-        ))
+//        adapter.submitList(listOf(
+//            GeneralSellData("1","Group 1","အရောင်တင်","3","3.5 gm","0K 0P 1Y","1,000","15,000"),
+//            GeneralSellData("2","Group 2","အရောင်တင်","3","3.5 gm","0K 0P 1Y","1,000","15,000"),
+//            GeneralSellData("3","Group 3","အရောင်တင်","3","3.5 gm","0K 0P 1Y","1,000","15,000"),
+//            GeneralSellData("4","Group 4","အရောင်တင်","3","3.5 gm","0K 0P 1Y","1,000","15,000"),
+//            GeneralSellData("5","Group 5","အရောင်တင်","3","3.5 gm","0K 0P 1Y","1,000","15,000"),
+//            GeneralSellData("6","Group 6","အရောင်တင်","3","3.5 gm","0K 0P 1Y","1,000","15,000"),
+//            GeneralSellData("7","Group 7","အရောင်တင်","3","3.5 gm","0K 0P 1Y","1,000","15,000"),
+//            GeneralSellData("8","Group 8","အရောင်တင်","3","3.5 gm","0K 0P 1Y","1,000","15,000"),
+//            GeneralSellData("9","Group 9","အရောင်တင်","3","3.5 gm","0K 0P 1Y","1,000","15,000"),
+//        ))
 
         viewModel.submitGeneralSaleLiveData
         binding.btnAdd.setOnClickListener {

@@ -1,5 +1,9 @@
 package com.example.shwemisale.screen.goldFromHomeInfo
 
+import android.Manifest
+import android.app.Activity
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,12 +11,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.shwemi.util.*
 import com.example.shwemisale.R
@@ -25,8 +34,14 @@ import com.example.shwemisale.screen.goldFromHome.getKPYFromYwae
 import com.example.shwemisale.screen.goldFromHome.getKyatsFromKPY
 import com.example.shwemisale.screen.goldFromHome.getYwaeFromGram
 import com.example.shwemisale.screen.goldFromHome.getYwaeFromKPY
+import com.example.shwemisale.screen.sellModule.ResellStockRecyclerAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.ZoneOffset
+import org.threeten.bp.format.DateTimeFormatter
+import java.io.File
+import java.util.*
 
 @AndroidEntryPoint
 class SellResellStockInfoAddedFragment : Fragment() {
@@ -38,6 +53,8 @@ class SellResellStockInfoAddedFragment : Fragment() {
     private val viewModel by viewModels<GoldFromHomeDetailViewModel>()
     private lateinit var loading: AlertDialog
     private val args by navArgs<SellResellStockInfoAddedFragmentArgs>()
+    private lateinit var imagePickerLauncher: ActivityResultLauncher<Intent>
+    private lateinit var storagePermissionLauncher: ActivityResultLauncher<String>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,9 +66,41 @@ class SellResellStockInfoAddedFragment : Fragment() {
         }.root
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        imagePickerLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data = result.data
+                if (data != null && data.data != null) {
+                    getRealPathFromUri(requireContext(), data.data!!)?.let { path ->
+                        viewModel.selectedImagePath = path
+                        binding.ivCamera.loadImageWithGlide(path)
+                    }
+                }
+            }
+        }
+        storagePermissionLauncher = registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted ->
+            if (isGranted) {
+                chooseImage()
+            }
+        }
+    }
+
+
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         loading = requireContext().getAlertDialog()
+        binding.ivCamera.setOnClickListener {
+            if (isExternalStoragePermissionGranted().not()) {
+                requestStoragePermission()
+            } else {
+                chooseImage()
+            }
+        }
         viewModel.horizontalOption = "Damage"
 //        viewModel.getRebuyPrice("Damage", "X", "small", args.id)
         args.id?.let {
@@ -81,6 +130,7 @@ class SellResellStockInfoAddedFragment : Fragment() {
                 binding.edtRepurchasePrice.setText("")
             } else {
                 binding.edtRepurchasePrice.setText(lastValue)
+                binding.edtPriceC.setText(lastValue)
             }
         }
         binding.btnCalculateGoldAndGemWeight.setOnClickListener {
@@ -135,7 +185,6 @@ class SellResellStockInfoAddedFragment : Fragment() {
         }
 
         binding.btnContinue.setOnClickListener {
-            val item = viewModel.getStockInfoFromDataBase(args.id.orEmpty())
             val diamondGemValue = if (binding.edtReducedGemDiamondValue.text.isNullOrEmpty()) {
                 generateNumberFromEditText(binding.edtGemDiamondValue).toDouble()
             } else {
@@ -178,16 +227,25 @@ class SellResellStockInfoAddedFragment : Fragment() {
                 generateNumberFromEditText(binding.edtPriceFP).toInt(),
                 generateNumberFromEditText(binding.edtPriceFY).toDouble(),
             )
-
+            val goldYwae = getYwaeFromKPY(
+                generateNumberFromEditText(binding.edtGoldWeightK).toInt(),
+                generateNumberFromEditText(binding.edtGoldWeightP).toInt(),
+                generateNumberFromEditText(binding.edtGoldWeightY).toDouble(),
+            )
             if (args.id != null) {
+            val item = viewModel.getStockInfoFromDataBase(args.id.orEmpty())
+                viewModel.saveImage(item.id,viewModel.selectedImagePath)
                 viewModel.updateStockFromHome(
                     item.id,
                     viewModel.nameTag,
-                    oldStockDGoldWeightY.toString(),//derived net gold weight need to confirm
+                    viewModel.totalQty.toString(),
+                    viewModel.size,
+                    goldYwae.toString(),
+                    item.derived_net_gold_weight_ywae.toString(),//derived net gold weight need to confirm
                     diamondGemValue.toString(),
                     gemWeightYwae.toString(),
                     binding.edtGoldAndGemWeightGm.text.toString(),
-                    "gold-price",
+                    item.gold_price.toString(),
                     binding.edtFee.text.toString(),
                     binding.edtPTclipValue.text.toString(),
                     binding.edtRepurchasePrice.text.toString(),
@@ -195,7 +253,7 @@ class SellResellStockInfoAddedFragment : Fragment() {
                     binding.edtDecidedPawnPrice.text.toString(),
                     binding.edtPawnPrice.text.toString(),
                     wastageYwae.toString(),
-                    viewModel.horizontalOption+","+viewModel.verticalOption+","+viewModel.size,
+                    viewModel.horizontalOption,
                     binding.edtGoldQuality.text.toString(),
                     impurityYwae.toString(),
                     binding.edtPriceA.text.toString(),
@@ -205,14 +263,49 @@ class SellResellStockInfoAddedFragment : Fragment() {
                     binding.edtPriceE.text.toString(),
                     oldStockFVoucherShownGoldWeightY.toString(),
                 )
+                findNavController().popBackStack()
+
             } else {
                 //TODO discuss with yelu to handle new items
-//                viewModel.saveStockFromHome(
-//                    StockFromHomeInfoEntity(
-//                        null,
-//
-//                    )
-//                )
+                val id = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
+                viewModel.saveStockFromHome(
+                    StockFromHomeInfoEntity(
+                        id = id.toString(),
+                        code = null,
+                        qty =viewModel.totalQty.toString(),
+                        size= viewModel.size,
+                        goldWeightYwae = goldYwae.toString(),
+                        derived_gold_type_id = null,
+                        derived_net_gold_weight_kpy = null,
+                        derived_net_gold_weight_ywae = null,
+                        gem_value = diamondGemValue.toString(),
+                        gem_weight_ywae = gemWeightYwae.toString(),
+                        gold_and_gem_weight_gm = goldAndGemWeight.toString(),
+
+                        gold_price = "",
+                        image = viewModel.selectedImagePath,
+                        imageId = null,
+                        maintenance_cost = binding.edtFee.text.toString(),
+
+                        name = viewModel.nameTag,
+                        pt_and_clip_cost = binding.edtPTclipValue.text.toString(),//derived net gold weight need to confirm
+                        reduced_cost = otherReducedCosts.toString(),
+                        wastage_ywae = wastageYwae.toString(),
+                        rebuyPrice = binding.edtRepurchasePrice.text.toString(),
+                        priceForPawn = binding.edtDecidedPawnPrice.text.toString(),
+                        calculatedPriceForPawn = binding.edtPawnPrice.text.toString(),
+                        oldStockCondition = viewModel.horizontalOption,
+                        oldStockImpurityWeightY = impurityYwae.toString(),
+                        oldStockGQinCarat = binding.edtGoldQuality.text.toString(),
+                        oldStockABuyingPrice = binding.edtPriceA.text.toString(),
+                        oldStockb_voucher_buying_value = binding.edtPriceB.text.toString(),
+                        oldStockc_voucher_buying_value = binding.edtPriceC.text.toString(),
+                        oldStockDGoldWeightY = oldStockDGoldWeightY.toString(),
+                        oldStockEPriceFromNewVoucher = binding.edtPriceE.text.toString(),
+                        oldStockFVoucherShownGoldWeightY = oldStockFVoucherShownGoldWeightY.toString(),
+                    )
+                )
+                findNavController().popBackStack()
             }
 
         }
@@ -259,6 +352,7 @@ class SellResellStockInfoAddedFragment : Fragment() {
                 is Resource.Success -> {
                     loading.dismiss()
                     binding.edtRepurchasePrice.setText(it.data?.price ?: "0")
+                    binding.edtPriceC.setText(it.data?.price ?: "0")
 
                 }
                 is Resource.Error -> {
@@ -299,6 +393,8 @@ class SellResellStockInfoAddedFragment : Fragment() {
             )
         })
 
+        binding.tvNameTag.text = item.name
+
         val goldAndGemYwae = getYwaeFromGram(item.gold_and_gem_weight_gm!!.toDouble())
         val goldAndGemKpy = getKPYFromYwae(goldAndGemYwae)
 
@@ -317,6 +413,7 @@ class SellResellStockInfoAddedFragment : Fragment() {
         binding.edtGoldWeightP.setText(goldKpy[1].toInt().toString())
         binding.edtGoldWeightY.setText(goldKpy[2].let { String.format("%.2f", it) })
         binding.edtRepurchasePrice.setText(item.rebuyPrice.toString())
+        binding.edtPriceC.setText(item.rebuyPrice.toString())
 
         binding.edtFee.setText(item.maintenance_cost)
         binding.edtPTclipValue.setText(item.pt_and_clip_cost)
@@ -327,10 +424,10 @@ class SellResellStockInfoAddedFragment : Fragment() {
         binding.edtAddReducedY.setText(wastageKPY[2].let { String.format("%.2f", it) })
 
 
-        binding.ivBg.loadImageWithGlide(item.file?.url)
+        binding.ivBg.loadImageWithGlide(item.image)
         binding.ivCamera.isVisible = false
 
-        binding.edtRepurchasePrice.setText(item.gold_price)
+
 
     }
 
@@ -345,8 +442,7 @@ class SellResellStockInfoAddedFragment : Fragment() {
             generateNumberFromEditText(binding.edtGemWeightK).toInt(),
             generateNumberFromEditText(binding.edtGemWeightP).toInt(),
             generateNumberFromEditText(binding.edtGemWeightY).toDouble(),
-
-            )
+        )
 
         val impurityYwae = getYwaeFromKPY(
             generateNumberFromEditText(binding.edtGeeWeightK).toInt(),
@@ -370,6 +466,7 @@ class SellResellStockInfoAddedFragment : Fragment() {
         val gqInCarat = generateNumberFromEditText(binding.edtGoldQuality).toDouble()
         val rebuyPrice = gqInCarat / 24 * viewModel.hundredPercentGoldPrice.toInt()
         binding.edtRepurchasePrice.setText(rebuyPrice.toInt().toString())
+        binding.edtPriceC.setText(rebuyPrice.toInt().toString())
     }
 
     fun calculateGoldAndGemWeight() {
@@ -563,18 +660,18 @@ class SellResellStockInfoAddedFragment : Fragment() {
         )
         alertDialog.setCancelable(false)
         viewModel.getRebuyItem("small")
-        dialogBinding.tvSizeTag.text = requireContext().getString(R.string.small_size)
+        val recyclerAdapter = ResellStockRecyclerAdapter()
+        dialogBinding.recyclerView.adapter = recyclerAdapter
 
+//        dialogBinding.tvSizeTag.text = requireContext().getString(R.string.small_size)
+//
         dialogBinding.chipGp.setOnCheckedStateChangeListener { group, checkedIds ->
             if (checkedIds[0] == dialogBinding.chipSmall.id) {
                 viewModel.getRebuyItem("small")
-                dialogBinding.tvSizeTag.text = requireContext().getString(R.string.small_size)
-                dialogBinding.tvNameTag.text = ""
+                viewModel.size = "small"
             } else {
                 viewModel.getRebuyItem("large")
-                dialogBinding.tvSizeTag.text = requireContext().getString(R.string.large_size)
-                dialogBinding.tvNameTag.text = ""
-
+                viewModel.size = "large"
             }
         }
 
@@ -585,23 +682,24 @@ class SellResellStockInfoAddedFragment : Fragment() {
                 }
                 is Resource.Success -> {
                     loading.dismiss()
-                    dialogBinding.chipGpRebuyItems.removeAllViews()
-                    for (item in it.data!!) {
-                        val chip = requireContext().createChip(item.name)
-                        chip.id = item.id.toInt()
-                        chip.isCheckable = true
-                        dialogBinding.chipGpRebuyItems.addView(chip)
-                    }
-                    dialogBinding.chipGpRebuyItems.setOnCheckedStateChangeListener { group, checkedIds ->
-                        dialogBinding.chipGp.isEnabled = checkedIds.size == 0
-                        var nameTag = ""
-                        repeat(checkedIds.size) { index ->
-                            val checkedItems =
-                                it.data!!.find { it.id == checkedIds[index].toString() }
-                            nameTag += checkedItems?.name.orEmpty() + " "
-                        }
-                        dialogBinding.tvNameTag.text = nameTag
-                    }
+                    recyclerAdapter.submitList(it.data)
+//                    dialogBinding.chipGpRebuyItems.removeAllViews()
+//                    for (item in it.data!!) {
+//                        val chip = requireContext().createChip(item.name)
+//                        chip.id = item.id.toInt()
+//                        chip.isCheckable = true
+//                        dialogBinding.chipGpRebuyItems.addView(chip)
+//                    }
+//                    dialogBinding.chipGpRebuyItems.setOnCheckedStateChangeListener { group, checkedIds ->
+//                        dialogBinding.chipGp.isEnabled = checkedIds.size == 0
+//                        var nameTag = ""
+//                        repeat(checkedIds.size) { index ->
+//                            val checkedItems =
+//                                it.data!!.find { it.id == checkedIds[index].toString() }
+//                            nameTag += checkedItems?.name.orEmpty() + " "
+//                        }
+//                        dialogBinding.tvNameTag.text = nameTag
+//                    }
                 }
                 is Resource.Error -> {
                     loading.dismiss()
@@ -609,25 +707,27 @@ class SellResellStockInfoAddedFragment : Fragment() {
                 }
             }
         }
-        var count = 0
 
-        dialogBinding.btnPlus.setOnClickListener {
-            count++
-            dialogBinding.tvNumber.text = count.toString()
-            dialogBinding.tvCountTag.text = count.toString()
-        }
-        dialogBinding.btnMinus.setOnClickListener {
-            count--
-            dialogBinding.tvNumber.text = count.toString()
-            dialogBinding.tvCountTag.text = count.toString()
-        }
 
 
         dialogBinding.btnContinue.setOnClickListener {
-            viewModel.nameTag =
-                dialogBinding.tvNameTag.text.toString() + "," + dialogBinding.tvCountTag.text.toString()
-            binding.tvNameTag.text = viewModel.nameTag
-            viewModel.size = dialogBinding.tvSizeTag.text.toString().lowercase()
+            viewModel.rebuyItemList =
+                viewModel.rebuyItemeLiveData.value!!.data!!.filter { it.qty > 0 }
+            var totalqty = 0
+            var name = ""
+            viewModel.rebuyItemList.forEach {
+                totalqty += it.qty
+                name += it.name + ":" + it.qty.toString() + ","
+            }
+            viewModel.nameTag = name.dropLast(1)
+            binding.tvNameTag.text = name.dropLast(1)
+            viewModel.totalQty = totalqty
+
+
+//            viewModel.nameTag =
+//                "{"+dialogBinding.tvNameTag.text.toString() + "," + dialogBinding.tvCountTag.text.toString()+"}"
+//            binding.tvNameTag.text = viewModel.nameTag
+//            viewModel.size = dialogBinding.tvSizeTag.text.toString().lowercase()
             alertDialog.dismiss()
         }
         dialogBinding.ivClose.setOnClickListener {
@@ -812,6 +912,7 @@ class SellResellStockInfoAddedFragment : Fragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     fun disableOtherCosts() {
         binding.textInputLayoutAddReducedK.isEnabled = false
         binding.textInputLayoutAddReducedP.isEnabled = false
@@ -820,10 +921,11 @@ class SellResellStockInfoAddedFragment : Fragment() {
         binding.textInputLayoutReducedGemDiamondValue.isEnabled = false
         binding.textInputLayoutFee.isEnabled = false
         binding.textInputLayoutPTclipValue.isEnabled = false
-
+        binding.layoutOtherCosts.setBackgroundColor(requireContext().getColor(R.color.base_grey))
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     fun enableOtherCosts() {
         binding.textInputLayoutAddReducedK.isEnabled = true
         binding.textInputLayoutAddReducedP.isEnabled = true
@@ -832,6 +934,8 @@ class SellResellStockInfoAddedFragment : Fragment() {
         binding.textInputLayoutReducedGemDiamondValue.isEnabled = true
         binding.textInputLayoutFee.isEnabled = true
         binding.textInputLayoutPTclipValue.isEnabled = true
+        binding.layoutOtherCosts.setBackgroundColor(requireContext().getColor(R.color.white))
+
     }
 
     fun resetPricesValue() {
@@ -848,5 +952,27 @@ class SellResellStockInfoAddedFragment : Fragment() {
         binding.edtPriceFK.setText("")
         binding.edtPriceFP.setText("")
         binding.edtPriceFY.setText("")
+    }
+
+    private fun requestStoragePermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            storagePermissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
+        } else {
+            storagePermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+
+        }
+    }
+
+    private fun isExternalStoragePermissionGranted(): Boolean {
+        return ContextCompat.checkSelfPermission(
+            requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun chooseImage() {
+        val i = Intent()
+        i.type = "image/*"
+        i.action = Intent.ACTION_PICK
+        imagePickerLauncher.launch(i)
     }
 }

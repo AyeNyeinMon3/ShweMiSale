@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.shwemi.util.loadImageWithGlide
 import com.example.shwemisale.data_layers.ui_models.product.ProductInfoUiModel
 import com.example.shwemisale.databinding.ItemStockCodeItemBinding
 
@@ -15,9 +16,9 @@ data class StockCodeData(
     val price:String
 )
 
-class StockCodeRecyclerAdapter:ListAdapter<ProductInfoUiModel,StockCodeViewHolder>(StockCodeDiffUtil) {
+class StockCodeRecyclerAdapter(private val navigateDetail:(item:ProductInfoUiModel)->Unit):ListAdapter<ProductInfoUiModel,StockCodeViewHolder>(StockCodeDiffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StockCodeViewHolder {
-       return StockCodeViewHolder(ItemStockCodeItemBinding.inflate(LayoutInflater.from(parent.context),parent,false))
+       return StockCodeViewHolder(ItemStockCodeItemBinding.inflate(LayoutInflater.from(parent.context),parent,false),navigateDetail)
     }
 
     override fun onBindViewHolder(holder: StockCodeViewHolder, position: Int) {
@@ -26,11 +27,17 @@ class StockCodeRecyclerAdapter:ListAdapter<ProductInfoUiModel,StockCodeViewHolde
 
 }
 
-class StockCodeViewHolder(private val binding: ItemStockCodeItemBinding):RecyclerView.ViewHolder(binding.root){
+class StockCodeViewHolder(private val binding: ItemStockCodeItemBinding,
+                          private val navigateDetail:(item:ProductInfoUiModel)->Unit):RecyclerView.ViewHolder(binding.root){
     fun bind(data: ProductInfoUiModel){
         binding.tvCode.text=data.code
         binding.tvSize.text=data.size
         binding.tvPrice.text=data.jewellery_type_id
+        binding.root.setOnClickListener {
+            navigateDetail(data)
+        }
+        //need image from response
+//        binding.ivItem.loadImageWithGlide(data.)
     }
 }
 

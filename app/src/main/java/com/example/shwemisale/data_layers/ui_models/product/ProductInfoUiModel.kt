@@ -17,6 +17,8 @@ data class ProductInfoUiModel(
     val pt_and_clip_cost:String,
     val maintenance_cost:String,
     val gold_weight_ywae:String,
-    var wastage_weight_ywae:String
+    var wastage_weight_ywae:String,
+    var cost:String,
+    var gold_type_id:String,
 ):Parcelable
 

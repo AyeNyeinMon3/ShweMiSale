@@ -18,6 +18,9 @@ data class ProductInfoDto(
     val promotion_discount:String?,
     val pt_and_clip_cost:String?,
     val maintenance_cost:String?,
+    val wastage_ywae:String?,
+    val cost:String?,
+    val gold_type_id:String?,
 )
 fun ProductInfoDto.asDomain():ProductInfoDomain{
     return ProductInfoDomain(
@@ -32,5 +35,16 @@ fun ProductInfoDto.asDomain():ProductInfoDomain{
         promotion_discount = promotion_discount.orEmpty(),
         pt_and_clip_cost = pt_and_clip_cost.orEmpty(),
         maintenance_cost = maintenance_cost.orEmpty(),
+        wastage_ywae = wastage_ywae.orEmpty(),
+        cost = cost.orEmpty(),
+        gold_type_id = gold_type_id.orEmpty()
     )
 }
+
+data class ProductIdResponse(
+    val data:ProductIdDto
+)
+
+data class ProductIdDto(
+    val id:String,
+)

@@ -14,6 +14,9 @@ data class ProductInfoDomain(
     val promotion_discount: String,
     val pt_and_clip_cost: String,
     val maintenance_cost: String,
+    val wastage_ywae: String,
+    val cost: String,
+    val gold_type_id: String,
 )
 
 fun ProductInfoDomain.asUiModel(): ProductInfoUiModel {
@@ -30,6 +33,8 @@ fun ProductInfoDomain.asUiModel(): ProductInfoUiModel {
         pt_and_clip_cost,
         maintenance_cost,
         "",
-        ""
+        wastage_ywae,
+        cost,
+        gold_type_id
     )
 }
