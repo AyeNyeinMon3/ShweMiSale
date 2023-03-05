@@ -78,19 +78,23 @@ interface NormalSaleRepository {
 
     suspend fun submitWithValue(
         productIdList: List<MultipartBody.Part>?,
-        user_id: String?,
-        paid_amount: String?,
-        reduced_cost: String?,
+        user_id: RequestBody?,
+        paid_amount: RequestBody?,
+        reduced_cost: RequestBody?,
 
         old_voucher_paid_amount: MultipartBody.Part?,
         old_stocks_nameList: List<MultipartBody.Part>?,
+        old_stocks_gem_details_gem_qty:List<MultipartBody.Part>?,
+        old_stocks_gem_details_gem_weight_gm_per_unit:List<MultipartBody.Part>?,
+        old_stocks_gem_details_gem_weight_ywae_per_unit:List<MultipartBody.Part>?,
         oldStockImageIds: List<MultipartBody.Part>?,
         oldStockImageFile: List<MultipartBody.Part>?,
         oldStockCondition: List<MultipartBody.Part>?,
+        old_stock_qty: List<MultipartBody.Part>?,
+        old_stock_size: List<MultipartBody.Part>?,
+        oldStockGemWeightY: List<MultipartBody.Part>?,
 
         oldStockGoldGemWeightY: List<MultipartBody.Part>?,
-
-        oldStockGemWeightY: List<MultipartBody.Part>?,
 
         oldStockImpurityWeightY: List<MultipartBody.Part>?,
 

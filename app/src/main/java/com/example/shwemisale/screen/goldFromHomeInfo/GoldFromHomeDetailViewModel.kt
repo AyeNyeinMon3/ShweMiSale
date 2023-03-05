@@ -133,6 +133,9 @@ class GoldFromHomeDetailViewModel @Inject constructor(
         goldWeightYwae:String,
         derived_net_gold_weight_ywae:String,
         gemValue:String,
+        gem_details_qty: List<String>,
+        gem_details_gm_per_units: List<String>,
+        gem_details_ywae_per_units: List<String>,
         gemWeightYwae:String,
         gold_and_gem_weight_gm:String,
         goldPrice:String,
@@ -161,6 +164,9 @@ class GoldFromHomeDetailViewModel @Inject constructor(
             appDatabase.stockFromHomeInfoDao.updateDerivedNetGoldWeightYwae(id,derived_net_gold_weight_ywae)
             appDatabase.stockFromHomeInfoDao.updateGemValue(id,gemValue)
             appDatabase.stockFromHomeInfoDao.updateGemWeightYwae(id,gemWeightYwae)
+            appDatabase.stockFromHomeInfoDao.updateGemDetailsQty(id,gem_details_qty)
+            appDatabase.stockFromHomeInfoDao.updateGemDetailsGmPerUnits(id,gem_details_gm_per_units)
+            appDatabase.stockFromHomeInfoDao.updateGemDetailsYwaePerUnits(id,gem_details_ywae_per_units)
             appDatabase.stockFromHomeInfoDao.updateGoldAndGemWeightGm(id,gold_and_gem_weight_gm)
             appDatabase.stockFromHomeInfoDao.updateGoldPrice(id,goldPrice)
             appDatabase.stockFromHomeInfoDao.updateMaintenanceCost(id,maintenance_cost)

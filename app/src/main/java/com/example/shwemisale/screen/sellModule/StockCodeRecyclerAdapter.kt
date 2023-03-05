@@ -37,7 +37,7 @@ class StockCodeViewHolder(private val binding: ItemStockCodeItemBinding,
             navigateDetail(data)
         }
         //need image from response
-//        binding.ivItem.loadImageWithGlide(data.)
+        binding.ivItem.loadImageWithGlide(data.image)
     }
 }
 

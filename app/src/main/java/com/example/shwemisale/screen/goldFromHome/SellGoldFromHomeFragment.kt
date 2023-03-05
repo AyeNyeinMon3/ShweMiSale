@@ -108,11 +108,11 @@ class SellGoldFromHomeFragment : Fragment() {
             viewModel.stockFromHomeListInAppDatabase.map { it.oldStockc_voucher_buying_value?:"0" }.forEach {
                 finalVoucherPaidAmount += it.let { if (it.isEmpty()) 0 else it.toInt() }
             }
-            viewModel.saveStockFromHomeInfoFinal(
-                finalPawnPrice.toString(),
-                finalGoldWeightY.toString(),
-                finalVoucherPaidAmount.toString()
-            )
+          viewModel.updateStockFromHomeInfoFinal(
+              finalPawnPrice.toString(),
+              finalGoldWeightY.toString(),
+              finalVoucherPaidAmount.toString()
+          )
 
             val finalItem = viewModel.getStockFromHomeInfoFinal()
                 val goldWeightKpy = getKPYFromYwae(finalItem.finalGoldWeightY.let { if (it.isEmpty()) 0.0 else it.toDouble() })

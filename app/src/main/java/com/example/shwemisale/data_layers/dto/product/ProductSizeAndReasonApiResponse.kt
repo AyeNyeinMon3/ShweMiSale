@@ -9,7 +9,7 @@ data class ProductSizeAndReasonApiResponse(
 )
 
 data class ProductSizeAndReasonDto(
-    val size:List<ProductSizeDto>,
+    val sizes:List<ProductSizeDto>,
     val reasons:List<ProductReasonDto>
 )
 data class ProductSizeDto(
@@ -44,7 +44,7 @@ fun ProductReasonDto.asDomain():ProductReasonDomain{
 
 fun ProductSizeAndReasonDto.asDomain():ProductSizeAndReasonDomain{
     return ProductSizeAndReasonDomain(
-        size = size.map { it.asDomain() },
+        size = sizes.map { it.asDomain() },
         reasons = reasons.map { it.asDomain() },
     )
 }

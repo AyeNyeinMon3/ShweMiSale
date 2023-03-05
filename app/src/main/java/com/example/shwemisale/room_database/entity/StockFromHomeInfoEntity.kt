@@ -18,10 +18,13 @@ data class StockFromHomeInfoEntity(
     val derived_net_gold_weight_ywae: String?,
 
     val gem_value: String?,
+    val gem_details_qty: List<String>?,
+    val gem_details_gm_per_units: List<String>?,
+    val gem_details_ywae_per_units: List<String>?,
 
 
     val gem_weight_ywae: String?,
-    val goldWeightYwae:String?,
+    val goldWeightYwae: String?,
 
     val gold_and_gem_weight_gm: String?,
 
@@ -30,8 +33,8 @@ data class StockFromHomeInfoEntity(
     val imageId: String?,
     val maintenance_cost: String?,
     val name: String?,
-    val qty:String?,
-    val size:String?,
+    val qty: String?,
+    val size: String?,
     val pt_and_clip_cost: String?,
     val reduced_cost: String?,
 
@@ -68,6 +71,9 @@ fun StockFromHomeInfoEntity.asUiModel(): StockFromHomeInfoUiModel {
         derived_net_gold_weight_kpy,
         derived_net_gold_weight_ywae,
         gem_value,
+        gem_details_qty = gem_details_qty.orEmpty(),
+        gem_details_gm_per_units = gem_details_gm_per_units.orEmpty(),
+        gem_details_ywae_per_units = gem_details_ywae_per_units.orEmpty(),
         gem_weight_ywae,
         goldWeightYwae,
         gold_and_gem_weight_gm,
@@ -103,11 +109,15 @@ fun StockFromHomeInfoDomain.asEntity(): StockFromHomeInfoEntity {
         derived_net_gold_weight_ywae = derived_net_gold_weight_ywae.toString(),
         gem_value = gem_value.toString(),
         gem_weight_ywae = gem_weight_ywae.toString(),
-        goldWeightYwae = (getYwaeFromGram(gold_and_gem_weight_gm.toDouble()) - gem_weight_ywae).toString(),
+        gem_details_qty = gem_details_qty as ArrayList<String>,
+        gem_details_gm_per_units = gem_details_gm_per_units as ArrayList<String>,
+        gem_details_ywae_per_units = gem_details_ywae_per_units as ArrayList<String>,
+        goldWeightYwae =
+        (getYwaeFromGram(gold_and_gem_weight_gm.toDouble()) - gem_weight_ywae).toString(),
         gold_and_gem_weight_gm = gold_and_gem_weight_gm.toString(),
         gold_price = gold_price.toString(),
         image = image,
-        imageId=imageId,
+        imageId = imageId,
         maintenance_cost = maintenance_cost.toString(),
         name = name,
         qty = "0",
@@ -134,20 +144,20 @@ fun StockFromHomeInfoDomain.asEntity(): StockFromHomeInfoEntity {
 
 @Entity(tableName = "shweMiFile")
 data class ShweMiFileEntity(
-    val id:String?,
-    val type:String?,
-    val url:String?
+    val id: String?,
+    val type: String?,
+    val url: String?
 )
 
 
-fun ShweMiFile.asEntity():ShweMiFileEntity{
+fun ShweMiFile.asEntity(): ShweMiFileEntity {
     return ShweMiFileEntity(
         id, type, url
     )
 }
 
 
-fun ShweMiFileEntity.asDomain():ShweMiFile{
+fun ShweMiFileEntity.asDomain(): ShweMiFile {
     return ShweMiFile(
         id, type, url
     )

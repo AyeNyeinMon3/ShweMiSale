@@ -116,12 +116,18 @@ class ExchangeOrderFragment : Fragment() {
 
         dialogExchangeOrderBinding.btnWithValue.setOnClickListener {
             view?.findNavController()
-                ?.navigate(ExchangeOrderFragmentDirections.actionExchangeOrderFragmentToWithValueFragment())
+                ?.navigate(
+                    ExchangeOrderFragmentDirections.actionExchangeOrderFragmentToWithValueFragment(
+                        args.scannedProducts,
+                        generateNumberFromEditText(binding.edtOldVoucherPayment).toInt()
+                    )
+                )
             alertDialog.dismiss()
         }
         dialogExchangeOrderBinding.btnWithKPY.setOnClickListener {
             view?.findNavController()?.navigate(
-                ExchangeOrderFragmentDirections.actionExchangeOrderFragmentToWithKPYFragment(args.scannedProducts,
+                ExchangeOrderFragmentDirections.actionExchangeOrderFragmentToWithKPYFragment(
+                    args.scannedProducts,
                     generateNumberFromEditText(binding.edtOldVoucherPayment).toInt()
                 )
             )

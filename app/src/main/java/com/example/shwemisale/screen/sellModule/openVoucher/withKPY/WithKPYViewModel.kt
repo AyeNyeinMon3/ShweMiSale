@@ -70,6 +70,10 @@ class WithKPYViewModel @Inject constructor(
         oldStockGQinCarat: List<MultipartBody.Part>?,
         oldStockMaintenance_cost: List<MultipartBody.Part>?,
         oldStockGemValue: List<MultipartBody.Part>?,
+        oldStockGemDetailQty:List<MultipartBody.Part>?,
+        oldStockGemDetailGm:List<MultipartBody.Part>?,
+        oldStockGemDetailYwae:List<MultipartBody.Part>?,
+
         oldStockPTAndClipCost: List<MultipartBody.Part>?,
         oldStockCalculatedBuyingValue: List<MultipartBody.Part>?,
         oldStockPriceForPawn: List<MultipartBody.Part>?,

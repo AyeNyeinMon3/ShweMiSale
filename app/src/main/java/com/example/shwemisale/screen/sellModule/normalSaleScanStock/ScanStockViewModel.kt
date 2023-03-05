@@ -76,6 +76,8 @@ class ScanStockViewModel @Inject constructor(
         new_clip_wt_gm: String?,
         old_clip_wt_gm:String?,
     ) {
+        productInfoList.find { it.id == productId }?.gold_and_gem_weight_gm
+
         viewModelScope.launch {
             _updateProductInfoLiveData.value = Resource.Loading()
             _updateProductInfoLiveData.value = productRepoImpl.updateProductInfo(

@@ -23,24 +23,26 @@ class GoldFromHomeViewModel @Inject constructor(
     private val goldFromHomeRepositoryImpl: GoldFromHomeRepositoryImpl,
     private val normalSaleRepositoryImpl: NormalSaleRepositoryImpl,
     private val appDatabase: AppDatabase
-) :ViewModel(){
+) : ViewModel() {
     var count = 0
-    private val _stockWeightByVoucherLiveData = MutableLiveData<Resource<List<StockWeightByVoucherUiModel>>>()
+    private val _stockWeightByVoucherLiveData =
+        MutableLiveData<Resource<List<StockWeightByVoucherUiModel>>>()
     val stockWeightByVoucherLiveData: LiveData<Resource<List<StockWeightByVoucherUiModel>>>
         get() = _stockWeightByVoucherLiveData
 
-    fun resetstockWeightByVoucherLiveData(){
+    fun resetstockWeightByVoucherLiveData() {
         _stockWeightByVoucherLiveData.value = null
     }
 
-    fun getStockWeightByVoucher(voucherCode:String){
-        _stockWeightByVoucherLiveData.value=Resource.Loading()
+    fun getStockWeightByVoucher(voucherCode: String) {
+        _stockWeightByVoucherLiveData.value = Resource.Loading()
         viewModelScope.launch {
             val result = goldFromHomeRepositoryImpl.getStockWeightByVoucher(voucherCode)
             when (result) {
                 is Resource.Success -> {
 
-                    _stockWeightByVoucherLiveData.value = Resource.Success(result.data!!.map { it.asUiModel() })
+                    _stockWeightByVoucherLiveData.value =
+                        Resource.Success(result.data!!.map { it.asUiModel() })
                 }
                 is Resource.Error -> {
                     _stockWeightByVoucherLiveData.value = Resource.Error(result.message)
@@ -51,21 +53,26 @@ class GoldFromHomeViewModel @Inject constructor(
     }
 
     var stockFromHomeListInAppDatabase = listOf<StockFromHomeInfoUiModel>()
-    fun getStockFromHomeListFromAppdatabase(){
-        stockFromHomeListInAppDatabase =  appDatabase.stockFromHomeInfoDao.getStockFromHomeInfo().map { it.asUiModel() }
+    fun getStockFromHomeListFromAppdatabase() {
+        stockFromHomeListInAppDatabase =
+            appDatabase.stockFromHomeInfoDao.getStockFromHomeInfo().map { it.asUiModel() }
     }
 
-    private val _stockInfoByVoucherLiveData = MutableLiveData<Resource<List<StockFromHomeInfoUiModel>>>()
+    private val _stockInfoByVoucherLiveData =
+        MutableLiveData<Resource<List<StockFromHomeInfoUiModel>>>()
     val stockInfoByVoucherLiveData: LiveData<Resource<List<StockFromHomeInfoUiModel>>>
         get() = _stockInfoByVoucherLiveData
 
-    fun getStockInfoByVoucher(voucherCode:String,productIdList:List<String>){
-        _stockInfoByVoucherLiveData.value=Resource.Loading()
+    fun getStockInfoByVoucher(voucherCode: String, productIdList: List<String>) {
+        _stockInfoByVoucherLiveData.value = Resource.Loading()
         viewModelScope.launch {
-            val result = goldFromHomeRepositoryImpl.getStockInfoByVoucher(voucherCode,productIdList)
+            val result =
+                goldFromHomeRepositoryImpl.getStockInfoByVoucher(voucherCode, productIdList)
             when (result) {
                 is Resource.Success -> {
-                    _stockInfoByVoucherLiveData.value = Resource.Success(appDatabase.stockFromHomeInfoDao.getStockFromHomeInfo().map { it.asUiModel() })
+                    _stockInfoByVoucherLiveData.value = Resource.Success(
+                        appDatabase.stockFromHomeInfoDao.getStockFromHomeInfo()
+                            .map { it.asUiModel() })
                 }
                 is Resource.Error -> {
                     _stockInfoByVoucherLiveData.value = Resource.Error(result.message)
@@ -75,34 +82,38 @@ class GoldFromHomeViewModel @Inject constructor(
         }
     }
 
-    fun deleteStock(id:String){
+    fun deleteStock(id: String) {
         viewModelScope.launch {
             appDatabase.stockFromHomeInfoDao.deleteStockFromHomeInfo(id)
-            _stockInfoByVoucherLiveData.value = Resource.Success(appDatabase.stockFromHomeInfoDao.getStockFromHomeInfo().map { it.asUiModel() })
+            _stockInfoByVoucherLiveData.value = Resource.Success(
+                appDatabase.stockFromHomeInfoDao.getStockFromHomeInfo().map { it.asUiModel() })
         }
     }
-    fun saveStockFromHomeInfoFinal(
-        finalPawnPrice:String,
-        finalGoldWeightY:String,
-        finalVoucherPaidAmount:String
-    ){
+
+
+
+    fun updateStockFromHomeInfoFinal(
+        finalPawnPrice: String,
+        finalGoldWeightY: String,
+        finalVoucherPaidAmount: String
+    ) {
         viewModelScope.launch {
-            count++
-            appDatabase.stockFromHomeFinalInfoDao.saveStockFromHomeFinalInfo(
-                StockFromHomeFinalInfo(count.toLong(),finalPawnPrice, finalGoldWeightY, finalVoucherPaidAmount)
+            appDatabase.stockFromHomeFinalInfoDao.updateStockFromHomeFinalInfo(
+                StockFromHomeFinalInfo(1L, finalPawnPrice, finalGoldWeightY, finalVoucherPaidAmount)
             )
         }
     }
 
-    fun getStockFromHomeInfoFinal():StockFromHomeFinalInfo{
+    fun getStockFromHomeInfoFinal(): StockFromHomeFinalInfo {
         return appDatabase.stockFromHomeFinalInfoDao.getStockFromHomeFinalInfo()
     }
 
     private val _oldVoucherPaidAmountLiveData = MutableLiveData<Resource<String>>()
     val oldVoucherPaidAmountLiveData: LiveData<Resource<String>>
         get() = _oldVoucherPaidAmountLiveData
-    fun getOldVoucherPaidAmount(voucherCode:String,id:String){
-        _oldVoucherPaidAmountLiveData.value=Resource.Loading()
+
+    fun getOldVoucherPaidAmount(voucherCode: String, id: String) {
+        _oldVoucherPaidAmountLiveData.value = Resource.Loading()
         viewModelScope.launch {
             val result = normalSaleRepositoryImpl.getPaidAmountOfVoucher(voucherCode)
             when (result) {

@@ -88,24 +88,31 @@ interface NormalSaleService {
         ):Response<SimpleResponse>
 
     @POST("api/sales/normal/store/value")
-    @FormUrlEncoded
     @Multipart
     suspend fun submitWithValue(
         @Header("Authorization") token:String,
         @Part productIdList:List<MultipartBody.Part>?,
-        @Field("user_id") user_id:String?,
-        @Field("paid_amount") paid_amount:String?,
-        @Field("reduced_cost") reduced_cost:String?,
+        @Part("user_id") user_id:RequestBody?,
+        @Part("paid_amount") paid_amount:RequestBody?,
+        @Part("reduced_cost") reduced_cost:RequestBody?,
 
         @Part old_voucher_paid_amount:MultipartBody.Part?,
         @Part old_stocks_nameList:List<MultipartBody.Part>?,
+        @Part old_stocks_gem_details_gem_qty:List<MultipartBody.Part>?,
+        @Part old_stocks_gem_details_gem_weight_gm_per_unit:List<MultipartBody.Part>?,
+        @Part old_stocks_gem_details_gem_weight_ywae_per_unit:List<MultipartBody.Part>?,
+//        old_stocks[0][gem_weight_details][0][gem_qty]:5
+//    old_stocks[0][gem_weight_details][0][gem_weight_gm_per_unit]:5.78
+//    old_stocks[0][gem_weight_details][0][gem_weight_ywae_per_unit]:56.98
+
         @Part oldStockImageIds:List<MultipartBody.Part>?,
         @Part oldStockImageFile:List<MultipartBody.Part>?,
         @Part oldStockCondition:List<MultipartBody.Part>?,
+        @Part old_stock_qty:List<MultipartBody.Part>?,
+        @Part old_stock_size:List<MultipartBody.Part>?,
+        @Part oldStockGemWeightY:List<MultipartBody.Part>?,
 
         @Part oldStockGoldGemWeightY:List<MultipartBody.Part>?,
-
-        @Part oldStockGemWeightY:List<MultipartBody.Part>?,
 
         @Part oldStockImpurityWeightY:List<MultipartBody.Part>?,
 

@@ -233,8 +233,8 @@ class SellResellStockInfoAddedFragment : Fragment() {
                 generateNumberFromEditText(binding.edtGoldWeightY).toDouble(),
             )
             if (args.id != null) {
-            val item = viewModel.getStockInfoFromDataBase(args.id.orEmpty())
-                viewModel.saveImage(item.id,viewModel.selectedImagePath)
+                val item = viewModel.getStockInfoFromDataBase(args.id.orEmpty())
+                viewModel.saveImage(item.id, viewModel.selectedImagePath)
                 viewModel.updateStockFromHome(
                     item.id,
                     viewModel.nameTag,
@@ -243,6 +243,9 @@ class SellResellStockInfoAddedFragment : Fragment() {
                     goldYwae.toString(),
                     item.derived_net_gold_weight_ywae.toString(),//derived net gold weight need to confirm
                     diamondGemValue.toString(),
+                    viewModel.gemWeightCustomList.map { it.gemCount },//gemdetail qty
+                    viewModel.gemWeightCustomList.map { (it.weightForOneGm.toDouble() * it.gemCount.toInt()).toString() },//gemdetail gm
+                    viewModel.gemWeightCustomList.map { (it.weightForOneY.toDouble() * it.gemCount.toInt()).toString() },//gemdetail ywae
                     gemWeightYwae.toString(),
                     binding.edtGoldAndGemWeightGm.text.toString(),
                     item.gold_price.toString(),
@@ -272,13 +275,16 @@ class SellResellStockInfoAddedFragment : Fragment() {
                     StockFromHomeInfoEntity(
                         id = id.toString(),
                         code = null,
-                        qty =viewModel.totalQty.toString(),
-                        size= viewModel.size,
+                        qty = viewModel.totalQty.toString(),
+                        size = viewModel.size,
                         goldWeightYwae = goldYwae.toString(),
                         derived_gold_type_id = null,
                         derived_net_gold_weight_kpy = null,
                         derived_net_gold_weight_ywae = null,
                         gem_value = diamondGemValue.toString(),
+                        gem_details_qty = viewModel.gemWeightCustomList.map { it.gemCount },//gemdetail qty
+                        gem_details_gm_per_units = viewModel.gemWeightCustomList.map { (it.weightForOneGm.toDouble() * it.gemCount.toInt()).toString() },//gemdetail gm
+                        gem_details_ywae_per_units = viewModel.gemWeightCustomList.map { (it.weightForOneY.toDouble() * it.gemCount.toInt()).toString() },//gemdetail ywae,
                         gem_weight_ywae = gemWeightYwae.toString(),
                         gold_and_gem_weight_gm = goldAndGemWeight.toString(),
 
@@ -288,7 +294,8 @@ class SellResellStockInfoAddedFragment : Fragment() {
                         maintenance_cost = binding.edtFee.text.toString(),
 
                         name = viewModel.nameTag,
-                        pt_and_clip_cost = binding.edtPTclipValue.text.toString(),//derived net gold weight need to confirm
+                        pt_and_clip_cost =
+                        binding.edtPTclipValue.text.toString(),//derived net gold weight need to confirm
                         reduced_cost = otherReducedCosts.toString(),
                         wastage_ywae = wastageYwae.toString(),
                         rebuyPrice = binding.edtRepurchasePrice.text.toString(),
@@ -428,7 +435,6 @@ class SellResellStockInfoAddedFragment : Fragment() {
         binding.ivCamera.isVisible = false
 
 
-
     }
 
     fun calculateGoldWeight() {
@@ -466,7 +472,7 @@ class SellResellStockInfoAddedFragment : Fragment() {
         val gqInCarat = generateNumberFromEditText(binding.edtGoldQuality).toDouble()
         val rebuyPrice = gqInCarat / 24 * viewModel.hundredPercentGoldPrice.toInt()
         binding.edtRepurchasePrice.setText(rebuyPrice.toInt().toString())
-        binding.edtPriceC.setText(rebuyPrice.toInt().toString())
+//        binding.edtPriceC.setText(rebuyPrice.toInt().toString())
     }
 
     fun calculateGoldAndGemWeight() {
@@ -944,7 +950,6 @@ class SellResellStockInfoAddedFragment : Fragment() {
         binding.edtPriceA.setText("")
         binding.edtPriceB.setText("")
         binding.edtReducedPriceB.setText("")
-        binding.edtPriceC.setText("")
         binding.edtPriceDK.setText("")
         binding.edtPriceDP.setText("")
         binding.edtPriceDY.setText("")

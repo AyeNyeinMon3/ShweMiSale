@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.example.shwemisale.room_database.dao.CustomerDao
 import com.example.shwemisale.room_database.dao.StockFromHomeFinalInfoDao
 import com.example.shwemisale.room_database.dao.StockFromHomeInfoDao
@@ -21,6 +22,7 @@ import com.example.shwemisale.room_database.entity.StockFromHomeInfoEntity
     ],
     version = 1
 )
+@TypeConverters(ListStringConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract val customerDao: CustomerDao
     abstract val stockFromHomeInfoDao: StockFromHomeInfoDao

@@ -112,6 +112,15 @@ interface StockFromHomeInfoDao {
     @Query("update `stock-from-home` set goldWeightYwae = :goldWeightYwae where  id = :id")
     fun updateGoldWeighYwae(id: String,  goldWeightYwae: String)
 
+    @Query("update `stock-from-home` set gem_details_qty = :gem_details_qty where  id = :id")
+    fun updateGemDetailsQty(id: String,  gem_details_qty: List<String>)
+
+    @Query("update `stock-from-home` set gem_details_gm_per_units = :gem_details_gm_per_units where  id = :id")
+    fun updateGemDetailsGmPerUnits(id: String,  gem_details_gm_per_units: List<String>)
+
+    @Query("update `stock-from-home` set gem_details_ywae_per_units = :gem_details_ywae_per_units where  id = :id")
+    fun updateGemDetailsYwaePerUnits(id: String,  gem_details_ywae_per_units: List<String>)
+
 
 
 //val derived_gold_type_id: String?,

@@ -15,7 +15,9 @@ data class StockFromHomeInfoUiModel(
     val derived_net_gold_weight_ywae: String?,
 
     val gem_value: String?,
-
+    val gem_details_qty: List<String>,
+    val gem_details_gm_per_units: List<String>,
+    val gem_details_ywae_per_units: List<String>,
 
     val gem_weight_ywae: String?,
     val goldWeightYwae:String?,

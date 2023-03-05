@@ -41,6 +41,8 @@ fun StockFromHomeInfoDto.asDomain():StockFromHomeInfoDomain{
         maintenance_cost = maintenance_cost?:0,
         pt_and_clip_cost = pt_and_clip_cost?:0,
         wastage_ywae = wastage_ywae?:0.0,
-
+        gem_details_qty = emptyList(),
+        gem_details_gm_per_units = emptyList(),
+        gem_details_ywae_per_units = emptyList()
     )
 }

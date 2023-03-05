@@ -126,7 +126,14 @@
     <fragment
         android:id="@+id/withValueFragment"
         android:name="com.example.shwemisale.screen.sellModule.openVoucher.withValue.WithValueFragment"
-        android:label="တန်ဖိုးဖြင့် ဘောင်ချာဖွင့်မည်" />
+        android:label="တန်ဖိုးဖြင့် ဘောင်ချာဖွင့်မည်" >
+        <argument
+            android:name="scannedProducts"
+            app:argType="com.example.shwemisale.data_layers.ui_models.product.ProductInfoUiModel[]" />
+        <argument
+            android:name="old_voucher_paid_amount"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/withKPYFragment"
         android:name="com.example.shwemisale.screen.sellModule.openVoucher.withKPY.WithKPYFragment"

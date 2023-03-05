@@ -95,6 +95,7 @@ class SellStartFragment : Fragment() {
                 }
                 is Resource.Success->{
                     loading.dismiss()
+                    viewModel.saveStockFromHomeInfoFinal()
                     val navigationView =
                         requireActivity().findViewById<View>(com.example.shwemisale.R.id.navView) as NavigationView
 

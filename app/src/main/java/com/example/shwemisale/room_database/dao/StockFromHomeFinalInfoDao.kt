@@ -9,6 +9,9 @@ interface StockFromHomeFinalInfoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveStockFromHomeFinalInfo(stockFromHomeFinalInfo: StockFromHomeFinalInfo)
 
+    @Update
+    suspend fun updateStockFromHomeFinalInfo(stockFromHomeFinalInfo: StockFromHomeFinalInfo)
+
     @Transaction
     @Query("SELECT * FROM stockFromHomeFinalInfo")
     fun getStockFromHomeFinalInfo(): StockFromHomeFinalInfo

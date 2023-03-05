@@ -21,6 +21,7 @@ data class ProductInfoDto(
     val wastage_ywae:String?,
     val cost:String?,
     val gold_type_id:String?,
+    val image:String?
 )
 fun ProductInfoDto.asDomain():ProductInfoDomain{
     return ProductInfoDomain(
@@ -37,7 +38,8 @@ fun ProductInfoDto.asDomain():ProductInfoDomain{
         maintenance_cost = maintenance_cost.orEmpty(),
         wastage_ywae = wastage_ywae.orEmpty(),
         cost = cost.orEmpty(),
-        gold_type_id = gold_type_id.orEmpty()
+        gold_type_id = gold_type_id.orEmpty(),
+        image = image.orEmpty()
     )
 }
 

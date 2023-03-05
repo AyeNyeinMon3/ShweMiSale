@@ -17,6 +17,8 @@ import com.example.shwemisale.data_layers.ui_models.customers.CustomerDataUiMode
 import com.example.shwemisale.pagingSource.customer.CustomerSearchPagingDataSource
 import com.example.shwemisale.repositoryImpl.AuthRepoImpl
 import com.example.shwemisale.repositoryImpl.CustomerRepoImpl
+import com.example.shwemisale.room_database.AppDatabase
+import com.example.shwemisale.room_database.entity.StockFromHomeFinalInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -24,7 +26,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SellStartViewModel @Inject constructor(
     private val customerRepoImpl: CustomerRepoImpl,
-    private val authRepoImpl: AuthRepoImpl
+    private val authRepoImpl: AuthRepoImpl,
+    private val appDatabase: AppDatabase
 ) : ViewModel() {
     //profile
     private val _profileLiveData = MutableLiveData<Resource<String>?>()
@@ -39,6 +42,14 @@ class SellStartViewModel @Inject constructor(
         _profileLiveData.value = Resource.Loading()
         viewModelScope.launch {
             _profileLiveData.value = authRepoImpl.getProfile()
+        }
+    }
+
+    fun saveStockFromHomeInfoFinal() {
+        viewModelScope.launch {
+            appDatabase.stockFromHomeFinalInfoDao.saveStockFromHomeFinalInfo(
+                StockFromHomeFinalInfo(1L, "0", "0", "0")
+            )
         }
     }
 

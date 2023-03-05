@@ -134,8 +134,8 @@ class WithKPYFragment : Fragment() {
         binding.btnCalculate.setOnClickListener {
             val leftMoney =
                 generateNumberFromEditText(binding.edtReducedPay).toInt() + generateNumberFromEditText(
-                    binding.edtDeposit
-                ).toInt() - generateNumberFromEditText(binding.edtCharge).toInt()
+                    binding.edtCharge
+                ).toInt() - generateNumberFromEditText(binding.edtDeposit).toInt()
             binding.edtBalance.setText(leftMoney.toInt().toString())
         }
 
@@ -175,6 +175,9 @@ class WithKPYFragment : Fragment() {
             val oldStockGQinCarat = mutableListOf<MultipartBody.Part>()
             val oldStockMaintenance_cost = mutableListOf<MultipartBody.Part>()
             val oldStockGemValue = mutableListOf<MultipartBody.Part>()
+            val oldStockGemDetailQty = mutableListOf<MultipartBody.Part>()
+            val oldStockGemDetailGm = mutableListOf<MultipartBody.Part>()
+            val oldStockGemDetailYwae = mutableListOf<MultipartBody.Part>()
             val oldStockPTAndClipCost = mutableListOf<MultipartBody.Part>()
             val oldStockCalculatedBuyingValue = mutableListOf<MultipartBody.Part>()
             val oldStockPriceForPawn = mutableListOf<MultipartBody.Part>()
@@ -287,6 +290,32 @@ class WithKPYFragment : Fragment() {
                         oldStockList[it].gem_value.toString()
                     )
                 )
+                repeat(oldStockList[it].gem_details_qty.size){insideIndex->
+                    oldStockGemDetailQty.add(
+                        MultipartBody.Part.createFormData(
+                            "old_stocks[$it][gem_weight_details][$it][gem_qty]",
+                            oldStockList[it].gem_details_qty[insideIndex]
+                        )
+                    )
+                }
+
+                repeat(oldStockList[it].gem_details_gm_per_units.size){insideIndex->
+                    oldStockGemDetailGm.add(
+                        MultipartBody.Part.createFormData(
+                            "old_stocks[$it][gem_weight_details][$it][gem_weight_gm_per_unit]",
+                            oldStockList[it].gem_details_gm_per_units[insideIndex]
+                        )
+                    )
+                }
+                repeat(oldStockList[it].gem_details_ywae_per_units.size){insideIndex->
+                    oldStockGemDetailYwae.add(
+                        MultipartBody.Part.createFormData(
+                            "old_stocks[$it][gem_weight_details][$it][gem_weight_ywae_per_unit]",
+                            oldStockList[it].gem_details_ywae_per_units[insideIndex]
+                        )
+                    )
+                }
+
                 oldStockPTAndClipCost.add(
                     MultipartBody.Part.createFormData(
                         "old_stocks[$it][pt_and_clip_cost]",
@@ -377,6 +406,9 @@ class WithKPYFragment : Fragment() {
                 oldStockGQinCarat,
                 oldStockMaintenance_cost,
                 oldStockGemValue,
+                oldStockGemDetailQty,
+                oldStockGemDetailGm,
+                oldStockGemDetailYwae,
                 oldStockPTAndClipCost,
                 oldStockCalculatedBuyingValue,
                 oldStockPriceForPawn,
@@ -412,7 +444,7 @@ class WithKPYFragment : Fragment() {
             totalPtClipFees += it.pt_and_clip_cost.let { if (it.isEmpty()) 0 else it.toInt() }
         }
         oldStocksList.forEach {
-            oldStockTotalGoldWeight += it.derived_net_gold_weight_ywae.orEmpty()
+            oldStockTotalGoldWeight += it.goldWeightYwae.orEmpty()
                 .let { if (it.isEmpty()) 0.0 else it.toDouble() }
         }
         var neededGoldWeight = totalGoldWeight - oldStockTotalGoldWeight

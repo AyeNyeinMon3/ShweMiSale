@@ -83,7 +83,7 @@ class StockDetailFragment:Fragment() {
                         }?.id
                     }
                     binding.actStockSize.setAdapter(sizeArrayAdapter)
-                    binding.actStockSize.setText(reasonList[0],false)
+                    binding.actStockSize.setText(sizeList[0],false)
                     binding.actStockSize.setOnClickListener {
                         binding.actStockSize.showDropdown(sizeArrayAdapter)
                     }
