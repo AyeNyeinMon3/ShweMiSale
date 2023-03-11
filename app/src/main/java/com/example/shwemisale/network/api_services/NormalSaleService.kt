@@ -5,6 +5,7 @@ import com.example.shwemisale.data_layers.dto.SimpleResponse
 import com.example.shwemisale.data_layers.dto.calculation.GoldPriceResponse
 import com.example.shwemisale.data_layers.dto.customers.CustomerWhistListApiResponse
 import com.example.shwemisale.data_layers.dto.sample.CheckInventorySampleResponse
+import com.example.shwemisale.data_layers.dto.sample.TakeInventorySampleResponse
 import com.example.shwemisale.data_layers.dto.voucher.PaidAmountOfVoucherResponse
 import com.example.shwemisale.data_layers.dto.voucher.VoucherInfoWithKPYResponse
 import com.example.shwemisale.data_layers.dto.voucher.VoucherInfoWithValueResponse
@@ -324,7 +325,7 @@ interface NormalSaleService {
     suspend fun saveSample(
         @Header("Authorization") token: String,
         @FieldMap sample: HashMap<String, String>
-    ): Response<SimpleResponse>
+    ): Response<TakeInventorySampleResponse>
 
     @Multipart
     @POST("api/samples/outside/take")

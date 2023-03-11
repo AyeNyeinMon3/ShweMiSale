@@ -1,9 +1,6 @@
 package com.example.shwemisale.screen.sellModule.openVoucher.withValue
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.shwemi.util.Resource
 import com.example.shwemisale.data_layers.dto.calculation.GoldPriceDto
 import com.example.shwemisale.data_layers.ui_models.goldFromHome.StockFromHomeInfoUiModel
@@ -118,12 +115,12 @@ class WithValueViewModel @Inject constructor(
         }
     }
 
-    fun getOldStockInfoFromDataBase(): List<StockFromHomeInfoUiModel> {
-        return appDatabase.stockFromHomeInfoDao.getStockFromHomeInfo().map { it.asUiModel() }
-    }
-    fun getOldStockFinalInfo(): StockFromHomeFinalInfo {
-        return appDatabase.stockFromHomeFinalInfoDao.getStockFromHomeFinalInfo()
-    }
+    var stockFromHomeList = emptyList<StockFromHomeInfoUiModel>()
+    var stockFromHomeFinalInfo :StockFromHomeFinalInfo? =null
+
+    var stockFromHomeListInRoom =
+        appDatabase.stockFromHomeInfoDao.getStockFromHomeInfo().map { it.map {it.asUiModel() } }
+    var stockFromHomeFinalInfoInRoom = appDatabase.stockFromHomeFinalInfoDao.getStockFromHomeFinalInfo()
 
     var goldPrice = ""
 

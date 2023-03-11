@@ -152,7 +152,7 @@ class GoldFromHomeRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getGoldType(goldTypeId:String): Resource<List<GoldTypePriceDto>> {
+    override suspend fun getGoldType(goldTypeId:String?): Resource<List<GoldTypePriceDto>> {
         return try {
             val response = calculationService.getGoldTypePrice(
                 localDatabase.getAccessToken().orEmpty(),

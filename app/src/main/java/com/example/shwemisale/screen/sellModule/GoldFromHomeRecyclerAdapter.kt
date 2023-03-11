@@ -17,7 +17,7 @@ data class GoldFromHomeData(
 )
 
 class GoldFromHomeRecyclerAdapter(private val editClick:(id:String)->Unit,
-                                  private val deleteClick:(id:String)->Unit):ListAdapter<StockFromHomeInfoUiModel,GoldFromHomeViewHolder>(
+                                  private val deleteClick:(item:StockFromHomeInfoUiModel)->Unit):ListAdapter<StockFromHomeInfoUiModel,GoldFromHomeViewHolder>(
     GoldFromHomeDiffUtil
 ) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GoldFromHomeViewHolder {
@@ -32,7 +32,7 @@ class GoldFromHomeRecyclerAdapter(private val editClick:(id:String)->Unit,
 
 class GoldFromHomeViewHolder(private var binding: ItemGoldFromHomeBinding,
                              private val editClick:(id:String)->Unit,
-                             private val deleteClick:(id:String)->Unit) : RecyclerView.ViewHolder(binding.root){
+                             private val deleteClick:(item:StockFromHomeInfoUiModel)->Unit) : RecyclerView.ViewHolder(binding.root){
     fun bind(data: StockFromHomeInfoUiModel){
        binding.tvGoldWeight.text = data.oldStockDGoldWeightY
         binding.tvVoucherPurchasePayment.text = data.oldStockc_voucher_buying_value
@@ -43,7 +43,7 @@ class GoldFromHomeViewHolder(private var binding: ItemGoldFromHomeBinding,
             editClick(data.id)
         }
         binding.ivDelete.setOnClickListener {
-            deleteClick(data.id)
+            deleteClick(data)
         }
     }
 }

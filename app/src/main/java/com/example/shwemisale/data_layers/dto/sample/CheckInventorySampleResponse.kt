@@ -1,5 +1,6 @@
 package com.example.shwemisale.data_layers.dto.sample
 
+import com.example.shwemisale.data_layers.domain.sample.SampleDomain
 
 
 data class CheckInventorySampleResponse(
@@ -7,12 +8,18 @@ data class CheckInventorySampleResponse(
 )
 
 data class SampleDto(
-    val box_code: String?,
     val id: String?,
+    val box_code: String?,
     val name: String?,
     val product_code: String?,
     val product_id: String?,
-    val specification: String?,
+    var specification: String?,
     val thumbnail: String?,
     val weight_gm: String?
 )
+
+fun SampleDto.asDomain():SampleDomain{
+    return SampleDomain(
+        id,box_code,name,product_code,product_id,specification,thumbnail,weight_gm, isNew = specification.isNullOrEmpty()
+    )
+}

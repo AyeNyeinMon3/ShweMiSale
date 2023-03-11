@@ -1,9 +1,6 @@
 package com.example.shwemisale.screen.sellModule.openVoucher.withKPY
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.shwemi.util.Resource
 import com.example.shwemisale.data_layers.dto.calculation.GoldPriceDto
 import com.example.shwemisale.data_layers.ui_models.goldFromHome.StockFromHomeInfoUiModel
@@ -41,9 +38,7 @@ class WithKPYViewModel @Inject constructor(
         }
     }
 
-    fun getStockFromHomeFinalInfo():StockFromHomeFinalInfo{
-        return appDatabase.stockFromHomeFinalInfoDao.getStockFromHomeFinalInfo()
-    }
+
 
     private val _submitWithKPYLiveData = MutableLiveData<Resource<String>>()
     val submitWithKPYLiveData: LiveData<Resource<String>>
@@ -121,13 +116,12 @@ class WithKPYViewModel @Inject constructor(
             )
         }
     }
+    var stockFromHomeList = emptyList<StockFromHomeInfoUiModel>()
+    var stockFromHomeFinalInfo :StockFromHomeFinalInfo? =null
 
-    fun getOldStockInfoFromDataBase(): List<StockFromHomeInfoUiModel> {
-        return appDatabase.stockFromHomeInfoDao.getStockFromHomeInfo().map { it.asUiModel() }
-    }
-    fun getOldStockFinalInfo():StockFromHomeFinalInfo{
-        return appDatabase.stockFromHomeFinalInfoDao.getStockFromHomeFinalInfo()
-    }
+    var stockFromHomeListInRoom =
+        appDatabase.stockFromHomeInfoDao.getStockFromHomeInfo().map { it.map {it.asUiModel() } }
+    var stockFromHomeFinalInfoInRoom = appDatabase.stockFromHomeFinalInfoDao.getStockFromHomeFinalInfo()
 
     fun getCustomerId():String{
         return localDatabase.getAccessCustomerId().orEmpty()

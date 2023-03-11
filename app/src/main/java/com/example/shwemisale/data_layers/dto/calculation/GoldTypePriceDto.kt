@@ -5,6 +5,7 @@ data class GoldTypePriceApiResponse(
 )
 
 data class GoldTypePriceDto(
+    val id:String?,
     val name:String?,
     val public_name:String?,
     val price:String?,

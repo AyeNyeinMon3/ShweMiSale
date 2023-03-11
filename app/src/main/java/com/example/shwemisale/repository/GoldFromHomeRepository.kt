@@ -13,6 +13,6 @@ interface GoldFromHomeRepository {
     suspend fun getStockInfoByVoucher(voucherCode:String,productIdList:List<String>):Resource<List<StockFromHomeInfoDomain>>
     suspend fun getRebuyPrice(horizontal_option_name:String,vertical_option_name:String,size:String):Resource<RebuyPriceDto>
     suspend fun getRebuyItem(size:String):Resource<List<RebuyItemDto>>
-    suspend fun getGoldType(goldTypeId:String):Resource<List<GoldTypePriceDto>>
+    suspend fun getGoldType(goldTypeId:String?):Resource<List<GoldTypePriceDto>>
     suspend fun getPawnDiffValue():Resource<String>
 }

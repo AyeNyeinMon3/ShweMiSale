@@ -12,6 +12,6 @@ interface CalculationService {
     @GET("api/gold-types")
     suspend fun getGoldTypePrice(
         @Header("Authorization") token:String,
-        @Query("id") goldTypeId:String,
+        @Query("id") goldTypeId:String?,
     ): Response<GoldTypePriceApiResponse>
 }

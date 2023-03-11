@@ -400,6 +400,9 @@ class SellResellStockInfoAddedFragment : Fragment() {
             )
         })
 
+        binding.edtPawnPrice.setText(item.calculatedPriceForPawn.toString())
+        binding.edtDecidedPawnPrice.setText(item.priceForPawn.toString())
+
         binding.tvNameTag.text = item.name
 
         val goldAndGemYwae = getYwaeFromGram(item.gold_and_gem_weight_gm!!.toDouble())
@@ -420,7 +423,15 @@ class SellResellStockInfoAddedFragment : Fragment() {
         binding.edtGoldWeightP.setText(goldKpy[1].toInt().toString())
         binding.edtGoldWeightY.setText(goldKpy[2].let { String.format("%.2f", it) })
         binding.edtRepurchasePrice.setText(item.rebuyPrice.toString())
-        binding.edtPriceC.setText(item.rebuyPrice.toString())
+
+        binding.edtPriceA.setText(item.oldStockABuyingPrice.toString())
+        binding.edtPriceB.setText(item.oldStockb_voucher_buying_value.toString())
+        binding.edtPriceC.setText(item.oldStockc_voucher_buying_value.toString())
+        val goldWeightDkpy = getKPYFromYwae(item.oldStockDGoldWeightY!!.toDouble())
+        binding.edtGemWeightK.setText(goldWeightDkpy[0].toInt().toString())
+        binding.edtGemWeightP.setText(goldWeightDkpy[1].toInt().toString())
+        binding.edtGemWeightY.setText(goldWeightDkpy[2].let { String.format("%.2f", it) })
+        binding.edtPriceE.setText(item.oldStockEPriceFromNewVoucher.toString())
 
         binding.edtFee.setText(item.maintenance_cost)
         binding.edtPTclipValue.setText(item.pt_and_clip_cost)
@@ -960,12 +971,12 @@ class SellResellStockInfoAddedFragment : Fragment() {
     }
 
     private fun requestStoragePermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            storagePermissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
-        } else {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//            storagePermissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
+//        } else {
             storagePermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
 
-        }
+//        }
     }
 
     private fun isExternalStoragePermissionGranted(): Boolean {

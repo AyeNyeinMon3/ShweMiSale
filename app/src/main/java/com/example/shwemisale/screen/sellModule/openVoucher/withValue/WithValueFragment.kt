@@ -41,6 +41,20 @@ class WithValueFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         loading = requireContext().getAlertDialog()
         bindPassedData()
+        viewModel.stockFromHomeFinalInfoInRoom.observe(viewLifecycleOwner){
+            viewModel.stockFromHomeFinalInfo = it
+        }
+        viewModel.stockFromHomeListInRoom.observe(viewLifecycleOwner){
+            viewModel.stockFromHomeList = it
+            var oldStockTotalGoldWeight = 0.0
+            it.forEach {
+                oldStockTotalGoldWeight += it.goldWeightYwae.orEmpty()
+                    .let { if (it.isEmpty()) 0.0 else it.toDouble() }
+            }
+            val goldFromHomeValue =
+                (oldStockTotalGoldWeight / 128 * viewModel.goldPrice.toInt()).toInt()
+            binding.edtGoldFromHomeValue.setText(goldFromHomeValue.toString())
+        }
         viewModel.getGoldPriceLiveData.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Loading -> {
@@ -49,17 +63,6 @@ class WithValueFragment : Fragment() {
                 is Resource.Success -> {
                     loading.dismiss()
                     viewModel.goldPrice = it.data?.gold_price.toString()
-                    val oldStocksList = viewModel.getOldStockInfoFromDataBase()
-
-
-                    var oldStockTotalGoldWeight = 0.0
-                    oldStocksList.forEach {
-                        oldStockTotalGoldWeight += it.goldWeightYwae.orEmpty()
-                            .let { if (it.isEmpty()) 0.0 else it.toDouble() }
-                    }
-                    val goldFromHomeValue =
-                        (oldStockTotalGoldWeight / 128 * viewModel.goldPrice.toInt()).toInt()
-                    binding.edtGoldFromHomeValue.setText(goldFromHomeValue.toString())
 
                 }
                 is Resource.Error -> {
@@ -101,11 +104,11 @@ class WithValueFragment : Fragment() {
             }
             val paid_amount = binding.edtDeposit.text.toString()
             val reduced_cost = binding.edtReducedPay.text.toString()
-            val finalInfo = viewModel.getOldStockFinalInfo()
+            val finalInfo = viewModel.stockFromHomeFinalInfo
 
             /** old stock list manipulation */
             //List from room
-            val oldStockList = viewModel.getOldStockInfoFromDataBase()
+            val oldStockList = viewModel.stockFromHomeList
 
             //Fields from oldStockInfo
             val old_stocks_nameList = mutableListOf<MultipartBody.Part>()

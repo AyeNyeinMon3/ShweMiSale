@@ -1,5 +1,6 @@
 package com.example.shwemisale.room_database.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.shwemisale.room_database.entity.CustomerEntity
 import com.example.shwemisale.room_database.entity.StockFromHomeFinalInfo
@@ -14,7 +15,7 @@ interface StockFromHomeFinalInfoDao {
 
     @Transaction
     @Query("SELECT * FROM stockFromHomeFinalInfo")
-    fun getStockFromHomeFinalInfo(): StockFromHomeFinalInfo
+    fun getStockFromHomeFinalInfo(): LiveData<StockFromHomeFinalInfo>
 
     @Query("DELETE FROM stockFromHomeFinalInfo")
     suspend fun deleteStockFromHomeFinalInfo()

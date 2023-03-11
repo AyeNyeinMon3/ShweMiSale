@@ -142,6 +142,52 @@ fun StockFromHomeInfoDomain.asEntity(): StockFromHomeInfoEntity {
     )
 }
 
+fun StockFromHomeInfoUiModel.asEntity(): StockFromHomeInfoEntity {
+    return StockFromHomeInfoEntity(
+        id = id,
+        code = code,
+        derived_gold_type_id = derived_gold_type_id.toString(),
+        derived_net_gold_weight_kpy = derived_net_gold_weight_kpy.toString(),
+        derived_net_gold_weight_ywae = derived_net_gold_weight_ywae.toString(),
+        gem_value = gem_value.toString(),
+        gem_weight_ywae = gem_weight_ywae.toString(),
+        gem_details_qty = gem_details_qty as ArrayList<String>,
+        gem_details_gm_per_units = gem_details_gm_per_units as ArrayList<String>,
+        gem_details_ywae_per_units = gem_details_ywae_per_units as ArrayList<String>,
+        goldWeightYwae =
+        (getYwaeFromGram(gold_and_gem_weight_gm.let {
+            if (it.orEmpty().isEmpty()) 0.0 else it!!.toDouble()
+        }) - gem_weight_ywae.let {
+            if (it.orEmpty().isEmpty()) 0.0 else it!!.toDouble()
+        }).toString(),
+        gold_and_gem_weight_gm = gold_and_gem_weight_gm.toString(),
+        gold_price = gold_price.toString(),
+        image = image,
+        imageId = imageId,
+        maintenance_cost = maintenance_cost.toString(),
+        name = name,
+        qty = "0",
+        size = "small",
+        pt_and_clip_cost = pt_and_clip_cost.toString(),
+        reduced_cost = "",
+        wastage_ywae = wastage_ywae.toString(),
+        rebuyPrice = "",
+        priceForPawn = "",
+        calculatedPriceForPawn = "",
+
+        oldStockCondition = "",
+        oldStockGQinCarat = "",
+        oldStockImpurityWeightY = "",
+
+        oldStockABuyingPrice = "",
+        oldStockb_voucher_buying_value = "",
+        oldStockc_voucher_buying_value = "",
+        oldStockDGoldWeightY = "",
+        oldStockEPriceFromNewVoucher = "",
+        oldStockFVoucherShownGoldWeightY = "",
+    )
+}
+
 @Entity(tableName = "shweMiFile")
 data class ShweMiFileEntity(
     val id: String?,

@@ -93,40 +93,8 @@ class SellGoldFromHomeFragment : Fragment() {
             viewModel.deleteStock(it)
         })
         binding.rvGoldFromHome.adapter = adapter
-        viewModel.getStockFromHomeListFromAppdatabase()
-        if (viewModel.stockFromHomeListInAppDatabase.isNotEmpty()) {
-            adapter.submitList(viewModel.stockFromHomeListInAppDatabase)
-            var finalPawnPrice = 0
-            viewModel.stockFromHomeListInAppDatabase.map { it.calculatedPriceForPawn?:"0" }.forEach {
-                finalPawnPrice += it.let { if (it.isEmpty()) 0 else it.toInt() }
-            }
-            var finalGoldWeightY = 0.0
-            viewModel.stockFromHomeListInAppDatabase.map { it.oldStockDGoldWeightY?:"0.0" }.forEach {
-                finalGoldWeightY += it.let { if (it.isEmpty()) 0.0 else it.toDouble() }
-            }
-            var finalVoucherPaidAmount = 0
-            viewModel.stockFromHomeListInAppDatabase.map { it.oldStockc_voucher_buying_value?:"0" }.forEach {
-                finalVoucherPaidAmount += it.let { if (it.isEmpty()) 0 else it.toInt() }
-            }
-          viewModel.updateStockFromHomeInfoFinal(
-              finalPawnPrice.toString(),
-              finalGoldWeightY.toString(),
-              finalVoucherPaidAmount.toString()
-          )
 
-            val finalItem = viewModel.getStockFromHomeInfoFinal()
-                val goldWeightKpy = getKPYFromYwae(finalItem.finalGoldWeightY.let { if (it.isEmpty()) 0.0 else it.toDouble() })
-                binding.editGoldWeightK.setText(goldWeightKpy[0].toInt().toString())
-                binding.editGoldWeightP.setText(goldWeightKpy[1].toInt().toString())
-                binding.editGoldWeightY.setText(goldWeightKpy[2].let {
-                    String.format(
-                        "%.2f",
-                        it
-                    )
-                })
-                binding.edtCalculatePledgeMoney.setText(finalItem.finalPawnPrice)
-                binding.edtVoucherPurchasePayment.setText(finalItem.finalVoucherPaidAmount)
-        }
+
         viewModel.stockWeightByVoucherLiveData.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Loading -> {
@@ -143,20 +111,41 @@ class SellGoldFromHomeFragment : Fragment() {
                 }
             }
         }
-        viewModel.stockInfoByVoucherLiveData.observe(viewLifecycleOwner) {
-            when (it) {
-                is Resource.Loading -> {
-                    loading.show()
-                }
-                is Resource.Success -> {
-                    loading.dismiss()
-                    adapter.submitList(it.data!!)
-                }
-                is Resource.Error -> {
-                    loading.dismiss()
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
-                }
+        viewModel.stockFromHomeFinalInfo.observe(viewLifecycleOwner){
+            val goldWeightKpy = getKPYFromYwae(it.finalGoldWeightY.let { if (it.isEmpty()) 0.0 else it.toDouble() })
+            binding.editGoldWeightK.setText(goldWeightKpy[0].toInt().toString())
+            binding.editGoldWeightP.setText(goldWeightKpy[1].toInt().toString())
+            binding.editGoldWeightY.setText(goldWeightKpy[2].let {
+                String.format(
+                    "%.2f",
+                    it
+                )
+            })
+            binding.edtCalculatePledgeMoney.setText(it.finalPawnPrice)
+            binding.edtVoucherPurchasePayment.setText(it.finalVoucherPaidAmount)
+        }
+
+        viewModel.stockFromHomeListInRoom.observe(viewLifecycleOwner){
+            adapter.submitList(it)
+            var finalPawnPrice = 0
+            it.map { it.calculatedPriceForPawn?:"0" }.forEach {
+                finalPawnPrice += it.let { if (it.isEmpty()) 0 else it.toInt() }
             }
+            var finalGoldWeightY = 0.0
+            it.map { it.oldStockDGoldWeightY?:"0.0" }.forEach {
+                finalGoldWeightY += it.let { if (it.isEmpty()) 0.0 else it.toDouble() }
+            }
+            var finalVoucherPaidAmount = 0
+            it.map { it.oldStockc_voucher_buying_value?:"0" }.forEach {
+                finalVoucherPaidAmount += it.let { if (it.isEmpty()) 0 else it.toInt() }
+            }
+            viewModel.updateStockFromHomeInfoFinal(
+                finalPawnPrice.toString(),
+                finalGoldWeightY.toString(),
+                finalVoucherPaidAmount.toString()
+            )
+
+
         }
 
         binding.radioGpOther.setOnCheckedChangeListener { radioGroup, checkedId ->

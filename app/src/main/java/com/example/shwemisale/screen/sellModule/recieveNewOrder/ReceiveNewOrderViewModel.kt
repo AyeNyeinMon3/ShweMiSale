@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shwemi.util.Resource
 import com.example.shwemisale.data_layers.domain.product.ProductInfoDomain
+import com.example.shwemisale.data_layers.dto.calculation.GoldTypePriceDto
+import com.example.shwemisale.repositoryImpl.GoldFromHomeRepositoryImpl
 import com.example.shwemisale.repositoryImpl.NormalSaleRepositoryImpl
 import com.example.shwemisale.room_database.AppDatabase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,13 +18,17 @@ import javax.inject.Inject
 @HiltViewModel
 class ReceiveNewOrderViewModel @Inject constructor(
     private val appDatabase: AppDatabase,
-    private val normalSaleRepositoryImpl: NormalSaleRepositoryImpl
-):ViewModel() {
+    private val normalSaleRepositoryImpl: NormalSaleRepositoryImpl,
+    private val goldFromHomeRepositoryImpl: GoldFromHomeRepositoryImpl
+    ):ViewModel() {
+
+    var samplesFromRoom =  normalSaleRepositoryImpl.getSamplesFromRoom()
+
     private val _receiveNewOrderLiveData = MutableLiveData<Resource<String>>()
     val receiveNewOrderLiveData: LiveData<Resource<String>>
         get() = _receiveNewOrderLiveData
 
-    fun getProductInfo(
+    fun submit(
         name: String,
         gold_type_id: String,
         gold_price: String,
@@ -71,5 +77,19 @@ class ReceiveNewOrderViewModel @Inject constructor(
             _receiveNewOrderLiveData.value = Resource.Loading()
             _receiveNewOrderLiveData.value = normalSaleRepositoryImpl.submitOrderSale(name, gold_type_id, gold_price, total_gold_weight_ywae, est_unit_wastage_ywae, qty, gem_value, maintenance_cost, date_of_delivery, is_delivered, remark, user_id, paid_amount, reduced_cost, itemsGeneralSaleItemId, itemsQty, itemsGoldWeightGm, itemsWastageYwae, itemsMaintenanceCost, old_stocks_nameList, oldStockImageIds, oldStockImageFile, oldStockCondition, oldStockGoldGemWeightY, oldStockGemWeightY, oldStockImpurityWeightY, oldStockGoldWeightY, oldStockWastageWeightY, oldStockRebuyPrice, oldStockGQinCarat, oldStockMaintenance_cost, oldStockGemValue, oldStockPTAndClipCost, oldStockCalculatedBuyingValue, oldStockPriceForPawn, oldStockCalculatedForPawn, oldStockABuyingPrice, oldStockb_voucher_buying_value, oldStockc_voucher_buying_price, oldStockDGoldWeightY, oldStockEPriceFromNewVoucher, oldStockFVoucherShownGoldWeightY, oldStockSampleListId)
         }
+    }
+
+    private val _goldTypePriceLiveData = MutableLiveData<Resource<List<GoldTypePriceDto>>>()
+    val goldTypePriceLiveData: LiveData<Resource<List<GoldTypePriceDto>>>
+        get() = _goldTypePriceLiveData
+
+    fun getGoldTypePrice(){
+        _goldTypePriceLiveData.value= Resource.Loading()
+        viewModelScope.launch {
+            _goldTypePriceLiveData.value = goldFromHomeRepositoryImpl.getGoldType(null)
+        }
+    }
+    init {
+        getGoldTypePrice()
     }
 }

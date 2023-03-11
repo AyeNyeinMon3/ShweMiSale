@@ -7,18 +7,17 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.shwemisale.room_database.dao.CustomerDao
+import com.example.shwemisale.room_database.dao.SampleDao
 import com.example.shwemisale.room_database.dao.StockFromHomeFinalInfoDao
 import com.example.shwemisale.room_database.dao.StockFromHomeInfoDao
-import com.example.shwemisale.room_database.entity.CustomerEntity
-import com.example.shwemisale.room_database.entity.ShweMiFileEntity
-import com.example.shwemisale.room_database.entity.StockFromHomeFinalInfo
-import com.example.shwemisale.room_database.entity.StockFromHomeInfoEntity
+import com.example.shwemisale.room_database.entity.*
 
 @Database(
     entities = [
         CustomerEntity::class,
         StockFromHomeInfoEntity::class,
         StockFromHomeFinalInfo::class,
+        SampleEntity::class,
     ],
     version = 1
 )
@@ -27,6 +26,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract val customerDao: CustomerDao
     abstract val stockFromHomeInfoDao: StockFromHomeInfoDao
     abstract val stockFromHomeFinalInfoDao: StockFromHomeFinalInfoDao
+    abstract val sampleDao: SampleDao
     companion object {
         fun create(applicationContext: Context): AppDatabase {
             return Room.databaseBuilder(

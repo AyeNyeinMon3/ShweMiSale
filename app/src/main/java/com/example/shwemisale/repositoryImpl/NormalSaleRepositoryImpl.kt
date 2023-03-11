@@ -1,18 +1,26 @@
 package com.example.shwemisale.repositoryImpl
 
+import androidx.lifecycle.map
+import androidx.lifecycle.viewModelScope
 import com.example.shwemi.util.Resource
 import com.example.shwemi.util.parseError
 import com.example.shwemi.util.parseErrorWithDataClass
+import com.example.shwemisale.data_layers.domain.sample.SampleDomain
 import com.example.shwemisale.data_layers.dto.GeneralSaleDto
 import com.example.shwemisale.data_layers.dto.SimpleError
 import com.example.shwemisale.data_layers.dto.calculation.GoldPriceDto
 import com.example.shwemisale.data_layers.dto.customers.asDomain
 import com.example.shwemisale.data_layers.dto.sample.SampleDto
+import com.example.shwemisale.data_layers.dto.sample.asDomain
 import com.example.shwemisale.data_layers.dto.voucher.VoucherInfoWithKPYDto
 import com.example.shwemisale.data_layers.dto.voucher.VoucherInfoWithValueResponse
 import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.network.api_services.NormalSaleService
 import com.example.shwemisale.repository.NormalSaleRepository
+import com.example.shwemisale.room_database.AppDatabase
+import com.example.shwemisale.room_database.entity.asDomain
+import com.example.shwemisale.room_database.entity.asEntity
+import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Part
@@ -20,7 +28,8 @@ import javax.inject.Inject
 
 class NormalSaleRepositoryImpl @Inject constructor(
     private val localDatabase: LocalDatabase,
-    private val normalSaleService: NormalSaleService
+    private val normalSaleService: NormalSaleService,
+    private val appDatabase: AppDatabase
 ) : NormalSaleRepository {
     override suspend fun getPaidAmountOfVoucher(
         voucherCode: String
@@ -248,9 +257,9 @@ class NormalSaleRepositoryImpl @Inject constructor(
 
         old_voucher_paid_amount: MultipartBody.Part?,
         old_stocks_nameList: List<MultipartBody.Part>?,
-        old_stocks_gem_details_gem_qty:List<MultipartBody.Part>?,
-        old_stocks_gem_details_gem_weight_gm_per_unit:List<MultipartBody.Part>?,
-        old_stocks_gem_details_gem_weight_ywae_per_unit:List<MultipartBody.Part>?,
+        old_stocks_gem_details_gem_qty: List<MultipartBody.Part>?,
+        old_stocks_gem_details_gem_weight_gm_per_unit: List<MultipartBody.Part>?,
+        old_stocks_gem_details_gem_weight_ywae_per_unit: List<MultipartBody.Part>?,
         oldStockImageIds: List<MultipartBody.Part>?,
         oldStockImageFile: List<MultipartBody.Part>?,
         oldStockCondition: List<MultipartBody.Part>?,
@@ -679,7 +688,7 @@ class NormalSaleRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun checkSample(productId: String): Resource<SampleDto> {
+    override suspend fun checkSample(productId: String): Resource<SampleDomain> {
         return try {
             val response = normalSaleService.checkInventorySample(
                 localDatabase.getAccessToken().orEmpty(),
@@ -687,7 +696,8 @@ class NormalSaleRepositoryImpl @Inject constructor(
             )
 
             if (response.isSuccessful && response.body() != null) {
-                Resource.Success(response.body()!!.data)
+                appDatabase.sampleDao.saveSample(response.body()!!.data.asDomain().asEntity())
+                Resource.Success(response.body()!!.data.asDomain())
             } else {
                 val errorJsonString = response.errorBody()?.string().orEmpty()
                 val singleError =
@@ -709,15 +719,15 @@ class NormalSaleRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun saveSample(sample: HashMap<String, String>): Resource<String> {
+    override suspend fun saveSample(samples: HashMap<String, String>): Resource<SampleDomain> {
         return try {
             val response = normalSaleService.saveSample(
                 localDatabase.getAccessToken().orEmpty(),
-                sample
+                samples
             )
 
             if (response.isSuccessful && response.body() != null) {
-                Resource.Success(response.body()!!.response.message)
+                Resource.Success(response.body()!!.data[0].asDomain())
             } else {
                 val errorJsonString = response.errorBody()?.string().orEmpty()
                 val singleError =
@@ -744,7 +754,7 @@ class NormalSaleRepositoryImpl @Inject constructor(
         weight: RequestBody?,
         specification: RequestBody?,
         image: MultipartBody.Part
-    ): Resource<SampleDto> {
+    ): Resource<SampleDomain> {
         return try {
             val response = normalSaleService.saveOutsideSample(
                 localDatabase.getAccessToken().orEmpty(),
@@ -755,7 +765,8 @@ class NormalSaleRepositoryImpl @Inject constructor(
             )
 
             if (response.isSuccessful && response.body() != null) {
-                Resource.Success(response.body()!!.data)
+                appDatabase.sampleDao.saveSample(response.body()!!.data.asDomain().asEntity())
+                Resource.Success(response.body()!!.data.asDomain())
             } else {
                 val errorJsonString = response.errorBody()?.string().orEmpty()
                 val singleError =
@@ -776,4 +787,6 @@ class NormalSaleRepositoryImpl @Inject constructor(
             Resource.Error(e.message)
         }
     }
+
+    fun getSamplesFromRoom() =  appDatabase.sampleDao.getSamples().map { it.map { it.asDomain() } }
 }

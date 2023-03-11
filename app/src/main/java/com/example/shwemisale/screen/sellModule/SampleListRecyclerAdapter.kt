@@ -5,13 +5,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.shwemi.util.loadImageWithGlide
+import com.example.shwemisale.data_layers.domain.sample.SampleDomain
 import com.example.shwemisale.databinding.ItemSampleListBinding
 
 data class SampleListData(
     val id:String,
 )
 
-class SampleListRecyclerAdapter:ListAdapter<SampleListData,SampleListViewHolder>(SampleListDiffUtil) {
+class SampleListRecyclerAdapter:ListAdapter<SampleDomain,SampleListViewHolder>(SampleListDiffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SampleListViewHolder {
         return SampleListViewHolder(ItemSampleListBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }
@@ -24,22 +26,22 @@ class SampleListRecyclerAdapter:ListAdapter<SampleListData,SampleListViewHolder>
 }
 
 class SampleListViewHolder(private var binding: ItemSampleListBinding): RecyclerView.ViewHolder(binding.root){
-    fun bind(data: SampleListData){
-
+    fun bind(data: SampleDomain){
+        binding.ivSampleItem.loadImageWithGlide(data.thumbnail)
     }
 }
 
-object SampleListDiffUtil: DiffUtil.ItemCallback<SampleListData>(){
+object SampleListDiffUtil: DiffUtil.ItemCallback<SampleDomain>(){
     override fun areItemsTheSame(
-        oldItem: SampleListData,
-        newItem: SampleListData
+        oldItem: SampleDomain,
+        newItem: SampleDomain
     ): Boolean {
-        return oldItem.id == newItem.id
+        return oldItem.product_id == newItem.product_id
     }
 
     override fun areContentsTheSame(
-        oldItem: SampleListData,
-        newItem: SampleListData
+        oldItem: SampleDomain,
+        newItem: SampleDomain
     ): Boolean {
         return oldItem == newItem
     }

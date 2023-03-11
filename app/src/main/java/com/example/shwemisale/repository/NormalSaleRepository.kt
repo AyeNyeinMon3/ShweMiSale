@@ -1,6 +1,7 @@
 package com.example.shwemisale.repository
 
 import com.example.shwemi.util.Resource
+import com.example.shwemisale.data_layers.domain.sample.SampleDomain
 import com.example.shwemisale.data_layers.dto.GeneralSaleApiResponse
 import com.example.shwemisale.data_layers.dto.GeneralSaleDto
 import com.example.shwemisale.data_layers.dto.SimpleResponse
@@ -285,12 +286,12 @@ interface NormalSaleRepository {
     suspend fun getGeneralSalesItems(
     ): Resource<List<GeneralSaleDto>>
 
-    suspend fun checkSample(productId: String): Resource<SampleDto>
-    suspend fun saveSample(sample: HashMap<String, String>): Resource<String>
+    suspend fun checkSample(productId: String): Resource<SampleDomain>
+    suspend fun saveSample(samples: HashMap<String, String>): Resource<SampleDomain>
     suspend fun saveOutsideSample(
         name: RequestBody?,
         weight: RequestBody?,
         specification: RequestBody?,
         image: MultipartBody.Part
-    ): Resource<SampleDto>
+    ): Resource<SampleDomain>
 }

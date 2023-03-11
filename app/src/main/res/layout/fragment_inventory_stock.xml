@@ -7,7 +7,7 @@
 
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_calculate"
+        android:id="@+id/btn_take_sample"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -53,6 +53,9 @@
         app:boxCornerRadiusTopStart="10dp"
         app:boxStrokeColor="@color/edit_text_color"
         app:boxStrokeWidth="1dp"
+        app:endIconMode="custom"
+        app:endIconDrawable="@drawable/ic_qr_scan"
+        app:endIconTintMode="screen"
         app:errorEnabled="false"
         app:hintEnabled="false"
         app:layout_constraintStart_toEndOf="@+id/tv_label_scan_stock_code"
@@ -63,7 +66,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Type or Scan"
-            android:inputType="number"
             android:textAppearance="@style/TextAppearance.ShweMi.Body2"
             android:textColor="@color/primary_text"
             android:textColorHint="@color/secondary_text"
