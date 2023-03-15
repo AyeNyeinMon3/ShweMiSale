@@ -9,7 +9,7 @@ fun getYwaeFromKPY(kyat: Int, pae: Int, ywae: Double): Double {
 }
 
 fun getYwaeFromGram(gram: Double): Double {
-    return (gram / 16.6) * 128
+    return (gram / 16.6) * 128.toDouble()
 }
 
 fun getKPYFromKyat(kyat: Double): List<Double> {

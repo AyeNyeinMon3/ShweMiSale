@@ -8,6 +8,7 @@ import javax.inject.Singleton
 
 private const val ACCESS_TOKEN="access_token"
 private const val CUSTOMER_ID="customer_id"
+private const val SESSION_KEY="session_key"
 
 
 @Singleton
@@ -36,13 +37,28 @@ class LocalDatabase @Inject constructor(@ApplicationContext private val context:
         sharedPref.edit { remove(CUSTOMER_ID) }
     }
 
+
     fun getAccessCustomerId():String?{
         val customerId =  sharedPref.getString(CUSTOMER_ID, "")
         return "$customerId"
     }
 
+    fun getSessionKey():String?{
+        val sessionKey =  sharedPref.getString(SESSION_KEY, "")
+        return "$sessionKey"
+    }
+
+    fun saveSessionKey(sessionKey:String){
+        sharedPref.edit{putString(SESSION_KEY,sessionKey)}
+    }
+
+    fun removeSessionKey(){
+        sharedPref.edit { remove(SESSION_KEY) }
+    }
+
     fun clearSharedPreference(){
         removeToken()
         removeCustomerId()
+        removeSessionKey()
     }
 }

@@ -20,7 +20,10 @@ import com.example.shwemisale.screen.goldFromHome.getKPYFromYwae
 import com.example.shwemisale.screen.goldFromHome.getKyatsFromKPY
 import com.example.shwemisale.screen.goldFromHome.getYwaeFromGram
 import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.File
 
 @AndroidEntryPoint
 class WithKPYFragment : Fragment() {
@@ -264,7 +267,7 @@ class WithKPYFragment : Fragment() {
             val oldStockFVoucherShownGoldWeightY = mutableListOf<MultipartBody.Part>()
 
             repeat(oldStockList.size) {
-                val imageFile = oldStockList[it].image
+                val imageFile = oldStockList[it].image?.let { File(it) }
                 val imageId = oldStockList[it].imageId
                 old_stocks_nameList.add(
                     MultipartBody.Part.createFormData(
@@ -284,7 +287,8 @@ class WithKPYFragment : Fragment() {
                     oldStockImageFile.add(
                         MultipartBody.Part.createFormData(
                             "old_stocks[$it][image][file]",
-                            file
+                            file.name,
+                            file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
                         )
                     )
                 }

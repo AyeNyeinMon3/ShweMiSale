@@ -89,7 +89,13 @@ class InventoryStockFragment : Fragment() {
         viewModel.samplesFromRoom.observe(viewLifecycleOwner) { list ->
             adapter.submitList(list)
             binding.btnTakeSample.setOnClickListener {
-                viewModel.takeSample(list.filter { it.isNew })
+                if(list.filter { it.isNew }.isEmpty()){
+                    requireContext().showSuccessDialog("Sample Taken") {
+                        findNavController().popBackStack()
+                    }
+                }else{
+                    viewModel.takeSample(list.filter { it.isNew })
+                }
             }
         }
         viewModel.inventorySampleLiveData.observe(viewLifecycleOwner) {

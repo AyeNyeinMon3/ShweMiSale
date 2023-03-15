@@ -13,7 +13,10 @@
         <item>၁၅ပဲရည်</item>
     </array>
     <array name="item_type">
-        <item>အခေါက် အခဲ</item>
+        <item>အခဲ</item>
+        <item>လက်ကောက်</item>
+        <item>လက်စွပ်</item>
+        <item>အပိုင်း</item>
     </array>
     <array name="group">
         <item>Choose Group</item>

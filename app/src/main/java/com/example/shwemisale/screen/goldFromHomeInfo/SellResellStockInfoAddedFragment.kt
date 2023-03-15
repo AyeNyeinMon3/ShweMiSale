@@ -76,7 +76,8 @@ class SellResellStockInfoAddedFragment : Fragment() {
                 if (data != null && data.data != null) {
                     getRealPathFromUri(requireContext(), data.data!!)?.let { path ->
                         viewModel.selectedImagePath = path
-                        binding.ivCamera.loadImageWithGlide(path)
+                        binding.ivBg.loadImageWithGlide(path)
+                        binding.ivCamera.isVisible = false
                     }
                 }
             }
@@ -95,6 +96,13 @@ class SellResellStockInfoAddedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         loading = requireContext().getAlertDialog()
         binding.ivCamera.setOnClickListener {
+            if (isExternalStoragePermissionGranted().not()) {
+                requestStoragePermission()
+            } else {
+                chooseImage()
+            }
+        }
+        binding.ivBg.setOnClickListener {
             if (isExternalStoragePermissionGranted().not()) {
                 requestStoragePermission()
             } else {
@@ -200,9 +208,9 @@ class SellResellStockInfoAddedFragment : Fragment() {
                 generateNumberFromEditText(binding.edtAddReducedY).toDouble(),
             )
             val goldAndGemWeight = getYwaeFromKPY(
-                generateNumberFromEditText(binding.edtAddReducedK).toInt(),
-                generateNumberFromEditText(binding.edtAddReducedP).toInt(),
-                generateNumberFromEditText(binding.edtAddReducedY).toDouble(),
+                generateNumberFromEditText(binding.edtGoldAndGemWeightK).toInt(),
+                generateNumberFromEditText(binding.edtGoldAndGemWeightP).toInt(),
+                generateNumberFromEditText(binding.edtGoldAndGemWeightY).toDouble(),
             )
 
             val gemWeightYwae = getYwaeFromKPY(
@@ -269,7 +277,6 @@ class SellResellStockInfoAddedFragment : Fragment() {
                 findNavController().popBackStack()
 
             } else {
-                //TODO discuss with yelu to handle new items
                 val id = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
                 viewModel.saveStockFromHome(
                     StockFromHomeInfoEntity(
@@ -393,6 +400,8 @@ class SellResellStockInfoAddedFragment : Fragment() {
 
     fun bindPassedData(id: String) {
         val item = viewModel.getStockInfoFromDataBase(id)
+        viewModel.selectedImagePath = item.image.orEmpty()
+        viewModel.nameTag = item.name.orEmpty()
         binding.edtGoldAndGemWeightGm.setText(item.gold_and_gem_weight_gm?.let {
             String.format(
                 "%.2f",
@@ -428,9 +437,9 @@ class SellResellStockInfoAddedFragment : Fragment() {
         binding.edtPriceB.setText(item.oldStockb_voucher_buying_value.toString())
         binding.edtPriceC.setText(item.oldStockc_voucher_buying_value.toString())
         val goldWeightDkpy = getKPYFromYwae(item.oldStockDGoldWeightY!!.toDouble())
-        binding.edtGemWeightK.setText(goldWeightDkpy[0].toInt().toString())
-        binding.edtGemWeightP.setText(goldWeightDkpy[1].toInt().toString())
-        binding.edtGemWeightY.setText(goldWeightDkpy[2].let { String.format("%.2f", it) })
+        binding.edtPriceDK.setText(goldWeightDkpy[0].toInt().toString())
+        binding.edtPriceDP.setText(goldWeightDkpy[1].toInt().toString())
+        binding.edtPriceDY.setText(goldWeightDkpy[2].let { String.format("%.2f", it) })
         binding.edtPriceE.setText(item.oldStockEPriceFromNewVoucher.toString())
 
         binding.edtFee.setText(item.maintenance_cost)
@@ -441,8 +450,12 @@ class SellResellStockInfoAddedFragment : Fragment() {
         binding.edtAddReducedP.setText(wastageKPY[1].toInt().toString())
         binding.edtAddReducedY.setText(wastageKPY[2].let { String.format("%.2f", it) })
 
+        binding.edtGoldQuality.setText(item.oldStockGQinCarat)
+        binding.edtPaymentFromShop.setText(item.oldStockc_voucher_buying_value)
 
-        binding.ivBg.loadImageWithGlide(item.image)
+        if (item.image.isNullOrEmpty().not()){
+            binding.ivBg.loadImageWithGlide(item.image)
+        }
         binding.ivCamera.isVisible = false
 
 

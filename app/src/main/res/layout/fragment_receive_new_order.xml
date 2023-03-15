@@ -289,7 +289,7 @@
                         app:hintEnabled="false">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/edt_one_estimated_underCount_K"
+                            android:id="@+id/edt_single_estimated_wastage_k"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="number"
@@ -318,7 +318,7 @@
                         app:hintEnabled="false">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/edt_one_estimated_underCount_P"
+                            android:id="@+id/edt_single_estimated_wastage_p"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="number"
@@ -346,7 +346,7 @@
                         app:hintEnabled="false">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/edt_one_estimated_underCount_Y"
+                            android:id="@+id/edt_single_estimated_wastage_y"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="numberDecimal"
