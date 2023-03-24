@@ -12,6 +12,10 @@ fun getYwaeFromGram(gram: Double): Double {
     return (gram / 16.6) * 128.toDouble()
 }
 
+fun getGramFromYwae(ywae:Double):Double{
+    return (ywae/128)*16.6
+}
+
 fun getKPYFromKyat(kyat: Double): List<Double> {
     val resultList = mutableListOf<Double>()
     var kpy_kyat = kyat.toInt()

@@ -5,19 +5,17 @@ import com.example.shwemi.util.Resource
 import com.example.shwemi.util.parseError
 import com.example.shwemi.util.parseErrorWithDataClass
 import com.example.shwemisale.data_layers.domain.goldFromHome.RebuyItemDto
-import com.example.shwemisale.data_layers.domain.goldFromHome.StockFromHomeInfoDomain
+import com.example.shwemisale.data_layers.domain.goldFromHome.StockFromHomeDomain
 import com.example.shwemisale.data_layers.domain.goldFromHome.StockWeightByVoucherDomain
 import com.example.shwemisale.data_layers.dto.SimpleError
 import com.example.shwemisale.data_layers.dto.calculation.GoldTypePriceDto
 import com.example.shwemisale.data_layers.dto.goldFromHome.RebuyPriceDto
-import com.example.shwemisale.data_layers.dto.goldFromHome.StockFromHomeInfoDto
 import com.example.shwemisale.data_layers.dto.goldFromHome.asDomain
 import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.network.api_services.CalculationService
 import com.example.shwemisale.network.api_services.GoldFromHomeService
 import com.example.shwemisale.repository.GoldFromHomeRepository
 import com.example.shwemisale.room_database.AppDatabase
-import com.example.shwemisale.room_database.dao.StockFromHomeInfoDao
 import com.example.shwemisale.room_database.entity.asEntity
 import javax.inject.Inject
 
@@ -57,7 +55,7 @@ class GoldFromHomeRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getStockInfoByVoucher(voucherCode: String,productIdList:List<String>): Resource<List<StockFromHomeInfoDomain>> {
+    override suspend fun getStockInfoByVoucher(voucherCode: String,productIdList:List<String>): Resource<List<StockFromHomeDomain>> {
         return try {
             val response = goldFromHomeService.getStockInfoByVoucher(
                 localDatabase.getAccessToken().orEmpty(),
@@ -66,7 +64,7 @@ class GoldFromHomeRepositoryImpl @Inject constructor(
             )
 
             if (response.isSuccessful && response.body() != null) {
-                appDatabase.stockFromHomeInfoDao.saveStockFromHomeInfoList(response.body()!!.data.map { it.asDomain() }.map { it.asEntity() })
+//                appDatabase.stockFromHomeInfoDao.saveStockFromHomeInfoList(response.body()!!.data.map { it.asDomain() }.map { it.asEntity() })
                 Resource.Success(response.body()!!.data.map{it.asDomain()})
             } else {
                 val errorJsonString = response.errorBody()?.string().orEmpty()

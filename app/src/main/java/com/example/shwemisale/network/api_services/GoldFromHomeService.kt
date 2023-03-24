@@ -1,11 +1,9 @@
 package com.example.shwemisale.network.api_services
 
 import com.example.shwemisale.data_layers.domain.goldFromHome.RebuyItemsResponse
-import com.example.shwemisale.data_layers.dto.calculation.GoldTypePriceApiResponse
-import com.example.shwemisale.data_layers.dto.customers.TownshipApiResponse
 import com.example.shwemisale.data_layers.dto.goldFromHome.PawnDiffValueResponse
 import com.example.shwemisale.data_layers.dto.goldFromHome.RebuyPriceResponse
-import com.example.shwemisale.data_layers.dto.goldFromHome.StockFromeHomeInfoResponse
+import com.example.shwemisale.data_layers.dto.goldFromHome.StockFromHomeInVoucherResponse
 import com.example.shwemisale.data_layers.dto.goldFromHome.StockWeightByVoucherResponse
 import retrofit2.Response
 import retrofit2.http.GET
@@ -26,7 +24,7 @@ interface GoldFromHomeService {
         @Header("Authorization") token: String,
         @Path("voucherCode") voucherCode: String,
         @Query("product_id[]") productIdList: List<String>
-    ): Response<StockFromeHomeInfoResponse>
+    ): Response<StockFromHomeInVoucherResponse>
 
     @GET("api/rebuy-price")
     suspend fun getReBuyPrice(

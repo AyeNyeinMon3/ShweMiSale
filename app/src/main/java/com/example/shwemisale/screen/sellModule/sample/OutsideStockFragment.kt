@@ -84,6 +84,9 @@ class OutsideStockFragment:Fragment() {
             }
         }
         binding.btnTake.setOnClickListener {
+            findNavController().popBackStack()
+        }
+        binding.btnSelect.setOnClickListener {
             val name = binding.edtOrderItemName.text.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val weight = binding.edtWeight.text.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val specification = binding.edtNote.text.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())

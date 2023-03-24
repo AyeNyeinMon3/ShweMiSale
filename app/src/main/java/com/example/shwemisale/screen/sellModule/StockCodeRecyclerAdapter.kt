@@ -32,7 +32,7 @@ class StockCodeViewHolder(private val binding: ItemStockCodeItemBinding,
     fun bind(data: ProductInfoUiModel){
         binding.tvCode.text=data.code
         binding.tvSize.text=data.size
-        binding.tvPrice.text=data.jewellery_type_id
+        binding.tvPrice.text=data.cost+" Kyat"
         binding.root.setOnClickListener {
             navigateDetail(data)
         }

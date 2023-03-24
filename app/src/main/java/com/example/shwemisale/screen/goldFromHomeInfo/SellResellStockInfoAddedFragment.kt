@@ -1,6 +1,7 @@
 package com.example.shwemisale.screen.goldFromHomeInfo
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -25,23 +26,20 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.shwemi.util.*
 import com.example.shwemisale.R
+import com.example.shwemisale.data_layers.domain.goldFromHome.StockFromHomeDomain
+import com.example.shwemisale.data_layers.dto.goldFromHome.GemWeightDetail
 import com.example.shwemisale.databinding.DialogGemWeightBinding
 import com.example.shwemisale.databinding.DialogMinusPercentageBinding
 import com.example.shwemisale.databinding.DialogResellStockInfoBinding
 import com.example.shwemisale.databinding.FragmentResellStockInfoAddedSellBinding
-import com.example.shwemisale.room_database.entity.StockFromHomeInfoEntity
-import com.example.shwemisale.screen.goldFromHome.getKPYFromYwae
-import com.example.shwemisale.screen.goldFromHome.getKyatsFromKPY
-import com.example.shwemisale.screen.goldFromHome.getYwaeFromGram
-import com.example.shwemisale.screen.goldFromHome.getYwaeFromKPY
+import com.example.shwemisale.screen.goldFromHome.*
 import com.example.shwemisale.screen.sellModule.ResellStockRecyclerAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
-import org.threeten.bp.LocalDateTime
-import org.threeten.bp.ZoneOffset
-import org.threeten.bp.format.DateTimeFormatter
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
-import java.util.*
 
 @AndroidEntryPoint
 class SellResellStockInfoAddedFragment : Fragment() {
@@ -111,7 +109,7 @@ class SellResellStockInfoAddedFragment : Fragment() {
         }
         viewModel.horizontalOption = "Damage"
 //        viewModel.getRebuyPrice("Damage", "X", "small", args.id)
-        args.id?.let {
+        args.stockFromHomeInfo?.let {
             bindPassedData(it)
         }
         setXYZselection()
@@ -134,7 +132,7 @@ class SellResellStockInfoAddedFragment : Fragment() {
         }
         binding.radioGroupType.setOnCheckedChangeListener { radioGroup, checkedId ->
             var lastValue = binding.edtRepurchasePrice.text.toString()
-            if (checkedId == binding.radioBtnOldStock.id) {
+            if (checkedId == binding.radioBtnOutsideStock.id) {
                 binding.edtRepurchasePrice.setText("")
             } else {
                 binding.edtRepurchasePrice.setText(lastValue)
@@ -193,132 +191,146 @@ class SellResellStockInfoAddedFragment : Fragment() {
         }
 
         binding.btnContinue.setOnClickListener {
-            val diamondGemValue = if (binding.edtReducedGemDiamondValue.text.isNullOrEmpty()) {
-                generateNumberFromEditText(binding.edtGemDiamondValue).toDouble()
-            } else {
-                generateNumberFromEditText(binding.edtReducedGemDiamondValue).toDouble()
+            var gemQtyMultiPartList = mutableListOf<MultipartBody.Part?>()
+            var gemWeightYwaeMultiPartList = mutableListOf<MultipartBody.Part?>()
+            var gemWeightGmMultiPartList = mutableListOf<MultipartBody.Part?>()
+
+            val gemQtyList = viewModel.gemWeightCustomList.map { it.gem_qty }
+            val gemWeightYwaeList = viewModel.gemWeightCustomList.map { it.gem_weight_ywae_per_unit }
+            val gemWeightGmList = viewModel.gemWeightCustomList.map { it.gem_weight_gm_per_unit }
+
+            val imageFile = viewModel.selectedImagePath?.let { File(it) }
+            repeat(viewModel.gemWeightCustomList.size){
+                gemQtyMultiPartList.add(
+                    MultipartBody.Part.createFormData(
+                        "gem_weight_details[$it][gem_qty]",
+                        gemQtyList[it]
+                    )
+                )
+                gemWeightYwaeMultiPartList.add(
+                    MultipartBody.Part.createFormData(
+                        "gem_weight_details[$it][gem_weight_ywae_per_unit]",
+                        gemWeightYwaeList[it]
+                    )
+                )
+                gemWeightGmMultiPartList.add(
+                    MultipartBody.Part.createFormData(
+                        "gem_weight_details[$it][gem_weight_gm_per_unit]",
+                        gemWeightGmList[it]
+                    )
+                )
             }
-            val otherReducedCosts =
-                diamondGemValue + generateNumberFromEditText(binding.edtFee).toDouble() + generateNumberFromEditText(
-                    binding.edtPTclipValue
-                ).toDouble()
-            val wastageYwae = getYwaeFromKPY(
-                generateNumberFromEditText(binding.edtAddReducedK).toInt(),
-                generateNumberFromEditText(binding.edtAddReducedP).toInt(),
-                generateNumberFromEditText(binding.edtAddReducedY).toDouble(),
-            )
-            val goldAndGemWeight = getYwaeFromKPY(
-                generateNumberFromEditText(binding.edtGoldAndGemWeightK).toInt(),
-                generateNumberFromEditText(binding.edtGoldAndGemWeightP).toInt(),
-                generateNumberFromEditText(binding.edtGoldAndGemWeightY).toDouble(),
-            )
-
-            val gemWeightYwae = getYwaeFromKPY(
-                generateNumberFromEditText(binding.edtGemWeightK).toInt(),
-                generateNumberFromEditText(binding.edtGemWeightP).toInt(),
-                generateNumberFromEditText(binding.edtGemWeightY).toDouble(),
-            )
-            val impurityYwae = getYwaeFromKPY(
-                generateNumberFromEditText(binding.edtGeeWeightK).toInt(),
-                generateNumberFromEditText(binding.edtGeeWeightP).toInt(),
-                generateNumberFromEditText(binding.edtGeeWeightY).toDouble(),
-            )
-
-            val oldStockDGoldWeightY = getYwaeFromKPY(
-                generateNumberFromEditText(binding.edtPriceDK).toInt(),
-                generateNumberFromEditText(binding.edtPriceDP).toInt(),
-                generateNumberFromEditText(binding.edtPriceDY).toDouble(),
-            )
-
-            val oldStockFVoucherShownGoldWeightY = getYwaeFromKPY(
-                generateNumberFromEditText(binding.edtPriceFK).toInt(),
-                generateNumberFromEditText(binding.edtPriceFP).toInt(),
-                generateNumberFromEditText(binding.edtPriceFY).toDouble(),
-            )
-            val goldYwae = getYwaeFromKPY(
-                generateNumberFromEditText(binding.edtGoldWeightK).toInt(),
-                generateNumberFromEditText(binding.edtGoldWeightP).toInt(),
-                generateNumberFromEditText(binding.edtGoldWeightY).toDouble(),
-            )
-            if (args.id != null) {
-                val item = viewModel.getStockInfoFromDataBase(args.id.orEmpty())
-                viewModel.saveImage(item.id, viewModel.selectedImagePath)
+            if (args.stockFromHomeInfo != null) {
                 viewModel.updateStockFromHome(
-                    item.id,
-                    viewModel.nameTag,
-                    viewModel.totalQty.toString(),
-                    viewModel.size,
-                    goldYwae.toString(),
-                    item.derived_net_gold_weight_ywae.toString(),//derived net gold weight need to confirm
-                    diamondGemValue.toString(),
-                    viewModel.gemWeightCustomList.map { it.gemCount },//gemdetail qty
-                    viewModel.gemWeightCustomList.map { (it.weightForOneGm.toDouble() * it.gemCount.toInt()).toString() },//gemdetail gm
-                    viewModel.gemWeightCustomList.map { (it.weightForOneY.toDouble() * it.gemCount.toInt()).toString() },//gemdetail ywae
-                    gemWeightYwae.toString(),
-                    binding.edtGoldAndGemWeightGm.text.toString(),
-                    item.gold_price.toString(),
-                    binding.edtFee.text.toString(),
-                    binding.edtPTclipValue.text.toString(),
-                    binding.edtRepurchasePrice.text.toString(),
-                    otherReducedCosts.toString(),
-                    binding.edtDecidedPawnPrice.text.toString(),
-                    binding.edtPawnPrice.text.toString(),
-                    wastageYwae.toString(),
-                    viewModel.horizontalOption,
-                    binding.edtGoldQuality.text.toString(),
-                    impurityYwae.toString(),
-                    binding.edtPriceA.text.toString(),
-                    binding.edtPriceB.text.toString(),
-                    binding.edtPriceC.text.toString(),
-                    oldStockDGoldWeightY.toString(),
-                    binding.edtPriceE.text.toString(),
-                    oldStockFVoucherShownGoldWeightY.toString(),
+                    a_buying_price_update = binding.edtPriceA.text.toString(),
+                    b_voucher_buying_value_update =  binding.edtPriceB.text.toString(),
+                    c_voucher_buying_price_update =  binding.edtPriceC.text.toString(),
+                    calculated_buying_value_update =  binding.edtPaymentFromShop.text.toString(),
+                    calculated_for_pawn_update =  binding.edtPawnPrice.text.toString(),
+                    d_gold_weight_ywae_update = getYwaeFromKPY(
+                        generateNumberFromEditText(binding.edtPriceDK).toInt(),
+                        generateNumberFromEditText(binding.edtPriceDP).toInt(),
+                        generateNumberFromEditText(binding.edtPriceDY).toDouble()).toString(),
+                    e_price_from_new_voucher_update = binding.edtPriceE.text.toString(),
+                    f_voucher_shown_gold_weight_ywae_update = getYwaeFromKPY(
+                        generateNumberFromEditText(binding.edtPriceFK).toInt(),
+                        generateNumberFromEditText(binding.edtPriceFP).toInt(),
+                        generateNumberFromEditText(binding.edtPriceFY).toDouble()).toString(),
+                    gem_value_update =  binding.edtGemDiamondValue.text.toString(),
+                    gem_weight_ywae_update = getYwaeFromKPY(
+                        generateNumberFromEditText(binding.edtGemWeightK).toInt(),
+                        generateNumberFromEditText(binding.edtGemWeightP).toInt(),
+                        generateNumberFromEditText(binding.edtGemWeightY).toDouble()).toString(),
+                    gold_weight_ywae_update = getYwaeFromKPY(
+                        generateNumberFromEditText(binding.edtGoldWeightK).toInt(),
+                        generateNumberFromEditText(binding.edtGoldWeightP).toInt(),
+                        generateNumberFromEditText(binding.edtGoldWeightY).toDouble()).toString(),
+                    gold_gem_weight_ywae_update = getYwaeFromKPY(
+                        generateNumberFromEditText(binding.edtGoldAndGemWeightK).toInt(),
+                        generateNumberFromEditText(binding.edtGoldAndGemWeightP).toInt(),
+                        generateNumberFromEditText(binding.edtGoldAndGemWeightY).toDouble()).toString(),
+                    gq_in_carat_update = binding.edtGoldQuality.text.toString(),
+                    has_general_expenses_update = if (binding.cbOtherCosts.isChecked) "1" else "0",
+                    imageId_update = null,
+                    imageFile_update = imageFile,
+                    impurities_weight_ywae_update = getYwaeFromKPY(
+                        generateNumberFromEditText(binding.edtGeeWeightK).toInt(),
+                        generateNumberFromEditText(binding.edtGeeWeightP).toInt(),
+                        generateNumberFromEditText(binding.edtGeeWeightY).toDouble()).toString(),
+                    maintenance_cost_update = binding.edtFee.text.toString(),
+                    price_for_pawn_update = binding.edtPawnPrice.text.toString(),
+                    pt_and_clip_cost_update = binding.edtPTclipValue.text.toString(),
+                    qty_update = viewModel.totalQty.toString(),
+                    rebuy_price_update = binding.edtRepurchasePrice.text.toString(),
+                    size_update = viewModel.size,
+                    stock_condition_update = viewModel.horizontalOption,
+                    stock_name_update = binding.tvNameTag.text.toString(),
+                    type_update = if (binding.radioBtnOutsideStock.isChecked) "0" else "1",
+                    wastage_ywae_update =getYwaeFromKPY(
+                        generateNumberFromEditText(binding.edtAddReducedK).toInt(),
+                        generateNumberFromEditText(binding.edtAddReducedP).toInt(),
+                        generateNumberFromEditText(binding.edtAddReducedY).toDouble()).toString(),
+                    rebuy_price_vertical_option_update = viewModel.verticalOption,
+                    item = args.stockFromHomeInfo!!,
+                    itemList = args.stockFromHomeList!!.toList()
                 )
                 findNavController().popBackStack()
 
             } else {
-                val id = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
-                viewModel.saveStockFromHome(
-                    StockFromHomeInfoEntity(
-                        id = id.toString(),
-                        code = null,
-                        qty = viewModel.totalQty.toString(),
-                        size = viewModel.size,
-                        goldWeightYwae = goldYwae.toString(),
-                        derived_gold_type_id = null,
-                        derived_net_gold_weight_kpy = null,
-                        derived_net_gold_weight_ywae = null,
-                        gem_value = diamondGemValue.toString(),
-                        gem_details_qty = viewModel.gemWeightCustomList.map { it.gemCount },//gemdetail qty
-                        gem_details_gm_per_units = viewModel.gemWeightCustomList.map { (it.weightForOneGm.toDouble() * it.gemCount.toInt()).toString() },//gemdetail gm
-                        gem_details_ywae_per_units = viewModel.gemWeightCustomList.map { (it.weightForOneY.toDouble() * it.gemCount.toInt()).toString() },//gemdetail ywae,
-                        gem_weight_ywae = gemWeightYwae.toString(),
-                        gold_and_gem_weight_gm = goldAndGemWeight.toString(),
-
-                        gold_price = "",
-                        image = viewModel.selectedImagePath,
-                        imageId = null,
-                        maintenance_cost = binding.edtFee.text.toString(),
-
-                        name = viewModel.nameTag,
-                        pt_and_clip_cost =
-                        binding.edtPTclipValue.text.toString(),//derived net gold weight need to confirm
-                        reduced_cost = otherReducedCosts.toString(),
-                        wastage_ywae = wastageYwae.toString(),
-                        rebuyPrice = binding.edtRepurchasePrice.text.toString(),
-                        priceForPawn = binding.edtDecidedPawnPrice.text.toString(),
-                        calculatedPriceForPawn = binding.edtPawnPrice.text.toString(),
-                        oldStockCondition = viewModel.horizontalOption,
-                        oldStockImpurityWeightY = impurityYwae.toString(),
-                        oldStockGQinCarat = binding.edtGoldQuality.text.toString(),
-                        oldStockABuyingPrice = binding.edtPriceA.text.toString(),
-                        oldStockb_voucher_buying_value = binding.edtPriceB.text.toString(),
-                        oldStockc_voucher_buying_value = binding.edtPriceC.text.toString(),
-                        oldStockDGoldWeightY = oldStockDGoldWeightY.toString(),
-                        oldStockEPriceFromNewVoucher = binding.edtPriceE.text.toString(),
-                        oldStockFVoucherShownGoldWeightY = oldStockFVoucherShownGoldWeightY.toString(),
+                viewModel.createStockFromHome(
+                    a_buying_price = binding.edtPriceA.text.toString(),
+                    b_voucher_buying_value =  binding.edtPriceB.text.toString(),
+                    c_voucher_buying_price =  binding.edtPriceC.text.toString(),
+                    calculated_buying_value =  binding.edtPaymentFromShop.text.toString(),
+                    calculated_for_pawn =  binding.edtPawnPrice.text.toString(),
+                    d_gold_weight_ywae = getYwaeFromKPY(
+                        generateNumberFromEditText(binding.edtPriceDK).toInt(),
+                        generateNumberFromEditText(binding.edtPriceDP).toInt(),
+                        generateNumberFromEditText(binding.edtPriceDY).toDouble()).toString(),
+                    e_price_from_new_voucher = binding.edtPriceE.text.toString(),
+                    f_voucher_shown_gold_weight_ywae = getYwaeFromKPY(
+                        generateNumberFromEditText(binding.edtPriceFK).toInt(),
+                        generateNumberFromEditText(binding.edtPriceFP).toInt(),
+                        generateNumberFromEditText(binding.edtPriceFY).toDouble()).toString(),
+                    gem_value =  binding.edtGemDiamondValue.text.toString(),
+                    gem_weight_details_qty = gemQtyMultiPartList ,
+                    gem_weight_details_gm = gemWeightGmMultiPartList ,
+                    gem_weight_details_ywae = gemWeightYwaeMultiPartList ,
+                    gem_weight_ywae = getYwaeFromKPY(
+                        generateNumberFromEditText(binding.edtGemWeightK).toInt(),
+                        generateNumberFromEditText(binding.edtGemWeightP).toInt(),
+                        generateNumberFromEditText(binding.edtGemWeightY).toDouble()).toString(),
+                    gold_weight_ywae = getYwaeFromKPY(
+                        generateNumberFromEditText(binding.edtGoldWeightK).toInt(),
+                        generateNumberFromEditText(binding.edtGoldWeightP).toInt(),
+                        generateNumberFromEditText(binding.edtGoldWeightY).toDouble()).toString(),
+                    gold_gem_weight_ywae = getYwaeFromKPY(
+                        generateNumberFromEditText(binding.edtGoldAndGemWeightK).toInt(),
+                        generateNumberFromEditText(binding.edtGoldAndGemWeightP).toInt(),
+                        generateNumberFromEditText(binding.edtGoldAndGemWeightY).toDouble()).toString(),
+                    gq_in_carat = binding.edtGoldQuality.text.toString(),
+                    has_general_expenses = if (binding.cbOtherCosts.isChecked) "1" else "0",
+                    imageId = null,
+                    imageFile = imageFile?.asRequestBody("multipart/form-data".toMediaTypeOrNull()),
+                    impurities_weight_ywae = getYwaeFromKPY(
+                        generateNumberFromEditText(binding.edtGeeWeightK).toInt(),
+                        generateNumberFromEditText(binding.edtGeeWeightP).toInt(),
+                        generateNumberFromEditText(binding.edtGeeWeightY).toDouble()).toString(),
+                    maintenance_cost = binding.edtFee.text.toString(),
+                    price_for_pawn = binding.edtPawnPrice.text.toString(),
+                    pt_and_clip_cost = binding.edtPTclipValue.text.toString(),
+                    qty = viewModel.totalQty.toString(),
+                    rebuy_price = binding.edtRepurchasePrice.text.toString(),
+                    size = viewModel.size,
+                    stock_condition = viewModel.horizontalOption,
+                    stock_name = binding.tvNameTag.text.toString(),
+                    type = if (binding.radioBtnOutsideStock.isChecked) "0" else "1",
+                    wastage_ywae =getYwaeFromKPY(
+                        generateNumberFromEditText(binding.edtAddReducedK).toInt(),
+                        generateNumberFromEditText(binding.edtAddReducedP).toInt(),
+                        generateNumberFromEditText(binding.edtAddReducedY).toDouble()).toString(),
+                    rebuy_price_vertical_option = viewModel.verticalOption,
                     )
-                )
                 findNavController().popBackStack()
             }
 
@@ -332,7 +344,6 @@ class SellResellStockInfoAddedFragment : Fragment() {
                         viewModel.horizontalOption,
                         viewModel.verticalOption,
                         viewModel.size,
-                        args.id
                     )
 
                 }
@@ -342,7 +353,6 @@ class SellResellStockInfoAddedFragment : Fragment() {
                         viewModel.horizontalOption,
                         viewModel.verticalOption,
                         viewModel.size,
-                        args.id
                     )
 
                 }
@@ -352,7 +362,6 @@ class SellResellStockInfoAddedFragment : Fragment() {
                         viewModel.horizontalOption,
                         viewModel.verticalOption,
                         viewModel.size,
-                        args.id
                     )
 
                 }
@@ -395,69 +404,99 @@ class SellResellStockInfoAddedFragment : Fragment() {
                 }
             }
         }
+        viewModel.goldTypePriceLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {
+                    loading.show()
+                }
+                is Resource.Success -> {
+                    loading.dismiss()
+                    viewModel.hundredPercentGoldPrice =
+                        it.data!!.find { it.name == "100%" }?.price.orEmpty()
+
+                }
+                is Resource.Error -> {
+                    loading.dismiss()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+
+                }
+            }
+        }
 
     }
 
-    fun bindPassedData(id: String) {
-        val item = viewModel.getStockInfoFromDataBase(id)
-        viewModel.selectedImagePath = item.image.orEmpty()
-        viewModel.nameTag = item.name.orEmpty()
-        binding.edtGoldAndGemWeightGm.setText(item.gold_and_gem_weight_gm?.let {
-            String.format(
-                "%.2f",
-                it.toDouble()
-            )
-        })
+    @SuppressLint("SetTextI18n")
+    fun bindPassedData(stockFromHomeInfo:StockFromHomeDomain) {
+        binding.tvNameTag.text = stockFromHomeInfo.stock_name+stockFromHomeInfo.size+stockFromHomeInfo.qty
+        if (stockFromHomeInfo.type == "1"){
+            binding.radioBtnBrandedStock.isChecked = true
+        }else{
+            binding.radioBtnOutsideStock.isChecked = true
+        }
+        when(stockFromHomeInfo.stock_condition){
+            "Damage"->{
+                binding.radioBtnDamage.isChecked = true
+            }
+            "Good"->{
+                binding.radioBtnGood.isChecked = true
 
-        binding.edtPawnPrice.setText(item.calculatedPriceForPawn.toString())
-        binding.edtDecidedPawnPrice.setText(item.priceForPawn.toString())
+            }
+            "Not to Go"->{
+                binding.radioBtnNotToGo.isChecked = true
 
-        binding.tvNameTag.text = item.name
+            }
+        }
 
-        val goldAndGemYwae = getYwaeFromGram(item.gold_and_gem_weight_gm!!.toDouble())
-        val goldAndGemKpy = getKPYFromYwae(goldAndGemYwae)
 
-        val gemKpy = getKPYFromYwae(item.gem_weight_ywae!!.toDouble())
-        binding.edtGemWeightK.setText(gemKpy[0].toInt().toString())
-        binding.edtGemWeightP.setText(gemKpy[1].toInt().toString())
-        binding.edtGemWeightY.setText(gemKpy[2].let { String.format("%.2f", it) })
+        binding.edtGoldAndGemWeightGm.setText(getGramFromYwae(stockFromHomeInfo.gold_gem_weight_ywae!!.toDouble()).toString())
 
+        val  goldAndGemKpy= getKPYFromYwae(stockFromHomeInfo.gold_gem_weight_ywae.toDouble())
         binding.edtGoldAndGemWeightK.setText(goldAndGemKpy[0].toInt().toString())
         binding.edtGoldAndGemWeightP.setText(goldAndGemKpy[1].toInt().toString())
         binding.edtGoldAndGemWeightY.setText(goldAndGemKpy[2].let { String.format("%.2f", it) })
 
-        val goldYwae = goldAndGemYwae - item.gem_weight_ywae.toDouble()
-        val goldKpy = getKPYFromYwae(goldYwae)
+        val goldKpy = getKPYFromYwae(stockFromHomeInfo.gold_weight_ywae!!.toDouble())
         binding.edtGoldWeightK.setText(goldKpy[0].toInt().toString())
         binding.edtGoldWeightP.setText(goldKpy[1].toInt().toString())
         binding.edtGoldWeightY.setText(goldKpy[2].let { String.format("%.2f", it) })
-        binding.edtRepurchasePrice.setText(item.rebuyPrice.toString())
 
-        binding.edtPriceA.setText(item.oldStockABuyingPrice.toString())
-        binding.edtPriceB.setText(item.oldStockb_voucher_buying_value.toString())
-        binding.edtPriceC.setText(item.oldStockc_voucher_buying_value.toString())
-        val goldWeightDkpy = getKPYFromYwae(item.oldStockDGoldWeightY!!.toDouble())
-        binding.edtPriceDK.setText(goldWeightDkpy[0].toInt().toString())
-        binding.edtPriceDP.setText(goldWeightDkpy[1].toInt().toString())
-        binding.edtPriceDY.setText(goldWeightDkpy[2].let { String.format("%.2f", it) })
-        binding.edtPriceE.setText(item.oldStockEPriceFromNewVoucher.toString())
-
-        binding.edtFee.setText(item.maintenance_cost)
-        binding.edtPTclipValue.setText(item.pt_and_clip_cost)
-
-        val wastageKPY = getKPYFromYwae(item.wastage_ywae?.toDouble() ?: 0.0)
-        binding.edtAddReducedK.setText(wastageKPY[0].toInt().toString())
-        binding.edtAddReducedP.setText(wastageKPY[1].toInt().toString())
-        binding.edtAddReducedY.setText(wastageKPY[2].let { String.format("%.2f", it) })
-
-        binding.edtGoldQuality.setText(item.oldStockGQinCarat)
-        binding.edtPaymentFromShop.setText(item.oldStockc_voucher_buying_value)
-
-        if (item.image.isNullOrEmpty().not()){
-            binding.ivBg.loadImageWithGlide(item.image)
+        //gem weight detail
+        var totalWeightYwae = 0.0
+        stockFromHomeInfo.gem_weight_details.orEmpty().forEach {
+            totalWeightYwae += it.gem_weight_ywae_per_unit.toDouble()*it.gem_qty.toDouble()
         }
-        binding.ivCamera.isVisible = false
+        val totalGemWeightKpy = getKPYFromYwae(totalWeightYwae)
+        binding.edtGemWeightK.setText(totalGemWeightKpy[0].toInt().toString())
+        binding.edtGemWeightP.setText(totalGemWeightKpy[1].toInt().toString())
+        binding.edtGemWeightY.setText(totalGemWeightKpy[2].toString())
 
+        val impurityWeightKpy = getKPYFromYwae(stockFromHomeInfo.impurities_weight_ywae!!.toDouble())
+        binding.edtGeeWeightK.setText(impurityWeightKpy[0].toInt().toString())
+        binding.edtGeeWeightP.setText(impurityWeightKpy[1].toInt().toString())
+        binding.edtGeeWeightY.setText(impurityWeightKpy[2].let { String.format("%.2f", it) })
+
+        binding.edtGoldQuality.setText(stockFromHomeInfo.gq_in_carat)
+        binding.cbOtherCosts.isChecked = stockFromHomeInfo.has_general_expenses == "1"
+        binding.edtGemDiamondValue.setText(stockFromHomeInfo.gem_value)
+        val reducedKpy = getKPYFromYwae(stockFromHomeInfo.wastage_ywae!!.toDouble())
+        binding.edtAddReducedK.setText(reducedKpy[0].toInt().toString())
+        binding.edtAddReducedP.setText(reducedKpy[1].toInt().toString())
+        binding.edtAddReducedY.setText(reducedKpy[2].let { String.format("%.2f", it) })
+
+        binding.edtFee.setText(stockFromHomeInfo.maintenance_cost)
+        binding.edtPTclipValue.setText(stockFromHomeInfo.pt_and_clip_cost)
+        binding.edtPaymentFromShop.setText(stockFromHomeInfo.calculated_buying_value)
+        binding.edtDecidedPawnPrice.setText(stockFromHomeInfo.price_for_pawn)
+        binding.edtPawnPrice.setText(stockFromHomeInfo.calculated_for_pawn)
+        binding.edtPriceA.setText(stockFromHomeInfo.a_buying_price)
+        binding.edtPriceB.setText(stockFromHomeInfo.b_voucher_buying_value)
+        binding.edtPriceC.setText(stockFromHomeInfo.c_voucher_buying_price)
+        binding.edtPriceE.setText(stockFromHomeInfo.e_price_from_new_voucher)
+
+        val fVoucherKpy = getKPYFromYwae(stockFromHomeInfo.f_voucher_shown_gold_weight_ywae!!.toDouble())
+        binding.edtPriceFK.setText(fVoucherKpy[0].toInt().toString())
+        binding.edtPriceFP.setText(fVoucherKpy[1].toInt().toString())
+        binding.edtPriceFY.setText(fVoucherKpy[2].let { String.format("%.2f", it) })
 
     }
 
@@ -769,6 +808,7 @@ class SellResellStockInfoAddedFragment : Fragment() {
     }
 
     fun showDialogGemWeight() {
+        var count = 0
         val builder = MaterialAlertDialogBuilder(requireContext())
         val inflater = LayoutInflater.from(builder.context)
         dialogGemWeightBinding =
@@ -787,18 +827,25 @@ class SellResellStockInfoAddedFragment : Fragment() {
         })
         alertDialog.setCancelable(false)
         val adapter = GemWeightRecyclerAdapter(viewModel) { id ->
-            viewModel.gemWeightCustomList.remove(viewModel.gemWeightCustomList.find { it.id == id })
-
+            viewModel.gemWeightCustomList.remove(viewModel.gemWeightCustomList.find { it.id.toString() == id })
+        }
+        if (args.stockFromHomeInfo != null ){
+            if (!args.stockFromHomeInfo!!.gem_weight_details.isNullOrEmpty()){
+                args.stockFromHomeInfo!!.gem_weight_details!!.forEach {
+                    count++
+                    it.id = count
+                }
+                adapter.submitList(args.stockFromHomeInfo!!.gem_weight_details)
+            }
         }
         dialogGemWeightBinding.rvGemWeight.adapter = adapter
-
-        var count = 0
 
         dialogGemWeightBinding.btnAdd.setOnClickListener {
             count++
             viewModel.gemWeightCustomList.add(
-                GemWeightInStockFromHome(
-                    count.toString(),
+                GemWeightDetail(
+                    count,
+                    "",
                     "",
                     "",
                     "",
@@ -815,7 +862,7 @@ class SellResellStockInfoAddedFragment : Fragment() {
         dialogGemWeightBinding.btnContinue.setOnClickListener {
             var totalWeightYwae = 0.0
             viewModel.gemWeightCustomList.forEach {
-                totalWeightYwae += it.totalWeightKPY.toDouble()
+                totalWeightYwae += it.gem_weight_ywae_per_unit.toDouble()*it.gem_qty.toDouble()
             }
             val totalWeightKPY = getKPYFromYwae(totalWeightYwae)
             binding.edtGemWeightK.setText(totalWeightKPY[0].toInt().toString())
@@ -903,8 +950,7 @@ class SellResellStockInfoAddedFragment : Fragment() {
             viewModel.getRebuyPrice(
                 viewModel.horizontalOption,
                 viewModel.verticalOption,
-                viewModel.size,
-                args.id
+                viewModel.size
             )
 
         }
@@ -919,8 +965,7 @@ class SellResellStockInfoAddedFragment : Fragment() {
             viewModel.getRebuyPrice(
                 viewModel.horizontalOption,
                 viewModel.verticalOption,
-                viewModel.size,
-                args.id
+                viewModel.size
             )
 
         }
@@ -935,8 +980,7 @@ class SellResellStockInfoAddedFragment : Fragment() {
             viewModel.getRebuyPrice(
                 viewModel.horizontalOption,
                 viewModel.verticalOption,
-                viewModel.size,
-                args.id
+                viewModel.size
             )
 
         }

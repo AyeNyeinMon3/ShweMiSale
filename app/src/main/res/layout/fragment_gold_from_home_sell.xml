@@ -215,7 +215,7 @@
                     app:hintEnabled="false">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edt_calculate_pledgeMoney"
+                        android:id="@+id/edt_calculate_total_pawn_price"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"

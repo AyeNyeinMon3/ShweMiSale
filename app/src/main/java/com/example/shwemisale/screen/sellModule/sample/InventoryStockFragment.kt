@@ -70,8 +70,6 @@ class InventoryStockFragment : Fragment() {
             }
         })
 
-
-
         viewModel.productIdLiveData.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Loading -> {

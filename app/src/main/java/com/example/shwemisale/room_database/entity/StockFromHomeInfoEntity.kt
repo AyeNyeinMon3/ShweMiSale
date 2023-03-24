@@ -3,7 +3,7 @@ package com.example.shwemisale.room_database.entity
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.shwemisale.data_layers.ShweMiFile
-import com.example.shwemisale.data_layers.domain.goldFromHome.StockFromHomeInfoDomain
+import com.example.shwemisale.data_layers.domain.goldFromHome.StockFromHomeDomain
 import com.example.shwemisale.data_layers.ui_models.goldFromHome.StockFromHomeInfoUiModel
 import com.example.shwemisale.screen.goldFromHome.getYwaeFromGram
 
@@ -100,47 +100,7 @@ fun StockFromHomeInfoEntity.asUiModel(): StockFromHomeInfoUiModel {
     )
 }
 
-fun StockFromHomeInfoDomain.asEntity(): StockFromHomeInfoEntity {
-    return StockFromHomeInfoEntity(
-        id = id,
-        code = code,
-        derived_gold_type_id = derived_gold_type_id.toString(),
-        derived_net_gold_weight_kpy = derived_net_gold_weight_kpy.toString(),
-        derived_net_gold_weight_ywae = derived_net_gold_weight_ywae.toString(),
-        gem_value = gem_value.toString(),
-        gem_weight_ywae = gem_weight_ywae.toString(),
-        gem_details_qty = gem_details_qty as ArrayList<String>,
-        gem_details_gm_per_units = gem_details_gm_per_units as ArrayList<String>,
-        gem_details_ywae_per_units = gem_details_ywae_per_units as ArrayList<String>,
-        goldWeightYwae =
-        (getYwaeFromGram(gold_and_gem_weight_gm.toDouble()) - gem_weight_ywae).toString(),
-        gold_and_gem_weight_gm = gold_and_gem_weight_gm.toString(),
-        gold_price = gold_price.toString(),
-        image = image,
-        imageId = imageId,
-        maintenance_cost = maintenance_cost.toString(),
-        name = name,
-        qty = "0",
-        size = "small",
-        pt_and_clip_cost = pt_and_clip_cost.toString(),
-        reduced_cost = "",
-        wastage_ywae = wastage_ywae.toString(),
-        rebuyPrice = "",
-        priceForPawn = "",
-        calculatedPriceForPawn = "",
 
-        oldStockCondition = "",
-        oldStockGQinCarat = "",
-        oldStockImpurityWeightY = "",
-
-        oldStockABuyingPrice = "",
-        oldStockb_voucher_buying_value = "",
-        oldStockc_voucher_buying_value = "",
-        oldStockDGoldWeightY = "",
-        oldStockEPriceFromNewVoucher = "",
-        oldStockFVoucherShownGoldWeightY = "",
-    )
-}
 
 fun StockFromHomeInfoUiModel.asEntity(): StockFromHomeInfoEntity {
     return StockFromHomeInfoEntity(

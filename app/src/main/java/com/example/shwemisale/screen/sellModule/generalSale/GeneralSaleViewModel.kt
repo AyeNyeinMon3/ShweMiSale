@@ -7,16 +7,20 @@ import androidx.lifecycle.viewModelScope
 import com.example.shwemi.util.Resource
 import com.example.shwemisale.data_layers.domain.product.ProductInfoDomain
 import com.example.shwemisale.data_layers.dto.GeneralSaleDto
+import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.repositoryImpl.NormalSaleRepositoryImpl
 import com.example.shwemisale.repositoryImpl.ProductRepoImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import javax.inject.Inject
 
 @HiltViewModel
 class GeneralSaleViewModel @Inject constructor(
-    private val normalSaleRepositoryImpl: NormalSaleRepositoryImpl
+    private val normalSaleRepositoryImpl: NormalSaleRepositoryImpl,
+    private val localDatabase: LocalDatabase
 ) : ViewModel() {
     private val _submitGeneralSaleLiveData = MutableLiveData<Resource<String>>()
     val submitGeneralSaleLiveData: LiveData<Resource<String>>
@@ -36,43 +40,7 @@ class GeneralSaleViewModel @Inject constructor(
         user_id: String,
         paid_amount: String,
         reduced_cost: String,
-        old_stocks_nameList: List<MultipartBody.Part>?,
-        oldStockImageIds: List<MultipartBody.Part>?,
-        oldStockImageFile: List<MultipartBody.Part>?,
-        oldStockCondition: List<MultipartBody.Part>?,
-        old_stock_qty: List<MultipartBody.Part>?,
-        old_stock_size: List<MultipartBody.Part>?,
-        oldStockGemWeightY: List<MultipartBody.Part>?,
 
-        oldStockGoldGemWeightY: List<MultipartBody.Part>?,
-
-        oldStockImpurityWeightY: List<MultipartBody.Part>?,
-
-        oldStockGoldWeightY: List<MultipartBody.Part>?,
-
-        oldStockWastageWeightY: List<MultipartBody.Part>?,
-
-        oldStockRebuyPrice: List<MultipartBody.Part>?,
-        oldStockGQinCarat: List<MultipartBody.Part>?,
-        oldStockMaintenance_cost: List<MultipartBody.Part>?,
-        oldStockGemValue: List<MultipartBody.Part>?,
-        oldStockGemDetailQty: List<MultipartBody.Part>?,
-        oldStockGemDetailGm: List<MultipartBody.Part>?,
-        oldStockGemDetailYwae: List<MultipartBody.Part>?,
-        oldStockPTAndClipCost: List<MultipartBody.Part>?,
-        oldStockCalculatedBuyingValue: List<MultipartBody.Part>?,
-        oldStockPriceForPawn: List<MultipartBody.Part>?,
-        oldStockCalculatedForPawn: List<MultipartBody.Part>?,
-
-        oldStockABuyingPrice: List<MultipartBody.Part>?,
-        oldStockb_voucher_buying_value: List<MultipartBody.Part>?,
-        oldStockc_voucher_buying_price: List<MultipartBody.Part>?,
-
-        oldStockDGoldWeightY: List<MultipartBody.Part>?,
-
-        oldStockEPriceFromNewVoucher: List<MultipartBody.Part>?,
-
-        oldStockFVoucherShownGoldWeightY: List<MultipartBody.Part>?,
     ) {
         viewModelScope.launch {
             _submitGeneralSaleLiveData.value = Resource.Loading()
@@ -85,34 +53,7 @@ class GeneralSaleViewModel @Inject constructor(
                 user_id,
                 paid_amount,
                 reduced_cost,
-                old_stocks_nameList,
-                oldStockGemDetailQty,
-                oldStockGemDetailGm,
-                oldStockGemDetailYwae,
-                oldStockImageIds,
-                oldStockImageFile,
-                oldStockCondition,
-                old_stock_qty,
-                old_stock_size,
-                oldStockGemWeightY,
-                oldStockGoldGemWeightY,
-                oldStockImpurityWeightY,
-                oldStockGoldWeightY,
-                oldStockWastageWeightY,
-                oldStockRebuyPrice,
-                oldStockGQinCarat,
-                oldStockMaintenance_cost,
-                oldStockGemValue,
-                oldStockPTAndClipCost,
-                oldStockCalculatedBuyingValue,
-                oldStockPriceForPawn,
-                oldStockCalculatedForPawn,
-                oldStockABuyingPrice,
-                oldStockb_voucher_buying_value,
-                oldStockc_voucher_buying_price,
-                oldStockDGoldWeightY,
-                oldStockEPriceFromNewVoucher,
-                oldStockFVoucherShownGoldWeightY,
+                localDatabase.getStockFromHomeSessionKey().orEmpty().toRequestBody("multipart/form-data".toMediaTypeOrNull())
             )
         }
     }

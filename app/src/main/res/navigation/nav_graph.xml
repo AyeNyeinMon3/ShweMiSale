@@ -165,8 +165,12 @@
         android:name="com.example.shwemisale.screen.goldFromHomeInfo.SellResellStockInfoAddedFragment"
         android:label="ပြန်သွင်းထည်အချက်အလက်" >
         <argument
-            android:name="id"
-            app:argType="string"
+            android:name="stockFromHomeInfo"
+            app:argType="com.example.shwemisale.data_layers.domain.goldFromHome.StockFromHomeDomain"
+            app:nullable="true" />
+        <argument
+            android:name="stockFromHomeList"
+            app:argType="com.example.shwemisale.data_layers.domain.goldFromHome.StockFromHomeDomain[]"
             app:nullable="true" />
     </fragment>
 

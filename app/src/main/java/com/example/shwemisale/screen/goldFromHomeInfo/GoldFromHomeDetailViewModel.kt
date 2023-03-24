@@ -6,22 +6,33 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shwemi.util.Resource
 import com.example.shwemisale.data_layers.domain.goldFromHome.RebuyItemDto
+import com.example.shwemisale.data_layers.domain.goldFromHome.StockFromHomeDomain
 import com.example.shwemisale.data_layers.dto.calculation.GoldTypePriceDto
+import com.example.shwemisale.data_layers.dto.goldFromHome.GemWeightDetail
 import com.example.shwemisale.data_layers.dto.goldFromHome.RebuyPriceDto
 import com.example.shwemisale.data_layers.ui_models.goldFromHome.StockFromHomeInfoUiModel
+import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.repositoryImpl.GoldFromHomeRepositoryImpl
+import com.example.shwemisale.repositoryImpl.NormalSaleRepositoryImpl
 import com.example.shwemisale.room_database.AppDatabase
 import com.example.shwemisale.room_database.entity.StockFromHomeInfoEntity
 import com.example.shwemisale.room_database.entity.asUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
 class GoldFromHomeDetailViewModel @Inject constructor(
     private val goldFromHomeRepositoryImpl: GoldFromHomeRepositoryImpl,
-    private val appDatabase: AppDatabase
-) :ViewModel(){
+    private val appDatabase: AppDatabase,
+    private val normalSaleRepositoryImpl: NormalSaleRepositoryImpl,
+    private val localDatabase: LocalDatabase
+) : ViewModel() {
     var nameTag = ""
     var rebuyItemList = listOf<RebuyItemDto>()
     var totalQty = 0
@@ -33,7 +44,7 @@ class GoldFromHomeDetailViewModel @Inject constructor(
     var hundredPercentGoldPrice = ""
     var pawnDiffValue = "0"
 
-    var gemWeightCustomList = mutableListOf<GemWeightInStockFromHome>()
+    var gemWeightCustomList = mutableListOf<GemWeightDetail>()
 
 //    fun addGemWeightCustom(item:GemWeightInStockFromHome){
 //        gemWeightCustomList.add(item)
@@ -53,9 +64,10 @@ class GoldFromHomeDetailViewModel @Inject constructor(
     val rebuyPriceLiveData: LiveData<Resource<RebuyPriceDto>>
         get() = _rebuyPriceLiveData
 
-    fun getRebuyPrice(horizontal:String,vertical:String,size:String,id: String?){
+    fun getRebuyPrice(horizontal: String, vertical: String, size: String) {
         viewModelScope.launch {
-            _rebuyPriceLiveData.value = goldFromHomeRepositoryImpl.getRebuyPrice(horizontal,vertical,size)
+            _rebuyPriceLiveData.value =
+                goldFromHomeRepositoryImpl.getRebuyPrice(horizontal, vertical, size)
         }
     }
 
@@ -63,8 +75,8 @@ class GoldFromHomeDetailViewModel @Inject constructor(
     val rebuyItemeLiveData: LiveData<Resource<List<RebuyItemDto>>>
         get() = _rebuyItemeLiveData
 
-    fun getRebuyItem(size:String){
-        _rebuyItemeLiveData.value= Resource.Loading()
+    fun getRebuyItem(size: String) {
+        _rebuyItemeLiveData.value = Resource.Loading()
         viewModelScope.launch {
             _rebuyItemeLiveData.value = goldFromHomeRepositoryImpl.getRebuyItem(size)
         }
@@ -74,22 +86,95 @@ class GoldFromHomeDetailViewModel @Inject constructor(
     val goldTypePriceLiveData: LiveData<Resource<List<GoldTypePriceDto>>>
         get() = _goldTypePriceLiveData
 
-    fun getGoldTypePrice(){
-        _goldTypePriceLiveData.value= Resource.Loading()
+    fun getGoldTypePrice() {
+        _goldTypePriceLiveData.value = Resource.Loading()
         viewModelScope.launch {
             _goldTypePriceLiveData.value = goldFromHomeRepositoryImpl.getGoldType("1")
         }
     }
 
-    fun getPawnDiffValue(){
+    fun getPawnDiffValue() {
         viewModelScope.launch {
-            pawnDiffValue = goldFromHomeRepositoryImpl.getPawnDiffValue().data?:"0"
+            pawnDiffValue = goldFromHomeRepositoryImpl.getPawnDiffValue().data ?: "0"
         }
     }
 
+    private val _createStockFromHomeInfoLiveData =
+        MutableLiveData<Resource<String>>()
+    val createStockFromHomeInfoLiveData: LiveData<Resource<String>>
+        get() = _createStockFromHomeInfoLiveData
 
-    fun getStockInfoFromDataBase(id:String):StockFromHomeInfoUiModel{
-        return appDatabase.stockFromHomeInfoDao.getStockFromHomeInfoById(id).asUiModel()
+    fun createStockFromHome(
+        a_buying_price: String?,
+        b_voucher_buying_value: String?,
+        c_voucher_buying_price: String?,
+        calculated_buying_value: String?,
+        calculated_for_pawn: String?,
+        d_gold_weight_ywae: String?,
+        e_price_from_new_voucher: String?,
+        f_voucher_shown_gold_weight_ywae: String?,
+        gem_value: String?,
+        gem_weight_details_qty: List<MultipartBody.Part?>?,
+        gem_weight_details_gm: List<MultipartBody.Part?>?,
+        gem_weight_details_ywae: List<MultipartBody.Part?>?,
+        gem_weight_ywae: String?,
+        gold_gem_weight_ywae: String?,
+        gold_weight_ywae: String?,
+        gq_in_carat: String?,
+        has_general_expenses: String?,
+        imageId: String?,
+        imageFile: RequestBody?,
+        impurities_weight_ywae: String?,
+        maintenance_cost: String?,
+        price_for_pawn: String?,
+        pt_and_clip_cost: String?,
+        qty: String?,
+        rebuy_price: String?,
+        size: String?,
+        stock_condition: String?,
+        stock_name: String?,
+        type: String?,
+        wastage_ywae: String?,
+        rebuy_price_vertical_option: String?,
+    ) {
+        viewModelScope.launch {
+            _createStockFromHomeInfoLiveData.value = Resource.Loading()
+            _createStockFromHomeInfoLiveData.value =
+                normalSaleRepositoryImpl.createStockFromHomeList(
+                    a_buying_price,
+                    b_voucher_buying_value,
+                    c_voucher_buying_price,
+                    calculated_buying_value,
+                    calculated_for_pawn,
+                    d_gold_weight_ywae,
+                    e_price_from_new_voucher,
+                    f_voucher_shown_gold_weight_ywae,
+                    gem_value,
+                    gem_weight_details_qty,
+                    gem_weight_details_gm,
+                    gem_weight_details_ywae,
+                    gem_weight_ywae,
+                    gold_gem_weight_ywae,
+                    gold_weight_ywae,
+                    gq_in_carat,
+                    has_general_expenses,
+                    imageId,
+                    imageFile,
+                    impurities_weight_ywae,
+                    maintenance_cost,
+                    price_for_pawn,
+                    pt_and_clip_cost,
+                    qty,
+                    rebuy_price,
+                    size,
+                    stock_condition,
+                    stock_name,
+                    type,
+                    wastage_ywae,
+                    rebuy_price_vertical_option,
+                    localDatabase.getStockFromHomeSessionKey().orEmpty()
+                )
+        }
     }
 
     init {
@@ -97,102 +182,546 @@ class GoldFromHomeDetailViewModel @Inject constructor(
         getPawnDiffValue()
     }
 
-    fun saveStockFromHome(
-        item:StockFromHomeInfoEntity
-    ){
-        viewModelScope.launch {
-            appDatabase.stockFromHomeInfoDao.saveStockFromHomeInfoSingle(
-               item
-            )
-        }
-    }
-    //val derived_gold_type_id: String?,
-    //
-    //    val derived_net_gold_weight_kpy: String?,
-    //
-    //    val derived_net_gold_weight_ywae: String?,
-    //
-    //    val gem_value: String?,
-    //
-    //
-    //    val gem_weight_ywae: String?,
-    //
-    //    val gold_and_gem_weight_gm: String?,
-    //
-    //    val gold_price: String?,
-    //    val image: String?,
-    //    val maintenance_cost: String?,
-    //    val name: String?,
-    //    val pt_and_clip_cost: String?,
-
+    private val _updateStockFromHomeInfoLiveData =
+        MutableLiveData<Resource<String>>()
+    val updateStockFromHomeInfoLiveData: LiveData<Resource<String>>
+        get() = _updateStockFromHomeInfoLiveData
     fun updateStockFromHome(
-        id:String,
-        name:String,
-        qty:String,
-        size:String,
-        goldWeightYwae:String,
-        derived_net_gold_weight_ywae:String,
-        gemValue:String,
-        gem_details_qty: List<String>,
-        gem_details_gm_per_units: List<String>,
-        gem_details_ywae_per_units: List<String>,
-        gemWeightYwae:String,
-        gold_and_gem_weight_gm:String,
-        goldPrice:String,
-        maintenance_cost:String,
-        pt_and_clip_cost:String,
-        rebuyPrice:String,
-        reducedCosts:String,
-        priceForPawn:String,
-        calculatedPriceForPawn: String,
-        wastageYwae: String,
-        oldStockCondition: String,
-        oldStockGQinCarat: String,
-        oldStockImpurityWeightY: String,
-        oldstockABuyingPrice: String,
-        bPrice: String,
-        cPrice: String,
-        oldStockDGoldWeightY: String,
-        ePrice: String,
-        oldStockFVoucherShownGoldWeightY: String,
-    ){
+        a_buying_price_update: String?,
+        b_voucher_buying_value_update: String?,
+        c_voucher_buying_price_update: String?,
+        calculated_buying_value_update: String?,
+        calculated_for_pawn_update: String?,
+        d_gold_weight_ywae_update: String?,
+        e_price_from_new_voucher_update: String?,
+        f_voucher_shown_gold_weight_ywae_update: String?,
+        gem_value_update: String?,
+        gem_weight_ywae_update: String?,
+        gold_gem_weight_ywae_update: String?,
+        gold_weight_ywae_update: String?,
+        gq_in_carat_update: String?,
+        has_general_expenses_update: String?,
+        imageId_update: String?,
+        imageFile_update: File?,
+        impurities_weight_ywae_update: String?,
+        maintenance_cost_update: String?,
+        price_for_pawn_update: String?,
+        pt_and_clip_cost_update: String?,
+        qty_update: String?,
+        rebuy_price_update: String?,
+        size_update: String?,
+        stock_condition_update: String?,
+        stock_name_update: String?,
+        type_update: String?,
+        wastage_ywae_update: String?,
+        rebuy_price_vertical_option_update: String?,
+        item: StockFromHomeDomain,
+        itemList: List<StockFromHomeDomain>
+    ) {
         viewModelScope.launch {
-            appDatabase.stockFromHomeInfoDao.updateName(id,name)
-            appDatabase.stockFromHomeInfoDao.updateQty(id,qty)
-            appDatabase.stockFromHomeInfoDao.updateSize(id,size)
-            appDatabase.stockFromHomeInfoDao.updateGoldWeighYwae(id,goldWeightYwae)
-            appDatabase.stockFromHomeInfoDao.updateDerivedNetGoldWeightYwae(id,derived_net_gold_weight_ywae)
-            appDatabase.stockFromHomeInfoDao.updateGemValue(id,gemValue)
-            appDatabase.stockFromHomeInfoDao.updateGemWeightYwae(id,gemWeightYwae)
-            appDatabase.stockFromHomeInfoDao.updateGemDetailsQty(id,gem_details_qty)
-            appDatabase.stockFromHomeInfoDao.updateGemDetailsGmPerUnits(id,gem_details_gm_per_units)
-            appDatabase.stockFromHomeInfoDao.updateGemDetailsYwaePerUnits(id,gem_details_ywae_per_units)
-            appDatabase.stockFromHomeInfoDao.updateGoldAndGemWeightGm(id,gold_and_gem_weight_gm)
-            appDatabase.stockFromHomeInfoDao.updateGoldPrice(id,goldPrice)
-            appDatabase.stockFromHomeInfoDao.updateMaintenanceCost(id,maintenance_cost)
-            appDatabase.stockFromHomeInfoDao.updatePtAndClipCost(id,pt_and_clip_cost)
+            val updatedList = itemList
+            val a_buying_price = mutableListOf<MultipartBody.Part>()
+            val b_voucher_buying_value = mutableListOf<MultipartBody.Part>()
+            val c_voucher_buying_price = mutableListOf<MultipartBody.Part>()
+            val calculated_buying_value = mutableListOf<MultipartBody.Part>()
+            val calculated_for_pawn = mutableListOf<MultipartBody.Part>()
+            val d_gold_weight_ywae = mutableListOf<MultipartBody.Part>()
+            val e_price_from_new_voucher = mutableListOf<MultipartBody.Part>()
+            val f_voucher_shown_gold_weight_ywae = mutableListOf<MultipartBody.Part>()
+            val gem_value = mutableListOf<MultipartBody.Part>()
+            var gemQtyMultiPartList = mutableListOf<MultipartBody.Part?>()
+            var gemWeightYwaeMultiPartList = mutableListOf<MultipartBody.Part?>()
+            var gemWeightGmMultiPartList = mutableListOf<MultipartBody.Part?>()
+            val gem_weight_ywae = mutableListOf<MultipartBody.Part>()
+            val gold_gem_weight_ywae = mutableListOf<MultipartBody.Part>()
+            val gold_weight_ywae = mutableListOf<MultipartBody.Part>()
+            val gq_in_carat = mutableListOf<MultipartBody.Part>()
+            val has_general_expenses = mutableListOf<MultipartBody.Part>()
+            val imageId = mutableListOf<MultipartBody.Part>()
+            val imageFile = mutableListOf<MultipartBody.Part>()
+            val impurities_weight_ywae = mutableListOf<MultipartBody.Part>()
+            val maintenance_cost = mutableListOf<MultipartBody.Part>()
+            val price_for_pawn = mutableListOf<MultipartBody.Part>()
+            val pt_and_clip_cost = mutableListOf<MultipartBody.Part>()
+            val qty = mutableListOf<MultipartBody.Part>()
+            val rebuy_price = mutableListOf<MultipartBody.Part>()
+            val size = mutableListOf<MultipartBody.Part>()
+            val stock_condition = mutableListOf<MultipartBody.Part>()
+            val stock_name = mutableListOf<MultipartBody.Part>()
+            val type = mutableListOf<MultipartBody.Part>()
+            val wastage_ywae = mutableListOf<MultipartBody.Part>()
+            val rebuy_price_vertical_option = mutableListOf<MultipartBody.Part>()
+                if (updatedList.isNotEmpty()) {
+                    repeat(updatedList.size) {
+                        if (updatedList[it].id == item.id) {
+                            val gemQtyList = gemWeightCustomList.map { it.gem_qty }
+                            val gemWeightYwaeList =
+                                gemWeightCustomList.map { it.gem_weight_ywae_per_unit }
+                            val gemWeightGmList =
+                                gemWeightCustomList.map { it.gem_weight_gm_per_unit }
 
-            appDatabase.stockFromHomeInfoDao.updateRebuyPrice(id,rebuyPrice)
-            appDatabase.stockFromHomeInfoDao.updateReducedCost(id,reducedCosts)
-            appDatabase.stockFromHomeInfoDao.updatePriceForPawn(id,priceForPawn)
-            appDatabase.stockFromHomeInfoDao.updateCalculatedPriceForPawn(id,calculatedPriceForPawn)
-            appDatabase.stockFromHomeInfoDao.updateWastageYwae(id,wastageYwae)
-            appDatabase.stockFromHomeInfoDao.updateOldStockCondition(id,oldStockCondition)
-            appDatabase.stockFromHomeInfoDao.updateOldStockGQinCarat(id,oldStockGQinCarat)
-            appDatabase.stockFromHomeInfoDao.updateOldStockImpurityWeightY(id,oldStockImpurityWeightY)
-            appDatabase.stockFromHomeInfoDao.updateOldStockABuyingPrice(id,oldstockABuyingPrice)
-            appDatabase.stockFromHomeInfoDao.updateBprice(id,bPrice)
-            appDatabase.stockFromHomeInfoDao.updateCprice(id,cPrice)
-            appDatabase.stockFromHomeInfoDao.updateDprice(id,oldStockDGoldWeightY)
-            appDatabase.stockFromHomeInfoDao.updateEprice(id,ePrice)
-            appDatabase.stockFromHomeInfoDao.updateFprice(id,oldStockFVoucherShownGoldWeightY)
+                            repeat(updatedList[it].gem_weight_details.orEmpty().size) {
+                                gemQtyMultiPartList.add(
+                                    MultipartBody.Part.createFormData(
+                                        "gem_weight_details[$it][gem_qty]",
+                                        gemQtyList[it]
+                                    )
+                                )
+                                gemWeightYwaeMultiPartList.add(
+                                    MultipartBody.Part.createFormData(
+                                        "gem_weight_details[$it][gem_weight_ywae_per_unit]",
+                                        gemWeightYwaeList[it]
+                                    )
+                                )
+                                gemWeightGmMultiPartList.add(
+                                    MultipartBody.Part.createFormData(
+                                        "gem_weight_details[$it][gem_weight_gm_per_unit]",
+                                        gemWeightGmList[it]
+                                    )
+                                )
+                            }
+
+                            a_buying_price.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][a_buying_price]",
+                                    a_buying_price_update.orEmpty()
+                                )
+                            )
+
+                            b_voucher_buying_value.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][b_voucher_buying_value]",
+                                    b_voucher_buying_value_update.orEmpty()
+                                )
+                            )
+
+                            c_voucher_buying_price.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][c_voucher_buying_price]",
+                                    c_voucher_buying_price_update.orEmpty()
+                                )
+                            )
+
+                            calculated_buying_value.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][calculated_buying_value]",
+                                    calculated_buying_value_update.orEmpty()
+                                )
+                            )
+
+                            calculated_for_pawn.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][calculated_for_pawn]",
+                                    calculated_for_pawn_update.orEmpty()
+                                )
+                            )
+
+                            d_gold_weight_ywae.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][d_gold_weight_ywae]",
+                                    d_gold_weight_ywae_update.orEmpty()
+                                )
+                            )
+
+                            e_price_from_new_voucher.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][e_price_from_new_voucher]",
+                                    e_price_from_new_voucher_update.orEmpty()
+                                )
+                            )
+
+                            f_voucher_shown_gold_weight_ywae.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][f_voucher_shown_gold_weight_ywae]",
+                                    f_voucher_shown_gold_weight_ywae_update.orEmpty()
+                                )
+                            )
+
+                            gem_value.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][gem_value]",
+                                    gem_value_update.orEmpty()
+                                )
+                            )
+
+                            gem_weight_ywae.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][gem_weight_ywae]",
+                                    gem_weight_ywae_update.orEmpty()
+                                )
+                            )
+
+                            gold_gem_weight_ywae.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][gold_gem_weight_ywae]",
+                                    gold_gem_weight_ywae_update.orEmpty()
+                                )
+                            )
+                            gold_weight_ywae.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][gold_weight_ywae]",
+                                    gold_weight_ywae_update.orEmpty()
+                                )
+                            )
+                            gq_in_carat.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][gq_in_carat]",
+                                    gq_in_carat_update.orEmpty()
+                                )
+                            )
+                            has_general_expenses.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][has_general_expenses]",
+                                    has_general_expenses_update.orEmpty()
+                                )
+                            )
+
+
+                        imageFile_update?.let {file->
+                            imageId_update?.let { id ->
+                                imageId.add(
+                                    MultipartBody.Part.createFormData(
+                                        "old_stocks[$it][imageId]",
+                                        id
+                                    )
+                                )
+                            }
+                            imageFile.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[0][image][file]",
+                                    file.name,
+                                    file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+                                )
+                            )
+                        }
+
+                            impurities_weight_ywae.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][impurities_weight_ywae]",
+                                    impurities_weight_ywae_update.orEmpty()
+                                )
+                            )
+                            maintenance_cost.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][maintenance_cost]",
+                                    maintenance_cost_update.orEmpty()
+                                )
+                            )
+                            price_for_pawn.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][price_for_pawn]",
+                                    price_for_pawn_update.orEmpty()
+                                )
+                            )
+                            pt_and_clip_cost.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][pt_and_clip_cost]",
+                                    pt_and_clip_cost_update.orEmpty()
+                                )
+                            )
+                            qty.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][qty]",
+                                    qty_update.orEmpty()
+                                )
+                            )
+                            rebuy_price.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][rebuy_price]",
+                                    rebuy_price_update.orEmpty()
+                                )
+                            )
+                            size.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][size]",
+                                    size_update.orEmpty()
+                                )
+                            )
+                            stock_condition.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][stock_condition]",
+                                    stock_condition_update.orEmpty()
+                                )
+                            )
+                            stock_name.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][stock_name]",
+                                    stock_name_update.orEmpty()
+                                )
+                            )
+                            type.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][type]",
+                                    type_update.orEmpty()
+                                )
+                            )
+                            wastage_ywae.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][wastage_ywae]",
+                                    wastage_ywae_update.orEmpty()
+                                )
+                            )
+                            rebuy_price_vertical_option.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][rebuy_price_vertical_option]",
+                                    rebuy_price_vertical_option_update.orEmpty()
+                                )
+                            )
+                        } else {
+                            val gemQtyList = updatedList[it].gem_weight_details.orEmpty().map { it.gem_qty }
+                            val gemWeightYwaeList =
+                                updatedList[it].gem_weight_details.orEmpty().map { it.gem_weight_ywae_per_unit }
+                            val gemWeightGmList =
+                                updatedList[it].gem_weight_details.orEmpty().map { it.gem_weight_gm_per_unit }
+
+                            repeat(updatedList[it].gem_weight_details.orEmpty().size) {
+                                gemQtyMultiPartList.add(
+                                    MultipartBody.Part.createFormData(
+                                        "gem_weight_details[$it][gem_qty]",
+                                        gemQtyList[it]
+                                    )
+                                )
+                                gemWeightYwaeMultiPartList.add(
+                                    MultipartBody.Part.createFormData(
+                                        "gem_weight_details[$it][gem_weight_ywae_per_unit]",
+                                        gemWeightYwaeList[it]
+                                    )
+                                )
+                                gemWeightGmMultiPartList.add(
+                                    MultipartBody.Part.createFormData(
+                                        "gem_weight_details[$it][gem_weight_gm_per_unit]",
+                                        gemWeightGmList[it]
+                                    )
+                                )
+                            }
+
+                            a_buying_price.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][a_buying_price]",
+                                    updatedList[it].a_buying_price.toString()
+                                )
+                            )
+
+                            b_voucher_buying_value.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][b_voucher_buying_value]",
+                                    updatedList[it].b_voucher_buying_value.toString()
+                                )
+                            )
+
+                            c_voucher_buying_price.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][c_voucher_buying_price]",
+                                    updatedList[it].c_voucher_buying_price.toString()
+                                )
+                            )
+
+                            calculated_buying_value.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][calculated_buying_value]",
+                                    updatedList[it].calculated_buying_value.toString()
+                                )
+                            )
+
+                            calculated_for_pawn.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][calculated_for_pawn]",
+                                    updatedList[it].calculated_for_pawn.toString()
+                                )
+                            )
+
+                            d_gold_weight_ywae.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][d_gold_weight_ywae]",
+                                    updatedList[it].d_gold_weight_ywae.toString()
+                                )
+                            )
+
+                            e_price_from_new_voucher.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][e_price_from_new_voucher]",
+                                    updatedList[it].e_price_from_new_voucher.toString()
+                                )
+                            )
+
+                            f_voucher_shown_gold_weight_ywae.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][f_voucher_shown_gold_weight_ywae]",
+                                    updatedList[it].f_voucher_shown_gold_weight_ywae.toString()
+                                )
+                            )
+
+                            gem_value.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][gem_value]",
+                                    updatedList[it].gem_value.toString()
+                                )
+                            )
+
+                            gem_weight_ywae.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][gem_weight_ywae]",
+                                    updatedList[it].gem_weight_ywae.toString()
+                                )
+                            )
+
+                            gold_gem_weight_ywae.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][gold_gem_weight_ywae]",
+                                    updatedList[it].gold_gem_weight_ywae.toString()
+                                )
+                            )
+                            gold_weight_ywae.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][gold_weight_ywae]",
+                                    updatedList[it].gold_weight_ywae.toString()
+                                )
+                            )
+                            gq_in_carat.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][gq_in_carat]",
+                                    updatedList[it].gq_in_carat.toString()
+                                )
+                            )
+                            has_general_expenses.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][has_general_expenses]",
+                                    updatedList[it].has_general_expenses.toString()
+                                )
+                            )
+                            updatedList[it].image?.id?.let { id ->
+                                imageId.add(
+                                    MultipartBody.Part.createFormData(
+                                        "old_stocks[$it][imageId]",
+                                        id
+                                    )
+                                )
+                            }
+//                        updatedList[it].image?.url?.let {url->
+//                            imageFile.add(
+//                                MultipartBody.Part.createFormData(
+//                                    "old_stocks[$it][imageId]",
+//                                    url
+//                                )
+//                            )
+//                        }
+
+                            impurities_weight_ywae.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][impurities_weight_ywae]",
+                                    updatedList[it].impurities_weight_ywae.toString()
+                                )
+                            )
+                            maintenance_cost.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][maintenance_cost]",
+                                    updatedList[it].maintenance_cost.toString()
+                                )
+                            )
+                            price_for_pawn.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][price_for_pawn]",
+                                    updatedList[it].price_for_pawn.toString()
+                                )
+                            )
+                            pt_and_clip_cost.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][pt_and_clip_cost]",
+                                    updatedList[it].pt_and_clip_cost.toString()
+                                )
+                            )
+                            qty.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][qty]",
+                                    updatedList[it].qty.toString()
+                                )
+                            )
+                            rebuy_price.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][rebuy_price]",
+                                    updatedList[it].rebuy_price.toString()
+                                )
+                            )
+                            size.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][size]",
+                                    updatedList[it].size.toString()
+                                )
+                            )
+                            stock_condition.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][stock_condition]",
+                                    updatedList[it].stock_condition.toString()
+                                )
+                            )
+                            stock_name.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][stock_name]",
+                                    updatedList[it].stock_name.toString()
+                                )
+                            )
+                            type.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][type]",
+                                    updatedList[it].type.toString()
+                                )
+                            )
+                            wastage_ywae.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][wastage_ywae]",
+                                    updatedList[it].wastage_ywae.toString()
+                                )
+                            )
+                            rebuy_price_vertical_option.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][rebuy_price_vertical_option]",
+                                    updatedList[it].rebuy_price_vertical_option.orEmpty()
+                                )
+                            )
+                        }
+                    }
+                    _updateStockFromHomeInfoLiveData.value = Resource.Loading()
+                    _updateStockFromHomeInfoLiveData.value =
+                    normalSaleRepositoryImpl.updateStockFromHomeList(
+                        a_buying_price = a_buying_price,
+                        b_voucher_buying_value = b_voucher_buying_value,
+                        c_voucher_buying_price = c_voucher_buying_price,
+                        calculated_buying_value = calculated_buying_value,
+                        calculated_for_pawn = calculated_for_pawn,
+                        d_gold_weight_ywae = d_gold_weight_ywae,
+                        e_price_from_new_voucher = e_price_from_new_voucher,
+                        f_voucher_shown_gold_weight_ywae = f_voucher_shown_gold_weight_ywae,
+                        gem_value = gem_value,
+                        gem_weight_details_qty = gemQtyMultiPartList,
+                        gem_weight_details_gm = gemWeightGmMultiPartList,
+                        gem_weight_details_ywae = gemWeightYwaeMultiPartList,
+                        gem_weight_ywae = gem_weight_ywae,
+                        gold_weight_ywae = gold_weight_ywae,
+                        gold_gem_weight_ywae = gold_gem_weight_ywae,
+                        gq_in_carat = gq_in_carat,
+                        has_general_expenses = has_general_expenses,
+                        imageId = imageId,
+                        imageFile = imageFile,
+                        impurities_weight_ywae = impurities_weight_ywae,
+                        maintenance_cost = maintenance_cost,
+                        price_for_pawn = price_for_pawn,
+                        pt_and_clip_cost = pt_and_clip_cost,
+                        qty = qty,
+                        rebuy_price = rebuy_price,
+                        size = size,
+                        stock_condition = stock_condition,
+                        stock_name = stock_name,
+                        type = type,
+                        wastage_ywae = wastage_ywae,
+                        rebuy_price_vertical_option=rebuy_price_vertical_option,
+                        sessionKey = localDatabase.getStockFromHomeSessionKey().orEmpty()
+                    )
+
+            }
+
         }
     }
 
-    var selectedImagePath = ""
-    fun saveImage(id:String,path:String){
-        viewModelScope.launch {
-            appDatabase.stockFromHomeInfoDao.updateImage(id,path)
-        }
-    }
+    var selectedImagePath:String? = null
+
 }
