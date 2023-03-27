@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.shwemi.util.generateNumberFromEditText
 import com.example.shwemisale.data_layers.dto.goldFromHome.GemWeightDetail
 import com.example.shwemisale.databinding.ItemGemWeightBinding
-import com.example.shwemisale.screen.goldFromHome.GoldFromHomeViewModel
 import com.example.shwemisale.screen.goldFromHome.getKPYFromYwae
 import com.example.shwemisale.screen.goldFromHome.getYwaeFromGram
 import com.example.shwemisale.screen.goldFromHome.getYwaeFromKPY
@@ -22,7 +21,7 @@ import com.example.shwemisale.screen.goldFromHome.getYwaeFromKPY
 
 
 class GemWeightRecyclerAdapter(private val viewModel: GoldFromHomeDetailViewModel,
-private val delete:(id:String)->Unit) :
+private val delete:(item:GemWeightDetail)->Unit) :
     ListAdapter<GemWeightDetail, GemWeightInResellStockViewHolder>(
         GemWeightInResellStockDiffUtil
     ) {
@@ -48,26 +47,26 @@ private val delete:(id:String)->Unit) :
 class GemWeightInResellStockViewHolder(
     private var binding: ItemGemWeightBinding,
     private val viewModel: GoldFromHomeDetailViewModel,
-    private val delete:(id:String)->Unit
+    private val delete:(item:GemWeightDetail)->Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     @SuppressLint("SetTextI18n")
     fun bind(data: GemWeightDetail) {
         binding.edtGemQuantity.setText(data.gem_qty)
         binding.edtOneGemWeightGm.setText(data.gem_weight_gm_per_unit)
 
-        val  oneGemWeightKpy= getKPYFromYwae(data.gem_weight_ywae_per_unit.toDouble())
+        val  oneGemWeightKpy= getKPYFromYwae(data.gem_weight_ywae_per_unit.let { if(it.isEmpty())0.0 else it.toDouble() })
         binding.edtOneGemWeightK.setText(oneGemWeightKpy[0].toInt().toString())
         binding.edtOneGemWeightP.setText(oneGemWeightKpy[1].toInt().toString())
         binding.edtOneGemWeightY.setText(oneGemWeightKpy[2].let { String.format("%.2f", it) })
 
 
-        binding.btnCalculate.isVisible = data.totalWeightKpy.isEmpty()
-        binding.tvTotalWeightKPY.isVisible = data.totalWeightKpy.isNotEmpty()
-        binding.edtOneGemWeightGm.isEnabled = data.totalWeightKpy.isEmpty()
-        binding.edtOneGemWeightK.isEnabled = data.totalWeightKpy.isEmpty()
-        binding.edtOneGemWeightP.isEnabled = data.totalWeightKpy.isEmpty()
-        binding.edtOneGemWeightY.isEnabled = data.totalWeightKpy.isEmpty()
-        binding.edtGemQuantity.isEnabled = data.totalWeightKpy.isEmpty()
+        binding.btnCalculate.isVisible = data.totalWeightYwae.isEmpty()
+        binding.tvTotalWeightKPY.isVisible = data.totalWeightYwae.isNotEmpty()
+        binding.edtOneGemWeightGm.isEnabled = data.totalWeightYwae.isEmpty()
+        binding.edtOneGemWeightK.isEnabled = data.totalWeightYwae.isEmpty()
+        binding.edtOneGemWeightP.isEnabled = data.totalWeightYwae.isEmpty()
+        binding.edtOneGemWeightY.isEnabled = data.totalWeightYwae.isEmpty()
+        binding.edtGemQuantity.isEnabled = data.totalWeightYwae.isEmpty()
 
 
         binding.btnCalculate.setOnClickListener {
@@ -82,6 +81,7 @@ class GemWeightInResellStockViewHolder(
                         generateNumberFromEditText(binding.edtOneGemWeightY).toDouble(),
                     )
                     }
+                data.gem_weight_ywae_per_unit= ywaeForOne.toString()
                     if (ywaeForOne != 0.0){
                         val totalYwae = binding.edtGemQuantity.text.toString().toInt() * ywaeForOne
                         val totalKpy = getKPYFromYwae(totalYwae)
@@ -96,12 +96,11 @@ class GemWeightInResellStockViewHolder(
                         binding.edtGemQuantity.isEnabled = false
 
                         binding.tvTotalWeightKPY.text = kyat.toInt().toString()+"K     "+pae.toInt().toString()+"P     "+ywae.toString()+"Y"
-                        data.totalWeightKpy = totalYwae.toString()
+                        data.totalWeightYwae = totalYwae.toString()
                         binding.btnCalculate.isVisible = false
                         binding.tvTotalWeightKPY.isVisible = true
                     }else{
                         Toast.makeText(binding.root.context,"Please fill weight",Toast.LENGTH_LONG).show()
-
                     }
 
 
@@ -113,7 +112,7 @@ class GemWeightInResellStockViewHolder(
 
         }
         binding.btnDelete.setOnClickListener {
-            delete(data.id.toString())
+            delete(data)
         }
 
         binding.edtOneGemWeightK.addTextChangedListener(object : TextWatcher {

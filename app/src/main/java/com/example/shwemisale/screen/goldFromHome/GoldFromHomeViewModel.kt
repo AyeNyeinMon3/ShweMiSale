@@ -526,7 +526,5 @@ class GoldFromHomeViewModel @Inject constructor(
             }
         }
     }
-    init {
-        getStockFromHomeList()
-    }
+
 }

@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shwemi.util.Resource
@@ -41,6 +42,7 @@ class SellGoldFromHomeFragment : Fragment() {
     private val viewModel by viewModels<GoldFromHomeViewModel>()
     private lateinit var loading: AlertDialog
     private lateinit var barlauncer: Any
+    private val args by navArgs<SellGoldFromHomeFragmentArgs>()
 
 
     override fun onCreateView(
@@ -58,6 +60,18 @@ class SellGoldFromHomeFragment : Fragment() {
 //            binding.btnSkip.isVisible = isChecked
 //        }
         loading = requireContext().getAlertDialog()
+        if (args.backpressType == "Global"){
+            binding.layoutPayment.isVisible = false
+            binding.radioGpOther.isVisible = false
+            binding.btnContinue.isVisible = false
+            binding.btnSkip.isVisible = false
+            binding.btnDone.isVisible = true
+
+            binding.btnDone.setOnClickListener {
+                findNavController().popBackStack()
+            }
+        }
+        viewModel.getStockFromHomeList()
         barlauncer = this.getBarLauncher(requireContext()) {
             binding.edtScanVoucher.setText(it)
             viewModel.getStockWeightByVoucher(it)
@@ -117,7 +131,7 @@ class SellGoldFromHomeFragment : Fragment() {
                     viewModel.saveTotalCVoucherBuyingPrice(totalBVoucherBuyingPrice.toString())
 
                     binding.edtCalculateTotalPawnPrice.setText(totalPawnPrice.toString())
-                    binding.edtVoucherPurchasePayment.setText(totalPawnPrice.toString())
+                    binding.edtVoucherPurchasePayment.setText(totalBVoucherBuyingPrice.toString())
                     val  totalGoldWeightKpy= getKPYFromYwae(totalGoldWeightYwae)
                     binding.editGoldWeightK.setText(totalGoldWeightKpy[0].toInt().toString())
                     binding.editGoldWeightP.setText(totalGoldWeightKpy[1].toInt().toString())

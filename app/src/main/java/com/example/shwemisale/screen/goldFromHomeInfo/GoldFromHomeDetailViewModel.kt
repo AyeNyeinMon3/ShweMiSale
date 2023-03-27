@@ -45,6 +45,15 @@ class GoldFromHomeDetailViewModel @Inject constructor(
     var pawnDiffValue = "0"
 
     var gemWeightCustomList = mutableListOf<GemWeightDetail>()
+    var gemWeightCustomListLiveData = MutableLiveData<List<GemWeightDetail>>()
+    fun addGemDetail(item:GemWeightDetail){
+        gemWeightCustomList.add(item)
+        gemWeightCustomListLiveData.value = gemWeightCustomList
+    }
+    fun removeGemDetail(item:GemWeightDetail){
+        gemWeightCustomList.remove(item)
+        gemWeightCustomListLiveData.value = gemWeightCustomList
+    }
 
 //    fun addGemWeightCustom(item:GemWeightInStockFromHome){
 //        gemWeightCustomList.add(item)
@@ -260,7 +269,7 @@ class GoldFromHomeDetailViewModel @Inject constructor(
                             val gemWeightGmList =
                                 gemWeightCustomList.map { it.gem_weight_gm_per_unit }
 
-                            repeat(updatedList[it].gem_weight_details.orEmpty().size) {
+                            repeat(gemWeightCustomList.size) {
                                 gemQtyMultiPartList.add(
                                     MultipartBody.Part.createFormData(
                                         "gem_weight_details[$it][gem_qty]",

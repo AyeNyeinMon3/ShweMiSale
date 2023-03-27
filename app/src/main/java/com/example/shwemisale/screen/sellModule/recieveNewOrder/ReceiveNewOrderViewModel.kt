@@ -26,7 +26,8 @@ class ReceiveNewOrderViewModel @Inject constructor(
     private val goldFromHomeRepositoryImpl: GoldFromHomeRepositoryImpl,
     private val localDatabase: LocalDatabase
 ) : ViewModel() {
-
+    var goldFromHomeWithKpy = 0
+    var goldFromHomeWithValue = 0
     var takenSamples = listOf<SampleDomain>()
     var samplesFromRoom = normalSaleRepositoryImpl.getSamplesFromRoom()
 

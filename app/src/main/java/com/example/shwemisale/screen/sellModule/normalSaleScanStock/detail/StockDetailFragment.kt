@@ -59,16 +59,20 @@ class StockDetailFragment:Fragment() {
                     }
                     val reasonArrayAdapter = ArrayAdapter(requireContext(),R.layout.item_drop_down_text,reasonList)
                     binding.actReason.addTextChangedListener {editable->
-                        selectedGeneralSaleId = it.data!!.reasons.find {
+                        var slectedItem = it.data!!.reasons.find {
                             it.reason==binding.actReason.text.toString()
-                        }?.general_sale_item_id
+                        }
+                        binding.edtNewGoldAndGemWeight.isEnabled = true
+                        binding.edtOldJade.isEnabled = slectedItem?.is_clip_change =="1"
+                        binding.edtNewJade.isEnabled = slectedItem?.is_clip_change =="1"
+                        selectedGeneralSaleId = slectedItem?.general_sale_item_id
 
                         selectedReasonId = it.data!!.reasons.find {
                             it.reason==binding.actReason.text.toString()
                         }?.id
                     }
                     binding.actReason.setAdapter(reasonArrayAdapter)
-                    binding.actReason.setText(reasonList[0],false)
+//                    binding.actReason.setText(reasonList[0],false)
                     binding.actReason.setOnClickListener {
                         binding.actReason.showDropdown(reasonArrayAdapter)
                     }
@@ -118,6 +122,7 @@ class StockDetailFragment:Fragment() {
                 is Resource.Success->{
                     loading.dismiss()
                     requireContext().showSuccessDialog(it.data!!){
+                        viewModel.getProductInfo(args.productInfo.id)
                         findNavController().popBackStack()
                     }
                 }
@@ -145,14 +150,14 @@ class StockDetailFragment:Fragment() {
         binding.edtStockValue.setText(args.productInfo.cost)
 
         binding.btnSelect.setOnClickListener {
-//            အလေးချိန်ကွားခြား= (လိုချင်သောတန်ဖိုး- stock တန်ဖိုး)/stock gold quality price  = K= KPY
-            val weightDifference = generateNumberFromEditText(binding.edtValueWanted).toDouble()/ stockGoldPrice
+//            အလေးချိန်ကွားခြား(kyat)= (လိုချင်သောတန်ဖိုး- stock တန်ဖိုး)/stock gold quality price
+            val weightDifference = generateNumberFromEditText(binding.edtValueWanted).toDouble()/ stockGoldPrice.toDouble()
             val weightDifferencekpy = getKPYFromYwae(weightDifference * 128)
             binding.edtWeightDifferenceK.setText(weightDifferencekpy[0].toInt().toString())
             binding.edtWeightDifferenceP.setText(weightDifferencekpy[1].toInt().toString())
             binding.edtWeightDifferenceY.setText(String.format("%.2f", weightDifferencekpy[2]))
 
-//အရှည်ကွာခြား= အလေးချိန်ကွာခြား (K) * stock size/ gold wt of stock (K)
+//အရှည်ကွာခြား(Kyat)= အလေးချိန်ကွာခြား (K) * stock size/ gold wt of stock (K)
 
         }
         binding.btnCalculate.setOnClickListener {

@@ -30,6 +30,8 @@ class ScanStockFragment:Fragment() {
     private lateinit var loading:AlertDialog
     private lateinit var barlauncer: Any
 
+
+    private var isContinuable = false
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,7 +43,6 @@ class ScanStockFragment:Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         loading=requireContext().getAlertDialog()
         barlauncer = this.getBarLauncher(requireContext()) {
             binding.edtStockCode.setText(it)
@@ -95,7 +96,8 @@ class ScanStockFragment:Fragment() {
                 is Resource.Success->{
                     loading.dismiss()
                     viewModel.productInfoList.add(it.data!!.asUiModel())
-                    adapter.submitList(viewModel.productInfoList.toSet().toList())
+                    isContinuable = viewModel.productInfoList.isNotEmpty()
+                    adapter.submitList(viewModel.productInfoList.distinctBy { it.id })
                     viewModel.resetProductInfoLiveData()
                     adapter.notifyDataSetChanged()
                 }

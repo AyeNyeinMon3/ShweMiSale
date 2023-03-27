@@ -64,6 +64,8 @@ class ReceiveNewOrderFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         loading = requireContext().getAlertDialog()
         binding.edtGoldFromHomeValue.setText(viewModel.getTotalCVoucherBuyingPrice())
+        viewModel.goldFromHomeWithKpy = (generateNumberFromEditText(binding.edtGoldPrice).toDouble() * viewModel.getTotalGoldWeightYwae().toDouble()/128).toInt()
+        viewModel.goldFromHomeWithValue = viewModel.getTotalCVoucherBuyingPrice().toInt()
         val  totalGoldWeightKpy= getKPYFromYwae(viewModel.getTotalGoldWeightYwae().toDouble())
         binding.edtGoldFromHomeWeightK.setText(totalGoldWeightKpy[0].toInt().toString())
         binding.edtGoldFromHomeWeightP.setText(totalGoldWeightKpy[1].toInt().toString())
@@ -111,7 +113,7 @@ class ReceiveNewOrderFragment : Fragment() {
                         binding.edtGoldPrice.setText(goldPrice.toString())
                     }
                     binding.actGoldType.setAdapter(reasonArrayAdapter)
-                    binding.actGoldType.setText(goldTypeList[0], false)
+//                    binding.actGoldType.setText(goldTypeList[0], false)
                     binding.actGoldType.setOnClickListener {
                         binding.actGoldType.showDropdown(reasonArrayAdapter)
                     }
@@ -145,7 +147,23 @@ class ReceiveNewOrderFragment : Fragment() {
             }
         }
 
-
+        binding.radioGroup.setOnCheckedChangeListener { radioGroup, checkedId ->
+            if (checkedId == binding.radioBtnWithKpy.id){
+                binding.edtGoldFromHomeValue.text?.clear()
+                val  totalGoldWeightKpy= getKPYFromYwae(viewModel.getTotalGoldWeightYwae().toDouble())
+                binding.edtGoldFromHomeWeightK.setText(totalGoldWeightKpy[0].toInt().toString())
+                binding.edtGoldFromHomeWeightP.setText(totalGoldWeightKpy[1].toInt().toString())
+                binding.edtGoldFromHomeWeightY.setText(totalGoldWeightKpy[2].let { String.format("%.2f", it) })
+            }else{
+                binding.edtGoldFromHomeValue.setText(viewModel.getTotalCVoucherBuyingPrice())
+                binding.edtGoldFromHomeWeightK.text?.clear()
+                binding.edtGoldFromHomeWeightP.text?.clear()
+                binding.edtGoldFromHomeWeightY.text?.clear()
+            }
+        }
+        binding.btnEditGoldFromHomeValue.setOnClickListener {
+            findNavController().navigate(ReceiveNewOrderFragmentDirections.actionGlobalGoldFromHomeFragment("Global"))
+        }
 
         binding.btnInventory.setOnClickListener {
             view.findNavController()
@@ -204,10 +222,17 @@ class ReceiveNewOrderFragment : Fragment() {
                 )
             })
 
+
             val estimatedPrice = (neededGoldWeightYwae/128) * generateNumberFromEditText(binding.edtGoldPrice).toDouble()
             binding.edtEstimatedCharge.setText(estimatedPrice.toInt().toString())
-
-            val remainedMoney = generateNumberFromEditText(binding.edtEstimatedCharge).toInt() - generateNumberFromEditText(binding.edtDeposit).toInt()
+            var selectedGoldFromHomeType = if (binding.radioBtnWithKpy.isChecked){
+                viewModel.goldFromHomeWithKpy
+            }else{
+                viewModel.goldFromHomeWithValue
+            }
+            val poloValue = estimatedPrice - selectedGoldFromHomeType + generateNumberFromEditText(binding.edtFee).toDouble()+ generateNumberFromEditText(binding.edtGemValue).toDouble()
+            binding.edtPoloValue.setText(poloValue.toString())
+            val remainedMoney =poloValue - generateNumberFromEditText(binding.edtDeposit).toInt()
             binding.edtBalance.setText(remainedMoney.toString())
         }
 

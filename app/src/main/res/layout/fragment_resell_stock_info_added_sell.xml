@@ -1395,6 +1395,7 @@
                 app:boxCornerRadiusTopStart="10dp"
                 app:boxStrokeColor="@color/edit_text_color_2"
                 app:boxStrokeWidth="1dp"
+                android:enabled="false"
                 app:errorEnabled="false"
                 app:hintEnabled="false">
 
@@ -1524,6 +1525,7 @@
                     app:boxCornerRadiusTopEnd="10dp"
                     app:boxCornerRadiusTopStart="10dp"
                     app:boxStrokeColor="@color/edit_text_color_2"
+                    android:enabled="false"
                     app:boxStrokeWidth="1dp"
                     app:errorEnabled="false"
                     app:hintEnabled="false">
@@ -1886,6 +1888,7 @@
                         app:boxCornerRadiusTopEnd="10dp"
                         app:boxCornerRadiusTopStart="10dp"
                         app:boxStrokeColor="@color/edit_text_color_2"
+                        android:enabled="false"
                         app:boxStrokeWidth="1dp"
                         app:errorEnabled="false"
                         app:hintEnabled="false">
@@ -1914,6 +1917,8 @@
                         app:boxCornerRadiusTopStart="10dp"
                         app:boxStrokeColor="@color/edit_text_color_2"
                         app:boxStrokeWidth="1dp"
+                        android:enabled="false"
+
                         app:errorEnabled="false"
                         app:hintEnabled="false">
 
@@ -1940,6 +1945,7 @@
                         app:boxCornerRadiusTopStart="10dp"
                         app:boxStrokeColor="@color/edit_text_color_2"
                         app:boxStrokeWidth="1dp"
+                        android:enabled="false"
                         app:errorEnabled="false"
                         app:hintEnabled="false">
 
