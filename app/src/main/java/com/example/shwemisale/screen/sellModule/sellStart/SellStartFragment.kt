@@ -62,6 +62,7 @@ class SellStartFragment : Fragment() {
         loading = requireContext().getAlertDialog()
         networkcall()
         binding.btnNew.setOnClickListener { view:View->
+//            throw RuntimeException("Test Crash")
             view.findNavController().navigate(SellStartFragmentDirections.actionSellStartFragmentToSellCreateNewFragment())
         }
 
@@ -102,7 +103,6 @@ class SellStartFragment : Fragment() {
                     val headerView = navigationView.getHeaderView(0)
                    headerView.findViewById<TextView>(com.example.shwemisale.R.id.tv_name).text = it.data
                     viewModel.getProvince()
-                    viewModel.getTownShip()
 
                     viewModel.resetProfileLiveData()
                 }
@@ -135,6 +135,8 @@ class SellStartFragment : Fragment() {
                         selectedProvinceId = it.data!!.find {
                             it.name==binding.actProvince.text.toString()
                         }?.id.toString()
+                        viewModel.getTownShip(selectedProvinceId)
+
                     }
                     binding.actProvince.setAdapter(arrayAdapter)
                     binding.actProvince.setText(list[0],false)
@@ -164,12 +166,12 @@ class SellStartFragment : Fragment() {
                     val list = it.data!!.map { it.name }.filterNotNull()
                     val arrayAdapter = ArrayAdapter(requireContext(),R.layout.item_drop_down_text,list)
                     binding.actTownship.addTextChangedListener {editable->
-                        selectedProvinceId = it.data!!.find {
+                        selectedTownshipId = it.data!!.find {
                             it.name==binding.actTownship.text.toString()
                         }?.id.toString()
                     }
                     binding.actTownship.setAdapter(arrayAdapter)
-                    binding.actTownship.setText(list[0],false)
+                    binding.actTownship.setText(if (list.isEmpty()) "" else list[0],false)
                     binding.actTownship.setOnClickListener {
                         binding.actTownship.showDropdown(arrayAdapter)
                     }
@@ -188,10 +190,14 @@ class SellStartFragment : Fragment() {
 
 
         binding.imageBtnSearch.setOnClickListener {
-            val name = if (binding.editName.text.isNullOrEmpty()) null  else  binding.editName.text.toString()
-            val phoneNumber = if (binding.editPhNumber.text.isNullOrEmpty()) null  else  binding.editPhNumber.text.toString()
-            val birthday = if (binding.tvBirthDate.text.isNullOrEmpty() || binding.tvBirthDate.text =="မွေးနေ့") null  else  binding.editName.text.toString()
-            val nrc = if (binding.editNRC.text.isNullOrEmpty()) null  else  binding.editNRC.text.toString()
+            val name =
+                if (binding.editName.text.isNullOrEmpty()) null else binding.editName.text.toString()
+            val phoneNumber =
+                if (binding.editPhNumber.text.isNullOrEmpty()) null else binding.editPhNumber.text.toString()
+            val birthday =
+                if (binding.tvBirthDate.text.isNullOrEmpty() || binding.tvBirthDate.text == "မွေးနေ့") null else binding.tvBirthDate.text.toString()
+            val nrc =
+                if (binding.editNRC.text.isNullOrEmpty()) null else binding.editNRC.text.toString()
 
             viewModel.getCustomerInfo(
                 null,
@@ -199,17 +205,16 @@ class SellStartFragment : Fragment() {
                 phoneNumber,
                 birthday,
                 null,
+                selectedProvinceId,
+                selectedTownshipId,
                 null,
-                null,
-                null,
-                nrc).observe(viewLifecycleOwner){
-               lifecycleScope.launch {
-                   adapter.submitData(it.map { it.asUiModel() })
-               }
+                nrc
+            ).observe(viewLifecycleOwner) {
+                lifecycleScope.launch {
+                    adapter.submitData(it.map { it.asUiModel() })
+                }
             }
         }
-
-
     }
 
     fun networkcall(){

@@ -1,4 +1,4 @@
-package com.example.shwemisale.screen.sellModule.normalSaleScanStock
+package com.example.shwemisale.screen.sellModule.normalSaleScanStock.detail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,19 +16,14 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ScanStockViewModel @Inject constructor(
+class ScanStockDetailViewModel @Inject constructor(
     private val productRepoImpl: ProductRepoImpl
 ) : ViewModel() {
-    private val _productInfoScanLiveData = SingleLiveEvent<Resource<ProductInfoDomain>>()
-    val productInfoScanLiveData: SingleLiveEvent<Resource<ProductInfoDomain>>
-        get() = _productInfoScanLiveData
     val productInfoList = mutableListOf<ProductInfoUiModel>()
     private val _productInfoLiveData = MutableLiveData<List<ProductInfoUiModel>>()
     val productInfoLiveData: LiveData<List<ProductInfoUiModel>>
         get() = _productInfoLiveData
-    private val _productIdLiveData = SingleLiveEvent<Resource<String>>()
-    val productIdLiveData: SingleLiveEvent<Resource<String>>
-        get() = _productIdLiveData
+
     fun addProduct(item:ProductInfoUiModel){
         if (productInfoList.map { it.id }.contains(item.id)) productInfoList.remove(productInfoList.find { it.id == item.id })
         productInfoList.add(item)
@@ -45,6 +40,15 @@ class ScanStockViewModel @Inject constructor(
         }
     }
 
+
+    private val _productInfoScanLiveData = SingleLiveEvent<Resource<ProductInfoDomain>>()
+    val productInfoScanLiveData: SingleLiveEvent<Resource<ProductInfoDomain>>
+        get() = _productInfoScanLiveData
+
+
+    private val _productIdLiveData = MutableLiveData<Resource<String>>()
+    val productIdLiveData: LiveData<Resource<String>>
+        get() = _productIdLiveData
 
     fun getProductInfo(productId: String) {
         viewModelScope.launch {

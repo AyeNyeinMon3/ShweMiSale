@@ -13,6 +13,7 @@ data class ProductInfoDto(
     val jewellery_type_id:String?,
     val size:String?,
     val gold_and_gem_weight_gm:String?,
+    val gold_and_gem_weight_gm_old:String?,
     val gem_weight_ywae:String?,
     val gem_value:String?,
     val promotion_discount:String?,
@@ -21,6 +22,10 @@ data class ProductInfoDto(
     val wastage_ywae:String?,
     val cost:String?,
     val gold_type_id:String?,
+    var edit_reason_id:String?,
+    var general_sale_item_id:String?,
+    var new_clip_wt_gm:String?,
+    var old_clip_wt_gm:String?,
     val image:String?
 )
 fun ProductInfoDto.asDomain():ProductInfoDomain{
@@ -31,6 +36,7 @@ fun ProductInfoDto.asDomain():ProductInfoDomain{
         jewellery_type_id = jewellery_type_id.orEmpty(),
         size = size.orEmpty(),
         gold_and_gem_weight_gm = gold_and_gem_weight_gm.orEmpty(),
+        old_gold_and_gem_weight_gm = gold_and_gem_weight_gm_old.orEmpty(),
         gem_weight_ywae = gem_weight_ywae.orEmpty(),
         gem_value = gem_value.orEmpty(),
         promotion_discount = promotion_discount.orEmpty(),
@@ -39,6 +45,10 @@ fun ProductInfoDto.asDomain():ProductInfoDomain{
         wastage_ywae = wastage_ywae.orEmpty(),
         cost = cost.orEmpty(),
         gold_type_id = gold_type_id.orEmpty(),
+         edit_reason_id=edit_reason_id.orEmpty(),
+     general_sale_item_id=general_sale_item_id.orEmpty(),
+     new_clip_wt_gm=new_clip_wt_gm.orEmpty(),
+     old_clip_wt_gm=old_clip_wt_gm.orEmpty(),
         image = image.orEmpty()
     )
 }

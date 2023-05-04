@@ -3,13 +3,16 @@ package com.example.shwemisale.repositoryImpl
 import com.example.shwemi.util.Resource
 import com.example.shwemi.util.parseError
 import com.example.shwemi.util.parseErrorWithDataClass
+import com.example.shwemisale.data_layers.dto.RemainingAmountDto
 import com.example.shwemisale.data_layers.dto.SimpleError
 import com.example.shwemisale.data_layers.dto.pawn.PawnInterestRateDto
 import com.example.shwemisale.data_layers.dto.pawn.PawnVoucherScanDto
 import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.network.api_services.PawnService
 import com.example.shwemisale.repository.PawnRepository
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import javax.inject.Inject
 
 class PawnRepositoryImpl @Inject constructor(
@@ -84,62 +87,22 @@ class PawnRepositoryImpl @Inject constructor(
         warning_period_months: String?,
         interest_free_from: String?,
         interest_free_to: String?,
-        old_stocks_nameList: List<MultipartBody.Part>?,
-        oldStockImageIds: List<MultipartBody.Part>?,
-        oldStockImageFile: List<MultipartBody.Part>?,
-        oldStockCondition: List<MultipartBody.Part>?,
-        oldStockGoldGemWeightY: List<MultipartBody.Part>?,
-        oldStockGemWeightY: List<MultipartBody.Part>?,
-        oldStockImpurityWeightY: List<MultipartBody.Part>?,
-        oldStockGoldWeightY: List<MultipartBody.Part>?,
-        oldStockWastageWeightY: List<MultipartBody.Part>?,
-        oldStockRebuyPrice: List<MultipartBody.Part>?,
-        oldStockGQinCarat: List<MultipartBody.Part>?,
-        oldStockMaintenance_cost: List<MultipartBody.Part>?,
-        oldStockGemValue: List<MultipartBody.Part>?,
-        oldStockPTAndClipCost: List<MultipartBody.Part>?,
-        oldStockCalculatedBuyingValue: List<MultipartBody.Part>?,
-        oldStockPriceForPawn: List<MultipartBody.Part>?,
-        oldStockCalculatedForPawn: List<MultipartBody.Part>?,
-        oldStockABuyingPrice: List<MultipartBody.Part>?,
-        oldStockb_voucher_buying_value: List<MultipartBody.Part>?,
-        oldStockc_voucher_buying_price: List<MultipartBody.Part>?,
-        oldStockDGoldWeightY: List<MultipartBody.Part>?,
-        oldStockEPriceFromNewVoucher: List<MultipartBody.Part>?,
-        oldStockFVoucherShownGoldWeightY: List<MultipartBody.Part>?
+        is_app_functions_allowed:String?,
+        old_session_key:String
+
     ): Resource<String> {
         return try {
             val response = pawnService.storePawn(
                 localDatabase.getAccessToken().orEmpty(),
-                user_id,
-                total_debt_amount,
-                interest_rate,
-                warning_period_months,
-                interest_free_from,
-                interest_free_to,
-                old_stocks_nameList,
-                oldStockImageIds,
-                oldStockImageFile,
-                oldStockCondition,
-                oldStockGoldGemWeightY,
-                oldStockGemWeightY,
-                oldStockImpurityWeightY,
-                oldStockGoldWeightY,
-                oldStockWastageWeightY,
-                oldStockRebuyPrice,
-                oldStockGQinCarat,
-                oldStockMaintenance_cost,
-                oldStockGemValue,
-                oldStockPTAndClipCost,
-                oldStockCalculatedBuyingValue,
-                oldStockPriceForPawn,
-                oldStockCalculatedForPawn,
-                oldStockABuyingPrice,
-                oldStockb_voucher_buying_value,
-                oldStockc_voucher_buying_price,
-                oldStockDGoldWeightY,
-                oldStockEPriceFromNewVoucher,
-                oldStockFVoucherShownGoldWeightY
+                user_id.orEmpty().toRequestBody("multipart/form-data".toMediaTypeOrNull()),
+                total_debt_amount.orEmpty().toRequestBody("multipart/form-data".toMediaTypeOrNull()),
+                interest_rate.orEmpty().toRequestBody("multipart/form-data".toMediaTypeOrNull()),
+                warning_period_months.orEmpty().toRequestBody("multipart/form-data".toMediaTypeOrNull()),
+                interest_free_from.orEmpty().toRequestBody("multipart/form-data".toMediaTypeOrNull()),
+                interest_free_to.orEmpty().toRequestBody("multipart/form-data".toMediaTypeOrNull()),
+                is_app_functions_allowed.orEmpty().toRequestBody("multipart/form-data".toMediaTypeOrNull()),
+                old_session_key.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+
             )
 
             if (response.isSuccessful && response.body() != null) {
@@ -168,12 +131,15 @@ class PawnRepositoryImpl @Inject constructor(
     override suspend fun createPrepaidDebt(
         voucherCode: String,
         prepaid_debt: String,
-        reduced_amount: String
-    ): Resource<String> {
+        reduced_amount: String,
+        is_app_functions_allowed:String?,
+
+        ): Resource<String> {
         return try {
             val response = pawnService.createPrepaidDebt(
                 localDatabase.getAccessToken().orEmpty(),
-                voucherCode, prepaid_debt, reduced_amount
+                voucherCode, prepaid_debt, reduced_amount,
+                is_app_functions_allowed
             )
 
             if (response.isSuccessful && response.body() != null) {
@@ -202,12 +168,14 @@ class PawnRepositoryImpl @Inject constructor(
     override suspend fun createPrepaidInterest(
         voucherCode: String,
         number_of_months: String,
-        reduced_amount: String
-    ): Resource<String> {
+        reduced_amount: String,
+        is_app_functions_allowed:String?,
+
+        ): Resource<String> {
         return try {
             val response = pawnService.createPrepaidInterest(
                 localDatabase.getAccessToken().orEmpty(),
-                voucherCode, number_of_months, reduced_amount
+                voucherCode, number_of_months, reduced_amount,is_app_functions_allowed
             )
 
             if (response.isSuccessful && response.body() != null) {
@@ -237,29 +205,9 @@ class PawnRepositoryImpl @Inject constructor(
         voucherCode: String,
         increased_debt: String,
         reduced_amount: String,
-        old_stocks_nameList: List<MultipartBody.Part>?,
-        oldStockImageIds: List<MultipartBody.Part>?,
-        oldStockImageFile: List<MultipartBody.Part>?,
-        oldStockCondition: List<MultipartBody.Part>?,
-        oldStockGoldGemWeightY: List<MultipartBody.Part>?,
-        oldStockGemWeightY: List<MultipartBody.Part>?,
-        oldStockImpurityWeightY: List<MultipartBody.Part>?,
-        oldStockGoldWeightY: List<MultipartBody.Part>?,
-        oldStockWastageWeightY: List<MultipartBody.Part>?,
-        oldStockRebuyPrice: List<MultipartBody.Part>?,
-        oldStockGQinCarat: List<MultipartBody.Part>?,
-        oldStockMaintenance_cost: List<MultipartBody.Part>?,
-        oldStockGemValue: List<MultipartBody.Part>?,
-        oldStockPTAndClipCost: List<MultipartBody.Part>?,
-        oldStockCalculatedBuyingValue: List<MultipartBody.Part>?,
-        oldStockPriceForPawn: List<MultipartBody.Part>?,
-        oldStockCalculatedForPawn: List<MultipartBody.Part>?,
-        oldStockABuyingPrice: List<MultipartBody.Part>?,
-        oldStockb_voucher_buying_value: List<MultipartBody.Part>?,
-        oldStockc_voucher_buying_price: List<MultipartBody.Part>?,
-        oldStockDGoldWeightY: List<MultipartBody.Part>?,
-        oldStockEPriceFromNewVoucher: List<MultipartBody.Part>?,
-        oldStockFVoucherShownGoldWeightY: List<MultipartBody.Part>?
+        is_app_functions_allowed:String?,
+        old_session_key:String
+
     ): Resource<String> {
         return try {
             val response = pawnService.increaseDebt(
@@ -267,29 +215,8 @@ class PawnRepositoryImpl @Inject constructor(
                 voucherCode,
                 increased_debt,
                 reduced_amount,
-                old_stocks_nameList,
-                oldStockImageIds,
-                oldStockImageFile,
-                oldStockCondition,
-                oldStockGoldGemWeightY,
-                oldStockGemWeightY,
-                oldStockImpurityWeightY,
-                oldStockGoldWeightY,
-                oldStockWastageWeightY,
-                oldStockRebuyPrice,
-                oldStockGQinCarat,
-                oldStockMaintenance_cost,
-                oldStockGemValue,
-                oldStockPTAndClipCost,
-                oldStockCalculatedBuyingValue,
-                oldStockPriceForPawn,
-                oldStockCalculatedForPawn,
-                oldStockABuyingPrice,
-                oldStockb_voucher_buying_value,
-                oldStockc_voucher_buying_price,
-                oldStockDGoldWeightY,
-                oldStockEPriceFromNewVoucher,
-                oldStockFVoucherShownGoldWeightY
+                is_app_functions_allowed,
+                old_session_key
             )
 
             if (response.isSuccessful && response.body() != null) {
@@ -319,29 +246,9 @@ class PawnRepositoryImpl @Inject constructor(
         voucherCode: String,
         increased_debt: String,
         reduced_amount: String,
-        old_stocks_nameList: List<MultipartBody.Part>?,
-        oldStockImageIds: List<MultipartBody.Part>?,
-        oldStockImageFile: List<MultipartBody.Part>?,
-        oldStockCondition: List<MultipartBody.Part>?,
-        oldStockGoldGemWeightY: List<MultipartBody.Part>?,
-        oldStockGemWeightY: List<MultipartBody.Part>?,
-        oldStockImpurityWeightY: List<MultipartBody.Part>?,
-        oldStockGoldWeightY: List<MultipartBody.Part>?,
-        oldStockWastageWeightY: List<MultipartBody.Part>?,
-        oldStockRebuyPrice: List<MultipartBody.Part>?,
-        oldStockGQinCarat: List<MultipartBody.Part>?,
-        oldStockMaintenance_cost: List<MultipartBody.Part>?,
-        oldStockGemValue: List<MultipartBody.Part>?,
-        oldStockPTAndClipCost: List<MultipartBody.Part>?,
-        oldStockCalculatedBuyingValue: List<MultipartBody.Part>?,
-        oldStockPriceForPawn: List<MultipartBody.Part>?,
-        oldStockCalculatedForPawn: List<MultipartBody.Part>?,
-        oldStockABuyingPrice: List<MultipartBody.Part>?,
-        oldStockb_voucher_buying_value: List<MultipartBody.Part>?,
-        oldStockc_voucher_buying_price: List<MultipartBody.Part>?,
-        oldStockDGoldWeightY: List<MultipartBody.Part>?,
-        oldStockEPriceFromNewVoucher: List<MultipartBody.Part>?,
-        oldStockFVoucherShownGoldWeightY: List<MultipartBody.Part>?
+        is_app_functions_allowed:String?,
+        old_session_key:String
+
     ): Resource<String> {
         return try {
             val response = pawnService.payInterestAndIncreaseDebt(
@@ -349,29 +256,8 @@ class PawnRepositoryImpl @Inject constructor(
                 voucherCode,
                 increased_debt,
                 reduced_amount,
-                old_stocks_nameList,
-                oldStockImageIds,
-                oldStockImageFile,
-                oldStockCondition,
-                oldStockGoldGemWeightY,
-                oldStockGemWeightY,
-                oldStockImpurityWeightY,
-                oldStockGoldWeightY,
-                oldStockWastageWeightY,
-                oldStockRebuyPrice,
-                oldStockGQinCarat,
-                oldStockMaintenance_cost,
-                oldStockGemValue,
-                oldStockPTAndClipCost,
-                oldStockCalculatedBuyingValue,
-                oldStockPriceForPawn,
-                oldStockCalculatedForPawn,
-                oldStockABuyingPrice,
-                oldStockb_voucher_buying_value,
-                oldStockc_voucher_buying_price,
-                oldStockDGoldWeightY,
-                oldStockEPriceFromNewVoucher,
-                oldStockFVoucherShownGoldWeightY
+                is_app_functions_allowed,
+                old_session_key
             )
 
             if (response.isSuccessful && response.body() != null) {
@@ -399,12 +285,14 @@ class PawnRepositoryImpl @Inject constructor(
 
     override suspend fun payInterest(
         voucherCode: String,
-        reduced_amount: String
-    ): Resource<String> {
+        reduced_amount: String,
+        is_app_functions_allowed:String?,
+
+        ): Resource<String> {
         return try {
             val response = pawnService.payInterest(
                 localDatabase.getAccessToken().orEmpty(),
-                voucherCode, reduced_amount
+                voucherCode, reduced_amount,is_app_functions_allowed
             )
 
             if (response.isSuccessful && response.body() != null) {
@@ -433,12 +321,14 @@ class PawnRepositoryImpl @Inject constructor(
     override suspend fun payInterestAndSettleDebt(
         voucherCode: String,
         reduced_amount: String,
-        debt: String
-    ): Resource<String> {
+        debt: String,
+        is_app_functions_allowed:String?,
+
+        ): Resource<String> {
         return try {
             val response = pawnService.payInterestAndSettleDebt(
                 localDatabase.getAccessToken().orEmpty(),
-                voucherCode, reduced_amount, debt
+                voucherCode, reduced_amount, debt,is_app_functions_allowed
             )
 
             if (response.isSuccessful && response.body() != null) {
@@ -468,12 +358,13 @@ class PawnRepositoryImpl @Inject constructor(
         voucherCode: String,
         reduced_amount: String,
         debt: String,
-        old_stock_id: String
+        is_app_functions_allowed:String?,
+        old_stock_id: List<String>
     ): Resource<String> {
         return try {
             val response = pawnService.payInterestAndReturnStock(
                 localDatabase.getAccessToken().orEmpty(),
-                voucherCode, reduced_amount, debt, old_stock_id
+                voucherCode, reduced_amount, debt, old_stock_id,is_app_functions_allowed
             )
 
             if (response.isSuccessful && response.body() != null) {
@@ -501,12 +392,14 @@ class PawnRepositoryImpl @Inject constructor(
 
     override suspend fun settle(
         voucherCode: String,
-        reduced_amount: String
-    ): Resource<String> {
+        reduced_amount: String,
+        is_app_functions_allowed:String?,
+
+        ): Resource<String> {
         return try {
             val response = pawnService.settle(
                 localDatabase.getAccessToken().orEmpty(),
-                voucherCode, reduced_amount
+                voucherCode, reduced_amount,is_app_functions_allowed
             )
 
             if (response.isSuccessful && response.body() != null) {
@@ -535,62 +428,86 @@ class PawnRepositoryImpl @Inject constructor(
     override suspend fun sellOldStock(
         voucherCode: String,
         reduced_amount: String,
-        old_stocks_nameList: List<MultipartBody.Part>?,
-        oldStockImageIds: List<MultipartBody.Part>?,
-        oldStockImageFile: List<MultipartBody.Part>?,
-        oldStockCondition: List<MultipartBody.Part>?,
-        oldStockGoldGemWeightY: List<MultipartBody.Part>?,
-        oldStockGemWeightY: List<MultipartBody.Part>?,
-        oldStockImpurityWeightY: List<MultipartBody.Part>?,
-        oldStockGoldWeightY: List<MultipartBody.Part>?,
-        oldStockWastageWeightY: List<MultipartBody.Part>?,
-        oldStockRebuyPrice: List<MultipartBody.Part>?,
-        oldStockGQinCarat: List<MultipartBody.Part>?,
-        oldStockMaintenance_cost: List<MultipartBody.Part>?,
-        oldStockGemValue: List<MultipartBody.Part>?,
-        oldStockPTAndClipCost: List<MultipartBody.Part>?,
-        oldStockCalculatedBuyingValue: List<MultipartBody.Part>?,
-        oldStockPriceForPawn: List<MultipartBody.Part>?,
-        oldStockCalculatedForPawn: List<MultipartBody.Part>?,
-        oldStockABuyingPrice: List<MultipartBody.Part>?,
-        oldStockb_voucher_buying_value: List<MultipartBody.Part>?,
-        oldStockc_voucher_buying_price: List<MultipartBody.Part>?,
-        oldStockDGoldWeightY: List<MultipartBody.Part>?,
-        oldStockEPriceFromNewVoucher: List<MultipartBody.Part>?,
-        oldStockFVoucherShownGoldWeightY: List<MultipartBody.Part>?
+        is_app_functions_allowed:String?,
+        old_session_key:String
+
     ): Resource<String> {
         return try {
             val response = pawnService.sellOldStock(
                 localDatabase.getAccessToken().orEmpty(),
                 voucherCode,
                 reduced_amount,
-                old_stocks_nameList,
-                oldStockImageIds,
-                oldStockImageFile,
-                oldStockCondition,
-                oldStockGoldGemWeightY,
-                oldStockGemWeightY,
-                oldStockImpurityWeightY,
-                oldStockGoldWeightY,
-                oldStockWastageWeightY,
-                oldStockRebuyPrice,
-                oldStockGQinCarat,
-                oldStockMaintenance_cost,
-                oldStockGemValue,
-                oldStockPTAndClipCost,
-                oldStockCalculatedBuyingValue,
-                oldStockPriceForPawn,
-                oldStockCalculatedForPawn,
-                oldStockABuyingPrice,
-                oldStockb_voucher_buying_value,
-                oldStockc_voucher_buying_price,
-                oldStockDGoldWeightY,
-                oldStockEPriceFromNewVoucher,
-                oldStockFVoucherShownGoldWeightY
+                is_app_functions_allowed,
+                old_session_key
+
             )
 
             if (response.isSuccessful && response.body() != null) {
                 Resource.Success(response.body()!!.response.message)
+            } else {
+                val errorJsonString = response.errorBody()?.string().orEmpty()
+                val singleError =
+                    response.errorBody()?.parseErrorWithDataClass<SimpleError>(errorJsonString)
+                if (singleError != null) {
+                    Resource.Error(singleError.response.message)
+                } else {
+                    val errorMessage =
+                        response.errorBody()?.parseError(errorJsonString)
+                    val list: List<Map.Entry<String, Any>> =
+                        ArrayList<Map.Entry<String, Any>>(errorMessage!!.entries)
+                    val (key, value) = list[0]
+                    Resource.Error(value.toString())
+                }
+
+            }
+        } catch (e: Exception) {
+            Resource.Error(e.message)
+        }
+    }
+
+    override suspend fun payBalance(sale_id: String, paid_amount: String?): Resource<String> {
+        return try {
+            val response = pawnService.payBalance(
+                localDatabase.getAccessToken().orEmpty(),
+                sale_id, paid_amount
+
+            )
+
+            if (response.isSuccessful && response.body() != null) {
+                Resource.Success(response.body()!!.response.message)
+            } else {
+                val errorJsonString = response.errorBody()?.string().orEmpty()
+                val singleError =
+                    response.errorBody()?.parseErrorWithDataClass<SimpleError>(errorJsonString)
+                if (singleError != null) {
+                    Resource.Error(singleError.response.message)
+                } else {
+                    val errorMessage =
+                        response.errorBody()?.parseError(errorJsonString)
+                    val list: List<Map.Entry<String, Any>> =
+                        ArrayList<Map.Entry<String, Any>>(errorMessage!!.entries)
+                    val (key, value) = list[0]
+                    Resource.Error(value.toString())
+                }
+
+            }
+        } catch (e: Exception) {
+            Resource.Error(e.message)
+        }
+    }
+
+    override suspend fun getRemainingAmount(
+        saleCode: String?
+    ): Resource<RemainingAmountDto> {
+        return try {
+            val response = pawnService.getRemainingAmount(
+                localDatabase.getAccessToken().orEmpty(),
+                saleCode
+
+            )
+
+            if (response.isSuccessful && response.body() != null) {
+                Resource.Success(response.body()!!.data)
             } else {
                 val errorJsonString = response.errorBody()?.string().orEmpty()
                 val singleError =

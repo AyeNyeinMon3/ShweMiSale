@@ -51,10 +51,10 @@ class CustomerListViewHolder(private var binding: ItemCustomerListBinding,
         }
         binding.tvName.text = data.name
         binding.tvPhNumber.text = data.phone
-        binding.tvNRC.text = "-"
+        binding.tvNRC.text = data.nrc
         binding.tvBirthDate.text = data.date_of_birth
         binding.tvTownship.text = data.township_name
-        binding.tvAcc.text = "-"
+//        binding.tvAcc.text = "-"
 //        while (true){
 //            binding.ivArrow.setImageResource(R.drawable.side_arrow)
 //

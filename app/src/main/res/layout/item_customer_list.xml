@@ -15,7 +15,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="0.6"
             android:orientation="horizontal"
             android:divider="@color/white"
             android:showDividers="middle">
@@ -24,7 +24,7 @@
                 android:id="@+id/tv_name"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="0.7"
                 android:gravity="center"
                 android:text="ဒေါ်ကလျာနွဲ့မူရာခင်"
                 android:textAppearance="@style/TextAppearance.ShweMi.Body2"
@@ -35,7 +35,7 @@
                 android:id="@+id/tv_phNumber"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1.1"
+                android:layout_weight="0.8"
                 android:gravity="center"
                 android:text=" 09 420 12 3456 "
                 android:textAppearance="@style/TextAppearance.ShweMi.Body2"
@@ -46,7 +46,7 @@
                 android:id="@+id/tv_NRC"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="0.7"
                 android:gravity="center"
                 android:text="၁၄/ဟသတ(နိုင်)၁၂၃၄၅၆"
                 android:textAppearance="@style/TextAppearance.ShweMi.Body2"
@@ -78,29 +78,29 @@
                 android:id="@+id/tv_township"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="1.3"
                 android:gravity="center"
                 android:text="ဟင်္သာတ"
                 android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/tv_acc"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1.1"
-                android:gravity="center"
-                android:text="မရှိ"
-                android:textAppearance="@style/TextAppearance.ShweMi.Body2"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
+<!--            <TextView-->
+<!--                android:id="@+id/tv_acc"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="1.1"-->
+<!--                android:gravity="center"-->
+<!--                android:text="မရှိ"-->
+<!--                android:textAppearance="@style/TextAppearance.ShweMi.Body2"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textStyle="bold" />-->
 
             <ImageView
                 android:id="@+id/iv_arrow"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1.1"
+                android:layout_weight="1.5"
                 android:scaleType="center"
                 android:src="@drawable/side_arrow" />
 

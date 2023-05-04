@@ -1,5 +1,8 @@
 buildscript {
 
+    ext {
+        kotlin_version = '1.8.21'
+    }
     repositories {
         // Check that you have the following line (if not, add it):
         google()
@@ -7,9 +10,12 @@ buildscript {
 
     }
     dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         def nav_version = "2.4.2"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
         classpath 'com.google.dagger:hilt-android-gradle-plugin:2.44'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.4'
+        classpath 'com.google.gms:google-services:4.3.13'
 
     }
 }

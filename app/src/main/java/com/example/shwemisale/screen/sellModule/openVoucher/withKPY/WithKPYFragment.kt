@@ -1,5 +1,6 @@
 package com.example.shwemisale.screen.sellModule.openVoucher.withKPY
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,14 +12,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.shwemi.util.Resource
-import com.example.shwemi.util.generateNumberFromEditText
-import com.example.shwemi.util.getAlertDialog
-import com.example.shwemi.util.showSuccessDialog
+import com.example.shwemi.util.*
 import com.example.shwemisale.databinding.FragmentWithKpyBinding
 import com.example.shwemisale.screen.goldFromHome.getKPYFromYwae
 import com.example.shwemisale.screen.goldFromHome.getKyatsFromKPY
 import com.example.shwemisale.screen.goldFromHome.getYwaeFromGram
+import com.example.shwemisale.screen.goldFromHome.getYwaeFromKPY
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -43,16 +42,78 @@ class WithKPYFragment : Fragment() {
         }.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        val totalGoldWeightKpy = getKPYFromYwae(
+            viewModel.getTotalGoldWeightYwae().let { if (it.isEmpty()) 0.0 else it.toDouble() })
+        binding.edtGoldFromHomeWeightK.setText(totalGoldWeightKpy[0].toInt().toString())
+        binding.edtGoldFromHomeWeightP.setText(totalGoldWeightKpy[1].toInt().toString())
+        binding.edtGoldFromHomeWeightY.setText(totalGoldWeightKpy[2].let {
+            String.format(
+                "%.2f",
+                it
+            )
+        })
+    }
+
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loading = requireContext().getAlertDialog()
-        //TODO fill product infos that scanned
         binding.edtOldVoucherPayment.setText(args.oldVoucherPaidAmount.toString())
-        binding.edtGoldFromHomeValue.setText(viewModel.getTotalCVoucherBuyingPrice())
-        val  totalGoldWeightKpy= getKPYFromYwae(viewModel.getTotalGoldWeightYwae().toDouble())
-        binding.edtGoldFromHomeWeightK.setText(totalGoldWeightKpy[0].toInt().toString())
-        binding.edtGoldFromHomeWeightP.setText(totalGoldWeightKpy[1].toInt().toString())
-        binding.edtGoldFromHomeWeightY.setText(totalGoldWeightKpy[2].let { String.format("%.2f", it) })
+
+        binding.btnEditGoldFromHomeValue.setOnClickListener {
+            findNavController().navigate(
+                WithKPYFragmentDirections.actionGlobalGoldFromHomeFragment(
+                    "Global",
+                    null
+                )
+            )
+        }
+        binding.btnEditGoldFromHomeWeight.setOnClickListener {
+            findNavController().navigate(
+                WithKPYFragmentDirections.actionGlobalGoldFromHomeFragment(
+                    "Global",
+                    null
+                )
+            )
+        }
+
+        viewModel.getUserRedeemPointsLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {
+                    loading.show()
+                }
+                is Resource.Success -> {
+                    loading.dismiss()
+                    binding.edtCustomerPoint.setText(it.data)
+                }
+                is Resource.Error -> {
+
+                    loading.dismiss()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+        viewModel.getRedeemMoneyLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {
+                    loading.show()
+                }
+                is Resource.Success -> {
+                    loading.dismiss()
+                    binding.edtReducedPay.setText(
+                        (generateNumberFromEditText(binding.edtReducedPay).toInt() + it.data.orEmpty()
+                            .let { if (it.isEmpty()) 0 else it.toInt() }).toString()
+                    )
+                }
+                is Resource.Error -> {
+
+                    loading.dismiss()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
 
         viewModel.submitWithKPYLiveData.observe(viewLifecycleOwner) {
             when (it) {
@@ -61,7 +122,7 @@ class WithKPYFragment : Fragment() {
                 }
                 is Resource.Success -> {
                     loading.dismiss()
-                    requireContext().showSuccessDialog(it.data.orEmpty()){
+                    requireContext().showSuccessDialog(it.data.orEmpty()) {
                         findNavController().popBackStack()
                     }
                 }
@@ -80,24 +141,16 @@ class WithKPYFragment : Fragment() {
                 is Resource.Success -> {
                     loading.dismiss()
                     viewModel.goldPrice = it.data?.gold_price.toString()
-                    val poloGoldKyat = getKyatsFromKPY(
-                        generateNumberFromEditText(binding.edtPoloGoldK).toInt(),
-                        generateNumberFromEditText(binding.edtPoloGoldP).toInt(),
-                        generateNumberFromEditText(binding.edtPoloGoldY).toDouble(),
-                    )
 
-                    val poloValue = poloGoldKyat * it.data?.gold_price.orEmpty()
-                        .let { if (it.isEmpty()) 0.0 else it.toDouble() }
-                    binding.edtPoloValue.setText(poloValue.toInt().toString())
-                    val totalPrice =
-                        generateNumberFromEditText(binding.edtPoloValue).toDouble() + generateNumberFromEditText(
-                            binding.edtTotalFee
-                        ).toDouble() +
-                                generateNumberFromEditText(binding.edtPTclipValue).toDouble() + generateNumberFromEditText(
-                            binding.edtTotalGemValue
-                        ).toDouble()- generateNumberFromEditText(binding.edtGoldFromHomeValue).toDouble()
-
-                    binding.edtCharge.setText(totalPrice.toInt().toString())
+//                    val totalPrice =
+//                        generateNumberFromEditText(binding.edtPoloValue).toDouble() + generateNumberFromEditText(
+//                            binding.edtTotalFee
+//                        ).toDouble() +
+//                                generateNumberFromEditText(binding.edtPTclipValue).toDouble() + generateNumberFromEditText(
+//                            binding.edtTotalGemValue
+//                        ).toDouble() - generateNumberFromEditText(binding.edtGoldFromHomeValue).toDouble()
+//
+//                    binding.edtCharge.setText(totalPrice.toInt().toString())
 
                 }
                 is Resource.Error -> {
@@ -123,83 +176,99 @@ class WithKPYFragment : Fragment() {
                     ).toDouble() +
                             generateNumberFromEditText(binding.edtPTclipValue).toDouble() + generateNumberFromEditText(
                         binding.edtTotalGemValue
-                    ).toDouble()-goldFromHomeValue
-
-                binding.edtCharge.setText(totalPrice.toInt().toString())
+                    ).toDouble() - goldFromHomeValue- args.oldVoucherPaidAmount
+                binding.edtGoldFromHomeValue.text?.clear()
+                val totalGoldWeightKpy = getKPYFromYwae(
+                    viewModel.getTotalGoldWeightYwae()
+                        .let { if (it.isEmpty()) 0.0 else it.toDouble() })
+                binding.edtGoldFromHomeWeightK.setText(totalGoldWeightKpy[0].toInt().toString())
+                binding.edtGoldFromHomeWeightP.setText(totalGoldWeightKpy[1].toInt().toString())
+                binding.edtGoldFromHomeWeightY.setText(totalGoldWeightKpy[2].let {
+                    String.format(
+                        "%.2f",
+                        it
+                    )
+                })
+                calculateValues()
+//                binding.edtCharge.setText(totalPrice.toInt().toString())
             } else if (checkedId == binding.radioBtnValue.id) {
-                val totalPrice =
-                    generateNumberFromEditText(binding.edtPoloValue).toDouble() + generateNumberFromEditText(
-                        binding.edtTotalFee
-                    ).toDouble() +
-                            generateNumberFromEditText(binding.edtPTclipValue).toDouble() + generateNumberFromEditText(
-                        binding.edtTotalGemValue
-                    ).toDouble()- generateNumberFromEditText(binding.edtGoldFromHomeValue).toDouble()
+                binding.edtGoldFromHomeWeightK.text?.clear()
+                binding.edtGoldFromHomeWeightP.text?.clear()
+                binding.edtGoldFromHomeWeightY.text?.clear()
+                binding.edtGoldFromHomeValue.setText(viewModel.getTotalCVoucherBuyingPrice())
+//                val totalPrice =
+//                    generateNumberFromEditText(binding.edtPoloValue).toDouble() + generateNumberFromEditText(
+//                        binding.edtTotalFee
+//                    ).toDouble() +
+//                            generateNumberFromEditText(binding.edtPTclipValue).toDouble() + generateNumberFromEditText(
+//                        binding.edtTotalGemValue
+//                    ).toDouble() - generateNumberFromEditText(binding.edtGoldFromHomeValue).toDouble()- args.oldVoucherPaidAmount
+                calculateValues()
 
-                binding.edtCharge.setText(totalPrice.toInt().toString())
             }
         }
 
         binding.btnCalculate.setOnClickListener {
-            val leftMoney =
-                generateNumberFromEditText(binding.edtReducedPay).toInt() + generateNumberFromEditText(
-                    binding.edtCharge
-                ).toInt() - generateNumberFromEditText(binding.edtDeposit).toInt()
-            binding.edtBalance.setText(leftMoney.toInt().toString())
+            viewModel.getRedeemMoney(generateNumberFromEditText(binding.edtRedeemPoint))
+         calculateValues()
         }
 
-            val scannedProducts = args.scannedProducts.toList()
-            viewModel.getGoldPrice(args.scannedProducts.map { it.id })
-            var totalGoldWeight = 0.0
-            var totalGemWeight = 0.0
-            var totalWastageWeight = 0.0
-            var totalMaintenanceFees = 0.0
-            var totalGemValue = 0
-            var totalPtClipFees = 0
-            scannedProducts.forEach {
-                totalGoldWeight += it.gold_weight_ywae.let { if (it.isEmpty()) 0.0 else it.toDouble() }
-                totalGemWeight += it.gem_weight_ywae.let { if (it.isEmpty()) 0.0 else it.toDouble() }
-                totalWastageWeight += it.wastage_weight_ywae.let { if (it.isEmpty()) 0.0 else it.toDouble() }
-                totalMaintenanceFees += it.maintenance_cost.let { if (it.isEmpty()) 0.0 else it.toDouble() }
-                totalGemValue += it.gem_value.let { if (it.isEmpty()) 0 else it.toInt() }
-                totalPtClipFees += it.pt_and_clip_cost.let { if (it.isEmpty()) 0 else it.toInt() }
-            }
+        val scannedProducts = args.scannedProducts.toList()
+        viewModel.getGoldPrice(args.scannedProducts.map { it.id })
+        var totalGoldWeight = 0.0
+        var totalGemWeight = 0.0
+        var totalWastageWeight = 0.0
+        var totalMaintenanceFees = 0.0
+        var totalGemValue = 0
+        var totalPtClipFees = 0
+        scannedProducts.forEach {
+            totalGoldWeight += it.gold_weight_ywae.let { if (it.isEmpty()) 0.0 else it.toDouble() }
+            totalGemWeight += it.gem_weight_ywae.let { if (it.isEmpty()) 0.0 else it.toDouble() }
+            totalWastageWeight += it.wastage_weight_ywae.let { if (it.isEmpty()) 0.0 else it.toDouble() }
+            totalMaintenanceFees += it.maintenance_cost.let { if (it.isEmpty()) 0.0 else it.toDouble() }
+            totalGemValue += it.gem_value.let { if (it.isEmpty()) 0 else it.toInt() }
+            totalPtClipFees += it.pt_and_clip_cost.let { if (it.isEmpty()) 0 else it.toInt() }
+        }
 
-            var neededGoldWeight = totalGoldWeight - viewModel.getTotalGoldWeightYwae().toDouble()
-            var totalWastageAndGoldWeight = totalGoldWeight + totalWastageWeight
+        var neededGoldWeight =
+            totalGoldWeight + totalWastageWeight - viewModel.getTotalGoldWeightYwae()
+                .let { if (it.isEmpty()) 0.0 else it.toDouble() }
+        var totalWastageAndGoldWeight = totalGoldWeight + totalWastageWeight
 
-            val totalProductGoldWeightKpy = getKPYFromYwae(totalGoldWeight)
-            binding.edtTotalGoldWeightK.setText(totalProductGoldWeightKpy[0].toInt().toString())
-            binding.edtTotalGoldWeightP.setText(totalProductGoldWeightKpy[1].toInt().toString())
-            binding.edtTotalGoldWeightY.setText(totalProductGoldWeightKpy[2].let { String.format("%.2f", it) })
+        val totalProductGoldWeightKpy = getKPYFromYwae(totalGoldWeight)
+        binding.edtTotalGoldWeightK.setText(totalProductGoldWeightKpy[0].toInt().toString())
+        binding.edtTotalGoldWeightP.setText(totalProductGoldWeightKpy[1].toInt().toString())
+        binding.edtTotalGoldWeightY.setText(totalProductGoldWeightKpy[2].let {
+            String.format(
+                "%.2f",
+                it
+            )
+        })
 
-            val totalWastageWeightkpy = getKPYFromYwae(totalWastageWeight)
-            binding.edtTotalDiseaseK.setText(totalWastageWeightkpy[0].toInt().toString())
-            binding.edtTotalDiseaseP.setText(totalWastageWeightkpy[1].toInt().toString())
-            binding.edtTotalDiseaseY.setText(totalWastageWeightkpy[2].let { String.format("%.2f", it) })
+        val totalWastageWeightkpy = getKPYFromYwae(totalWastageWeight)
+        binding.edtTotalDiseaseK.setText(totalWastageWeightkpy[0].toInt().toString())
+        binding.edtTotalDiseaseP.setText(totalWastageWeightkpy[1].toInt().toString())
+        binding.edtTotalDiseaseY.setText(totalWastageWeightkpy[2].let { String.format("%.2f", it) })
 
-            val totalWastageAndGoldWeightkpy = getKPYFromYwae(totalWastageAndGoldWeight)
-            binding.edtTotalDiseaseGWK.setText(totalWastageAndGoldWeightkpy[0].toInt().toString())
-            binding.edtTotalDiseaseGWP.setText(totalWastageAndGoldWeightkpy[1].toInt().toString())
-            binding.edtTotalDiseaseGWY.setText(totalWastageAndGoldWeightkpy[2].let {
-                String.format(
-                    "%.2f",
-                    it
-                )
-            })
+        val totalWastageAndGoldWeightkpy = getKPYFromYwae(totalWastageAndGoldWeight)
+        binding.edtTotalDiseaseGWK.setText(totalWastageAndGoldWeightkpy[0].toInt().toString())
+        binding.edtTotalDiseaseGWP.setText(totalWastageAndGoldWeightkpy[1].toInt().toString())
+        binding.edtTotalDiseaseGWY.setText(totalWastageAndGoldWeightkpy[2].let {
+            String.format(
+                "%.2f",
+                it
+            )
+        })
 
-            val neededGoldWeightkpy = getKPYFromYwae(neededGoldWeight)
-            binding.edtPoloGoldK.setText(neededGoldWeightkpy[0].toInt().toString())
-            binding.edtPoloGoldP.setText(neededGoldWeightkpy[1].toInt().toString())
-            binding.edtPoloGoldY.setText(neededGoldWeightkpy[2].let { String.format("%.2f", it) })
-            var neededGoldPrice = getKyatsFromKPY(
-                neededGoldWeightkpy[0].toInt(),
-                neededGoldWeightkpy[1].toInt(),
-                neededGoldWeightkpy[2]
-            )// multiply with gold price
+//        val neededGoldWeightkpy = getKPYFromYwae(neededGoldWeight)
+//        binding.edtPoloGoldK.setText(neededGoldWeightkpy[0].toInt().toString())
+//        binding.edtPoloGoldP.setText(neededGoldWeightkpy[1].toInt().toString())
+//        binding.edtPoloGoldY.setText(neededGoldWeightkpy[2].let { String.format("%.2f", it) })
 
-            binding.edtTotalFee.setText(totalMaintenanceFees.toString())
-            binding.edtTotalGemValue.setText(totalGemValue.toString())
-            binding.edtPTclipValue.setText(totalPtClipFees.toString())
+
+        binding.edtTotalFee.setText(totalMaintenanceFees.toString())
+        binding.edtTotalGemValue.setText(totalGemValue.toString())
+        binding.edtPTclipValue.setText(totalPtClipFees.toString())
 
 
 
@@ -224,12 +293,70 @@ class WithKPYFragment : Fragment() {
                 viewModel.getCustomerId(),
                 paid_amount,
                 reduced_cost,
+                args.oldVoucherCode,
                 MultipartBody.Part.createFormData(
                     "old_voucher_paid_amount",
                     args.oldVoucherPaidAmount.toString()
-                )
+                ),
             )
         }
+    }
+    fun calculateValues(){
+        val goldFromHomeValue = if (binding.radioBtnKpy.isChecked){
+            0.0
+        }else{
+            generateNumberFromEditText(binding.edtGoldFromHomeValue).toDouble()
+        }
+
+
+        val goldFromHomeTotalYwae = getYwaeFromKPY(
+            generateNumberFromEditText(binding.edtGoldFromHomeWeightK).toInt(),
+            generateNumberFromEditText(binding.edtGoldFromHomeWeightP).toInt(),
+            generateNumberFromEditText(binding.edtGoldFromHomeWeightY).toDouble(),
+        )
+        val totalGoldWeightYwae = getYwaeFromKPY(
+            generateNumberFromEditText(binding.edtTotalGoldWeightK).toInt(),
+            generateNumberFromEditText(binding.edtTotalGoldWeightP).toInt(),
+            generateNumberFromEditText(binding.edtTotalGoldWeightY).toDouble(),
+        )
+        val totalWastageYwae = getYwaeFromKPY(
+            generateNumberFromEditText(binding.edtTotalDiseaseK).toInt(),
+            generateNumberFromEditText(binding.edtTotalDiseaseP).toInt(),
+            generateNumberFromEditText(binding.edtTotalDiseaseY).toDouble(),
+        )
+        var neededGoldWeight =
+            totalGoldWeightYwae + totalWastageYwae - goldFromHomeTotalYwae
+
+        val neededGoldWeightkpy = getKPYFromYwae(neededGoldWeight)
+        binding.edtPoloGoldK.setText(neededGoldWeightkpy[0].toInt().toString())
+        binding.edtPoloGoldP.setText(neededGoldWeightkpy[1].toInt().toString())
+        binding.edtPoloGoldY.setText(neededGoldWeightkpy[2].let { String.format("%.2f", it) })
+
+        val poloGoldKyat = getKyatsFromKPY(
+            generateNumberFromEditText(binding.edtPoloGoldK).toInt(),
+            generateNumberFromEditText(binding.edtPoloGoldP).toInt(),
+            generateNumberFromEditText(binding.edtPoloGoldY).toDouble(),
+        )
+
+        val poloValue = poloGoldKyat * viewModel.goldPrice
+            .let { if (it.isEmpty()) 0.0 else it.toDouble() }
+        binding.edtPoloValue.setText(getRoundDownForPrice(poloValue.toInt()).toString())
+        val totalPrice =
+            generateNumberFromEditText(binding.edtPoloValue).toDouble() + generateNumberFromEditText(
+                binding.edtTotalFee
+            ).toDouble() +
+                    generateNumberFromEditText(binding.edtPTclipValue).toDouble() + generateNumberFromEditText(
+                binding.edtTotalGemValue
+            ).toDouble() -goldFromHomeValue - args.oldVoucherPaidAmount
+
+        binding.edtCharge.setText(totalPrice.toInt().toString())
+        val leftMoney =
+            +generateNumberFromEditText(
+                binding.edtCharge
+            ).toInt() - generateNumberFromEditText(binding.edtDeposit).toInt() - generateNumberFromEditText(
+                binding.edtReducedPay
+            ).toInt()
+        binding.edtBalance.setText(leftMoney.toInt().toString())
     }
 
 

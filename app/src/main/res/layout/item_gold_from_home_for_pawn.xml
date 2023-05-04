@@ -73,57 +73,19 @@
             android:gravity="center|start">
 
 
-            <ImageView
-                android:id="@+id/iv_delete_bg"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/delete_edit_bg_circle" />
-
-            <ImageView
-                android:id="@+id/iv_delete"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                app:layout_constraintBottom_toBottomOf="@+id/iv_delete_bg"
-                app:layout_constraintEnd_toEndOf="@+id/iv_delete_bg"
-                app:layout_constraintStart_toStartOf="@+id/iv_delete_bg"
-                app:layout_constraintTop_toTopOf="@+id/iv_delete_bg"
-                app:srcCompat="@drawable/delete" />
-
-            <ImageView
-                android:id="@+id/iv_edit_bg"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/delete_edit_bg_circle" />
-
-            <ImageView
-                android:id="@+id/iv_edit"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                app:layout_constraintBottom_toBottomOf="@+id/iv_edit_bg"
-                app:layout_constraintEnd_toEndOf="@+id/iv_edit_bg"
-                app:layout_constraintStart_toStartOf="@+id/iv_edit_bg"
-                app:layout_constraintTop_toTopOf="@+id/iv_edit_bg"
-                app:srcCompat="@drawable/edit" />
             <CheckBox
                 android:id="@+id/cb_for_pawn"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="16dp"
-                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:buttonTint="@color/primary"
-                />
+                 />
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>

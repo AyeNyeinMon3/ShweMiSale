@@ -37,7 +37,7 @@ class InventoryStockViewModel @Inject constructor(
     fun getProductId(productCode: String) {
         viewModelScope.launch {
             _productIdLiveData.value = Resource.Loading()
-            _productIdLiveData.value = productRepoImpl.getProductId(productCode)
+            _productIdLiveData.value = productRepoImpl.exChangeProductCodeWithId(productCode)
         }
     }
 
@@ -74,4 +74,8 @@ class InventoryStockViewModel @Inject constructor(
             }
         }
     }
+
+    private val _saleSampleLiveData = MutableLiveData<Resource<SampleDomain>>()
+    val saleSampleLiveData: LiveData<Resource<SampleDomain>>
+        get() = _saleSampleLiveData
 }

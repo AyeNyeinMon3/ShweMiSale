@@ -1,19 +1,21 @@
 package com.example.shwemisale.screen.goldFromHome
 
+import kotlin.math.roundToInt
+
 fun getKyatsFromKPY(kyat: Int, pae: Int, ywae: Double): Double {
     return kyat.toDouble() + pae.toDouble() / 16 + ywae / 128
 }
 
 fun getYwaeFromKPY(kyat: Int, pae: Int, ywae: Double): Double {
-    return kyat.toDouble() * 128 + pae.toDouble() * 8 + ywae
+    return ((kyat.toDouble() * 128 + pae.toDouble() * 8 + ywae)*100).roundToInt() / 100.0
 }
 
 fun getYwaeFromGram(gram: Double): Double {
-    return (gram / 16.6) * 128.toDouble()
+    return (((gram / 16.6) * 128.toDouble())*100).roundToInt() / 100.0
 }
 
 fun getGramFromYwae(ywae:Double):Double{
-    return (ywae/128)*16.6
+    return (((ywae/128)*16.6)*100).roundToInt() / 100.0
 }
 
 fun getKPYFromKyat(kyat: Double): List<Double> {
@@ -36,9 +38,9 @@ fun getKPYFromYwae(ywae: Double): List<Double> {
 
     var kyat = (pae / 16)
     pae = pae % 16
-    resultList.add(kyat.toDouble())
-    resultList.add(pae.toDouble())
-    resultList.add(resultYwae)
+    resultList.add((kyat.toDouble()*100).roundToInt() / 100.0)
+    resultList.add((pae.toDouble()*100).roundToInt() / 100.0)
+    resultList.add((resultYwae*100).roundToInt() / 100.0)
     return resultList
 }
 

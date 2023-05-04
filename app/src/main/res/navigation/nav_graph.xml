@@ -77,6 +77,10 @@
         <argument
             android:name="backpressType"
             app:argType="string" />
+        <argument
+            android:name="pawnVoucherCode"
+            app:argType="string"
+            app:nullable="true" />
 
     </fragment>
     <fragment
@@ -122,6 +126,10 @@
         <argument
             android:name="scannedProducts"
             app:argType="com.example.shwemisale.data_layers.ui_models.product.ProductInfoUiModel[]" />
+        <argument
+            android:name="goldPrice"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/withValueFragment"
@@ -133,6 +141,10 @@
         <argument
             android:name="old_voucher_paid_amount"
             app:argType="integer" />
+        <argument
+            android:name="oldVoucherCode"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/withKPYFragment"
@@ -143,6 +155,10 @@
             app:argType="com.example.shwemisale.data_layers.ui_models.product.ProductInfoUiModel[]" />
         <argument android:name="old_voucher_paid_amount"
             app:argType="integer" />
+        <argument
+            android:name="oldVoucherCode"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/inventoryStockFragment"

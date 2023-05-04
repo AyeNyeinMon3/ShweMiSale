@@ -3,6 +3,7 @@ package com.example.shwemisale.screen.sellModule
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -21,6 +22,7 @@ data class GoldFromHomeData(
 )
 
 class GoldFromHomeRecyclerAdapter(
+    private val type:String?,
     private val editClick: (item: StockFromHomeDomain) -> Unit,
     private val deleteClick: (item: StockFromHomeDomain) -> Unit
 ) : ListAdapter<StockFromHomeDomain, GoldFromHomeViewHolder>(
@@ -32,7 +34,7 @@ class GoldFromHomeRecyclerAdapter(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            ), editClick, deleteClick
+            ), type,editClick, deleteClick
         )
     }
 
@@ -44,14 +46,15 @@ class GoldFromHomeRecyclerAdapter(
 
 class GoldFromHomeViewHolder(
     private var binding: ItemGoldFromHomeBinding,
+    private val type:String?,
     private val editClick: (item: StockFromHomeDomain) -> Unit,
     private val deleteClick: (item: StockFromHomeDomain) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     @SuppressLint("SetTextI18n")
     fun bind(data: StockFromHomeDomain) {
-        val goldKpy = getKPYFromYwae(data.gold_weight_ywae!!.toDouble())
-        binding.tvGoldWeight.text = goldKpy[0].toInt().toString() +"K"+ goldKpy[1].toInt()
-            .toString() + goldKpy[2].let { String.format("%.2f", it) }
+        val goldKpy = getKPYFromYwae(data.f_voucher_shown_gold_weight_ywae!!.toDouble())
+        binding.tvGoldWeight.text = goldKpy[0].toInt().toString() +"K  "+ goldKpy[1].toInt()
+            .toString() +"P  "+ goldKpy[2].let { String.format("%.2f", it) }+"Y"
         binding.tvVoucherPurchasePayment.text = data.b_voucher_buying_value
         binding.tvPawnPrice.text = data.calculated_for_pawn
         binding.tvResellItem.text = data.stock_name
@@ -62,6 +65,16 @@ class GoldFromHomeViewHolder(
         binding.ivDelete.setOnClickListener {
             deleteClick(data)
         }
+//        if (type.isNullOrEmpty().not()){
+//            binding.ivEdit.isVisible = false
+//            binding.ivDelete.isVisible = false
+//            binding.cbForPawn.isVisible = true
+//
+//            binding.cbForPawn.setOnCheckedChangeListener { compoundButton, isChecked ->
+//                data.isChecked = isChecked
+//            }
+//        }
+
     }
 }
 
@@ -79,6 +92,4 @@ object GoldFromHomeDiffUtil : DiffUtil.ItemCallback<StockFromHomeDomain>() {
     ): Boolean {
         return oldItem == newItem
     }
-
-
 }

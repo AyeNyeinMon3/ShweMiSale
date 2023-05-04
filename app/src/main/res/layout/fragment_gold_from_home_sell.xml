@@ -10,7 +10,7 @@
         android:layout_height="match_parent">
 
         <CheckBox
-            android:id="@+id/checkBox"
+            android:id="@+id/cb_date"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginStart="16dp"
@@ -40,7 +40,7 @@
             app:boxStrokeWidth="1dp"
             app:errorEnabled="false"
             app:hintEnabled="false"
-            app:layout_constraintStart_toEndOf="@+id/checkBox"
+            app:layout_constraintStart_toEndOf="@+id/cb_date"
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -435,6 +435,12 @@
                 android:layout_height="wrap_content"
                 android:buttonTint="@color/primary"
                 android:text="အရောင်း"/>
+<!--            <RadioButton-->
+<!--                android:id="@+id/radio_pawn_interest"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:buttonTint="@color/primary"-->
+<!--                android:text="အပေါင်/အတိုး"/>-->
         </RadioGroup>
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_print"

@@ -128,10 +128,11 @@ class CustomerRepoImpl @Inject constructor(
         }
     }
 
-    override suspend fun getTownship(): Resource<List<TownshipDto>> {
+    override suspend fun getTownship(province_id: String): Resource<List<TownshipDto>> {
         return try {
             val response = customerService.getTownship(
                 localDatabase.getAccessToken().orEmpty(),
+                province_id
             )
 
             if (response.isSuccessful && response.body() != null) {

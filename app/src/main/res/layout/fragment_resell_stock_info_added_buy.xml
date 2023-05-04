@@ -987,7 +987,7 @@
             app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
             <CheckBox
-                android:id="@+id/checkBox"
+                android:id="@+id/cb_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -1007,9 +1007,9 @@
                 android:text="*Fieldတစ်ခုအနည်းဆုံးထည့်‌‌ပေးရန်လိုအပ်ပါသည်။"
                 android:textColor="@color/primary"
                 android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="@+id/checkBox"
-                app:layout_constraintStart_toEndOf="@+id/checkBox"
-                app:layout_constraintTop_toTopOf="@+id/checkBox" />
+                app:layout_constraintBottom_toBottomOf="@+id/cb_date"
+                app:layout_constraintStart_toEndOf="@+id/cb_date"
+                app:layout_constraintTop_toTopOf="@+id/cb_date" />
 
             <LinearLayout
                 android:id="@+id/linearLayout4"
@@ -1019,7 +1019,7 @@
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/checkBox">
+                app:layout_constraintTop_toBottomOf="@+id/cb_date">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -2141,7 +2141,7 @@
             </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_select_add_purchase_gold_weight"
+                android:id="@+id/btn_calculate_4"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_marginStart="16dp"

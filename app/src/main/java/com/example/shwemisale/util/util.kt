@@ -28,6 +28,7 @@ import java.util.*
 import com.squareup.moshi.internal.Util.NO_ANNOTATIONS
 import org.json.JSONObject
 import java.lang.reflect.Type
+import java.math.RoundingMode
 import javax.inject.Inject
 import kotlin.collections.HashMap
 
@@ -123,4 +124,13 @@ fun hideKeyboard(activity: FragmentActivity?, view: View) {
     val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.hideSoftInputFromWindow(view.windowToken, 0)
 }
+
+fun getRoundDownForPrice(price:Int):Int{
+    val a = price/1000.0
+    val roundedDown = a.toBigDecimal().setScale(1, RoundingMode.DOWN).toDouble()
+    return (roundedDown*1000).toInt()
+
+}
+
+
 

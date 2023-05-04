@@ -26,8 +26,9 @@ class ReceiveNewOrderViewModel @Inject constructor(
     private val goldFromHomeRepositoryImpl: GoldFromHomeRepositoryImpl,
     private val localDatabase: LocalDatabase
 ) : ViewModel() {
-    var goldFromHomeWithKpy = 0
-    var goldFromHomeWithValue = 0
+//    var goldFromHomeWithKpy = "0"
+//    var goldFromHomeWithValue = "0"
+    var goldPrice = 0
     var takenSamples = listOf<SampleDomain>()
     var samplesFromRoom = normalSaleRepositoryImpl.getSamplesFromRoom()
 
@@ -89,7 +90,7 @@ class ReceiveNewOrderViewModel @Inject constructor(
         return localDatabase.getTotalCVoucherBuyingPriceForStockFromHome().orEmpty()
     }
     fun getTotalGoldWeightYwae():String{
-        return localDatabase.getGoldWeightYwaeForStockFromHome().orEmpty()
+        return localDatabase.getGoldWeightYwaeForStockFromHome()?:"0"
     }
     fun getCustomerId():String{
         return localDatabase.getAccessCustomerId().orEmpty()

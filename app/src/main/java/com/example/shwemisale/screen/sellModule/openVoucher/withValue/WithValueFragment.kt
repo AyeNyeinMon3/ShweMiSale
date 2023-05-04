@@ -1,5 +1,6 @@
 package com.example.shwemisale.screen.sellModule.openVoucher.withValue
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,7 @@ import com.example.shwemisale.databinding.FragmentWithValueBinding
 import com.example.shwemisale.screen.goldFromHome.getKPYFromYwae
 import com.example.shwemisale.screen.goldFromHome.getKyatsFromKPY
 import com.example.shwemisale.screen.goldFromHome.getYwaeFromGram
+import com.example.shwemisale.screen.sellModule.openVoucher.withKPY.WithKPYFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -42,11 +44,45 @@ class WithValueFragment : Fragment() {
         }.root
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loading = requireContext().getAlertDialog()
         bindPassedData()
+        viewModel.getUserRedeemPointsLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {
+                    loading.show()
+                }
+                is Resource.Success -> {
+                    loading.dismiss()
+                    binding.edtCustomerPoint.setText(it.data)
+                }
+                is Resource.Error -> {
 
+                    loading.dismiss()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+        viewModel.getRedeemMoneyLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {
+                    loading.show()
+                }
+                is Resource.Success -> {
+                    loading.dismiss()
+                    binding.edtReducedPay.setText(
+                       ( generateNumberFromEditText(binding.edtReducedPay).toInt() + it.data.orEmpty()
+                            .let { if (it.isEmpty()) 0 else it.toInt() }).toString())
+                }
+                is Resource.Error -> {
+
+                    loading.dismiss()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
         viewModel.getGoldPriceLiveData.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Loading -> {
@@ -71,7 +107,7 @@ class WithValueFragment : Fragment() {
                 }
                 is Resource.Success -> {
                     loading.dismiss()
-                    requireContext().showSuccessDialog(it.data.orEmpty()){
+                    requireContext().showSuccessDialog(it.data.orEmpty()) {
                         findNavController().popBackStack()
                     }
                 }
@@ -81,6 +117,14 @@ class WithValueFragment : Fragment() {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
                 }
             }
+        }
+        binding.btnEdit.setOnClickListener {
+            findNavController().navigate(
+                WithKPYFragmentDirections.actionGlobalGoldFromHomeFragment(
+                    "Global",
+                    null
+                )
+            )
         }
 
         binding.btnPrint.setOnClickListener {
@@ -105,6 +149,7 @@ class WithValueFragment : Fragment() {
                 viewModel.getCustomerId(),
                 paid_amount,
                 reduced_cost,
+                args.oldVoucherCode,
                 MultipartBody.Part.createFormData(
                     "old_voucher_paid_amount",
                     args.oldVoucherPaidAmount.toString()
@@ -112,7 +157,19 @@ class WithValueFragment : Fragment() {
             )
         }
         binding.btnCalculate.setOnClickListener {
-            val remainAmount = generateNumberFromEditText(binding.edtCharge).toInt() - generateNumberFromEditText(binding.edtDeposit).toInt()- generateNumberFromEditText(binding.edtGoldFromHomeValue).toInt()
+            viewModel.getRedeemMoney(generateNumberFromEditText(binding.edtRedeemPoint))
+
+
+            //ကျသင့်ငွေ= အထည်တန်ဖိုးပေါင်း - အိမ်ပါရွှေတန်ဖိုး - ဘောင်ချာဟောင်းပေးသွင်းငွေ - လျော့ပေးငွေ ဖြစ်ရန်
+            val chargeAmount = generateNumberFromEditText(binding.edtTotalValue).toInt() -
+                    generateNumberFromEditText(binding.edtGoldFromHomeValue).toInt() - generateNumberFromEditText(binding.edtOldVoucherPayment).toInt()-
+                    generateNumberFromEditText(binding.edtReducedPay).toInt()
+            binding.edtCharge.setText(chargeAmount.toString())
+
+            val remainAmount =
+                generateNumberFromEditText(binding.edtCharge).toInt() - generateNumberFromEditText(
+                    binding.edtDeposit
+                ).toInt()
             binding.edtBalance.setText(remainAmount.toString())
         }
 
@@ -134,12 +191,13 @@ class WithValueFragment : Fragment() {
         var oldVoucherPaidAmount = args.oldVoucherPaidAmount
         binding.edtTotalValue.setText(totalProductsCost.toString())
         binding.edtOldVoucherPayment.setText(oldVoucherPaidAmount.toString())
-        binding.edtCharge.setText(charge.toString())
+//        binding.edtCharge.setText(charge.toString())
 
+    }
+
+    override fun onResume() {
+        super.onResume()
         binding.edtGoldFromHomeValue.setText(viewModel.getTotalCVoucherBuyingPrice())
-
-
-
     }
 
 }

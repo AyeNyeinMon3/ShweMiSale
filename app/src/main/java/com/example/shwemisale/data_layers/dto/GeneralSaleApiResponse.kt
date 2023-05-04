@@ -5,7 +5,7 @@ data class GeneralSaleApiResponse(
 )
 
 data class GeneralSaleDto(
-    val id:String?,
+    var id:String?,
     val name:String?,
     val gold_weight_gm:String?,
     val qty:String?,

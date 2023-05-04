@@ -58,6 +58,7 @@
                             android:layout_height="45dp"
                             android:layout_marginEnd="16dp"
                             android:layout_weight="1"
+                            android:enabled="false"
                             app:boxCornerRadiusBottomEnd="10dp"
                             app:boxCornerRadiusBottomStart="10dp"
                             app:boxCornerRadiusTopEnd="10dp"
@@ -86,6 +87,7 @@
                             android:layout_marginStart="8dp"
                             android:layout_marginEnd="8dp"
                             android:layout_weight="1"
+                            android:enabled="false"
                             app:boxCornerRadiusBottomEnd="10dp"
                             app:boxCornerRadiusBottomStart="10dp"
                             app:boxCornerRadiusTopEnd="10dp"
@@ -113,6 +115,7 @@
                             android:layout_height="45dp"
                             android:layout_marginStart="16dp"
                             android:layout_weight="1"
+                            android:enabled="false"
                             app:boxCornerRadiusBottomEnd="10dp"
                             app:boxCornerRadiusBottomStart="10dp"
                             app:boxCornerRadiusTopEnd="10dp"
@@ -126,7 +129,7 @@
                                 android:id="@+id/edt_total_gold_weight_Y"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="number"
+                                android:inputType="numberDecimal"
                                 android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                                 android:textColor="@color/primary_text"
                                 android:textStyle="bold" />
@@ -166,6 +169,7 @@
                             android:layout_height="45dp"
                             android:layout_marginEnd="16dp"
                             android:layout_weight="1"
+                            android:enabled="false"
                             app:boxCornerRadiusBottomEnd="10dp"
                             app:boxCornerRadiusBottomStart="10dp"
                             app:boxCornerRadiusTopEnd="10dp"
@@ -194,6 +198,7 @@
                             android:layout_marginStart="8dp"
                             android:layout_marginEnd="8dp"
                             android:layout_weight="1"
+                            android:enabled="false"
                             app:boxCornerRadiusBottomEnd="10dp"
                             app:boxCornerRadiusBottomStart="10dp"
                             app:boxCornerRadiusTopEnd="10dp"
@@ -221,6 +226,7 @@
                             android:layout_height="45dp"
                             android:layout_marginStart="16dp"
                             android:layout_weight="1"
+                            android:enabled="false"
                             app:boxCornerRadiusBottomEnd="10dp"
                             app:boxCornerRadiusBottomStart="10dp"
                             app:boxCornerRadiusTopEnd="10dp"
@@ -234,7 +240,7 @@
                                 android:id="@+id/edt_total_disease_Y"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="number"
+                                android:inputType="numberDecimal"
                                 android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                                 android:textColor="@color/primary_text"
                                 android:textStyle="bold" />
@@ -273,6 +279,7 @@
                             android:layout_height="45dp"
                             android:layout_marginEnd="16dp"
                             android:layout_weight="1"
+                            android:enabled="false"
                             app:boxCornerRadiusBottomEnd="10dp"
                             app:boxCornerRadiusBottomStart="10dp"
                             app:boxCornerRadiusTopEnd="10dp"
@@ -301,6 +308,7 @@
                             android:layout_marginStart="8dp"
                             android:layout_marginEnd="8dp"
                             android:layout_weight="1"
+                            android:enabled="false"
                             app:boxCornerRadiusBottomEnd="10dp"
                             app:boxCornerRadiusBottomStart="10dp"
                             app:boxCornerRadiusTopEnd="10dp"
@@ -328,6 +336,7 @@
                             android:layout_height="45dp"
                             android:layout_marginStart="16dp"
                             android:layout_weight="1"
+                            android:enabled="false"
                             app:boxCornerRadiusBottomEnd="10dp"
                             app:boxCornerRadiusBottomStart="10dp"
                             app:boxCornerRadiusTopEnd="10dp"
@@ -341,7 +350,7 @@
                                 android:id="@+id/edt_total_disease_GW_Y"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="number"
+                                android:inputType="numberDecimal"
                                 android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                                 android:textColor="@color/primary_text"
                                 android:textStyle="bold" />
@@ -394,6 +403,7 @@
                             android:layout_height="45dp"
                             android:layout_marginEnd="16dp"
                             android:layout_weight="1"
+                            android:enabled="false"
                             app:boxCornerRadiusBottomEnd="10dp"
                             app:boxCornerRadiusBottomStart="10dp"
                             app:boxCornerRadiusTopEnd="10dp"
@@ -422,6 +432,7 @@
                             android:layout_marginStart="8dp"
                             android:layout_marginEnd="8dp"
                             android:layout_weight="1"
+                            android:enabled="false"
                             app:boxCornerRadiusBottomEnd="10dp"
                             app:boxCornerRadiusBottomStart="10dp"
                             app:boxCornerRadiusTopEnd="10dp"
@@ -449,6 +460,7 @@
                             android:layout_height="45dp"
                             android:layout_marginStart="16dp"
                             android:layout_weight="1"
+                            android:enabled="false"
                             app:boxCornerRadiusBottomEnd="10dp"
                             app:boxCornerRadiusBottomStart="10dp"
                             app:boxCornerRadiusTopEnd="10dp"
@@ -462,7 +474,7 @@
                                 android:id="@+id/edt_gold_from_home_weight_Y"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="number"
+                                android:inputType="numberDecimal"
                                 android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                                 android:textColor="@color/primary_text"
                                 android:textStyle="bold" />
@@ -483,8 +495,7 @@
                         android:insetBottom="0dp"
                         app:cornerRadius="10dp"
                         app:icon="@drawable/pen_white"
-                        app:iconSize="15dp"
-                        />
+                        app:iconSize="15dp" />
 
                 </LinearLayout>
 
@@ -518,6 +529,7 @@
                             android:layout_height="45dp"
                             android:layout_marginEnd="16dp"
                             android:layout_weight="1"
+                            android:enabled="false"
                             app:boxCornerRadiusBottomEnd="10dp"
                             app:boxCornerRadiusBottomStart="10dp"
                             app:boxCornerRadiusTopEnd="10dp"
@@ -546,6 +558,7 @@
                             android:layout_marginStart="8dp"
                             android:layout_marginEnd="8dp"
                             android:layout_weight="1"
+                            android:enabled="false"
                             app:boxCornerRadiusBottomEnd="10dp"
                             app:boxCornerRadiusBottomStart="10dp"
                             app:boxCornerRadiusTopEnd="10dp"
@@ -573,6 +586,7 @@
                             android:layout_height="45dp"
                             android:layout_marginStart="16dp"
                             android:layout_weight="1"
+                            android:enabled="false"
                             app:boxCornerRadiusBottomEnd="10dp"
                             app:boxCornerRadiusBottomStart="10dp"
                             app:boxCornerRadiusTopEnd="10dp"
@@ -618,6 +632,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
                         android:layout_marginTop="4dp"
+                        android:enabled="false"
                         app:boxCornerRadiusBottomEnd="10dp"
                         app:boxCornerRadiusBottomStart="10dp"
                         app:boxCornerRadiusTopEnd="10dp"
@@ -674,6 +689,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
                         android:layout_marginTop="4dp"
+                        android:enabled="false"
                         app:boxCornerRadiusBottomEnd="10dp"
                         app:boxCornerRadiusBottomStart="10dp"
                         app:boxCornerRadiusTopEnd="10dp"
@@ -717,6 +733,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
                         android:layout_marginTop="4dp"
+                        android:enabled="false"
                         app:boxCornerRadiusBottomEnd="10dp"
                         app:boxCornerRadiusBottomStart="10dp"
                         app:boxCornerRadiusTopEnd="10dp"
@@ -779,6 +796,7 @@
                         app:boxCornerRadiusTopStart="10dp"
                         app:boxStrokeColor="@color/edit_text_color_2"
                         app:boxStrokeWidth="1dp"
+                        android:enabled="false"
                         app:errorEnabled="false"
                         app:hintEnabled="false">
 
@@ -836,6 +854,7 @@
                         app:boxCornerRadiusTopStart="10dp"
                         app:boxStrokeColor="@color/edit_text_color_2"
                         app:boxStrokeWidth="1dp"
+                        android:enabled="false"
                         app:errorEnabled="false"
                         app:hintEnabled="false">
 
@@ -880,6 +899,7 @@
                         app:boxStrokeColor="@color/edit_text_color_2"
                         app:boxStrokeWidth="1dp"
                         app:errorEnabled="false"
+                        android:enabled="false"
                         app:hintEnabled="false">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -990,6 +1010,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
+                            android:checked="true"
                             android:paddingStart="16dp"
                             android:text="With KPY"
                             android:textAppearance="@style/TextAppearance.ShweMi.Body2"
@@ -1028,6 +1049,7 @@
                         app:boxStrokeColor="@color/edit_text_color_2"
                         app:boxStrokeWidth="1dp"
                         app:errorEnabled="false"
+                        android:enabled="false"
                         app:hintEnabled="false">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -1111,7 +1133,7 @@
 
 
             <LinearLayout
-                android:id="@+id/linearLayout7"
+                android:id="@+id/layout_remain_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -1143,6 +1165,7 @@
                     app:boxCornerRadiusTopStart="10dp"
                     app:boxStrokeColor="@color/edit_text_color_2"
                     app:boxStrokeWidth="1dp"
+                    android:enabled="false"
                     app:errorEnabled="false"
                     app:hintEnabled="false">
 
@@ -1155,6 +1178,102 @@
                         android:textColor="@color/primary_text"
                         android:textStyle="bold" />
                 </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_point_redeem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_remain_money">
+
+                <TextView
+                    android:id="@+id/tv_label_customer_point"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ဝယ်သူတွင်ရှိသော ပွိုင့်"
+                    android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                    android:textColor="@color/primary_text"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayout_customer_point"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="300dp"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="4dp"
+                    app:boxCornerRadiusBottomEnd="10dp"
+                    app:boxCornerRadiusBottomStart="10dp"
+                    app:boxCornerRadiusTopEnd="10dp"
+                    app:boxCornerRadiusTopStart="10dp"
+                    app:boxStrokeColor="@color/edit_text_color_2"
+                    app:boxStrokeWidth="1dp"
+                    android:enabled="false"
+                    app:errorEnabled="false"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_customer_point"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                        android:textColor="@color/primary_text" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_redeem_manual"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="@id/layout_point_redeem"
+                app:layout_constraintStart_toEndOf="@id/layout_point_redeem"
+                app:layout_constraintTop_toTopOf="@id/layout_point_redeem">
+
+                <TextView
+                    android:id="@+id/tv_label_redeem_point"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Redeem ပွိုင့်"
+                    android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                    android:textColor="@color/primary_text"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayout_redeem_point"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="300dp"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="4dp"
+                    app:boxCornerRadiusBottomEnd="10dp"
+                    app:boxCornerRadiusBottomStart="10dp"
+                    app:boxCornerRadiusTopEnd="10dp"
+                    app:boxCornerRadiusTopStart="10dp"
+                    app:boxStrokeColor="@color/edit_text_color"
+                    app:boxStrokeWidth="1dp"
+                    app:errorEnabled="false"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_redeem_point"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Type"
+                        android:inputType="number"
+                        android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                        android:textColor="@color/primary_text"
+                        android:textColorHint="@color/secondary_text" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
             </LinearLayout>
 
             <com.google.android.material.button.MaterialButton

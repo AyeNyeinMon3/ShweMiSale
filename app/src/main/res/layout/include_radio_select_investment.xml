@@ -45,6 +45,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="250dp"
         android:layout_height="45dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         app:boxCornerRadiusBottomEnd="10dp"
         app:boxCornerRadiusBottomStart="10dp"
@@ -54,7 +55,7 @@
         app:boxStrokeWidth="1dp"
         app:errorEnabled="false"
         app:hintEnabled="false"
-        app:layout_constraintStart_toStartOf="@+id/til_three"
+        app:layout_constraintStart_toEndOf="@+id/tv_one"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -86,7 +87,8 @@
         android:layout_width="250dp"
         android:layout_height="45dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         app:boxCornerRadiusBottomEnd="10dp"
         app:boxCornerRadiusBottomStart="10dp"
         app:boxCornerRadiusTopEnd="10dp"
@@ -95,8 +97,9 @@
         app:boxStrokeWidth="1dp"
         app:errorEnabled="false"
         app:hintEnabled="false"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_three"
-        app:layout_constraintTop_toBottomOf="@+id/til_one">
+        app:layout_constraintTop_toBottomOf="@id/barrier">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edt_three"
@@ -126,7 +129,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="250dp"
         android:layout_height="45dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         app:boxCornerRadiusBottomEnd="10dp"
         app:boxCornerRadiusBottomStart="10dp"
         app:boxCornerRadiusTopEnd="10dp"
@@ -148,11 +151,18 @@
             android:textColor="@color/primary_text"
             android:textColorHint="@color/secondary_text" />
     </com.google.android.material.textfield.TextInputLayout>
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="tv_one,til_one,tv_two,til_two"
+        app:barrierDirection="bottom"/>
 
     <TextView
         android:id="@+id/tv_label_gold_from_home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_weight="2"
         android:gravity="center|start"
         android:text="အိမ်ပါရွှေ"
@@ -160,14 +170,16 @@
         android:textColor="@color/primary_text"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/btn_edit"
-        app:layout_constraintStart_toStartOf="@+id/tv_two"
+        app:layout_constraintStart_toEndOf="@+id/til_three"
         app:layout_constraintTop_toTopOf="@+id/btn_edit" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:backgroundTint="@color/white"
         android:insetLeft="0dp"
         android:insetTop="0dp"
@@ -181,11 +193,12 @@
         android:textStyle="bold"
         app:cornerRadius="10dp"
         app:icon="@drawable/ic_gold_from_home"
+        app:iconPadding="16dp"
         app:iconSize="15dp"
         app:iconTint="@color/primary"
-        app:iconPadding="16dp"
-        app:layout_constraintStart_toStartOf="@+id/til_two"
-        app:layout_constraintTop_toBottomOf="@+id/til_two"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_label_gold_from_home"
+        app:layout_constraintTop_toBottomOf="@id/barrier"
         app:strokeColor="@color/primary"
         app:strokeWidth="1dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

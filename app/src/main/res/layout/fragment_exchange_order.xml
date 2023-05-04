@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -38,11 +38,11 @@
                 app:boxCornerRadiusBottomStart="10dp"
                 app:boxCornerRadiusTopEnd="10dp"
                 app:boxCornerRadiusTopStart="10dp"
-                app:endIconMode="custom"
-                app:endIconDrawable="@drawable/ic_qr_scan"
-                app:endIconTintMode="screen"
                 app:boxStrokeColor="@color/edit_text_color"
                 app:boxStrokeWidth="1dp"
+                app:endIconDrawable="@drawable/ic_qr_scan"
+                app:endIconMode="custom"
+                app:endIconTintMode="screen"
                 app:errorEnabled="false"
                 app:hintEnabled="false">
 
@@ -71,7 +71,7 @@
             app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
         <LinearLayout
-            android:id="@+id/linearLayout2"
+            android:id="@+id/layout_oldstock_voucher"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -121,9 +121,9 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="100dp"
             android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
+            app:layout_constraintBottom_toBottomOf="@+id/layout_oldstock_voucher"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/linearLayout2">
+            app:layout_constraintTop_toTopOf="@+id/layout_oldstock_voucher">
 
             <TextView
                 android:id="@+id/tv_label_old_voucher_payment"
@@ -160,98 +160,6 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/linearLayout4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:orientation="vertical"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
-
-            <TextView
-                android:id="@+id/tv_label_customer_point"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="ဝယ်သူတွင်ရှိသော ပွိုင့်"
-                android:textAppearance="@style/TextAppearance.ShweMi.Body2"
-                android:textColor="@color/primary_text"
-                android:textStyle="bold" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout_customer_point"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_width="300dp"
-                android:layout_height="45dp"
-                android:layout_marginTop="4dp"
-                app:boxCornerRadiusBottomEnd="10dp"
-                app:boxCornerRadiusBottomStart="10dp"
-                app:boxCornerRadiusTopEnd="10dp"
-                app:boxCornerRadiusTopStart="10dp"
-                app:boxStrokeColor="@color/edit_text_color_2"
-                app:boxStrokeWidth="1dp"
-                app:errorEnabled="false"
-                app:hintEnabled="false">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edt_customer_point"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:textAppearance="@style/TextAppearance.ShweMi.Body2"
-                    android:textColor="@color/primary_text" />
-            </com.google.android.material.textfield.TextInputLayout>
-        </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="@+id/linearLayout4"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout3"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout3"
-        app:layout_constraintTop_toTopOf="@+id/linearLayout4">
-
-        <TextView
-            android:id="@+id/tv_label_redeem_point"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Redeem ပွိုင့်"
-            android:textColor="@color/primary_text"
-            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
-            android:textStyle="bold" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout_redeem_point"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            android:layout_width="300dp"
-            android:layout_height="45dp"
-            android:layout_marginTop="4dp"
-            app:boxCornerRadiusBottomEnd="10dp"
-            app:boxCornerRadiusBottomStart="10dp"
-            app:boxCornerRadiusTopEnd="10dp"
-            app:boxCornerRadiusTopStart="10dp"
-            app:boxStrokeColor="@color/edit_text_color"
-            app:boxStrokeWidth="1dp"
-            app:errorEnabled="false"
-            app:hintEnabled="false">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edt_redeem_point"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Type"
-                android:inputType="number"
-                android:textAppearance="@style/TextAppearance.ShweMi.Body2"
-                android:textColor="@color/primary_text"
-                android:textColorHint="@color/secondary_text" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-    </LinearLayout>
-
         <View
             android:id="@+id/view2"
             android:layout_width="match_parent"
@@ -261,7 +169,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
+            app:layout_constraintTop_toBottomOf="@+id/layout_oldstock_voucher" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_skip"

@@ -210,7 +210,7 @@
             app:layout_constraintTop_toBottomOf="@+id/view" />
 
         <CheckBox
-            android:id="@+id/checkBox"
+            android:id="@+id/cb_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -233,7 +233,7 @@
             android:textAppearance="@style/TextAppearance.ShweMi.Body2"
             android:textColor="@color/primary"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/checkBox"
+            app:layout_constraintStart_toEndOf="@+id/cb_date"
             app:layout_constraintTop_toBottomOf="@+id/tv_label_note" />
 
         <TextView

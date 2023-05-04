@@ -21,6 +21,14 @@ interface ProductRepository {
         productCode:String
     ): Resource<String>
 
+    suspend fun exChangeProductCodeWithId(
+        productCode:String
+    ): Resource<String>
+
+    suspend fun removeTemp(
+        productId:String
+    ): Resource<String>
+
     suspend fun getProductSizeAndReason(
         productId:String
     ): Resource<ProductSizeAndReasonDomain>
@@ -29,11 +37,13 @@ interface ProductRepository {
         productId:String,
         gold_and_gem_weight_gm:String?,
         gem_weight_ywae:String?,
+        wastage_ywae:String?,
         gem_value:String?,
         promotion_discount:String?,
         jewellery_type_size_id:String?,
         edit_reason_id:String?,
         pt_and_clip_cost:String?,
+        maintenance_cost:String?,
         general_sale_item_id:String?,
         new_clip_wt_gm:String?,
         old_clip_wt_gm:String?,

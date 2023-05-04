@@ -51,16 +51,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_add">
 
-            <TextView
-                android:id="@+id/tv_label_group"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1.1"
-                android:gravity="center"
-                android:text="Group"
-                android:textAppearance="@style/TextAppearance.ShweMi.Body2"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_label_content"
@@ -110,7 +100,7 @@
                 android:id="@+id/tv_label_fee"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1.1"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="လက်ခ"
                 android:textAppearance="@style/TextAppearance.ShweMi.Body2"
@@ -127,6 +117,15 @@
                 android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
+            <TextView
+                android:id="@+id/tv_edit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -135,10 +134,9 @@
             android:id="@+id/rv_general_sell"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:orientation="vertical"
-            android:visibility="invisible"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -242,7 +240,6 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:orientation="vertical"
-            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@+id/linearLayout3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/linearLayout3">

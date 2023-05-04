@@ -31,7 +31,7 @@ class StockCheckViewHolder(private var binding:ItemStockCheckBinding):RecyclerVi
     fun bind(data: StockWeightByVoucherUiModel){
         binding.tvStockCode.text = data.code
         binding.tvGoldAndGemWeightGm.text = data.gold_and_gem_weight_gm
-        binding.checkBox.setOnCheckedChangeListener { compoundButton, isChecked ->
+        binding.cbDate.setOnCheckedChangeListener { compoundButton, isChecked ->
             data.isChecked = isChecked
         }
     }

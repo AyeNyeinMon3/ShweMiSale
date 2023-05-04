@@ -8,19 +8,16 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.shwemi.util.Resource
-import com.example.shwemi.util.generateNumberFromEditText
-import com.example.shwemi.util.getAlertDialog
-import com.example.shwemi.util.hideKeyboard
+import com.example.shwemi.util.*
 import com.example.shwemisale.databinding.DialogExchangeOrderBinding
 import com.example.shwemisale.databinding.FragmentExchangeOrderBinding
 import com.example.shwemisale.qrscan.getBarLauncher
 import com.example.shwemisale.qrscan.scanQrCode
-import com.example.shwemisale.screen.sellModule.normalSaleScanStock.ScanStockViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,6 +31,7 @@ class ExchangeOrderFragment : Fragment() {
     private val args by navArgs<ExchangeOrderFragmentArgs>()
     private lateinit var barlauncer: Any
     private lateinit var loading: AlertDialog
+    private var goldType18KId=""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,6 +45,7 @@ class ExchangeOrderFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         loading = requireContext().getAlertDialog()
+
         barlauncer = this.getBarLauncher(requireContext()) {
             binding.edtVoucherBalance.setText(it)
             binding.edtGoldFromHomeVoucher.setText(it)
@@ -69,6 +68,69 @@ class ExchangeOrderFragment : Fragment() {
                 return false
             }
         })
+
+
+
+        viewModel.stockFromHomeInfoLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {
+                    loading.show()
+                }
+                is Resource.Success -> {
+                    loading.dismiss()
+                    viewModel.updateStockFromHome(
+                        args.goldPrice.orEmpty(),
+                        it.data.orEmpty()
+                    )
+                }
+                is Resource.Error -> {
+                    loading.dismiss()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+
+        viewModel.updateStockFromHomeInfoLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {
+                    loading.show()
+                }
+                is Resource.Success -> {
+                    loading.dismiss()
+                    Toast.makeText(requireContext(),"Old Stock's Data Updated", Toast.LENGTH_LONG).show()
+                    view.findNavController().navigate(
+                        ExchangeOrderFragmentDirections.actionExchangeOrderFragmentToWithKPYFragment(
+                            args.scannedProducts,
+                            generateNumberFromEditText(binding.edtOldVoucherPayment).toInt(),
+                            if (binding.edtGoldFromHomeVoucher.text.isNullOrEmpty()) null else binding.edtGoldFromHomeVoucher.text.toString()
+                        )
+                    )
+                }
+                is Resource.Error -> {
+                    loading.dismiss()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+        viewModel.getGoldTypePrice()
+        viewModel.goldTypePriceLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {
+                    loading.show()
+                }
+                is Resource.Success -> {
+                    loading.dismiss()
+                    goldType18KId =
+                        it.data?.find { it.name == "WG" }?.id.orEmpty()
+
+                }
+                is Resource.Error -> {
+                    loading.dismiss()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+
+                }
+            }
+        }
 
         viewModel.scanVoucherLiveData.observe(viewLifecycleOwner) {
             when (it) {
@@ -106,8 +168,9 @@ class ExchangeOrderFragment : Fragment() {
         builder.setView(dialogExchangeOrderBinding.root)
         val alertDialog = builder.create()
         alertDialog.setCancelable(false)
-        dialogExchangeOrderBinding.btnWithKPY.isEnabled =
-            args.scannedProducts.map { it.jewellery_type_id }.toSet().toList().size == 1
+        dialogExchangeOrderBinding.btnWithKPY.isVisible =
+            args.scannedProducts.map { it.gold_type_id }.toSet().toList().size == 1 &&
+                    args.scannedProducts.map { it.gold_type_id }.toSet().toList()[0] != goldType18KId
         dialogExchangeOrderBinding.ivClose.setOnClickListener {
             alertDialog.dismiss()
         }
@@ -119,18 +182,17 @@ class ExchangeOrderFragment : Fragment() {
                 ?.navigate(
                     ExchangeOrderFragmentDirections.actionExchangeOrderFragmentToWithValueFragment(
                         args.scannedProducts,
-                        generateNumberFromEditText(binding.edtOldVoucherPayment).toInt()
+                        generateNumberFromEditText(binding.edtOldVoucherPayment).toInt(),
+                        if (binding.edtGoldFromHomeVoucher.text.isNullOrEmpty()) null else binding.edtGoldFromHomeVoucher.text.toString()
                     )
                 )
             alertDialog.dismiss()
         }
         dialogExchangeOrderBinding.btnWithKPY.setOnClickListener {
-            view?.findNavController()?.navigate(
-                ExchangeOrderFragmentDirections.actionExchangeOrderFragmentToWithKPYFragment(
-                    args.scannedProducts,
-                    generateNumberFromEditText(binding.edtOldVoucherPayment).toInt()
-                )
-            )
+            if (args.goldPrice.isNullOrEmpty().not()){
+                viewModel.getStockFromHomeList()
+            }
+
             alertDialog.dismiss()
         }
     }

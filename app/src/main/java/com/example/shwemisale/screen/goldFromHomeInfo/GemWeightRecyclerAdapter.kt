@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shwemi.util.generateNumberFromEditText
+import com.example.shwemisale.data_layers.domain.product.GemWeightDetailDomain
 import com.example.shwemisale.data_layers.dto.goldFromHome.GemWeightDetail
 import com.example.shwemisale.databinding.ItemGemWeightBinding
 import com.example.shwemisale.screen.goldFromHome.getKPYFromYwae
@@ -21,8 +22,8 @@ import com.example.shwemisale.screen.goldFromHome.getYwaeFromKPY
 
 
 class GemWeightRecyclerAdapter(private val viewModel: GoldFromHomeDetailViewModel,
-private val delete:(item:GemWeightDetail)->Unit) :
-    ListAdapter<GemWeightDetail, GemWeightInResellStockViewHolder>(
+private val delete:(item:GemWeightDetailDomain)->Unit) :
+    ListAdapter<GemWeightDetailDomain, GemWeightInResellStockViewHolder>(
         GemWeightInResellStockDiffUtil
     ) {
     override fun onCreateViewHolder(
@@ -47,10 +48,100 @@ private val delete:(item:GemWeightDetail)->Unit) :
 class GemWeightInResellStockViewHolder(
     private var binding: ItemGemWeightBinding,
     private val viewModel: GoldFromHomeDetailViewModel,
-    private val delete:(item:GemWeightDetail)->Unit
+    private val delete:(item:GemWeightDetailDomain)->Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     @SuppressLint("SetTextI18n")
-    fun bind(data: GemWeightDetail) {
+    fun bind(data: GemWeightDetailDomain) {
+        val oneGemWeightKTextChangedListener = object : TextWatcher{
+            override fun afterTextChanged(s: Editable) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+                // TODO Auto-generated method stub
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                viewModel.gemWeightCustomList[bindingAdapterPosition].weightForOneK = s.toString().ifEmpty { "" }
+
+            }
+        }
+
+        val oneGemWeightPTextChangedListener = object : TextWatcher{
+            override fun afterTextChanged(s: Editable) {
+
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+                // TODO Auto-generated method stub
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                viewModel.gemWeightCustomList[bindingAdapterPosition].weightForOneP = s.toString().ifEmpty { "" }
+
+            }
+        }
+
+        val oneGemWeightYTextChangedListener = object : TextWatcher{
+            override fun afterTextChanged(s: Editable) {
+
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+                // TODO Auto-generated method stub
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                viewModel.gemWeightCustomList[bindingAdapterPosition].weightForOneY = s.toString().ifEmpty { "" }
+
+            }
+        }
+
+        val gemQuantityTextChangedListener = object : TextWatcher{
+            override fun afterTextChanged(s: Editable) {
+
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+                // TODO Auto-generated method stub
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                viewModel.gemWeightCustomList[bindingAdapterPosition].gem_qty = s.toString().ifEmpty { "" }
+
+            }
+        }
+
+        val oneGemWeightGmTextChangedListener = object : TextWatcher{
+            override fun afterTextChanged(s: Editable) {
+
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+                // TODO Auto-generated method stub
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                viewModel.gemWeightCustomList[bindingAdapterPosition].gem_weight_gm_per_unit = s.toString().ifEmpty { "" }
+
+            }
+        }
+        if(viewModel.gemWeightCustomList.isNotEmpty()){
+            binding.edtOneGemWeightK.addTextChangedListener(oneGemWeightKTextChangedListener)
+
+            binding.edtOneGemWeightP.addTextChangedListener(oneGemWeightPTextChangedListener)
+
+            binding.edtOneGemWeightY.addTextChangedListener(oneGemWeightYTextChangedListener)
+            binding.edtGemQuantity.addTextChangedListener(gemQuantityTextChangedListener)
+            binding.edtOneGemWeightGm.addTextChangedListener(oneGemWeightGmTextChangedListener)
+        }else{
+            binding.edtOneGemWeightK.removeTextChangedListener(oneGemWeightKTextChangedListener)
+
+            binding.edtOneGemWeightP.removeTextChangedListener(oneGemWeightPTextChangedListener)
+
+            binding.edtOneGemWeightY.removeTextChangedListener(oneGemWeightYTextChangedListener)
+            binding.edtGemQuantity.removeTextChangedListener(gemQuantityTextChangedListener)
+            binding.edtOneGemWeightGm.removeTextChangedListener(oneGemWeightGmTextChangedListener)
+        }
         binding.edtGemQuantity.setText(data.gem_qty)
         binding.edtOneGemWeightGm.setText(data.gem_weight_gm_per_unit)
 
@@ -62,6 +153,14 @@ class GemWeightInResellStockViewHolder(
 
         binding.btnCalculate.isVisible = data.totalWeightYwae.isEmpty()
         binding.tvTotalWeightKPY.isVisible = data.totalWeightYwae.isNotEmpty()
+        if (data.gem_weight_ywae_per_unit.isNotEmpty()){
+            val totalYwae = data.gem_qty.toInt() * data.gem_weight_ywae_per_unit.toDouble()
+            val totalKpy = getKPYFromYwae(totalYwae.toDouble())
+            val kyat = totalKpy[0]
+            val pae = totalKpy[1]
+            val ywae = String.format("%.2f", totalKpy[2])
+            binding.tvTotalWeightKPY.text = kyat.toInt().toString()+"K     "+pae.toInt().toString()+"P     "+ywae.toString()+"Y"
+        }
         binding.edtOneGemWeightGm.isEnabled = data.totalWeightYwae.isEmpty()
         binding.edtOneGemWeightK.isEnabled = data.totalWeightYwae.isEmpty()
         binding.edtOneGemWeightP.isEnabled = data.totalWeightYwae.isEmpty()
@@ -115,93 +214,23 @@ class GemWeightInResellStockViewHolder(
             delete(data)
         }
 
-        binding.edtOneGemWeightK.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) {
-            }
 
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                // TODO Auto-generated method stub
-            }
 
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                viewModel.gemWeightCustomList[bindingAdapterPosition].weightForOneK = s.toString().ifEmpty { "" }
-
-            }
-        })
-
-        binding.edtOneGemWeightP.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) {
-
-            }
-
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                // TODO Auto-generated method stub
-            }
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                viewModel.gemWeightCustomList[bindingAdapterPosition].weightForOneP = s.toString().ifEmpty { "" }
-
-            }
-        })
-
-        binding.edtOneGemWeightY.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) {
-
-            }
-
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                // TODO Auto-generated method stub
-            }
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                viewModel.gemWeightCustomList[bindingAdapterPosition].weightForOneY = s.toString().ifEmpty { "" }
-
-            }
-        })
-
-        binding.edtGemQuantity.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) {
-
-            }
-
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                // TODO Auto-generated method stub
-            }
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                viewModel.gemWeightCustomList[bindingAdapterPosition].gem_qty = s.toString().ifEmpty { "" }
-
-            }
-        })
-        binding.edtOneGemWeightGm.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) {
-
-            }
-
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                // TODO Auto-generated method stub
-            }
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                viewModel.gemWeightCustomList[bindingAdapterPosition].gem_weight_gm_per_unit = s.toString().ifEmpty { "" }
-
-            }
-        })
 
     }
 }
 
-object GemWeightInResellStockDiffUtil : DiffUtil.ItemCallback<GemWeightDetail>() {
+object GemWeightInResellStockDiffUtil : DiffUtil.ItemCallback<GemWeightDetailDomain>() {
     override fun areItemsTheSame(
-        oldItem: GemWeightDetail,
-        newItem: GemWeightDetail
+        oldItem: GemWeightDetailDomain,
+        newItem: GemWeightDetailDomain
     ): Boolean {
         return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(
-        oldItem: GemWeightDetail,
-        newItem: GemWeightDetail
+        oldItem: GemWeightDetailDomain,
+        newItem: GemWeightDetailDomain
     ): Boolean {
         return oldItem == newItem
     }

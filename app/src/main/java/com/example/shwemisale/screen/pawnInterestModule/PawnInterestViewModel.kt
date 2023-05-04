@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.shwemi.util.Resource
 import com.example.shwemisale.data_layers.dto.pawn.PawnInterestRateDto
 import com.example.shwemisale.data_layers.dto.pawn.PawnVoucherScanDto
+import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.repositoryImpl.PawnRepositoryImpl
 import com.example.shwemisale.room_database.AppDatabase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,19 +18,11 @@ import javax.inject.Inject
 @HiltViewModel
 class PawnInterestViewModel @Inject constructor(
     private val appDatabase: AppDatabase,
-    private val pawnRepositoryImpl: PawnRepositoryImpl
+    private val pawnRepositoryImpl: PawnRepositoryImpl,
+    private val localDatabase: LocalDatabase
 ) : ViewModel() {
-    private val _getPawnInterestRateLiveData =
-        MutableLiveData<Resource<List<PawnInterestRateDto>>>()
-    val getPawnInterestRateLiveData: LiveData<Resource<List<PawnInterestRateDto>>>
-        get() = _getPawnInterestRateLiveData
+    var pawnData:PawnVoucherScanDto? = null
 
-    fun getPawnInterestRate() {
-        viewModelScope.launch {
-            _getPawnInterestRateLiveData.value = Resource.Loading()
-            _getPawnInterestRateLiveData.value = pawnRepositoryImpl.getPawnInterestRate()
-        }
-    }
 
     private val _getPawnVoucherScanLiveData = MutableLiveData<Resource<PawnVoucherScanDto>>()
     val getPawnVoucherScanLiveData: LiveData<Resource<PawnVoucherScanDto>>
@@ -49,12 +42,14 @@ class PawnInterestViewModel @Inject constructor(
     fun createPrepaidDebt(
         voucherCode: String,
         prepaid_debt: String,
-        reduced_amount: String
-    ) {
+        reduced_amount: String,
+        is_app_functions_allowed:String?,
+
+        ) {
         viewModelScope.launch {
             _createPrepaidDebtLiveData.value = Resource.Loading()
             _createPrepaidDebtLiveData.value =
-                pawnRepositoryImpl.createPrepaidDebt(voucherCode, prepaid_debt, reduced_amount)
+                pawnRepositoryImpl.createPrepaidDebt(voucherCode, prepaid_debt, reduced_amount,is_app_functions_allowed)
         }
     }
 
@@ -64,13 +59,15 @@ class PawnInterestViewModel @Inject constructor(
 
     fun createPrepaidInterest(
         voucherCode: String,
-        prepaid_debt: String,
-        reduced_amount: String
-    ) {
+        number_of_months: String,
+        reduced_amount: String,
+        is_app_functions_allowed:String?,
+
+        ) {
         viewModelScope.launch {
             _createPrepaidInterestLiveData.value = Resource.Loading()
             _createPrepaidInterestLiveData.value =
-                pawnRepositoryImpl.createPrepaidInterest(voucherCode, prepaid_debt, reduced_amount)
+                pawnRepositoryImpl.createPrepaidInterest(voucherCode, number_of_months, reduced_amount,is_app_functions_allowed)
         }
     }
 
@@ -82,29 +79,7 @@ class PawnInterestViewModel @Inject constructor(
         voucherCode: String,
         increased_debt: String,
         reduced_amount: String,
-        old_stocks_nameList: List<MultipartBody.Part>?,
-        oldStockImageIds: List<MultipartBody.Part>?,
-        oldStockImageFile: List<MultipartBody.Part>?,
-        oldStockCondition: List<MultipartBody.Part>?,
-        oldStockGoldGemWeightY: List<MultipartBody.Part>?,
-        oldStockGemWeightY: List<MultipartBody.Part>?,
-        oldStockImpurityWeightY: List<MultipartBody.Part>?,
-        oldStockGoldWeightY: List<MultipartBody.Part>?,
-        oldStockWastageWeightY: List<MultipartBody.Part>?,
-        oldStockRebuyPrice: List<MultipartBody.Part>?,
-        oldStockGQinCarat: List<MultipartBody.Part>?,
-        oldStockMaintenance_cost: List<MultipartBody.Part>?,
-        oldStockGemValue: List<MultipartBody.Part>?,
-        oldStockPTAndClipCost: List<MultipartBody.Part>?,
-        oldStockCalculatedBuyingValue: List<MultipartBody.Part>?,
-        oldStockPriceForPawn: List<MultipartBody.Part>?,
-        oldStockCalculatedForPawn: List<MultipartBody.Part>?,
-        oldStockABuyingPrice: List<MultipartBody.Part>?,
-        oldStockb_voucher_buying_value: List<MultipartBody.Part>?,
-        oldStockc_voucher_buying_price: List<MultipartBody.Part>?,
-        oldStockDGoldWeightY: List<MultipartBody.Part>?,
-        oldStockEPriceFromNewVoucher: List<MultipartBody.Part>?,
-        oldStockFVoucherShownGoldWeightY: List<MultipartBody.Part>?
+        is_app_functions_allowed:String?,
     ) {
         viewModelScope.launch {
             _increaseDebtLiveData.value = Resource.Loading()
@@ -112,29 +87,8 @@ class PawnInterestViewModel @Inject constructor(
                 voucherCode,
                 increased_debt,
                 reduced_amount,
-                old_stocks_nameList,
-                oldStockImageIds,
-                oldStockImageFile,
-                oldStockCondition,
-                oldStockGoldGemWeightY,
-                oldStockGemWeightY,
-                oldStockImpurityWeightY,
-                oldStockGoldWeightY,
-                oldStockWastageWeightY,
-                oldStockRebuyPrice,
-                oldStockGQinCarat,
-                oldStockMaintenance_cost,
-                oldStockGemValue,
-                oldStockPTAndClipCost,
-                oldStockCalculatedBuyingValue,
-                oldStockPriceForPawn,
-                oldStockCalculatedForPawn,
-                oldStockABuyingPrice,
-                oldStockb_voucher_buying_value,
-                oldStockc_voucher_buying_price,
-                oldStockDGoldWeightY,
-                oldStockEPriceFromNewVoucher,
-                oldStockFVoucherShownGoldWeightY
+                is_app_functions_allowed,
+                localDatabase.getStockFromHomeSessionKey().orEmpty()
             )
         }
     }
@@ -147,30 +101,9 @@ class PawnInterestViewModel @Inject constructor(
         voucherCode: String,
         increased_debt: String,
         reduced_amount: String,
-        old_stocks_nameList: List<MultipartBody.Part>?,
-        oldStockImageIds: List<MultipartBody.Part>?,
-        oldStockImageFile: List<MultipartBody.Part>?,
-        oldStockCondition: List<MultipartBody.Part>?,
-        oldStockGoldGemWeightY: List<MultipartBody.Part>?,
-        oldStockGemWeightY: List<MultipartBody.Part>?,
-        oldStockImpurityWeightY: List<MultipartBody.Part>?,
-        oldStockGoldWeightY: List<MultipartBody.Part>?,
-        oldStockWastageWeightY: List<MultipartBody.Part>?,
-        oldStockRebuyPrice: List<MultipartBody.Part>?,
-        oldStockGQinCarat: List<MultipartBody.Part>?,
-        oldStockMaintenance_cost: List<MultipartBody.Part>?,
-        oldStockGemValue: List<MultipartBody.Part>?,
-        oldStockPTAndClipCost: List<MultipartBody.Part>?,
-        oldStockCalculatedBuyingValue: List<MultipartBody.Part>?,
-        oldStockPriceForPawn: List<MultipartBody.Part>?,
-        oldStockCalculatedForPawn: List<MultipartBody.Part>?,
-        oldStockABuyingPrice: List<MultipartBody.Part>?,
-        oldStockb_voucher_buying_value: List<MultipartBody.Part>?,
-        oldStockc_voucher_buying_price: List<MultipartBody.Part>?,
-        oldStockDGoldWeightY: List<MultipartBody.Part>?,
-        oldStockEPriceFromNewVoucher: List<MultipartBody.Part>?,
-        oldStockFVoucherShownGoldWeightY: List<MultipartBody.Part>?
-    ) {
+        is_app_functions_allowed:String?,
+
+        ) {
         viewModelScope.launch {
             _payInterestAndIncreaseDebtLiveData.value = Resource.Loading()
             _payInterestAndIncreaseDebtLiveData.value =
@@ -178,29 +111,8 @@ class PawnInterestViewModel @Inject constructor(
                     voucherCode,
                     increased_debt,
                     reduced_amount,
-                    old_stocks_nameList,
-                    oldStockImageIds,
-                    oldStockImageFile,
-                    oldStockCondition,
-                    oldStockGoldGemWeightY,
-                    oldStockGemWeightY,
-                    oldStockImpurityWeightY,
-                    oldStockGoldWeightY,
-                    oldStockWastageWeightY,
-                    oldStockRebuyPrice,
-                    oldStockGQinCarat,
-                    oldStockMaintenance_cost,
-                    oldStockGemValue,
-                    oldStockPTAndClipCost,
-                    oldStockCalculatedBuyingValue,
-                    oldStockPriceForPawn,
-                    oldStockCalculatedForPawn,
-                    oldStockABuyingPrice,
-                    oldStockb_voucher_buying_value,
-                    oldStockc_voucher_buying_price,
-                    oldStockDGoldWeightY,
-                    oldStockEPriceFromNewVoucher,
-                    oldStockFVoucherShownGoldWeightY
+                    is_app_functions_allowed,
+                    localDatabase.getStockFromHomeSessionKey().orEmpty()
                 )
         }
     }
@@ -211,12 +123,14 @@ class PawnInterestViewModel @Inject constructor(
 
     fun payInterest(
         voucherCode: String,
-        reduced_amount: String
-    ) {
+        reduced_amount: String,
+        is_app_functions_allowed:String?,
+
+        ) {
         viewModelScope.launch {
             _payInterestLiveData.value = Resource.Loading()
             _payInterestLiveData.value =
-                pawnRepositoryImpl.payInterest(voucherCode, reduced_amount)
+                pawnRepositoryImpl.payInterest(voucherCode, reduced_amount,is_app_functions_allowed)
         }
     }
 
@@ -227,12 +141,13 @@ class PawnInterestViewModel @Inject constructor(
     fun payInterestAndSettleDebt(
         voucherCode: String,
         reduced_amount: String,
-        debt: String
+        debt: String,
+        is_app_functions_allowed: String?
     ) {
         viewModelScope.launch {
             _payInterestAndSettleDebtLiveData.value = Resource.Loading()
             _payInterestAndSettleDebtLiveData.value =
-                pawnRepositoryImpl.payInterestAndSettleDebt(voucherCode, reduced_amount, debt)
+                pawnRepositoryImpl.payInterestAndSettleDebt(voucherCode, reduced_amount, debt,is_app_functions_allowed)
         }
     }
 
@@ -244,8 +159,10 @@ class PawnInterestViewModel @Inject constructor(
         voucherCode: String,
         reduced_amount: String,
         debt: String,
-        old_stock_id: String
-    ) {
+        old_stock_id: List<String>,
+        is_app_functions_allowed:String?,
+
+        ) {
         viewModelScope.launch {
             _payInterestAndReturnStockLiveData.value = Resource.Loading()
             _payInterestAndReturnStockLiveData.value =
@@ -253,6 +170,7 @@ class PawnInterestViewModel @Inject constructor(
                     voucherCode,
                     reduced_amount,
                     debt,
+                    is_app_functions_allowed,
                     old_stock_id
                 )
         }
@@ -264,12 +182,14 @@ class PawnInterestViewModel @Inject constructor(
 
     fun settle(
         voucherCode: String,
-        reduced_amount: String
-    ) {
+        reduced_amount: String,
+        is_app_functions_allowed:String?,
+
+        ) {
         viewModelScope.launch {
             _settleLiveData.value = Resource.Loading()
             _settleLiveData.value =
-                pawnRepositoryImpl.settle(voucherCode, reduced_amount)
+                pawnRepositoryImpl.settle(voucherCode, reduced_amount,is_app_functions_allowed)
         }
     }
 
@@ -280,29 +200,7 @@ class PawnInterestViewModel @Inject constructor(
     fun sellOldStock(
         voucherCode: String,
         reduced_amount: String,
-        old_stocks_nameList: List<MultipartBody.Part>?,
-        oldStockImageIds: List<MultipartBody.Part>?,
-        oldStockImageFile: List<MultipartBody.Part>?,
-        oldStockCondition: List<MultipartBody.Part>?,
-        oldStockGoldGemWeightY: List<MultipartBody.Part>?,
-        oldStockGemWeightY: List<MultipartBody.Part>?,
-        oldStockImpurityWeightY: List<MultipartBody.Part>?,
-        oldStockGoldWeightY: List<MultipartBody.Part>?,
-        oldStockWastageWeightY: List<MultipartBody.Part>?,
-        oldStockRebuyPrice: List<MultipartBody.Part>?,
-        oldStockGQinCarat: List<MultipartBody.Part>?,
-        oldStockMaintenance_cost: List<MultipartBody.Part>?,
-        oldStockGemValue: List<MultipartBody.Part>?,
-        oldStockPTAndClipCost: List<MultipartBody.Part>?,
-        oldStockCalculatedBuyingValue: List<MultipartBody.Part>?,
-        oldStockPriceForPawn: List<MultipartBody.Part>?,
-        oldStockCalculatedForPawn: List<MultipartBody.Part>?,
-        oldStockABuyingPrice: List<MultipartBody.Part>?,
-        oldStockb_voucher_buying_value: List<MultipartBody.Part>?,
-        oldStockc_voucher_buying_price: List<MultipartBody.Part>?,
-        oldStockDGoldWeightY: List<MultipartBody.Part>?,
-        oldStockEPriceFromNewVoucher: List<MultipartBody.Part>?,
-        oldStockFVoucherShownGoldWeightY: List<MultipartBody.Part>?
+        is_app_functions_allowed:String?,
     ) {
         viewModelScope.launch {
             _sellOldStockLiveData.value = Resource.Loading()
@@ -310,29 +208,8 @@ class PawnInterestViewModel @Inject constructor(
                 pawnRepositoryImpl.sellOldStock(
                     voucherCode,
                     reduced_amount,
-                    old_stocks_nameList,
-                    oldStockImageIds,
-                    oldStockImageFile,
-                    oldStockCondition,
-                    oldStockGoldGemWeightY,
-                    oldStockGemWeightY,
-                    oldStockImpurityWeightY,
-                    oldStockGoldWeightY,
-                    oldStockWastageWeightY,
-                    oldStockRebuyPrice,
-                    oldStockGQinCarat,
-                    oldStockMaintenance_cost,
-                    oldStockGemValue,
-                    oldStockPTAndClipCost,
-                    oldStockCalculatedBuyingValue,
-                    oldStockPriceForPawn,
-                    oldStockCalculatedForPawn,
-                    oldStockABuyingPrice,
-                    oldStockb_voucher_buying_value,
-                    oldStockc_voucher_buying_price,
-                    oldStockDGoldWeightY,
-                    oldStockEPriceFromNewVoucher,
-                    oldStockFVoucherShownGoldWeightY
+                    is_app_functions_allowed,
+                    localDatabase.getStockFromHomeSessionKey().orEmpty()
                 )
         }
     }

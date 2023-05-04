@@ -3,6 +3,7 @@ package com.example.shwemisale.network.api_services
 import android.se.omapi.Session
 import com.example.shwemisale.data_layers.dto.GeneralSaleApiResponse
 import com.example.shwemisale.data_layers.dto.SimpleResponse
+import com.example.shwemisale.data_layers.dto.StockFromHomForPawnResponse
 import com.example.shwemisale.data_layers.dto.calculation.GoldPriceResponse
 import com.example.shwemisale.data_layers.dto.customers.CustomerWhistListApiResponse
 import com.example.shwemisale.data_layers.dto.generalSale.GeneralSaleListResponse
@@ -55,6 +56,8 @@ interface NormalSaleService {
         @Part("user_id") user_id: RequestBody?,
         @Part("paid_amount") paid_amount: RequestBody?,
         @Part("reduced_cost") reduced_cost: RequestBody?,
+        @Part("old_voucher_code") old_voucher_code: RequestBody?,
+        @Part old_voucher_paid_amount: MultipartBody.Part?,
         @Part("old_stock_session_key") old_stock_session_key: RequestBody,
         ): Response<SimpleResponse>
 
@@ -64,42 +67,51 @@ interface NormalSaleService {
         @Query("session_key") sessionKey: String?
     ): Response<StockFromHomeResponse>
 
+    @GET("api/pawn/{pawnVoucherCode}/old-stocks")
+    suspend fun getStockFromHomeForPawn(
+        @Header("Authorization") token: String,
+        @Path("pawnVoucherCode") pawnVoucherCode: String
+    ): Response<StockFromHomForPawnResponse>
+
+    @JvmSuppressWildcards
     @Multipart
     @POST("api/old_stocks/create")
     suspend fun createStockFromHome(
         @Header("Authorization") token: String,
-        @Part("a_buying_price") a_buying_price: RequestBody?,
-        @Part("b_voucher_buying_value") b_voucher_buying_value: RequestBody?,
-        @Part("c_voucher_buying_price") c_voucher_buying_price: RequestBody?,
-        @Part("calculated_buying_value") calculated_buying_value: RequestBody?,
-        @Part("calculated_for_pawn") calculated_for_pawn: RequestBody?,
-        @Part("d_gold_weight_ywae") d_gold_weight_ywae: RequestBody?,
-        @Part("e_price_from_new_voucher") e_price_from_new_voucher: RequestBody?,
-        @Part("f_voucher_shown_gold_weight_ywae") f_voucher_shown_gold_weight_ywae: RequestBody?,
-        @Part("gem_value") gem_value: RequestBody?,
+        @Part id:List<MultipartBody.Part>?,
+        @Part a_buying_price: List<MultipartBody.Part?>?,
+        @Part b_voucher_buying_value: List<MultipartBody.Part?>?,
+        @Part c_voucher_buying_price: List<MultipartBody.Part?>?,
+        @Part calculated_buying_value: List<MultipartBody.Part?>?,
+        @Part calculated_for_pawn: List<MultipartBody.Part?>?,
+        @Part d_gold_weight_ywae: List<MultipartBody.Part?>?,
+        @Part e_price_from_new_voucher: List<MultipartBody.Part?>?,
+        @Part f_voucher_shown_gold_weight_ywae: List<MultipartBody.Part?>?,
+        @Part gem_value: List<MultipartBody.Part?>?,
         @Part gem_weight_details_qty: List<MultipartBody.Part?>?,
         @Part gem_weight_details_gm: List<MultipartBody.Part?>?,
         @Part gem_weight_details_ywae: List<MultipartBody.Part?>?,
-        @Part("gem_weight_ywae") gem_weight_ywae: RequestBody?,
-        @Part("gold_gem_weight_ywae") gold_gem_weight_ywae: RequestBody?,
-        @Part("gold_weight_ywae") gold_weight_ywae: RequestBody?,
-        @Part("gq_in_carat") gq_in_carat: RequestBody?,
-        @Part("has_general_expenses") has_general_expenses: RequestBody?,
-        @Part("image[id]") imageId: RequestBody?,
-        @Part("image[file]") imageFile: RequestBody?,
-        @Part("impurities_weight_ywae") impurities_weight_ywae: RequestBody?,
-        @Part("maintenance_cost") maintenance_cost: RequestBody?,
-        @Part("price_for_pawn") price_for_pawn: RequestBody?,
-        @Part("pt_and_clip_cost") pt_and_clip_cost: RequestBody?,
-        @Part("qty") qty: RequestBody?,
-        @Part("rebuy_price") rebuy_price: RequestBody?,
-        @Part("size") size: RequestBody?,
-        @Part("stock_condition") stock_condition: RequestBody?,
-        @Part("stock_name") stock_name: RequestBody?,
-        @Part("type") type: RequestBody?,
-        @Part("wastage_ywae") wastage_ywae: RequestBody?,
-        @Part("rebuy_price_vertical_option") rebuy_price_vertical_option: RequestBody?,
-        @Part("session_key") sessionKey: RequestBody?
+        @Part gem_weight_ywae: List<MultipartBody.Part?>?,
+        @Part gold_gem_weight_ywae: List<MultipartBody.Part?>?,
+        @Part gold_weight_ywae: List<MultipartBody.Part?>?,
+        @Part gq_in_carat: List<MultipartBody.Part?>?,
+        @Part has_general_expenses: List<MultipartBody.Part?>?,
+        @Part imageId: List<MultipartBody.Part?>?,
+        @Part imageFile: List<MultipartBody.Part?>?,
+        @Part impurities_weight_ywae: List<MultipartBody.Part?>?,
+        @Part maintenance_cost: List<MultipartBody.Part?>?,
+        @Part price_for_pawn: List<MultipartBody.Part?>?,
+        @Part pt_and_clip_cost: List<MultipartBody.Part?>?,
+        @Part qty: List<MultipartBody.Part?>?,
+        @Part rebuy_price: List<MultipartBody.Part?>?,
+        @Part size: List<MultipartBody.Part?>?,
+        @Part stock_condition: List<MultipartBody.Part?>?,
+        @Part stock_name: List<MultipartBody.Part?>?,
+        @Part type: List<MultipartBody.Part?>?,
+        @Part wastage_ywae: List<MultipartBody.Part?>?,
+        @Part rebuy_price_vertical_option: List<MultipartBody.Part?>?,
+        @Part productIdList: List<MultipartBody.Part?>?,
+        @Part("session_key")sessionKey:RequestBody?
     ): Response<SessionKeyResponse>
 
     @Multipart
@@ -137,6 +149,7 @@ interface NormalSaleService {
         @Part type: List<MultipartBody.Part?>?,
         @Part wastage_ywae: List<MultipartBody.Part?>?,
         @Part rebuy_price_vertical_option: List<MultipartBody.Part?>?,
+        @Part productIdList: List<MultipartBody.Part?>?,
 
         @Part("session_key")sessionKey:RequestBody?
     ): Response<SessionKeyResponse>
@@ -149,6 +162,7 @@ interface NormalSaleService {
         @Part("user_id") user_id: RequestBody?,
         @Part("paid_amount") paid_amount: RequestBody?,
         @Part("reduced_cost") reduced_cost: RequestBody?,
+        @Part("old_voucher_code") old_voucher_code: RequestBody?,
         @Part old_voucher_paid_amount: MultipartBody.Part?,
         @Part("old_stock_session_key") old_stock_session_key: RequestBody,
 
@@ -194,18 +208,13 @@ interface NormalSaleService {
         ): Response<SimpleResponse>
 
     @POST("api/sales/general/store")
-    @FormUrlEncoded
     @Multipart
     suspend fun submitGeneralSale(
         @Header("Authorization") token: String,
-        @Part itemsGeneralSaleItemId: List<MultipartBody.Part>?,
-        @Part itemsQty: List<MultipartBody.Part>?,
-        @Part itemsGoldWeightYwae: List<MultipartBody.Part>?,
-        @Part itemsWastageYwae: List<MultipartBody.Part>?,
-        @Part itemsMaintenanceCost: List<MultipartBody.Part>?,
-        @Field("user_id") user_id: String,
-        @Field("paid_amount") paid_amount: String,
-        @Field("reduced_cost") reduced_cost: String,
+        @Part("session_key") session_key: RequestBody,
+        @Part("user_id") user_id: RequestBody,
+        @Part("paid_amount") paid_amount: RequestBody,
+        @Part("reduced_cost") reduced_cost: RequestBody,
         @Part("old_stock_session_key") old_stock_session_key: RequestBody,
 
 
@@ -268,7 +277,7 @@ interface NormalSaleService {
         @Part threading_fees: List<MultipartBody.Part>?,
         @Part type: List<MultipartBody.Part>?,
         @Part wastage_ywae: List<MultipartBody.Part>?,
-        @Part session_key: RequestBody?
+        @Part("session_key") session_key: RequestBody?
     ): Response<SessionKeyResponse>
 
     @GET("api/sales/pure-gold/items")
@@ -278,7 +287,7 @@ interface NormalSaleService {
     ): Response<GeneralSaleListResponse>
 
     @Multipart
-    @POST("api/sales/pure-gold/items/create")
+    @POST("api/sales/general/items/create")
     suspend fun createGeneralSaleItem(
         @Header("Authorization") token: String,
         @Part("general_sale_item_id") general_sale_item_id: RequestBody?,
@@ -286,12 +295,12 @@ interface NormalSaleService {
         @Part("gold_weight_gm") gold_weight_gm: RequestBody?,
         @Part("wastage_ywae") wastage_ywae: RequestBody?,
         @Part("maintenance_cost") maintenance_cost: RequestBody?,
-//        @Part session_key: RequestBody?
+        @Part("session_key") session_key: RequestBody?
 
     ): Response<SessionKeyResponse>
 
     @Multipart
-    @POST("api/sales/pure-gold/items/update")
+    @POST("api/sales/general/items/update")
     suspend fun updateGeneralSaleItem(
         @Header("Authorization") token: String,
         @Part general_sale_item_id: List<MultipartBody.Part>?,
@@ -299,6 +308,26 @@ interface NormalSaleService {
         @Part gold_weight_gm: List<MultipartBody.Part>?,
         @Part wastage_ywae: List<MultipartBody.Part>?,
         @Part maintenance_cost: List<MultipartBody.Part>?,
-        @Part session_key: RequestBody?
+        @Part("session_key") session_key: RequestBody?
     ): Response<SessionKeyResponse>
+
+    @GET("api/users/{userId}/get-points")
+    suspend fun getUserRedeemPoints(
+        @Header("Authorization") token: String,
+        @Path("userId") userId: String
+    ): Response<SessionKeyResponse>
+
+    @GET("api/points/{redeemAmount}/get-discount-amount")
+    suspend fun getRedeemAmount(
+        @Header("Authorization") token: String,
+        @Path("redeemAmount") redeemAmount: String
+    ): Response<SessionKeyResponse>
+
+    @FormUrlEncoded
+    @POST("api/rebuys/store")
+    suspend fun buyOldStocks(
+        @Header("Authorization") token: String,
+        @Field("user_id") userId: String?,
+        @Field("old_stock_session_key") old_stock_session_key: String?
+    ): Response<SimpleResponse>
 }

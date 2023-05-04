@@ -10,6 +10,7 @@ import com.example.shwemisale.repositoryImpl.NormalSaleRepositoryImpl
 import com.example.shwemisale.room_database.AppDatabase
 import com.example.shwemisale.room_database.entity.StockFromHomeFinalInfo
 import com.example.shwemisale.room_database.entity.asUiModel
+import com.example.shwemisale.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -26,8 +27,8 @@ class WithValueViewModel @Inject constructor(
     private val localDatabase: LocalDatabase
 ) : ViewModel() {
 
-    private val _submitWithValueLiveData = MutableLiveData<Resource<String>>()
-    val submitWithValueLiveData: LiveData<Resource<String>>
+    private val _submitWithValueLiveData = SingleLiveEvent<Resource<String>>()
+    val submitWithValueLiveData: SingleLiveEvent<Resource<String>>
         get() = _submitWithValueLiveData
 
     fun submitWithValue(
@@ -35,7 +36,7 @@ class WithValueViewModel @Inject constructor(
         user_id: String?,
         paid_amount: String?,
         reduced_cost: String?,
-
+        old_voucher_code:String?,
         old_voucher_paid_amount: MultipartBody.Part?,
 
     ) {
@@ -47,6 +48,7 @@ class WithValueViewModel @Inject constructor(
                 paid_amount?.toRequestBody("multipart/form-data".toMediaTypeOrNull()),
                 reduced_cost?.toRequestBody("multipart/form-data".toMediaTypeOrNull()),
                 old_voucher_paid_amount,
+                old_voucher_code?.toRequestBody("multipart/form-data".toMediaTypeOrNull()),
                 localDatabase.getStockFromHomeSessionKey().orEmpty().toRequestBody("multipart/form-data".toMediaTypeOrNull())
             )
         }
@@ -73,5 +75,31 @@ class WithValueViewModel @Inject constructor(
     }
     fun getCustomerId():String{
         return localDatabase.getAccessCustomerId().orEmpty()
+    }
+    private val _getUserRedeemPointsLiveData = MutableLiveData<Resource<String>>()
+    val getUserRedeemPointsLiveData: LiveData<Resource<String>>
+        get() = _getUserRedeemPointsLiveData
+
+    fun getUserRedeemPoints(){
+        viewModelScope.launch {
+            _getUserRedeemPointsLiveData.value = normalSaleRepositoryImpl.getUserRedeemPoints(
+                getCustomerId()
+            )
+        }
+    }
+
+    private val _getRedeemMoneyLiveData = MutableLiveData<Resource<String>>()
+    val getRedeemMoneyLiveData: LiveData<Resource<String>>
+        get() = _getRedeemMoneyLiveData
+
+    fun getRedeemMoney(redeemAmount:String){
+        viewModelScope.launch {
+            _getRedeemMoneyLiveData.value = normalSaleRepositoryImpl.getRedeemMoney(
+                redeemAmount
+            )
+        }
+    }
+    init {
+        getUserRedeemPoints()
     }
 }

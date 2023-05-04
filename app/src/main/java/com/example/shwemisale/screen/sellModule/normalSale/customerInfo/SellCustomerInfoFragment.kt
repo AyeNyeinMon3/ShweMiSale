@@ -79,7 +79,7 @@ class SellCustomerInfoFragment:Fragment() {
             }
         }
         binding.btnContinue.setOnClickListener {
-            view.findNavController().navigate(SellCustomerInfoFragmentDirections.actionGlobalGoldFromHomeFragment("customer_info_fragment"))
+            view.findNavController().navigate(SellCustomerInfoFragmentDirections.actionGlobalGoldFromHomeFragment("customer_info_fragment",null))
         }
 
     }

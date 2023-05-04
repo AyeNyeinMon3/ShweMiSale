@@ -19,7 +19,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="0.6"
             android:divider="@color/white"
             android:orientation="horizontal"
             android:showDividers="middle">
@@ -28,7 +28,7 @@
                 android:id="@+id/tv_label_name"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="0.7"
                 android:gravity="center"
                 android:text="အမည်"
                 android:textAppearance="@style/TextAppearance.ShweMi.Body2"
@@ -39,7 +39,7 @@
                 android:id="@+id/tv_label_phNumber"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1.1"
+                android:layout_weight="0.8"
                 android:gravity="center"
                 android:text="ဖုန်းနံပါတ်"
                 android:textAppearance="@style/TextAppearance.ShweMi.Body2"
@@ -50,7 +50,7 @@
                 android:id="@+id/tv_label_NRC"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="0.7"
                 android:gravity="center"
                 android:text="မှတ်ပုံတင်"
                 android:textAppearance="@style/TextAppearance.ShweMi.Body2"
@@ -82,28 +82,28 @@
                 android:id="@+id/tv_label_township"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="1.3"
                 android:gravity="center"
                 android:text="မြို့နယ်"
                 android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/tv_label_account"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1.1"
-                android:gravity="center"
-                android:text="အကောင့်"
-                android:textAppearance="@style/TextAppearance.ShweMi.Body2"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
+<!--            <TextView-->
+<!--                android:id="@+id/tv_label_account"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="1.1"-->
+<!--                android:gravity="center"-->
+<!--                android:text="အကောင့်"-->
+<!--                android:textAppearance="@style/TextAppearance.ShweMi.Body2"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:textStyle="bold" />-->
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1.1"
+                android:layout_weight="1.5"
                 android:gravity="center"
                 android:textColor="@color/white"/>
 

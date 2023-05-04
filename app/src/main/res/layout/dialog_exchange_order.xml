@@ -12,8 +12,8 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:text="ရှေ့ဆက်ရန်‌ရွေးချယ်ပါ"
-        android:textColor="@color/primary_text"
         android:textAppearance="@style/TextAppearance.ShweMi.Headline6"
+        android:textColor="@color/primary_text"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -36,12 +36,15 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/background_btn"
         android:text="တန်ဖိုးဖြင့်"
-        android:textColor="@color/white"
         android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+        android:textColor="@color/white"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/btn_with_KPY"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_label_choose" />
 
@@ -56,12 +59,12 @@
         android:layout_marginBottom="32dp"
         android:background="@drawable/background_btn"
         android:text="ကျပ်ပဲရွေးဖြင့်"
-        android:textColor="@color/white"
         android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+        android:textColor="@color/white"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_with_value" />
 

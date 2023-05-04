@@ -11,6 +11,7 @@ data class ProductInfoUiModel(
     val jewellery_type_id:String,
     val size:String,
     val gold_and_gem_weight_gm:String,
+    val old_gold_and_gem_weight_gm:String,
     val gem_weight_ywae:String,
     val gem_value:String,
     val promotion_discount:String,
@@ -20,6 +21,10 @@ data class ProductInfoUiModel(
     var wastage_weight_ywae:String,
     var cost:String,
     var gold_type_id:String,
+    var edit_reason_id:String,
+    var general_sale_item_id:String,
+    var new_clip_wt_gm:String,
+    var old_clip_wt_gm:String,
     val image:String
 ):Parcelable
 

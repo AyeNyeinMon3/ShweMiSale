@@ -8,7 +8,8 @@ import javax.inject.Singleton
 
 private const val ACCESS_TOKEN="access_token"
 private const val CUSTOMER_ID="customer_id"
-private const val SESSION_KEY="session_key"
+private const val GENERAL_SALE_SESSION_KEY="general-sale-session_key"
+private const val PURE_GOLD_SESSION_KEY="pure-gold-session_key"
 private const val STOCK_FROM_HOME_SESSION_KEY="stock-from-home-session_key"
 private const val TOTAL_PAWN_PRICE="total-pawn-price"
 private const val TOTAL_GOLD_WEIGHT_YWAE="total-gold-weight-ywae"
@@ -47,17 +48,30 @@ class LocalDatabase @Inject constructor(@ApplicationContext private val context:
         return "$customerId"
     }
 
-    fun getSessionKey():String?{
-        val sessionKey =  sharedPref.getString(SESSION_KEY, "")
+    fun getGeneralSaleSessionKey():String?{
+        val sessionKey =  sharedPref.getString(GENERAL_SALE_SESSION_KEY, "")
         return "$sessionKey"
     }
 
-    fun saveSessionKey(sessionKey:String){
-        sharedPref.edit{putString(SESSION_KEY,sessionKey)}
+    fun saveGeneralSaleSessionKey(sessionKey:String){
+        sharedPref.edit{putString(GENERAL_SALE_SESSION_KEY,sessionKey)}
     }
 
-    fun removeSessionKey(){
-        sharedPref.edit { remove(SESSION_KEY) }
+    fun removeGeneralSaleSessionKey(){
+        sharedPref.edit { remove(GENERAL_SALE_SESSION_KEY) }
+    }
+
+    fun getPureGoldSessionKey():String?{
+        val sessionKey =  sharedPref.getString(PURE_GOLD_SESSION_KEY, "")
+        return "$sessionKey"
+    }
+
+    fun savePureGoldSessionKey(sessionKey:String){
+        sharedPref.edit{putString(PURE_GOLD_SESSION_KEY,sessionKey)}
+    }
+
+    fun removePureGoldSessionKey(){
+        sharedPref.edit { remove(PURE_GOLD_SESSION_KEY) }
     }
 
     fun getStockFromHomeSessionKey():String?{
@@ -116,7 +130,8 @@ class LocalDatabase @Inject constructor(@ApplicationContext private val context:
     fun clearSharedPreference(){
         removeToken()
         removeCustomerId()
-        removeSessionKey()
+        removeGeneralSaleSessionKey()
+        removePureGoldSessionKey()
         removeStockFromHomeSessionKey()
         removeTotalPawnPriceForStockFromHome()
         removeGoldWeightYwaeForStockFromHome()

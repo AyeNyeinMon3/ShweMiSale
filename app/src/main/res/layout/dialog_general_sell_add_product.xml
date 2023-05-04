@@ -2,8 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/tv_label_title"
@@ -12,8 +12,8 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="24dp"
         android:text="အချက်အလက်ဖြည့်ပါ"
-        android:textColor="@color/primary_text"
         android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+        android:textColor="@color/primary_text"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -28,20 +28,21 @@
         app:layout_constraintTop_toTopOf="@+id/tv_label_title"
         app:srcCompat="@drawable/close" />
 
+
     <TextView
-        android:id="@+id/tv_label_group"
+        android:id="@+id/tv_label_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Group"
-        android:textColor="@color/primary_text"
+        android:text="အကြောင်းအရာ"
         android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+        android:textColor="@color/primary_text"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/textInputLayout_spinner_group"
+        app:layout_constraintBottom_toBottomOf="@+id/textInputLayout_spinner_content"
         app:layout_constraintStart_toStartOf="@+id/tv_label_title"
-        app:layout_constraintTop_toTopOf="@+id/textInputLayout_spinner_group" />
+        app:layout_constraintTop_toTopOf="@+id/textInputLayout_spinner_content" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout_spinner_group"
+        android:id="@+id/textInputLayout_spinner_content"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
         android:layout_width="300dp"
         android:layout_height="45dp"
@@ -56,51 +57,8 @@
         app:boxStrokeWidth="1dp"
         app:hintEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_label_content"
         app:layout_constraintTop_toBottomOf="@+id/tv_label_title">
-
-        <com.google.android.material.textfield.MaterialAutoCompleteTextView
-            android:id="@+id/spinner_group"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusable="false"
-            android:inputType="none"
-            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
-            android:textColor="@color/primary_text" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <TextView
-        android:id="@+id/tv_label_content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="အကြောင်းအရာ"
-        android:textColor="@color/primary_text"
-        android:textAppearance="@style/TextAppearance.ShweMi.Body2"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/textInputLayout_spinner_content"
-        app:layout_constraintStart_toStartOf="@+id/tv_label_group"
-        app:layout_constraintTop_toTopOf="@+id/textInputLayout_spinner_content" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout_spinner_content"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-        android:layout_width="300dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
-        android:elevation="3dp"
-        app:boxCornerRadiusBottomEnd="10dp"
-        app:boxCornerRadiusBottomStart="10dp"
-        app:boxCornerRadiusTopEnd="10dp"
-        app:boxCornerRadiusTopStart="10dp"
-        app:boxStrokeColor="@color/spinner_color"
-        app:boxStrokeWidth="1dp"
-        app:hintEnabled="false"
-        app:layout_constraintEnd_toEndOf="@+id/textInputLayout_spinner_group"
-        app:layout_constraintStart_toStartOf="@+id/textInputLayout_spinner_group"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_spinner_group">
 
         <com.google.android.material.textfield.MaterialAutoCompleteTextView
             android:id="@+id/act_reason"
@@ -119,8 +77,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="အခုရေ"
-        android:textColor="@color/primary_text"
         android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+        android:textColor="@color/primary_text"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/textInputLayout_quantity"
         app:layout_constraintStart_toStartOf="@+id/tv_label_content"
@@ -161,8 +119,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="‌ရွှေချိန် (gm)"
-        android:textColor="@color/primary_text"
         android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+        android:textColor="@color/primary_text"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/textInputLayout_gold_weight_gm"
         app:layout_constraintStart_toStartOf="@+id/tv_label_quantity"
@@ -191,19 +149,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Type"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:textAppearance="@style/TextAppearance.ShweMi.Body2"
             android:textColor="@color/primary_text"
             android:textColorHint="@color/secondary_text" />
     </com.google.android.material.textfield.TextInputLayout>
+
 
     <TextView
         android:id="@+id/tv_label_underCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="အရော့တွက်"
-        android:textColor="@color/primary_text"
         android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+        android:textColor="@color/primary_text"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout_underCount"
         app:layout_constraintStart_toStartOf="@+id/tv_label_gold_weight_gm"
@@ -294,7 +253,7 @@
                 android:id="@+id/edt_underCount_Y"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                 android:textColor="@color/primary_text"
                 android:textStyle="bold" />
@@ -309,8 +268,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="လက်ခ"
-        android:textColor="@color/primary_text"
         android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+        android:textColor="@color/primary_text"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/textInputLayout_fee"
         app:layout_constraintStart_toStartOf="@+id/tv_label_underCount"

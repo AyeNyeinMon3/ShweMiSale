@@ -12,6 +12,7 @@
         android:layout_height="55dp"
         android:orientation="horizontal"
         android:divider="@color/white"
+
         android:showDividers="middle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -19,16 +20,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
-        <TextView
-            android:id="@+id/tv_group"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1.1"
-            android:gravity="center"
-            android:text="Group 1"
-            android:textColor="@color/primary_text"
-            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
-            android:textStyle="bold" />
+
 
         <TextView
             android:id="@+id/tv_content"
@@ -64,7 +56,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tv_underCount"
+            android:id="@+id/tv_wastage_ywae"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -78,7 +70,7 @@
             android:id="@+id/tv_fee"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1.1"
+            android:layout_weight="1"
             android:gravity="center"
             android:text="1,000"
             android:textColor="@color/primary_text"
@@ -95,6 +87,55 @@
             android:textColor="@color/primary_text"
             android:textAppearance="@style/TextAppearance.ShweMi.Body2"
             android:textStyle="bold" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|start">
+
+
+            <ImageView
+                android:id="@+id/iv_delete_bg"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/delete_edit_bg_circle" />
+
+            <ImageView
+                android:id="@+id/iv_delete"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_delete_bg"
+                app:layout_constraintEnd_toEndOf="@+id/iv_delete_bg"
+                app:layout_constraintStart_toStartOf="@+id/iv_delete_bg"
+                app:layout_constraintTop_toTopOf="@+id/iv_delete_bg"
+                app:srcCompat="@drawable/delete" />
+
+            <ImageView
+                android:id="@+id/iv_edit_bg"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/delete_edit_bg_circle" />
+
+            <ImageView
+                android:id="@+id/iv_edit"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_edit_bg"
+                app:layout_constraintEnd_toEndOf="@+id/iv_edit_bg"
+                app:layout_constraintStart_toStartOf="@+id/iv_edit_bg"
+                app:layout_constraintTop_toTopOf="@+id/iv_edit_bg"
+                app:srcCompat="@drawable/edit" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

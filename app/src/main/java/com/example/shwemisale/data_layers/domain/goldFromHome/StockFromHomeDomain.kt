@@ -2,6 +2,7 @@ package com.example.shwemisale.data_layers.domain.goldFromHome
 
 import android.os.Parcelable
 import com.example.shwemisale.data_layers.ShweMiFile
+import com.example.shwemisale.data_layers.domain.product.GemWeightDetailDomain
 import com.example.shwemisale.data_layers.dto.goldFromHome.GemWeightDetail
 import com.example.shwemisale.data_layers.dto.goldFromHome.Image
 import kotlinx.android.parcel.Parcelize
@@ -18,7 +19,8 @@ data class StockFromHomeDomain(
     val e_price_from_new_voucher: String?,
     val f_voucher_shown_gold_weight_ywae: String?,
     val gem_value: String?,
-    val gem_weight_details: List<GemWeightDetail>?,
+    val gem_weight_details: List<GemWeightDetailDomain>?,
+    var gold_and_gem_weight_gm:String = "",
     val gem_weight_ywae: String?,
     val gold_gem_weight_ywae: String?,
     val gold_weight_ywae: String?,
@@ -30,11 +32,14 @@ data class StockFromHomeDomain(
     val price_for_pawn: String?,
     val pt_and_clip_cost: String?,
     val qty: String?,
-    val rebuy_price: String?,
+    val rebuy_price: String,
     val size: String?,
     val stock_condition: String?,
     val stock_name: String?,
     val type: String?,
     val wastage_ywae: String?,
-    val rebuy_price_vertical_option:String?
+    val rebuy_price_vertical_option:String?,
+    val productId:List<String>?,
+    var isChecked:Boolean = false,
+    var derived_gold_type_id:String = ""
 ):Parcelable

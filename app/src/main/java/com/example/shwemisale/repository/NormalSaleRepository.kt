@@ -38,38 +38,44 @@ interface NormalSaleRepository {
        sessionKey: String?
     ):Resource<List<StockFromHomeDomain>>
 
+    suspend fun getStockFromHomeForPawn(
+       pawnVoucherCode: String?
+    ):Resource<List<StockFromHomeDomain>>
+
     suspend fun createStockFromHomeList(
-        a_buying_price: String?,
-         b_voucher_buying_value: String?,
-         c_voucher_buying_price: String?,
-         calculated_buying_value: String?,
-         calculated_for_pawn: String?,
-         d_gold_weight_ywae: String?,
-         e_price_from_new_voucher: String?,
-         f_voucher_shown_gold_weight_ywae: String?,
-         gem_value: String?,
+        id:List<MultipartBody.Part>?,
+        a_buying_price: List<MultipartBody.Part>?,
+        b_voucher_buying_value: List<MultipartBody.Part>?,
+        c_voucher_buying_price: List<MultipartBody.Part>?,
+        calculated_buying_value: List<MultipartBody.Part>?,
+        calculated_for_pawn: List<MultipartBody.Part>?,
+        d_gold_weight_ywae: List<MultipartBody.Part>?,
+        e_price_from_new_voucher: List<MultipartBody.Part>?,
+        f_voucher_shown_gold_weight_ywae: List<MultipartBody.Part>?,
+        gem_value: List<MultipartBody.Part>?,
         gem_weight_details_qty: List<MultipartBody.Part?>?,
         gem_weight_details_gm: List<MultipartBody.Part?>?,
         gem_weight_details_ywae: List<MultipartBody.Part?>?,
-         gem_weight_ywae: String?,
-         gold_gem_weight_ywae: String?,
-         gold_weight_ywae: String?,
-         gq_in_carat: String?,
-         has_general_expenses: String?,
-       imageId: String?,
-     imageFile: RequestBody?,
-         impurities_weight_ywae: String?,
-         maintenance_cost: String?,
-         price_for_pawn: String?,
-         pt_and_clip_cost: String?,
-         qty: String?,
-         rebuy_price: String?,
-         size: String?,
-         stock_condition: String?,
-         stock_name: String?,
-         type: String?,
-         wastage_ywae: String?,
-        rebuy_price_vertical_option: String?,
+        gem_weight_ywae: List<MultipartBody.Part>?,
+        gold_gem_weight_ywae: List<MultipartBody.Part>?,
+        gold_weight_ywae: List<MultipartBody.Part>?,
+        gq_in_carat: List<MultipartBody.Part>?,
+        has_general_expenses: List<MultipartBody.Part>?,
+        imageId: List<MultipartBody.Part>?,
+        imageFile: List<MultipartBody.Part>?,
+        impurities_weight_ywae: List<MultipartBody.Part>?,
+        maintenance_cost: List<MultipartBody.Part>?,
+        price_for_pawn: List<MultipartBody.Part>?,
+        pt_and_clip_cost: List<MultipartBody.Part>?,
+        qty: List<MultipartBody.Part>?,
+        rebuy_price: List<MultipartBody.Part>?,
+        size: List<MultipartBody.Part>?,
+        stock_condition: List<MultipartBody.Part>?,
+        stock_name: List<MultipartBody.Part>?,
+        type: List<MultipartBody.Part>?,
+        wastage_ywae: List<MultipartBody.Part>?,
+        rebuy_price_vertical_option:  List<MultipartBody.Part>?,
+        productIdList: List<MultipartBody.Part?>?,
         sessionKey: String?
     ):Resource<String>
 
@@ -105,6 +111,7 @@ interface NormalSaleRepository {
         type: List<MultipartBody.Part>?,
         wastage_ywae: List<MultipartBody.Part>?,
         rebuy_price_vertical_option:  List<MultipartBody.Part>?,
+        productIdList: List<MultipartBody.Part?>?,
         sessionKey: String?
     ):Resource<String>
 
@@ -114,6 +121,7 @@ interface NormalSaleRepository {
         paid_amount: RequestBody?,
         reduced_cost: RequestBody?,
         old_voucher_paid_amount: MultipartBody.Part?,
+        old_voucher_code:RequestBody?,
         old_stock_session_key: RequestBody,
 
         ): Resource<String>
@@ -125,6 +133,7 @@ interface NormalSaleRepository {
         paid_amount: RequestBody?,
         reduced_cost: RequestBody?,
         old_voucher_paid_amount: MultipartBody.Part?,
+        old_voucher_code:RequestBody?,
         old_stock_session_key: RequestBody,
 
         ): Resource<String>
@@ -164,11 +173,7 @@ interface NormalSaleRepository {
 
 
     suspend fun submitGeneralSale(
-        itemsGeneralSaleItemId: List<MultipartBody.Part>?,
-        itemsQty: List<MultipartBody.Part>?,
-        itemsGoldWeightYwae: List<MultipartBody.Part>?,
-        itemsWastageYwae: List<MultipartBody.Part>?,
-        itemsMaintenanceCost: List<MultipartBody.Part>?,
+        sessionKey: RequestBody,
         user_id: String,
         paid_amount: String,
         reduced_cost: String,
@@ -232,4 +237,14 @@ interface NormalSaleRepository {
         qty: String,
         wastage_ywae: String,
     ):Resource<String>
+
+    suspend fun getUserRedeemPoints(
+        userId: String
+    ):Resource<String>
+
+    suspend fun getRedeemMoney(
+        redeemAmount: String
+    ):Resource<String>
+
+    suspend fun buyOldStock():Resource<String>
 }

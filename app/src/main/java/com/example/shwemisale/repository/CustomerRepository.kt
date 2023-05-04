@@ -28,7 +28,7 @@ interface CustomerRepository {
     suspend fun getCustomerWhistList(customerId: String): Resource<List<CustomerWhistListDomain>>
 
     suspend fun getProvince(): Resource<List<ProvinceDto>>
-    suspend fun getTownship(): Resource<List<TownshipDto>>
+    suspend fun getTownship(province_id: String): Resource<List<TownshipDto>>
 
     suspend fun addNewUser(
         name: String,

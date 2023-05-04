@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <TextView
@@ -107,11 +107,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Type gram"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:textAppearance="@style/TextAppearance.ShweMi.Body2"
             android:textColor="@color/primary_text"
             android:textColorHint="@color/secondary_text" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_select_gm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        app:cornerRadius="10dp"
+        app:icon="@drawable/right"
+        app:iconGravity="textStart"
+        app:iconSize="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textInputLayout_gold_weight_gm"
+        app:layout_constraintStart_toEndOf="@+id/textInputLayout_gold_weight_gm"
+        app:layout_constraintTop_toTopOf="@+id/textInputLayout_gold_weight_gm" />
 
 
     <TextView
@@ -214,7 +231,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Y"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                 android:textColor="@color/primary_text"
                 android:textColorHint="@color/secondary_text" />
@@ -222,6 +239,23 @@
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_select_kpy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        app:cornerRadius="10dp"
+        app:icon="@drawable/right"
+        app:iconGravity="textStart"
+        app:iconSize="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout_gold_weight"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout_gold_weight"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout_gold_weight" />
 
     <TextView
         android:id="@+id/tv_label_sell_reduce"
@@ -320,7 +354,7 @@
                 android:id="@+id/edt_sell_reduce_Y"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                 android:textColor="@color/primary_text"
                 android:textStyle="bold" />

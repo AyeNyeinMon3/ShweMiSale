@@ -2,6 +2,7 @@ package com.example.shwemisale.data_layers.dto.goldFromHome
 
 import com.example.shwemisale.data_layers.ShweMiFile
 import com.example.shwemisale.data_layers.domain.goldFromHome.StockFromHomeDomain
+import com.example.shwemisale.screen.goldFromHome.getYwaeFromGram
 
 data class StockFromHomeInVoucherResponse(
     val data:List<StockFromInVoucherDto>
@@ -37,23 +38,27 @@ fun StockFromInVoucherDto.asDomain():StockFromHomeDomain{
         gem_value = gem_value.orEmpty(),
         gem_weight_ywae = gem_weight_ywae.orEmpty(),
         gem_weight_details = emptyList(),
-        gold_gem_weight_ywae = gold_and_gem_weight_gm,
-        gold_weight_ywae = derived_net_gold_weight_ywae,
-        gq_in_carat = "0"    ,
-        has_general_expenses = "0",
+        gold_and_gem_weight_gm = gold_and_gem_weight_gm.orEmpty(),
+        gold_gem_weight_ywae = getYwaeFromGram(gold_and_gem_weight_gm.let { if (it.isNullOrEmpty()) 0.0 else it.toDouble() }).toString(),
+        gold_weight_ywae =derived_net_gold_weight_ywae ,
+        gq_in_carat = "0",
+        has_general_expenses = if (!gem_value.isNullOrEmpty() || !maintenance_cost.isNullOrEmpty() || !pt_and_clip_cost.isNullOrEmpty()
+            || !wastage_ywae.isNullOrEmpty()) "1" else "0",
         image = image?.asImage(),
         impurities_weight_ywae = "0" ,
         maintenance_cost = maintenance_cost,
         price_for_pawn = "0",
         pt_and_clip_cost = pt_and_clip_cost,
         qty = "0",
-        rebuy_price = "0",
+        rebuy_price = gold_price.orEmpty(),
         size = "small",
         stock_condition = "damage",
         stock_name = name,
         type = "1",
         wastage_ywae = wastage_ywae,
-        rebuy_price_vertical_option = "X"
+        rebuy_price_vertical_option = "X",
+        productId = listOf(id.orEmpty()),
+        derived_gold_type_id = derived_gold_type_id.orEmpty()
     )
 }
 

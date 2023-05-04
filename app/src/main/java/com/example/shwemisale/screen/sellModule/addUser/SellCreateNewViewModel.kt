@@ -71,16 +71,15 @@ class SellCreateNewViewModel @Inject constructor(
         _townShipLiveData.value = null
     }
 
-    fun getTownShip() {
+    fun getTownShip(province_id: String) {
         _townShipLiveData.value = Resource.Loading()
         viewModelScope.launch {
-            _townShipLiveData.value = customerRepoImpl.getTownship()
+            _townShipLiveData.value = customerRepoImpl.getTownship(province_id)
         }
     }
 
     init {
         getProvince()
-        getTownShip()
     }
 
 }

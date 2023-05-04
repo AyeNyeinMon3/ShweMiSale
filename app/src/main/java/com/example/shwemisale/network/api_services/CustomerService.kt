@@ -38,6 +38,7 @@ interface CustomerService {
     @GET("api/townships")
     suspend fun getTownship(
         @Header("Authorization") token:String,
+        @Query("province_id")province_id: String
     ): Response<TownshipApiResponse>
 
     @FormUrlEncoded

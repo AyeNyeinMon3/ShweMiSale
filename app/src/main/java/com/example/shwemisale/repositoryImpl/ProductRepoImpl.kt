@@ -115,6 +115,66 @@ class ProductRepoImpl @Inject constructor(
         }
     }
 
+    override suspend fun exChangeProductCodeWithId(productCode: String): Resource<String> {
+        return try {
+            val response = productService.exchangeProductCodeWithId(
+                localDatabase.getAccessToken().orEmpty(),
+                productCode
+            )
+
+            if (response.isSuccessful && response.body() != null) {
+                Resource.Success(response.body()!!.data.id)
+            } else {
+                val errorJsonString = response.errorBody()?.string().orEmpty()
+                val singleError =
+                    response.errorBody()?.parseErrorWithDataClass<SimpleError>(errorJsonString)
+                if (singleError != null) {
+                    Resource.Error(singleError.response.message)
+                } else {
+                    val errorMessage =
+                        response.errorBody()?.parseError(errorJsonString)
+                    val list: List<Map.Entry<String, Any>> =
+                        ArrayList<Map.Entry<String, Any>>(errorMessage!!.entries)
+                    val (key, value) = list[0]
+                    Resource.Error(value.toString())
+                }
+
+            }
+        } catch (e: Exception) {
+            Resource.Error(e.message)
+        }
+    }
+
+    override suspend fun removeTemp(productId: String): Resource<String> {
+        return try {
+            val response = productService.removeTemp(
+                localDatabase.getAccessToken().orEmpty(),
+                productId
+            )
+
+            if (response.isSuccessful && response.body() != null) {
+                Resource.Success(response.body()!!.data)
+            } else {
+                val errorJsonString = response.errorBody()?.string().orEmpty()
+                val singleError =
+                    response.errorBody()?.parseErrorWithDataClass<SimpleError>(errorJsonString)
+                if (singleError != null) {
+                    Resource.Error(singleError.response.message)
+                } else {
+                    val errorMessage =
+                        response.errorBody()?.parseError(errorJsonString)
+                    val list: List<Map.Entry<String, Any>> =
+                        ArrayList<Map.Entry<String, Any>>(errorMessage!!.entries)
+                    val (key, value) = list[0]
+                    Resource.Error(value.toString())
+                }
+
+            }
+        } catch (e: Exception) {
+            Resource.Error(e.message)
+        }
+    }
+
     override suspend fun getProductSizeAndReason(
 
         productId: String
@@ -152,11 +212,13 @@ class ProductRepoImpl @Inject constructor(
         productId: String,
         gold_and_gem_weight_gm: String?,
         gem_weight_ywae: String?,
+        wastage_ywae: String?,
         gem_value: String?,
         promotion_discount: String?,
         jewellery_type_size_id: String?,
         edit_reason_id: String?,
         pt_and_clip_cost: String?,
+        maintenance_cost: String?,
         general_sale_item_id: String?,
         new_clip_wt_gm: String?,
         old_clip_wt_gm: String?
@@ -167,11 +229,13 @@ class ProductRepoImpl @Inject constructor(
                 productId,
                 gold_and_gem_weight_gm,
                 gem_weight_ywae,
+                wastage_ywae,
                 gem_value,
                 promotion_discount,
                 jewellery_type_size_id,
                 edit_reason_id,
                 pt_and_clip_cost,
+                maintenance_cost,
                 general_sale_item_id,
                 new_clip_wt_gm,
                 old_clip_wt_gm

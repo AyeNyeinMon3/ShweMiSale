@@ -29,7 +29,6 @@ class SellCreateNewFragment:Fragment() {
     private var selectedTownshipId = ""
     private lateinit var datePicker: MaterialDatePicker<Long>
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         datePicker = MaterialDatePicker.Builder.datePicker()
@@ -41,7 +40,7 @@ class SellCreateNewFragment:Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         return FragmentCreateNewSellBinding.inflate(inflater).also {
             binding = it
         }.root
@@ -49,15 +48,15 @@ class SellCreateNewFragment:Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         loading = requireContext().getAlertDialog()
-        val adapterState = ArrayAdapter.createFromResource(requireContext(),
-            R.array.state,
-            R.layout.spinner_text_style
-        )
-       // binding.spinnerState.adapter = adapterState
-        val adapterTownship = ArrayAdapter.createFromResource(requireContext(),
-            R.array.township,
-            R.layout.spinner_text_style
-        )
+//        val adapterState = ArrayAdapter.createFromResource(requireContext(),
+//            R.array.state,
+//            R.layout.spinner_text_style
+//        )
+//       // binding.spinnerState.adapter = adapterState
+//        val adapterTownship = ArrayAdapter.createFromResource(requireContext(),
+//            R.array.township,
+//            R.layout.spinner_text_style
+//        )
         var selectedGender = "female"
         binding.radioGpGender.setOnCheckedChangeListener { radioGroup, checkedId ->
             if (checkedId == binding.radioBtnMale.id){
@@ -81,6 +80,7 @@ class SellCreateNewFragment:Fragment() {
                         selectedProvinceId = it.data!!.find {
                             it.name==binding.actProvince.text.toString()
                         }?.id.toString()
+                        viewModel.getTownShip(selectedProvinceId)
                     }
                     binding.actProvince.setAdapter(arrayAdapter)
                     binding.actProvince.setText(list[0],false)
@@ -119,7 +119,7 @@ class SellCreateNewFragment:Fragment() {
                         }?.id.toString()
                     }
                     binding.actTownship.setAdapter(arrayAdapter)
-                    binding.actTownship.setText(list[0],false)
+                    binding.actTownship.setText(if (list.isEmpty()) "" else list[0],false)
                     selectedTownshipId = it.data!!.find {
                         it.name==list[0]
                     }?.id.toString()
@@ -182,7 +182,5 @@ class SellCreateNewFragment:Fragment() {
                 binding.editNRC.text.toString()
             )
         }
-
-
     }
 }

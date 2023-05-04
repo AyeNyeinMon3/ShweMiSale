@@ -51,6 +51,7 @@
                         app:boxCornerRadiusTopStart="10dp"
                         app:boxStrokeColor="@color/edit_text_color_2"
                         app:boxStrokeWidth="1dp"
+                        android:enabled="false"
                         app:errorEnabled="false"
                         app:hintEnabled="false">
 
@@ -58,7 +59,7 @@
                             android:id="@+id/edt_gold_and_gem_weight"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="number"
+                            android:inputType="numberDecimal"
                             android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                             android:textColor="@color/primary_text"
                             android:textStyle="bold" />
@@ -131,6 +132,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
                         android:layout_marginTop="4dp"
+                        android:enabled="false"
                         app:boxCornerRadiusBottomEnd="10dp"
                         app:boxCornerRadiusBottomStart="10dp"
                         app:boxCornerRadiusTopEnd="10dp"
@@ -145,7 +147,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Type"
-                            android:inputType="number"
+                            android:inputType="numberDecimal"
                             android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                             android:textColor="@color/primary_text"
                             android:textColorHint="@color/secondary_text" />
@@ -237,6 +239,7 @@
                         app:boxCornerRadiusTopStart="10dp"
                         app:boxStrokeColor="@color/edit_text_color"
                         app:boxStrokeWidth="1dp"
+                        android:enabled="false"
                         app:errorEnabled="false"
                         app:hintEnabled="false">
 
@@ -244,7 +247,7 @@
                             android:id="@+id/edt_old_jade"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="number"
+                            android:inputType="numberDecimal"
                             android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                             android:textColor="@color/primary_text"
                             android:textStyle="bold" />
@@ -280,6 +283,7 @@
                         app:boxCornerRadiusTopStart="10dp"
                         app:boxStrokeColor="@color/edit_text_color"
                         app:boxStrokeWidth="1dp"
+                        android:enabled="false"
                         app:errorEnabled="false"
                         app:hintEnabled="false">
 
@@ -287,7 +291,7 @@
                             android:id="@+id/edt_new_jade"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="number"
+                            android:inputType="numberDecimal"
                             android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                             android:textColor="@color/primary_text"
                             android:textStyle="bold" />
@@ -405,7 +409,7 @@
                                 android:id="@+id/edt_gem_weight_Y"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="number"
+                                android:inputType="numberDecimal"
                                 android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                                 android:textColor="@color/primary_text"
                                 android:textStyle="bold" />
@@ -587,6 +591,7 @@
                         app:boxCornerRadiusTopEnd="10dp"
                         app:boxCornerRadiusTopStart="10dp"
                         app:boxStrokeColor="@color/edit_text_color_2"
+                        android:enabled="false"
                         app:boxStrokeWidth="1dp"
                         app:errorEnabled="false"
                         app:hintEnabled="false">
@@ -703,7 +708,7 @@
                                 android:id="@+id/edt_underCount_Y"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="number"
+                                android:inputType="numberDecimal"
                                 android:hint="Y"
                                 android:textColorHint="@color/secondary_text"
                                 android:textAppearance="@style/TextAppearance.ShweMi.Body2"
@@ -749,6 +754,7 @@
                     app:boxCornerRadiusTopStart="10dp"
                     app:boxStrokeColor="@color/edit_text_color_2"
                     app:boxStrokeWidth="1dp"
+                    android:enabled="false"
                     app:errorEnabled="false"
                     app:hintEnabled="false">
 
@@ -762,6 +768,28 @@
                         android:textStyle="bold" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_calculate_stock_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="တွက်မည်"
+                android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:cornerRadius="10dp"
+                app:icon="@drawable/right"
+                app:iconSize="15dp"
+                app:layout_constraintBottom_toBottomOf="@id/btn_calculate"
+                app:layout_constraintEnd_toStartOf="@id/btn_calculate"
+                app:layout_constraintTop_toTopOf="@id/btn_calculate" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_calculate"
@@ -900,6 +928,7 @@
                                 app:boxCornerRadiusTopEnd="10dp"
                                 app:boxCornerRadiusTopStart="10dp"
                                 app:boxStrokeColor="@color/edit_text_color_2"
+                                android:enabled="false"
                                 app:boxStrokeWidth="1dp"
                                 app:errorEnabled="false"
                                 app:hintEnabled="false">
@@ -929,6 +958,7 @@
                                 app:boxCornerRadiusTopStart="10dp"
                                 app:boxStrokeColor="@color/edit_text_color_2"
                                 app:boxStrokeWidth="1dp"
+                                android:enabled="false"
                                 app:errorEnabled="false"
                                 app:hintEnabled="false">
 
@@ -956,6 +986,7 @@
                                 app:boxCornerRadiusTopStart="10dp"
                                 app:boxStrokeColor="@color/edit_text_color_2"
                                 app:boxStrokeWidth="1dp"
+                                android:enabled="false"
                                 app:errorEnabled="false"
                                 app:hintEnabled="false">
 
@@ -1001,6 +1032,7 @@
                             app:boxCornerRadiusTopStart="10dp"
                             app:boxStrokeColor="@color/edit_text_color_2"
                             app:boxStrokeWidth="1dp"
+                            android:enabled="false"
                             app:errorEnabled="false"
                             app:hintEnabled="false">
 

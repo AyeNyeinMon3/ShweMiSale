@@ -15,6 +15,6 @@ data class GeneralSaleListDto(
 
 fun GeneralSaleListDto.asDomain():GeneralSaleListDomain{
     return GeneralSaleListDomain(
-        general_sale_item_id, gold_weight_gm, maintenance_cost, qty, wastage_ywae
+        0,general_sale_item_id, gold_weight_gm, maintenance_cost, qty, wastage_ywae
     )
 }
