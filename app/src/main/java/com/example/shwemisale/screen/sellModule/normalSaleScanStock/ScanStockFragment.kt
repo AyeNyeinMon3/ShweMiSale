@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.shwemi.util.Resource
 import com.example.shwemi.util.getAlertDialog
 import com.example.shwemi.util.hideKeyboard
@@ -27,8 +28,10 @@ class ScanStockFragment : Fragment() {
     lateinit var binding: FragmentScanStockBinding
     private val viewModel by viewModels<ScanStockViewModel>()
     private lateinit var loading: AlertDialog
+    private val args by navArgs<ScanStockFragmentArgs>()
     private lateinit var barlauncer: Any
     private var stockGoldPrice = 0
+    private var orderSaleGoldPrice = "0"
 
     private var isContinuable = false
     override fun onCreateView(
@@ -76,7 +79,8 @@ class ScanStockFragment : Fragment() {
                 view.findNavController().navigate(
                     ScanStockFragmentDirections.actionScanStockFragmentToExchangeOrderFragment(
                         viewModel.productInfoList.toTypedArray(),
-                        if (stockGoldPrice == 0) null else stockGoldPrice.toString()
+                        if (stockGoldPrice == 0) null else stockGoldPrice.toString(),
+                        args.scannedSalesCodeList
                     )
                 )
             } else {
@@ -119,7 +123,16 @@ class ScanStockFragment : Fragment() {
                 }
                 is Resource.Success -> {
                     loading.dismiss()
-                    viewModel.addProduct(it.data!!.asUiModel())
+                    if (viewModel.productInfoList.isNotEmpty() && viewModel.productInfoList.filter { it.is_order_sale == "1" }.isNotEmpty()){
+                        if (it.data?.is_order_sale == "1" && viewModel.productInfoList[0].order_sale_code == it.data?.order_sale_code){
+                            orderSaleGoldPrice = it.data?.order_sale_gold_price.orEmpty()
+                            viewModel.addProduct(it.data!!.asUiModel())
+                        }else{
+                            Toast.makeText(requireContext(),"If order sale is scanned only order sales in same voucher can be added",Toast.LENGTH_LONG).show()
+                        }
+                    }else{
+                        viewModel.addProduct(it.data!!.asUiModel())
+                    }
 
                 }
                 is Resource.Error -> {
@@ -137,7 +150,11 @@ class ScanStockFragment : Fragment() {
                 }
                 is Resource.Success -> {
                     loading.dismiss()
-                    stockGoldPrice = it.data!![0].price?.toInt() ?: 0
+                    if (viewModel.productInfoList.filter { it.is_order_sale == "1" }.isNotEmpty()){
+                        stockGoldPrice = orderSaleGoldPrice.toInt()
+                    }else{
+                        stockGoldPrice = it.data!![0].price?.toInt() ?: 0
+                    }
                 }
                 is Resource.Error -> {
                     loading.dismiss()

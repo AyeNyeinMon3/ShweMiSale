@@ -8,6 +8,7 @@ import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.repositoryImpl.GoldFromHomeRepositoryImpl
 import com.example.shwemisale.repositoryImpl.NormalSaleRepositoryImpl
 import com.example.shwemisale.room_database.AppDatabase
+import com.example.shwemisale.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -23,7 +24,15 @@ class AkoukSellViewModel @Inject constructor(
     private val appDatabase: AppDatabase
 ) : ViewModel() {
     var goldPrice = ""
-
+    private val _createPureGoldItemLiveData = SingleLiveEvent<Resource<String>>()
+    val createPureGoldItemLiveData: SingleLiveEvent<Resource<String>>
+        get() = _createPureGoldItemLiveData
+    private val _deletePureGoldSaleItemsLiveData = SingleLiveEvent<Resource<String>>()
+    val deletePureGoldSaleItemsLiveData: SingleLiveEvent<Resource<String>>
+        get() = _deletePureGoldSaleItemsLiveData
+    private val _updatePureGoldSaleItemsLiveData = SingleLiveEvent<Resource<String>>()
+    val updatePureGoldSaleItemsLiveData: SingleLiveEvent<Resource<String>>
+        get() = _updatePureGoldSaleItemsLiveData
 
     private val _goldTypePriceLiveData = MutableLiveData<Resource<List<GoldTypePriceDto>>>()
     val goldTypePriceLiveData: LiveData<Resource<List<GoldTypePriceDto>>>
@@ -53,9 +62,7 @@ class AkoukSellViewModel @Inject constructor(
         }
     }
 
-    private val _updatePureGoldSaleItemsLiveData = MutableLiveData<Resource<String>>()
-    val updatePureGoldSaleItemsLiveData: LiveData<Resource<String>>
-        get() = _updatePureGoldSaleItemsLiveData
+
 
     fun updatePureGoldSalesItems(
         item: PureGoldListDomain,
@@ -68,7 +75,7 @@ class AkoukSellViewModel @Inject constructor(
             val threading_fees = mutableListOf<MultipartBody.Part>()
             val type = mutableListOf<MultipartBody.Part>()
             val wastage_ywae = mutableListOf<MultipartBody.Part>()
-                if (itemList.isNullOrEmpty().not()) {
+                if (itemList.isNotEmpty()) {
                     repeat(itemList.size) {
                         if (itemList[it].id == item.id){
                             gold_weight_ywae.add(
@@ -149,9 +156,7 @@ class AkoukSellViewModel @Inject constructor(
         }
     }
 
-    private val _deletePureGoldSaleItemsLiveData = MutableLiveData<Resource<String>>()
-    val deletePureGoldSaleItemsLiveData: LiveData<Resource<String>>
-        get() = _deletePureGoldSaleItemsLiveData
+
 
     fun deletePureGoldSalesItems(
         item: PureGoldListDomain
@@ -209,15 +214,8 @@ class AkoukSellViewModel @Inject constructor(
                             localDatabase.getPureGoldSessionKey().orEmpty()
                         )
                 } else {
-                    _deletePureGoldSaleItemsLiveData.value =
-                        normalSaleRepositoryImpl.updatePureGoldItems(
-                            null,
-                            null,
-                            null,
-                            null,
-                            null,
-                            localDatabase.getPureGoldSessionKey().orEmpty()
-                        )
+                    localDatabase.removePureGoldSessionKey()
+                    getPureGoldSalesItems()
                 }
             }
 
@@ -225,9 +223,7 @@ class AkoukSellViewModel @Inject constructor(
         }
     }
 
-    private val _createPureGoldItemLiveData = MutableLiveData<Resource<String>>()
-    val createPureGoldItemLiveData: LiveData<Resource<String>>
-        get() = _createPureGoldItemLiveData
+
 
     fun createPureGoldSaleItem(
         gold_weight_ywae: String,

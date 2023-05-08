@@ -45,7 +45,11 @@ class StockDetailFragment : Fragment() {
 
         viewModel.getProductSizeAndReason(args.productInfo.id)
 //        for goldPrice
-        viewModel.getGoldTypePrice(args.productInfo.gold_type_id)
+        if(args.productInfo.order_sale_gold_price.isNullOrEmpty() && args.productInfo.order_sale_gold_price == "0"){
+            viewModel.getGoldTypePrice(args.productInfo.gold_type_id)
+        }else{
+            stockGoldPrice = args.productInfo.order_sale_gold_price!!.toInt()
+        }
         binding.edtGoldAndGemWeight.setText(args.productInfo.old_gold_and_gem_weight_gm)
         val gemWeightKpy =
             getKPYFromYwae(args.productInfo.gem_weight_ywae.let { if (it.isEmpty()) 0.0 else it.toDouble() })
@@ -77,8 +81,13 @@ class StockDetailFragment : Fragment() {
                             binding.edtNewGoldAndGemWeight.isEnabled = true
                             binding.edtOldJade.isEnabled = selectedItem.is_clip_change == "1"
                             binding.edtNewJade.isEnabled = selectedItem.is_clip_change == "1"
+                            binding.edtNewGoldAndGemWeight.setText(args.productInfo.gold_and_gem_weight_gm)
                             if (selectedItem.is_clip_change=="1"){
-                                binding.edtNewGoldAndGemWeight.setText(args.productInfo.gold_and_gem_weight_gm)
+                                binding.edtNewJade.setText(args.productInfo.new_clip_wt_gm)
+                                binding.edtOldJade.setText(args.productInfo.old_clip_wt_gm)
+                            }else{
+                                binding.edtOldJade.text?.clear()
+                                binding.edtNewJade.text?.clear()
                             }
                             selectedGeneralSaleId = selectedItem.general_sale_item_id
                             selectedReasonId = selectedItem.id
@@ -99,9 +108,12 @@ class StockDetailFragment : Fragment() {
                     var passedReason = it.data!!.reasons.find {
                         it.id == args.productInfo.edit_reason_id
                     }
-                    binding.actReason.setText(passedReason?.reason.orEmpty(), false)
-                    binding.edtNewJade.setText(args.productInfo.new_clip_wt_gm)
-                    binding.edtOldJade.setText(args.productInfo.new_clip_wt_gm)
+                    if (passedReason!=null){
+                        binding.actReason.setText(passedReason?.reason.orEmpty(), false)
+                    }else{
+                        binding.actReason.setText("none",false)
+                    }
+
                     binding.actReason.setOnClickListener {
                         binding.actReason.showDropdown(reasonArrayAdapter)
                     }
@@ -271,6 +283,12 @@ class StockDetailFragment : Fragment() {
         }
 
         binding.btnCalculate.setOnClickListener {
+            val gemWeightYwae = getYwaeFromKPY(
+                generateNumberFromEditText(binding.edtGemWeightK).toInt(),
+                generateNumberFromEditText(binding.edtGemWeightP).toInt(),
+                generateNumberFromEditText(binding.edtGemWeightY).toDouble(),
+            )
+            val gemWeightGm = getGramFromYwae(gemWeightYwae)
             if (selectedReasonId != null && generateNumberFromEditText(binding.edtNewGoldAndGemWeight) == "0") {
                 Toast.makeText(
                     requireContext(),
@@ -287,12 +305,18 @@ class StockDetailFragment : Fragment() {
                     Toast.LENGTH_LONG
                 ).show()
 
-            } else {
+            } else if (gemWeightGm >= generateNumberFromEditText(binding.edtGoldAndGemWeight).toDouble()) {
+                Toast.makeText(
+                    requireContext(),
+                    "GemWeight Must be less than Gold plus Gem Weight",
+                    Toast.LENGTH_LONG
+                ).show()
+            }else{
                 viewModel.updateProductInfo(
                     args.productInfo.id,
                     if (!binding.edtNewGoldAndGemWeight.text.isNullOrEmpty()) {
                         generateNumberFromEditText(binding.edtNewGoldAndGemWeight)
-                    } else args.productInfo.gold_and_gem_weight_gm,
+                    } else null,
                     gem_weight_ywae = getYwaeFromKPY(
                         generateNumberFromEditText(binding.edtGemWeightK).toInt(),
                         generateNumberFromEditText(binding.edtGemWeightP).toInt(),

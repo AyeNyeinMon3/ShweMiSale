@@ -50,28 +50,44 @@ class AkoukSellFragment : Fragment() {
         }.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        loading = requireContext().getAlertDialog()
+    override fun onResume() {
+        super.onResume()
         binding.includePayment.edtGoldFromHomeValue.setText(viewModel.getTotalCVoucherBuyingPrice())
 
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        loading = requireContext().getAlertDialog()
+//        binding.includePayment.edtGoldFromHomeValue.setText(viewModel.getTotalCVoucherBuyingPrice())
+        binding.edtGoldPrice.addTextChangedListener {
+            viewModel.goldPrice = it.toString()
+            adapter = AkoukSellRecyclerAdapter(viewModel.goldPrice, {
+                showDialogAddProduct(it)
+            }, {
+                viewModel.deletePureGoldSalesItems(it)
+            })
+
+            binding.rvAkoukSell.adapter = adapter
+        }
         viewModel.goldTypePriceLiveData.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Loading -> {
                     loading.show()
                 }
+
                 is Resource.Success -> {
                     loading.dismiss()
-                    viewModel.goldPrice = it.data!![0].price.toString()
-                    binding.edtGoldPrice.setText(viewModel.goldPrice)
-                    adapter = AkoukSellRecyclerAdapter(viewModel.goldPrice,{
-                       showDialogAddProduct(it)
-                    },{
+                    binding.edtGoldPrice.setText(it.data!![0].price.toString())
+                    adapter = AkoukSellRecyclerAdapter(viewModel.goldPrice, {
+                        showDialogAddProduct(it)
+                    }, {
                         viewModel.deletePureGoldSalesItems(it)
                     })
 
                     binding.rvAkoukSell.adapter = adapter
                     viewModel.getPureGoldSalesItems()
                 }
+
                 is Resource.Error -> {
                     loading.dismiss()
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
@@ -84,23 +100,27 @@ class AkoukSellFragment : Fragment() {
                 is Resource.Loading -> {
                     loading.show()
                 }
+
                 is Resource.Success -> {
                     loading.dismiss()
                     var totalCost = 0
                     var idCount = 0
                     it.data!!.forEach {
                         it.id = idCount++.toString()
-                        totalCost += (it.maintenance_cost!!.toInt() + it.threading_fees!!.toInt() + (viewModel.goldPrice.toInt() * ((it.gold_weight_ywae!!.toDouble() / 128)+(it.wastage_ywae!!.toDouble()/128))).toInt())
+                        totalCost += (it.maintenance_cost!!.toInt() +                                                                 it.threading_fees!!.toInt() + (viewModel.goldPrice.toInt() * ((it.gold_weight_ywae!!.toDouble() / 128) + (it.wastage_ywae!!.toDouble() / 128)))).toInt()
                     }
                     adapter.submitList(it.data)
+                    binding.edtGoldPrice.isEnabled = adapter.currentList.size < 1
 
                     binding.includePayment.edtCharge.setText(getRoundDownForPrice(totalCost).toString())
                 }
+
                 is Resource.Error -> {
                     loading.dismiss()
-                    if (it.message =="Session key not found!"){
+                    if (it.message == "Session key not found!") {
                         adapter.submitList(emptyList())
-                    }else{
+                        binding.includePayment.edtCharge.text?.clear()
+                    } else {
                         Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
 
                     }
@@ -114,12 +134,14 @@ class AkoukSellFragment : Fragment() {
                 is Resource.Loading -> {
                     loading.show()
                 }
+
                 is Resource.Success -> {
                     loading.dismiss()
                     requireContext().showSuccessDialog("Success") {
                         viewModel.getPureGoldSalesItems()
                     }
                 }
+
                 is Resource.Error -> {
                     loading.dismiss()
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
@@ -131,12 +153,14 @@ class AkoukSellFragment : Fragment() {
                 is Resource.Loading -> {
                     loading.show()
                 }
+
                 is Resource.Success -> {
                     loading.dismiss()
                     requireContext().showSuccessDialog("Delete Success") {
                         viewModel.getPureGoldSalesItems()
                     }
                 }
+
                 is Resource.Error -> {
                     loading.dismiss()
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
@@ -148,12 +172,14 @@ class AkoukSellFragment : Fragment() {
                 is Resource.Loading -> {
                     loading.show()
                 }
+
                 is Resource.Success -> {
                     loading.dismiss()
                     requireContext().showSuccessDialog("Success") {
                         findNavController().popBackStack()
                     }
                 }
+
                 is Resource.Error -> {
                     loading.dismiss()
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
@@ -164,9 +190,10 @@ class AkoukSellFragment : Fragment() {
         binding.includePayment.btnEdit.setOnClickListener {
             findNavController().navigate(
                 WithKPYFragmentDirections.actionGlobalGoldFromHomeFragment(
-                "Global",
-                null
-            ))
+                    "Global",
+                    null
+                )
+            )
         }
         binding.btnAdd.setOnClickListener {
             showDialogAddProduct(null)
@@ -175,14 +202,14 @@ class AkoukSellFragment : Fragment() {
         binding.includePayment.btnCalculate.setOnClickListener {
             //           ကျန်ငွေ= ပိုလိုတန်ဖိုး- လျော့ပေးငွေ- ပေးသွင်းငွေ
             generateNumberFromEditText(binding.includePayment.edtBalance)
-            var poloValue = generateNumberFromEditText(binding.includePayment.edtCharge).toInt()-
+            var poloValue = generateNumberFromEditText(binding.includePayment.edtCharge).toInt() -
                     generateNumberFromEditText(binding.includePayment.edtGoldFromHomeValue).toInt()
 
-            var remainedMoney = poloValue-
-                generateNumberFromEditText(binding.includePayment.edtDeposit).toInt() -
+            var remainedMoney = poloValue -
+                    generateNumberFromEditText(binding.includePayment.edtDeposit).toInt() -
                     generateNumberFromEditText(binding.includePayment.edtReducedPay).toInt()
 
-             binding.includePayment.edtPoloValue.setText(poloValue.toString())
+            binding.includePayment.edtPoloValue.setText(poloValue.toString())
             binding.includePayment.edtBalance.setText(remainedMoney.toString())
 
         }
@@ -201,7 +228,7 @@ class AkoukSellFragment : Fragment() {
 
     }
 
-    fun showDialogAddProduct(item:PureGoldListDomain?) {
+    fun showDialogAddProduct(item: PureGoldListDomain?) {
         val builder = MaterialAlertDialogBuilder(requireContext())
         val inflater = LayoutInflater.from(builder.context)
         dialogAlertBinding = DialogAkoukSellAddProductBinding.inflate(
@@ -218,7 +245,8 @@ class AkoukSellFragment : Fragment() {
         )
 
         dialogAlertBinding.btnSelectGm.setOnClickListener {
-            val ywae = getYwaeFromGram(generateNumberFromEditText(dialogAlertBinding.edtGoldWeightGm).toDouble())
+            val ywae =
+                getYwaeFromGram(generateNumberFromEditText(dialogAlertBinding.edtGoldWeightGm).toDouble())
             val kpy = getKPYFromYwae(ywae)
             dialogAlertBinding.edtGoldWeightK.setText(kpy[0].toInt().toString())
             dialogAlertBinding.edtGoldWeightP.setText(kpy[1].toInt().toString())
@@ -235,7 +263,8 @@ class AkoukSellFragment : Fragment() {
         }
 
         var type = ""
-        val typeList = listOf<String>("အခေါက် အခဲ", "အခေါက် လက်ကောက်", "အခေါက် လက်စွပ်", "အခေါက် အပိုင်း")
+        val typeList =
+            listOf<String>("အခေါက် အခဲ", "အခေါက် လက်ကောက်", "အခေါက် လက်စွပ်", "အခေါက် အပိုင်း")
         val typeListArrayAdapter =
             ArrayAdapter(requireContext(), R.layout.item_drop_down_text, typeList)
 
@@ -247,18 +276,22 @@ class AkoukSellFragment : Fragment() {
         }
         dialogAlertBinding.actType.addTextChangedListener { editable ->
             type = when (editable.toString()) {
-                "အခဲ" -> {
+                "အခေါက် အခဲ" -> {
                     "0"
                 }
-                "လက်ကောက်" -> {
+
+                "အခေါက် လက်ကောက်" -> {
                     "1"
                 }
-                "လက်စွပ်" -> {
+
+                "အခေါက် လက်စွပ်" -> {
                     "2"
                 }
-                "အပိုင်း" -> {
+
+                "အခေါက် အပိုင်း" -> {
                     "3"
                 }
+
                 else -> {
                     "0"
                 }
@@ -269,6 +302,7 @@ class AkoukSellFragment : Fragment() {
                 is Resource.Loading -> {
                     loading.show()
                 }
+
                 is Resource.Success -> {
                     loading.dismiss()
                     requireContext().showSuccessDialog("Update Success") {
@@ -276,6 +310,7 @@ class AkoukSellFragment : Fragment() {
                     }
                     alertDialog.dismiss()
                 }
+
                 is Resource.Error -> {
                     loading.dismiss()
                     alertDialog.dismiss()
@@ -284,18 +319,28 @@ class AkoukSellFragment : Fragment() {
             }
         }
 
-        if (item != null){
+        if (item != null) {
             dialogAlertBinding.actType.setText(typeList[item.type!!.toInt()])
             dialogAlertBinding.edtGoldWeightGm.setText(getGramFromYwae(item.gold_weight_ywae!!.toDouble()).toString())
             val goldWeightKpy = getKPYFromYwae(item.gold_weight_ywae.toDouble())
             dialogAlertBinding.edtGoldWeightK.setText(goldWeightKpy[0].toInt().toString())
             dialogAlertBinding.edtGoldWeightP.setText(goldWeightKpy[1].toInt().toString())
-            dialogAlertBinding.edtGoldWeightY.setText(goldWeightKpy[2].let { String.format("%.2f", it) })
+            dialogAlertBinding.edtGoldWeightY.setText(goldWeightKpy[2].let {
+                String.format(
+                    "%.2f",
+                    it
+                )
+            })
 
             val wastageKpy = getKPYFromYwae(item.wastage_ywae!!.toDouble())
             dialogAlertBinding.edtSellReduceK.setText(wastageKpy[0].toInt().toString())
             dialogAlertBinding.edtSellReduceP.setText(wastageKpy[1].toInt().toString())
-            dialogAlertBinding.edtSellReduceY.setText(wastageKpy[2].let { String.format("%.2f", it) })
+            dialogAlertBinding.edtSellReduceY.setText(wastageKpy[2].let {
+                String.format(
+                    "%.2f",
+                    it
+                )
+            })
 
             dialogAlertBinding.edtFee.setText(item.maintenance_cost)
             dialogAlertBinding.edtNanHtoeFee.setText(item.threading_fees)
@@ -306,7 +351,7 @@ class AkoukSellFragment : Fragment() {
                     generateNumberFromEditText(dialogAlertBinding.edtGoldWeightY).toDouble(),
                 )
                 val wastageYwae = getYwaeFromKPY(
-                    generateNumberFromEditText(dialogAlertBinding.edtSellReduceK ).toInt(),
+                    generateNumberFromEditText(dialogAlertBinding.edtSellReduceK).toInt(),
                     generateNumberFromEditText(dialogAlertBinding.edtSellReduceP).toInt(),
                     generateNumberFromEditText(dialogAlertBinding.edtSellReduceY).toDouble(),
                 )
@@ -321,7 +366,7 @@ class AkoukSellFragment : Fragment() {
                     )
                 )
             }
-        }else{
+        } else {
             dialogAlertBinding.btnContinue.setOnClickListener {
                 val goldWeightYwae = getYwaeFromKPY(
                     generateNumberFromEditText(dialogAlertBinding.edtGoldWeightK).toInt(),

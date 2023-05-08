@@ -10,7 +10,7 @@ data class ProductInfoDomain(
     val jewellery_type_id: String,
     val size: String,
     val gold_and_gem_weight_gm: String,
-    val old_gold_and_gem_weight_gm:String,
+    val old_gold_and_gem_weight_gm: String,
     val gem_weight_ywae: String,
     val gem_value: String,
     val promotion_discount: String,
@@ -19,11 +19,14 @@ data class ProductInfoDomain(
     val wastage_ywae: String,
     val cost: String,
     val gold_type_id: String,
-    var edit_reason_id:String,
-    var general_sale_item_id:String,
-    var new_clip_wt_gm:String,
-    var old_clip_wt_gm:String,
-    val image:String
+    var edit_reason_id: String,
+    var general_sale_item_id: String,
+    var new_clip_wt_gm: String,
+    var old_clip_wt_gm: String,
+    var is_order_sale: String?,
+    var order_sale_gold_price: String?,
+    var order_sale_code: String?,
+    val image: String
 )
 
 fun ProductInfoDomain.asUiModel(): ProductInfoUiModel {
@@ -44,10 +47,13 @@ fun ProductInfoDomain.asUiModel(): ProductInfoUiModel {
         wastage_ywae,
         cost,
         gold_type_id,
-        edit_reason_id=edit_reason_id.orEmpty(),
-        general_sale_item_id=general_sale_item_id.orEmpty(),
-        new_clip_wt_gm=new_clip_wt_gm.orEmpty(),
-        old_clip_wt_gm=old_clip_wt_gm.orEmpty(),
+        edit_reason_id = edit_reason_id.orEmpty(),
+        general_sale_item_id = general_sale_item_id.orEmpty(),
+        new_clip_wt_gm = new_clip_wt_gm.orEmpty(),
+        old_clip_wt_gm = old_clip_wt_gm.orEmpty(),
+        is_order_sale,
+        order_sale_gold_price,
+        order_sale_code,
         image
     )
 }

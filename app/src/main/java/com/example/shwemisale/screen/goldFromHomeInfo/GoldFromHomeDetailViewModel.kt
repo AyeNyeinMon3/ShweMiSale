@@ -735,23 +735,23 @@ class GoldFromHomeDetailViewModel @Inject constructor(
                             updatedList[it].gem_weight_details.orEmpty()
                                 .map { it.gem_weight_gm_per_unit }
 
-                        repeat(updatedList[it].gem_weight_details.orEmpty().size) {
+                        repeat(updatedList[it].gem_weight_details.orEmpty().size) {gemWeightIndex->
                             gemQtyMultiPartList.add(
                                 MultipartBody.Part.createFormData(
-                                    "old_stocks[$it][gem_weight_details][$it][gem_qty]",
-                                    gemQtyList[it]
+                                    "old_stocks[$it][gem_weight_details][$gemWeightIndex][gem_qty]",
+                                    gemQtyList[gemWeightIndex]
                                 )
                             )
                             gemWeightYwaeMultiPartList.add(
                                 MultipartBody.Part.createFormData(
-                                    "old_stocks[$it][gem_weight_details][0][gem_weight_ywae_per_unit]",
-                                    gemWeightYwaeList[it]
+                                    "old_stocks[$it][gem_weight_details][$gemWeightIndex][gem_weight_ywae_per_unit]",
+                                    gemWeightYwaeList[gemWeightIndex]
                                 )
                             )
                             gemWeightGmMultiPartList.add(
                                 MultipartBody.Part.createFormData(
-                                    "old_stocks[$it][gem_weight_details][0][gem_weight_gm_per_unit]",
-                                    gemWeightGmList[it]
+                                    "old_stocks[$it][gem_weight_details][$gemWeightIndex][gem_weight_gm_per_unit]",
+                                    gemWeightGmList[gemWeightIndex]
                                 )
                             )
                         }

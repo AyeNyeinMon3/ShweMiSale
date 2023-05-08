@@ -11,6 +11,7 @@ import com.example.shwemisale.data_layers.dto.calculation.GoldTypePriceDto
 import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.repositoryImpl.GoldFromHomeRepositoryImpl
 import com.example.shwemisale.repositoryImpl.NormalSaleRepositoryImpl
+import com.example.shwemisale.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -25,8 +26,15 @@ class GeneralSaleViewModel @Inject constructor(
     private val goldFromHomeRepositoryImpl: GoldFromHomeRepositoryImpl
 ) : ViewModel() {
     var goldPrice = ""
-
-
+    private val _createGeneralItemLiveData = MutableLiveData<Resource<String>>()
+    val createGeneralItemLiveData: LiveData<Resource<String>>
+        get() = _createGeneralItemLiveData
+    private val _updateGeneralSaleItemsLiveData = SingleLiveEvent<Resource<String>>()
+    val updateGeneralSaleItemsLiveData: SingleLiveEvent<Resource<String>>
+        get() = _updateGeneralSaleItemsLiveData
+    private val _deleteGeneralSaleItemsLiveData = SingleLiveEvent<Resource<String>>()
+    val deleteGeneralSaleItemsLiveData: SingleLiveEvent<Resource<String>>
+        get() = _deleteGeneralSaleItemsLiveData
     private val _goldTypePriceLiveData = MutableLiveData<Resource<List<GoldTypePriceDto>>>()
     val goldTypePriceLiveData: LiveData<Resource<List<GoldTypePriceDto>>>
         get() = _goldTypePriceLiveData
@@ -86,9 +94,7 @@ class GeneralSaleViewModel @Inject constructor(
         }
     }
 
-    private val _updateGeneralSaleItemsLiveData = MutableLiveData<Resource<String>>()
-    val updateGeneralSaleItemsLiveData: LiveData<Resource<String>>
-        get() = _updateGeneralSaleItemsLiveData
+
     fun updateGeneralSalesItems(
         item:GeneralSaleListDomain
         ){
@@ -183,9 +189,7 @@ class GeneralSaleViewModel @Inject constructor(
             }
         }
     }
-    private val _deleteGeneralSaleItemsLiveData = MutableLiveData<Resource<String>>()
-    val deleteGeneralSaleItemsLiveData: LiveData<Resource<String>>
-        get() = _deleteGeneralSaleItemsLiveData
+
 
     fun deleteGeneralSaleItem(
         item: GeneralSaleListDomain
@@ -242,15 +246,8 @@ class GeneralSaleViewModel @Inject constructor(
                             localDatabase.getGeneralSaleSessionKey().orEmpty()
                         )
                 } else {
-                    _deleteGeneralSaleItemsLiveData.value =
-                        normalSaleRepositoryImpl.updatePureGoldItems(
-                            null,
-                            null,
-                            null,
-                            null,
-                            null,
-                            localDatabase.getGeneralSaleSessionKey().orEmpty()
-                        )
+                    localDatabase.removeGeneralSaleSessionKey()
+                    getGeneralSaleItems()
                 }
             }
 
@@ -258,9 +255,7 @@ class GeneralSaleViewModel @Inject constructor(
         }
     }
 
-    private val _createGeneralItemLiveData = MutableLiveData<Resource<String>>()
-    val createGeneralItemLiveData: LiveData<Resource<String>>
-        get() = _createGeneralItemLiveData
+
     fun createGeneralSaleItem(
         general_sale_item_id: String,
         gold_weight_gm: String,

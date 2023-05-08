@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.shwemi.util.getRoundDownForPrice
 import com.example.shwemisale.data_layers.domain.generalSale.GeneralSaleListDomain
 import com.example.shwemisale.data_layers.domain.pureGoldSale.PureGoldListDomain
 import com.example.shwemisale.data_layers.dto.GeneralSaleDto
@@ -68,8 +69,11 @@ class GeneralSellViewHolder(
                 wastageKpy[1].toInt().toString() + "P " +
                 wastageKpy[2].let { String.format("%.2f", it) } + "Y "
         binding.tvWastageYwae.text = wastageWeight
-        binding.tvCharge.text =
-            ((getYwaeFromGram(data.gold_weight_gm.toDouble()) / 128) * goldPrice.toInt()).toInt().toString()
+        val cost =((((getYwaeFromGram(data.gold_weight_gm.toDouble())+data.wastage_ywae.toDouble()) / 128) * goldPrice.toInt())+
+               data.maintenance_cost.let {
+            if (it.isEmpty()) 0 else it.toInt()
+        })
+        binding.tvCharge.text = getRoundDownForPrice(cost.toInt()).toString()
 //        binding.tvContent.text = data.name
         binding.ivDelete.setOnClickListener {
             deleteClick(data)

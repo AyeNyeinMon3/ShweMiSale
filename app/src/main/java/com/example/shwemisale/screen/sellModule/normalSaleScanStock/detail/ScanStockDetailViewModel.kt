@@ -20,6 +20,9 @@ class ScanStockDetailViewModel @Inject constructor(
     private val productRepoImpl: ProductRepoImpl
 ) : ViewModel() {
     val productInfoList = mutableListOf<ProductInfoUiModel>()
+    private val _goldTypePriceLiveData = SingleLiveEvent<Resource<List<GoldTypePriceDto>>>()
+    val goldTypePriceLiveData: SingleLiveEvent<Resource<List<GoldTypePriceDto>>>
+        get() = _goldTypePriceLiveData
     private val _productInfoLiveData = MutableLiveData<List<ProductInfoUiModel>>()
     val productInfoLiveData: LiveData<List<ProductInfoUiModel>>
         get() = _productInfoLiveData
@@ -117,10 +120,6 @@ class ScanStockDetailViewModel @Inject constructor(
             )
         }
     }
-
-    private val _goldTypePriceLiveData = MutableLiveData<Resource<List<GoldTypePriceDto>>>()
-    val goldTypePriceLiveData: LiveData<Resource<List<GoldTypePriceDto>>>
-        get() = _goldTypePriceLiveData
 
     fun getGoldTypePrice(goldTypeId:String){
         _goldTypePriceLiveData.value= Resource.Loading()

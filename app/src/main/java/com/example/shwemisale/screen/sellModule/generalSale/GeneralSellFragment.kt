@@ -204,11 +204,26 @@ class GeneralSellFragment : Fragment() {
                     }
                     adapter.submitList(it.data)
 
-                    binding.edtCharge.setText(totalCost.toString())
+                    binding.edtCharge.setText(getRoundDownForPrice(totalCost).toString())
                 }
                 is Resource.Error -> {
                     loading.dismiss()
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                    if (it.message =="Session key not found!"){
+                        adapter = GeneralSellRecyclerAdapter(
+                            viewModel.goldPrice,
+                            viewModel.generalSaleItemListForMap.orEmpty(),
+                            {
+                                showDialogAddProduct(it)
+                            },
+                            {
+                                viewModel.deleteGeneralSaleItem(it)
+                            })
+                        binding.rvGeneralSell.adapter = adapter
+                        adapter.submitList(emptyList())
+                        binding.edtCharge.text?.clear()
+                    }else{
+                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                    }
 
                 }
 
@@ -263,6 +278,7 @@ class GeneralSellFragment : Fragment() {
                 is Resource.Error -> {
                     loading.dismiss()
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+
                 }
             }
         }

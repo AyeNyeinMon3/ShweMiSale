@@ -60,5 +60,9 @@ class CreatePawnViewModel @Inject constructor(
         return localDatabase.getTotalPawnPriceForStockFromHome().orEmpty()
     }
 
+    fun openVoucherPrice():String{
+        return localDatabase.getTotalCVoucherBuyingPriceForStockFromHome().orEmpty()
+    }
+
 
 }

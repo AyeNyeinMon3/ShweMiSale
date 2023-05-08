@@ -991,16 +991,16 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tv_label_estimated_charge"
+                        android:id="@+id/tv_label_polo_value"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="ခန့်မှန်းကျသင့်ငွေ"
+                        android:text="ပိုလိုတန်ဖိုး"
                         android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                         android:textColor="@color/primary_text"
                         android:textStyle="bold" />
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/textInputLayout_estimated_charge"
+                        android:id="@+id/textInputLayout_polo_value"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
@@ -1016,7 +1016,7 @@
                         app:hintEnabled="false">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/edt_estimated_charge"
+                            android:id="@+id/edt_polo_value"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="number"
@@ -1242,16 +1242,16 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tv_label_polo_value"
+                        android:id="@+id/tv_label_estimated_charge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="ပိုလိုတန်ဖိုး"
+                        android:text="ခန့်မှန်းကျသင့်ငွေ"
                         android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                         android:textColor="@color/primary_text"
                         android:textStyle="bold" />
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/textInputLayout_polo_value"
+                        android:id="@+id/textInputLayout_estimated_charge"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
@@ -1267,7 +1267,7 @@
                         app:hintEnabled="false">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/edt_polo_value"
+                            android:id="@+id/edt_estimated_charge"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="number"

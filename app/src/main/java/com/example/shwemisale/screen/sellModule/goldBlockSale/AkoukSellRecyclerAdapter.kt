@@ -5,10 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.shwemi.util.getRoundDownForPrice
 import com.example.shwemisale.data_layers.domain.goldFromHome.StockFromHomeDomain
 import com.example.shwemisale.data_layers.domain.pureGoldSale.PureGoldListDomain
 import com.example.shwemisale.databinding.ItemAkoukSellBinding
 import com.example.shwemisale.screen.goldFromHome.getKPYFromYwae
+import kotlin.math.cos
 
 data class AkoukSellData(
     val id: String,
@@ -64,8 +66,14 @@ class AkoukSellViewHolder(
         binding.tvSellReduce.text = wastageWeight
         binding.tvFee.text = data.maintenance_cost.orEmpty()
         binding.tvNanHtoeFee.text = data.threading_fees.orEmpty()
-        binding.tvCharge.text =
-            ((data.gold_weight_ywae.toDouble() / 128) * goldPrice.toInt()).toInt().toString()
+//        val cost2 =  (data.maintenance_cost!!.toInt() + data.threading_fees!!.toInt() + (goldPrice.toInt() * ((data.gold_weight_ywae.toDouble() / 128) + (data.wastage_ywae!!.toDouble() / 128)))).toInt()
+        val cost =((((data.gold_weight_ywae.toDouble()+data.wastage_ywae.toDouble()) / 128) * goldPrice.toInt())+
+                data.threading_fees.let {
+                    if (it.isNullOrEmpty()) 0 else it.toInt()
+                }+data.maintenance_cost.let {
+            if (it.isNullOrEmpty()) 0 else it.toInt()
+        })
+        binding.tvCharge.text = getRoundDownForPrice(cost.toInt()).toString()
 
         binding.ivDelete.setOnClickListener {
             deleteClick(data)

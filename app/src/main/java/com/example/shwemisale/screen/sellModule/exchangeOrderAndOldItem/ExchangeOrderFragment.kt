@@ -49,7 +49,11 @@ class ExchangeOrderFragment : Fragment() {
         barlauncer = this.getBarLauncher(requireContext()) {
             binding.edtVoucherBalance.setText(it)
             binding.edtGoldFromHomeVoucher.setText(it)
-            viewModel.scanVoucher(it)
+            if (args.scannedCodesList.toList().contains(it)){
+                Toast.makeText(requireContext(),"This code is already scanned in old stocks",Toast.LENGTH_LONG).show()
+            }else{
+                viewModel.scanVoucher(it)
+            }
         }
         binding.textInputLayoutVoucherBalance.setEndIconOnClickListener {
             this.scanQrCode(requireContext(), barlauncer)
@@ -61,7 +65,11 @@ class ExchangeOrderFragment : Fragment() {
                     keyCode == KeyEvent.KEYCODE_ENTER
                 ) {
                     // Perform action on key press
-                    viewModel.scanVoucher(binding.edtVoucherBalance.text.toString())
+                    if (args.scannedCodesList.toList().contains(binding.edtVoucherBalance.text.toString())){
+                        Toast.makeText(requireContext(),"This code is already scanned in old stocks",Toast.LENGTH_LONG).show()
+                    }else{
+                        viewModel.scanVoucher(binding.edtVoucherBalance.text.toString())
+                    }
                     hideKeyboard(activity, binding.edtVoucherBalance)
                     return true
                 }
@@ -85,7 +93,17 @@ class ExchangeOrderFragment : Fragment() {
                 }
                 is Resource.Error -> {
                     loading.dismiss()
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                    if (it.message =="Session key not found!"){
+                        view.findNavController().navigate(
+                            ExchangeOrderFragmentDirections.actionExchangeOrderFragmentToWithKPYFragment(
+                                args.scannedProducts,
+                                generateNumberFromEditText(binding.edtOldVoucherPayment).toInt(),
+                                if (binding.edtGoldFromHomeVoucher.text.isNullOrEmpty()) null else binding.edtGoldFromHomeVoucher.text.toString()
+                            )
+                        )
+                    }else{
+                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                    }
                 }
             }
         }
@@ -108,7 +126,17 @@ class ExchangeOrderFragment : Fragment() {
                 }
                 is Resource.Error -> {
                     loading.dismiss()
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                    if (it.message =="Session key not found!"){
+                        view.findNavController().navigate(
+                            ExchangeOrderFragmentDirections.actionExchangeOrderFragmentToWithKPYFragment(
+                                args.scannedProducts,
+                                generateNumberFromEditText(binding.edtOldVoucherPayment).toInt(),
+                                if (binding.edtGoldFromHomeVoucher.text.isNullOrEmpty()) null else binding.edtGoldFromHomeVoucher.text.toString()
+                            )
+                        )
+                    }else{
+                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                    }
                 }
             }
         }

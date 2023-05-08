@@ -277,41 +277,41 @@
             app:layout_constraintStart_toEndOf="@+id/tv_choose_date_2"
             app:layout_constraintTop_toTopOf="@+id/tv_choose_date_2" />
 
-        <TextView
-            android:id="@+id/tv_bulletPoint1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:text="   \u25CF ၁ လ ၁ ခါ အတိုးရှင်းရန်"
-            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
-            android:textColor="@color/primary_text"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_choose_date" />
+<!--        <TextView-->
+<!--            android:id="@+id/tv_bulletPoint1"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="16dp"-->
+<!--            android:layout_marginTop="32dp"-->
+<!--            android:text="   \u25CF ၁ လ ၁ ခါ အတိုးရှင်းရန်"-->
+<!--            android:textAppearance="@style/TextAppearance.ShweMi.Body2"-->
+<!--            android:textColor="@color/primary_text"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/tv_choose_date" />-->
 
-        <TextView
-            android:id="@+id/tv_bulletPoint2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="   \u25CF ၁ လ ၁ ခါ အတိုးမရှင်းပါက ပစ္စည်းဆုံးမည်"
-            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
-            android:textColor="@color/primary_text"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_bulletPoint1" />
+<!--        <TextView-->
+<!--            android:id="@+id/tv_bulletPoint2"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="16dp"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:text="   \u25CF ၁ လ ၁ ခါ အတိုးမရှင်းပါက ပစ္စည်းဆုံးမည်"-->
+<!--            android:textAppearance="@style/TextAppearance.ShweMi.Body2"-->
+<!--            android:textColor="@color/primary_text"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/tv_bulletPoint1" />-->
 
         <View
             android:id="@+id/view2"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:background="@color/label_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_bulletPoint2" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_choose_date_2" />
 
         <Switch
             android:id="@+id/switch_app"

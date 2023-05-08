@@ -162,19 +162,19 @@ class GoldFromHomeViewModel @Inject constructor(
                     gemQtyMultiPartList.add(
                         MultipartBody.Part.createFormData(
                             "old_stocks[$it][gem_weight_details][$gemWeightIndex][gem_qty]",
-                            gemQtyList[it]
+                            gemQtyList[gemWeightIndex]
                         )
                     )
                     gemWeightYwaeMultiPartList.add(
                         MultipartBody.Part.createFormData(
                             "old_stocks[$it][gem_weight_details][$gemWeightIndex][gem_weight_ywae_per_unit]",
-                            gemWeightYwaeList[it]
+                            gemWeightYwaeList[gemWeightIndex]
                         )
                     )
                     gemWeightGmMultiPartList.add(
                         MultipartBody.Part.createFormData(
                             "old_stocks[$it][gem_weight_details][$gemWeightIndex][gem_weight_gm_per_unit]",
-                            gemWeightGmList[it]
+                            gemWeightGmList[gemWeightIndex]
                         )
                     )
                 }
@@ -596,7 +596,7 @@ class GoldFromHomeViewModel @Inject constructor(
                         updatedList[it].image?.id?.let {id->
                             imageId.add(
                                 MultipartBody.Part.createFormData(
-                                    "old_stocks[$it][imageId]",
+                                    "old_stocks[$it][image][id]",
                                         id
                                 )
                             )

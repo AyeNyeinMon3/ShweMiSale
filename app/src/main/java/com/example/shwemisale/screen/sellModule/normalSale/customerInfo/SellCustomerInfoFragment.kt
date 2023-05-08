@@ -66,9 +66,16 @@ class SellCustomerInfoFragment:Fragment() {
                         chip.id = item.id.toInt()
                         binding.includeCustomerInfo.chipGp.addView(chip)
                     }
+                    var previousCheckedChipId = ""
                     binding.includeCustomerInfo.chipGp.setOnCheckedStateChangeListener { group, checkedIds ->
-                        val productList = it.data!!.find { it.id == checkedIds[0].toString() }!!.product
-                        adapter.submitList(productList!!.map { it.asUiModel() })
+                        if (checkedIds.isEmpty()) {
+                            group.check(previousCheckedChipId.toInt())
+                        }else{
+                            previousCheckedChipId = checkedIds[0].toString()
+                            val productList = it.data?.find { it.id == checkedIds[0].toString() }?.product.orEmpty()
+                            adapter.submitList(productList.map { it.asUiModel() })
+                        }
+
                     }
                 }
                 is Resource.Error->{

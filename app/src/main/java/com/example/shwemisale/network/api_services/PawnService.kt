@@ -143,8 +143,7 @@ interface PawnService {
         @Field("paid_amount") paid_amount:String?,
     ):Response<SimpleResponse>
 
-    @POST("api/sales/{saleCode}/remaining-amount")
-    @FormUrlEncoded
+    @GET("api/sales/{saleCode}/remaining-amount")
     suspend fun getRemainingAmount(
         @Header("Authorization") token:String,
         @Path("saleCode") saleCode:String?,

@@ -93,6 +93,9 @@
         <action
             android:id="@+id/action_scanStockFragment_to_stockDetailFragment"
             app:destination="@id/stockDetailFragment" />
+        <argument
+            android:name="scannedSalesCodeList"
+            app:argType="string[]" />
     </fragment>
     <fragment
         android:id="@+id/receiveNewOrderFragment"
@@ -130,6 +133,9 @@
             android:name="goldPrice"
             app:argType="string"
             app:nullable="true" />
+        <argument
+            android:name="scannedCodesList"
+            app:argType="string[]" />
     </fragment>
     <fragment
         android:id="@+id/withValueFragment"

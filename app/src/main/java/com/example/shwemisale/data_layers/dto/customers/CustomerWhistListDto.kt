@@ -12,7 +12,7 @@ data class CustomerWhistListDto(
     val id:String?,
     val name:String?,
     val image:String?,
-    val product:List<ProductDto>?
+    val products:List<ProductDto>?
 )
 
 fun CustomerWhistListDto.asDomain():CustomerWhistListDomain{
@@ -20,6 +20,6 @@ fun CustomerWhistListDto.asDomain():CustomerWhistListDomain{
         id = id.orEmpty(),
         name =name.orEmpty(),
         image = image.orEmpty(),
-        product = product?.map { it.asDomain() }
+        product = products?.map { it.asDomain() }
     )
 }

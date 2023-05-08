@@ -56,7 +56,7 @@ class WithKPYFragment : Fragment() {
         })
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loading = requireContext().getAlertDialog()
@@ -84,10 +84,12 @@ class WithKPYFragment : Fragment() {
                 is Resource.Loading -> {
                     loading.show()
                 }
+
                 is Resource.Success -> {
                     loading.dismiss()
                     binding.edtCustomerPoint.setText(it.data)
                 }
+
                 is Resource.Error -> {
 
                     loading.dismiss()
@@ -100,6 +102,7 @@ class WithKPYFragment : Fragment() {
                 is Resource.Loading -> {
                     loading.show()
                 }
+
                 is Resource.Success -> {
                     loading.dismiss()
                     binding.edtReducedPay.setText(
@@ -107,6 +110,7 @@ class WithKPYFragment : Fragment() {
                             .let { if (it.isEmpty()) 0 else it.toInt() }).toString()
                     )
                 }
+
                 is Resource.Error -> {
 
                     loading.dismiss()
@@ -120,12 +124,14 @@ class WithKPYFragment : Fragment() {
                 is Resource.Loading -> {
                     loading.show()
                 }
+
                 is Resource.Success -> {
                     loading.dismiss()
                     requireContext().showSuccessDialog(it.data.orEmpty()) {
                         findNavController().popBackStack()
                     }
                 }
+
                 is Resource.Error -> {
 
                     loading.dismiss()
@@ -138,6 +144,7 @@ class WithKPYFragment : Fragment() {
                 is Resource.Loading -> {
                     loading.show()
                 }
+
                 is Resource.Success -> {
                     loading.dismiss()
                     viewModel.goldPrice = it.data?.gold_price.toString()
@@ -153,6 +160,7 @@ class WithKPYFragment : Fragment() {
 //                    binding.edtCharge.setText(totalPrice.toInt().toString())
 
                 }
+
                 is Resource.Error -> {
                     loading.dismiss()
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
@@ -176,7 +184,7 @@ class WithKPYFragment : Fragment() {
                     ).toDouble() +
                             generateNumberFromEditText(binding.edtPTclipValue).toDouble() + generateNumberFromEditText(
                         binding.edtTotalGemValue
-                    ).toDouble() - goldFromHomeValue- args.oldVoucherPaidAmount
+                    ).toDouble() - goldFromHomeValue - args.oldVoucherPaidAmount
                 binding.edtGoldFromHomeValue.text?.clear()
                 val totalGoldWeightKpy = getKPYFromYwae(
                     viewModel.getTotalGoldWeightYwae()
@@ -210,7 +218,7 @@ class WithKPYFragment : Fragment() {
 
         binding.btnCalculate.setOnClickListener {
             viewModel.getRedeemMoney(generateNumberFromEditText(binding.edtRedeemPoint))
-         calculateValues()
+            calculateValues()
         }
 
         val scannedProducts = args.scannedProducts.toList()
@@ -285,9 +293,6 @@ class WithKPYFragment : Fragment() {
             }
             val paid_amount = binding.edtDeposit.text.toString()
             val reduced_cost = binding.edtReducedPay.text.toString()
-
-            /** old stock list manipulation */
-
             viewModel.submitWithKPY(
                 productIdList,
                 viewModel.getCustomerId(),
@@ -301,10 +306,11 @@ class WithKPYFragment : Fragment() {
             )
         }
     }
-    fun calculateValues(){
-        val goldFromHomeValue = if (binding.radioBtnKpy.isChecked){
+
+    fun calculateValues() {
+        val goldFromHomeValue = if (binding.radioBtnKpy.isChecked) {
             0.0
-        }else{
+        } else {
             generateNumberFromEditText(binding.edtGoldFromHomeValue).toDouble()
         }
 
@@ -347,7 +353,7 @@ class WithKPYFragment : Fragment() {
             ).toDouble() +
                     generateNumberFromEditText(binding.edtPTclipValue).toDouble() + generateNumberFromEditText(
                 binding.edtTotalGemValue
-            ).toDouble() -goldFromHomeValue - args.oldVoucherPaidAmount
+            ).toDouble() - goldFromHomeValue - args.oldVoucherPaidAmount
 
         binding.edtCharge.setText(totalPrice.toInt().toString())
         val leftMoney =

@@ -46,6 +46,8 @@ class SellGoldFromHomeFragment : Fragment() {
     private val args by navArgs<SellGoldFromHomeFragmentArgs>()
     lateinit var adapter: GoldFromHomeRecyclerAdapter
 
+    private var scannedCodesList = mutableListOf<String>()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -67,6 +69,7 @@ class SellGoldFromHomeFragment : Fragment() {
             binding.btnContinue.isVisible = false
             binding.btnSkip.isVisible = false
             binding.btnDone.isVisible = true
+            binding.btnAdd.isVisible = false
             binding.btnDone.setOnClickListener {
                 findNavController().popBackStack()
             }
@@ -280,6 +283,7 @@ class SellGoldFromHomeFragment : Fragment() {
                 }
                 is Resource.Success -> {
                     loading.dismiss()
+                    scannedCodesList.add(binding.edtScanVoucher.text.toString())
                     showStockCheckDialog(it.data!!)
 
                 }
@@ -435,7 +439,9 @@ class SellGoldFromHomeFragment : Fragment() {
 
         dialogSellTypeBinding.btnNormalSell.setOnClickListener {
             view?.findNavController()
-                ?.navigate(SellGoldFromHomeFragmentDirections.actionSellGoldFromHomeFragmentToScanStockFragment())
+                ?.navigate(SellGoldFromHomeFragmentDirections.actionSellGoldFromHomeFragmentToScanStockFragment(
+                    scannedCodesList.toTypedArray()
+                ))
             alertDialog.dismiss()
         }
         dialogSellTypeBinding.btnReceiveNewOrder.setOnClickListener {

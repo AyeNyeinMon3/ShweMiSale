@@ -26,8 +26,14 @@ data class ProductInfoDto(
     var general_sale_item_id:String?,
     var new_clip_wt_gm:String?,
     var old_clip_wt_gm:String?,
+    var is_order_sale:String?,
+    var order_sale_gold_price:String?,
+    var         order_sale_code:String?,
     val image:String?
 )
+
+//is_order_sale (0/1)
+//order_sale_gold_price
 fun ProductInfoDto.asDomain():ProductInfoDomain{
     return ProductInfoDomain(
         id = id.orEmpty(),
@@ -49,6 +55,9 @@ fun ProductInfoDto.asDomain():ProductInfoDomain{
      general_sale_item_id=general_sale_item_id.orEmpty(),
      new_clip_wt_gm=new_clip_wt_gm.orEmpty(),
      old_clip_wt_gm=old_clip_wt_gm.orEmpty(),
+        is_order_sale,
+        order_sale_gold_price,
+        order_sale_code,
         image = image.orEmpty()
     )
 }

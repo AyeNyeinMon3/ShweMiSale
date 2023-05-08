@@ -267,13 +267,16 @@ class SellResellStockInfoAddedFragment : Fragment() {
             binding.edtPriceA.setText(generateNumberFromEditText(binding.edtRepurchasePrice))
             binding.edtPriceB.setText(generateNumberFromEditText(binding.edtPaymentFromShop))
             //f value will changed because b valued changed
-            var fywae =
-                (generateNumberFromEditText(binding.edtPriceB)
-                    .toDouble() / generateNumberFromEditText(binding.edtPriceE).toDouble()) * 128
-            val fVoucherKpy = getKPYFromYwae(fywae)
-            binding.edtPriceFK.setText(fVoucherKpy[0].toInt().toString())
-            binding.edtPriceFP.setText(fVoucherKpy[1].toInt().toString())
-            binding.edtPriceFY.setText(fVoucherKpy[2].let { String.format("%.2f", it) })
+            if (generateNumberFromEditText(binding.edtPriceE) != "0"){
+                var fywae =
+                    (generateNumberFromEditText(binding.edtPriceB)
+                        .toDouble() / generateNumberFromEditText(binding.edtPriceE).toDouble()) * 128
+                val fVoucherKpy = getKPYFromYwae(fywae)
+                binding.edtPriceFK.setText(fVoucherKpy[0].toInt().toString())
+                binding.edtPriceFP.setText(fVoucherKpy[1].toInt().toString())
+                binding.edtPriceFY.setText(fVoucherKpy[2].let { String.format("%.2f", it) })
+            }
+
             makeCalculateButtonEnableWhenEdit(
                 listOf(
                     //Gold and gem weight
@@ -880,14 +883,17 @@ class SellResellStockInfoAddedFragment : Fragment() {
         binding.edtPawnPrice.setText("")
         binding.edtPriceB.setText(priceB.toInt().toString())
         //f value will changed because b valued changed
-        //f value will changed because b valued changed
-        var fywae =
-            (generateNumberFromEditText(binding.edtPriceB)
-                .toDouble() / generateNumberFromEditText(binding.edtPriceE).toDouble()) * 128
-        val fVoucherKpy = getKPYFromYwae(fywae)
-        binding.edtPriceFK.setText(fVoucherKpy[0].toInt().toString())
-        binding.edtPriceFP.setText(fVoucherKpy[1].toInt().toString())
-        binding.edtPriceFY.setText(fVoucherKpy[2].let { String.format("%.2f", it) })
+        if (generateNumberFromEditText(binding.edtPriceE) != "0"){
+            var fywae =
+                (generateNumberFromEditText(binding.edtPriceB)
+                    .toDouble() / generateNumberFromEditText(binding.edtPriceE).toDouble()) * 128
+            val fVoucherKpy = getKPYFromYwae(fywae)
+            binding.edtPriceFK.setText(fVoucherKpy[0].toInt().toString())
+            binding.edtPriceFP.setText(fVoucherKpy[1].toInt().toString())
+            binding.edtPriceFY.setText(fVoucherKpy[2].let { String.format("%.2f", it) })
+        }
+
+
         binding.edtReducedPriceB.setText("")
     }
 
@@ -924,15 +930,23 @@ class SellResellStockInfoAddedFragment : Fragment() {
         } else {
             (priceB) / goldKyat
         }
-        // need to change other values
-//        binding.edtRepurchasePrice.setText(priceA.toInt().toString())
-//        binding.edtPaymentFromShop.setText(priceB.toInt().toString())
+
         val decidedPawnPrice =
             priceA - viewModel.pawnDiffValue.toDouble()
         val decidedPawnPriceDecimal = decidedPawnPrice.toInt().toString()
         binding.edtDecidedPawnPrice.setText(decidedPawnPriceDecimal)
         binding.edtPawnPrice.setText("")
         binding.edtPriceA.setText(priceA.toInt().toString())
+        //f value will changed because b valued changed
+//        if (generateNumberFromEditText(binding.edtPriceE) != "0"){
+//            var fywae =
+//                (generateNumberFromEditText(binding.edtReducedPriceB)
+//                    .toDouble() / generateNumberFromEditText(binding.edtPriceE).toDouble()) * 128
+//            val fVoucherKpy = getKPYFromYwae(fywae)
+//            binding.edtPriceFK.setText(fVoucherKpy[0].toInt().toString())
+//            binding.edtPriceFP.setText(fVoucherKpy[1].toInt().toString())
+//            binding.edtPriceFY.setText(fVoucherKpy[2].let { String.format("%.2f", it) })
+//        }
     }
 
     fun calculatePriceD(hasotherReducedCost: Boolean) {
@@ -1263,13 +1277,16 @@ class SellResellStockInfoAddedFragment : Fragment() {
             // need to change
             binding.edtReducedPriceB.setText(result.toInt().toString())
             //f value will changed because b valued changed
-            var fywae =
-                (generateNumberFromEditText(binding.edtReducedPriceB)
-                    .toDouble() / generateNumberFromEditText(binding.edtPriceE).toDouble()) * 128
-            val fVoucherKpy = getKPYFromYwae(fywae)
-            binding.edtPriceFK.setText(fVoucherKpy[0].toInt().toString())
-            binding.edtPriceFP.setText(fVoucherKpy[1].toInt().toString())
-            binding.edtPriceFY.setText(fVoucherKpy[2].let { String.format("%.2f", it) })
+            if (generateNumberFromEditText(binding.edtPriceE) != "0"){
+                var fywae =
+                    (generateNumberFromEditText(binding.edtReducedPriceB)
+                        .toDouble() / generateNumberFromEditText(binding.edtPriceE).toDouble()) * 128
+                val fVoucherKpy = getKPYFromYwae(fywae)
+                binding.edtPriceFK.setText(fVoucherKpy[0].toInt().toString())
+                binding.edtPriceFP.setText(fVoucherKpy[1].toInt().toString())
+                binding.edtPriceFY.setText(fVoucherKpy[2].let { String.format("%.2f", it) })
+            }
+
             alertDialog.dismiss()
         }
         alertDialog.show()
