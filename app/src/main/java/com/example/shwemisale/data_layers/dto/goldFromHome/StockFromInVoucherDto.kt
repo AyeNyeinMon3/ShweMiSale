@@ -49,7 +49,7 @@ fun StockFromInVoucherDto.asDomain():StockFromHomeDomain{
         maintenance_cost = maintenance_cost,
         price_for_pawn = "0",
         pt_and_clip_cost = pt_and_clip_cost,
-        qty = "0",
+        qty = "1",
         rebuy_price = gold_price.orEmpty(),
         size = "small",
         stock_condition = "damage",

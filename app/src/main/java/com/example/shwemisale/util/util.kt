@@ -33,7 +33,7 @@ import javax.inject.Inject
 import kotlin.collections.HashMap
 
 
-inline fun <reified T> ResponseBody.parseErrorWithDataClass(errorJsonString:String): T? {
+inline fun <reified T> ResponseBody.parseErrorWithDataClass(errorJsonString: String): T? {
     val moshi = Moshi.Builder().build()
     val builder = Moshi.Builder().build()
 //    val parser = moshi.adapter(T::class.java)
@@ -47,23 +47,26 @@ inline fun <reified T> ResponseBody.parseErrorWithDataClass(errorJsonString:Stri
     return null
 }
 
-fun getErrorMessageFromHashMap(errorMessage:Map<String,List<String>>):String{
+fun getErrorMessageFromHashMap(errorMessage: Map<String, List<String>>): String {
     val list: List<Map.Entry<String, Any>> =
         ArrayList<Map.Entry<String, Any>>(errorMessage.entries)
     val (key, value) = list[0]
     return value.toString()
 }
 
-inline fun ResponseBody.parseError(errorJsonString:String): Map<String,List<String>>?{
+inline fun ResponseBody.parseError(errorJsonString: String): Map<String, List<String>>? {
     val moshi = Moshi.Builder().build()
-    val type = Types.newParameterizedType(Map::class.java, String::class.java, List::class.javaObjectType)
+    val type =
+        Types.newParameterizedType(Map::class.java, String::class.java, List::class.javaObjectType)
     val adapter = moshi.adapter<Map<String, List<String>>>(type)
     var jsonObject = JSONObject(errorJsonString)
 
 
     try {
-        return adapter.fromJson(jsonObject.getJSONObject("response").getJSONObject("message").toString())
-    }catch (e: JsonDataException) {
+        return adapter.fromJson(
+            jsonObject.getJSONObject("response").getJSONObject("message").toString()
+        )
+    } catch (e: JsonDataException) {
         e.printStackTrace()
     }
     return null
@@ -84,15 +87,17 @@ fun takeThreeDecimal(number: Double): String {
     val number2digits: Double = String.format("%.2f", number3digits).toDouble()
     return String.format("%.1f", number2digits).toDouble().toString()
 }
+
 fun loadImageUrlPhotoView(photoView: PhotoView, imgUrl: String?) {
     imgUrl?.let {
         Glide.with(photoView.context).load(it)
             .apply(
                 RequestOptions.placeholderOf(R.drawable.loading_animation)
-                .error(R.drawable.ic_broken_image)
+                    .error(R.drawable.ic_broken_image)
             ).into(photoView)
     }
 }
+
 fun getRealPathFromUri(context: Context, contentUri: Uri): String? {
     var cursor: Cursor? = null
     return try {
@@ -112,10 +117,10 @@ fun AutoCompleteTextView.showDropdown(adapter: ArrayAdapter<String>?) {
     }
 }
 
-fun generateNumberFromEditText(editText: EditText):String{
-    return if (editText.text.isNullOrEmpty()){
+fun generateNumberFromEditText(editText: EditText): String {
+    return if (editText.text.isNullOrEmpty()) {
         "0"
-    }else{
+    } else {
         editText.text.toString()
     }
 }
@@ -125,10 +130,15 @@ fun hideKeyboard(activity: FragmentActivity?, view: View) {
     imm.hideSoftInputFromWindow(view.windowToken, 0)
 }
 
-fun getRoundDownForPrice(price:Int):Int{
-    val a = price/1000.0
-    val roundedDown = a.toBigDecimal().setScale(1, RoundingMode.DOWN).toDouble()
-    return (roundedDown*1000).toInt()
+fun getRoundDownForPrice(price: Int): Int {
+    val lastTwoDigits = price % 100
+    val firstDigits = price - lastTwoDigits
+
+    return if (lastTwoDigits < 50) {
+        firstDigits
+    } else {
+        firstDigits + 100
+    }
 
 }
 

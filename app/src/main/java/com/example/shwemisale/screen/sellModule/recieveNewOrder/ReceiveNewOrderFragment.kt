@@ -49,16 +49,21 @@ class ReceiveNewOrderFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        val totalGoldWeightKpy = getKPYFromYwae(
-            viewModel.getTotalGoldWeightYwae().let { if (it.isEmpty()) 0.0 else it.toDouble() })
-        binding.edtGoldFromHomeWeightK.setText(totalGoldWeightKpy[0].toInt().toString())
-        binding.edtGoldFromHomeWeightP.setText(totalGoldWeightKpy[1].toInt().toString())
-        binding.edtGoldFromHomeWeightY.setText(totalGoldWeightKpy[2].let {
-            String.format(
-                "%.2f",
-                it
-            )
-        })
+        if (binding.radioBtnWithKpy.isChecked) {
+            val totalGoldWeightKpy = getKPYFromYwae(
+                viewModel.getTotalGoldWeightYwae().let { if (it.isEmpty()) 0.0 else it.toDouble() })
+            binding.edtGoldFromHomeWeightK.setText(totalGoldWeightKpy[0].toInt().toString())
+            binding.edtGoldFromHomeWeightP.setText(totalGoldWeightKpy[1].toInt().toString())
+            binding.edtGoldFromHomeWeightY.setText(totalGoldWeightKpy[2].let {
+                String.format(
+                    "%.2f",
+                    it
+                )
+            })
+        }else{
+            binding.edtGoldFromHomeValue.setText(viewModel.getTotalCVoucherBuyingPrice())
+        }
+
     }
 
     override fun onCreateView(
@@ -126,7 +131,7 @@ class ReceiveNewOrderFragment : Fragment() {
                     loading.dismiss()
                     val goldTypeList = it.data!!.map {
                         it.name.orEmpty()
-                    }.filter { it != "Rebuy Price [100%]" }
+                    }.filter { it != "Rebuy Price [100%]" && it !="WG" }
                     val reasonArrayAdapter =
                         ArrayAdapter(requireContext(), R.layout.item_drop_down_text, goldTypeList)
                     binding.actGoldType.addTextChangedListener { editable ->

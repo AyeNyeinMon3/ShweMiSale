@@ -187,6 +187,26 @@ class AkoukSellFragment : Fragment() {
             }
         }
 
+        viewModel.updatePureGoldSaleItemsLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {
+                    loading.show()
+                }
+
+                is Resource.Success -> {
+                    loading.dismiss()
+                    requireContext().showSuccessDialog("Update Success") {
+                        viewModel.getPureGoldSalesItems()
+                    }
+                }
+
+                is Resource.Error -> {
+                    loading.dismiss()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+
         binding.includePayment.btnEdit.setOnClickListener {
             findNavController().navigate(
                 WithKPYFragmentDirections.actionGlobalGoldFromHomeFragment(
@@ -297,27 +317,6 @@ class AkoukSellFragment : Fragment() {
                 }
             }
         }
-        viewModel.updatePureGoldSaleItemsLiveData.observe(viewLifecycleOwner) {
-            when (it) {
-                is Resource.Loading -> {
-                    loading.show()
-                }
-
-                is Resource.Success -> {
-                    loading.dismiss()
-                    requireContext().showSuccessDialog("Update Success") {
-                        viewModel.getPureGoldSalesItems()
-                    }
-                    alertDialog.dismiss()
-                }
-
-                is Resource.Error -> {
-                    loading.dismiss()
-                    alertDialog.dismiss()
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
-                }
-            }
-        }
 
         if (item != null) {
             dialogAlertBinding.actType.setText(typeList[item.type!!.toInt()])
@@ -365,6 +364,7 @@ class AkoukSellFragment : Fragment() {
                         wastageYwae.toString()
                     )
                 )
+                alertDialog.dismiss()
             }
         } else {
             dialogAlertBinding.btnContinue.setOnClickListener {

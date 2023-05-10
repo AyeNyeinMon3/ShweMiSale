@@ -45,7 +45,7 @@ class StockDetailFragment : Fragment() {
 
         viewModel.getProductSizeAndReason(args.productInfo.id)
 //        for goldPrice
-        if(args.productInfo.order_sale_gold_price.isNullOrEmpty() && args.productInfo.order_sale_gold_price == "0"){
+        if(args.productInfo.order_sale_gold_price.isNullOrEmpty() || args.productInfo.order_sale_gold_price == "0"){
             viewModel.getGoldTypePrice(args.productInfo.gold_type_id)
         }else{
             stockGoldPrice = args.productInfo.order_sale_gold_price!!.toInt()

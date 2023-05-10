@@ -45,9 +45,13 @@ class GeneralSellFragment : Fragment() {
         }.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        binding.edtGoldFromHomeValue.setText(viewModel.getTotalCVoucherBuyingPrice())
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         loading = requireContext().getAlertDialog()
-        binding.edtGoldFromHomeValue.setText(viewModel.getTotalCVoucherBuyingPrice())
         binding.btnCalculate.setOnClickListener {
             //           ကျန်ငွေ= ပိုလိုတန်ဖိုး- လျော့ပေးငွေ- ပေးသွင်းငွေ
             generateNumberFromEditText(binding.edtBalance)
@@ -75,11 +79,13 @@ class GeneralSellFragment : Fragment() {
                 is Resource.Loading -> {
                     loading.show()
                 }
+
                 is Resource.Success -> {
                     loading.dismiss()
                     viewModel.generalSaleItemListForMap = it.data
 
                 }
+
                 is Resource.Error -> {
                     loading.dismiss()
                     if (it.message == "Session key not found!") {
@@ -96,12 +102,14 @@ class GeneralSellFragment : Fragment() {
                 is Resource.Loading -> {
                     loading.show()
                 }
+
                 is Resource.Success -> {
                     loading.dismiss()
                     viewModel.goldPrice = it.data?.find { it.name == "15P GQ" }?.price.orEmpty()
                     viewModel.getGeneralSaleItems()
 
                 }
+
                 is Resource.Error -> {
                     loading.dismiss()
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
@@ -115,12 +123,14 @@ class GeneralSellFragment : Fragment() {
                 is Resource.Loading -> {
                     loading.show()
                 }
+
                 is Resource.Success -> {
                     loading.dismiss()
                     requireContext().showSuccessDialog("Success") {
                         viewModel.getGeneralSaleItems()
                     }
                 }
+
                 is Resource.Error -> {
                     loading.dismiss()
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
@@ -132,12 +142,14 @@ class GeneralSellFragment : Fragment() {
                 is Resource.Loading -> {
                     loading.show()
                 }
+
                 is Resource.Success -> {
                     loading.dismiss()
                     requireContext().showSuccessDialog("Update Success") {
                         viewModel.getGeneralSaleItems()
                     }
                 }
+
                 is Resource.Error -> {
                     loading.dismiss()
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
@@ -149,12 +161,14 @@ class GeneralSellFragment : Fragment() {
                 is Resource.Loading -> {
                     loading.show()
                 }
+
                 is Resource.Success -> {
                     loading.dismiss()
                     requireContext().showSuccessDialog("Delete Success") {
                         viewModel.getGeneralSaleItems()
                     }
                 }
+
                 is Resource.Error -> {
                     loading.dismiss()
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
@@ -167,12 +181,14 @@ class GeneralSellFragment : Fragment() {
                 is Resource.Loading -> {
                     loading.show()
                 }
+
                 is Resource.Success -> {
                     loading.dismiss()
                     requireContext().showSuccessDialog("Success") {
                         findNavController().popBackStack()
                     }
                 }
+
                 is Resource.Error -> {
                     loading.dismiss()
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
@@ -184,6 +200,7 @@ class GeneralSellFragment : Fragment() {
                 is Resource.Loading -> {
                     loading.show()
                 }
+
                 is Resource.Success -> {
                     loading.dismiss()
                     adapter = GeneralSellRecyclerAdapter(
@@ -200,15 +217,16 @@ class GeneralSellFragment : Fragment() {
                     var idCount = 0
                     it.data!!.forEach {
                         it.id = idCount++
-                        totalCost += (it.maintenance_cost.toInt() + viewModel.goldPrice.toInt() * ((getYwaeFromGram(it.gold_weight_gm.toDouble()) / 16.6)+it.wastage_ywae.toDouble()/128) ).toInt()
+                        totalCost += (it.maintenance_cost.toInt() + (viewModel.goldPrice.toInt() * ((((it.gold_weight_gm.toDouble() *it.qty.toInt())/16.6) + (it.wastage_ywae.toDouble()) / 128)))).toInt()
                     }
                     adapter.submitList(it.data)
 
                     binding.edtCharge.setText(getRoundDownForPrice(totalCost).toString())
                 }
+
                 is Resource.Error -> {
                     loading.dismiss()
-                    if (it.message =="Session key not found!"){
+                    if (it.message == "Session key not found!") {
                         adapter = GeneralSellRecyclerAdapter(
                             viewModel.goldPrice,
                             viewModel.generalSaleItemListForMap.orEmpty(),
@@ -221,7 +239,7 @@ class GeneralSellFragment : Fragment() {
                         binding.rvGeneralSell.adapter = adapter
                         adapter.submitList(emptyList())
                         binding.edtCharge.text?.clear()
-                    }else{
+                    } else {
                         Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
                     }
 
@@ -257,6 +275,7 @@ class GeneralSellFragment : Fragment() {
                 is Resource.Loading -> {
                     loading.show()
                 }
+
                 is Resource.Success -> {
                     loading.dismiss()
                     viewModel.generalSaleItemListForMap = it.data
@@ -275,6 +294,7 @@ class GeneralSellFragment : Fragment() {
                     }
 
                 }
+
                 is Resource.Error -> {
                     loading.dismiss()
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
