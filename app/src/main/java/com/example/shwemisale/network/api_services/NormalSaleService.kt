@@ -26,7 +26,8 @@ interface NormalSaleService {
     @GET("api/sales/normal/{voucherCode}/paid-amount")
     suspend fun getPaidAmountOfVoucher(
         @Header("Authorization") token: String,
-        @Path("voucherCode") voucherCode: String
+        @Path("voucherCode") voucherCode: String,
+        @Query("old_stock_session_key") old_stock_session_key: String?
     ): Response<PaidAmountOfVoucherResponse>
 
     @GET("api/sales/normal/get-gold-price")
@@ -111,6 +112,8 @@ interface NormalSaleService {
         @Part wastage_ywae: List<MultipartBody.Part?>?,
         @Part rebuy_price_vertical_option: List<MultipartBody.Part?>?,
         @Part productIdList: List<MultipartBody.Part?>?,
+        @Part isEditable:List<MultipartBody.Part?>?,
+        @Part isChecked:List<MultipartBody.Part?>?,
         @Part("session_key")sessionKey:RequestBody?
     ): Response<SessionKeyResponse>
 
@@ -118,6 +121,7 @@ interface NormalSaleService {
     @POST("api/old_stocks/update")
     suspend fun updateStockFromHome(
         @Header("Authorization") token: String,
+        @Part id:List<MultipartBody.Part>?,
         @Part a_buying_price: List<MultipartBody.Part?>?,
         @Part b_voucher_buying_value: List<MultipartBody.Part?>?,
         @Part c_voucher_buying_price: List<MultipartBody.Part?>?,
@@ -150,6 +154,8 @@ interface NormalSaleService {
         @Part wastage_ywae: List<MultipartBody.Part?>?,
         @Part rebuy_price_vertical_option: List<MultipartBody.Part?>?,
         @Part productIdList: List<MultipartBody.Part?>?,
+        @Part isEditable: List<MultipartBody.Part?>?,
+        @Part isChecked: List<MultipartBody.Part?>?,
 
         @Part("session_key")sessionKey:RequestBody?
     ): Response<SessionKeyResponse>
@@ -280,7 +286,7 @@ interface NormalSaleService {
         @Part("session_key") session_key: RequestBody?
     ): Response<SessionKeyResponse>
 
-    @GET("api/sales/pure-gold/items")
+    @GET("api/sales/general/items")
     suspend fun getGeneralSaleItems(
         @Header("Authorization") token: String,
         @Query("session_key") sessionKey: String

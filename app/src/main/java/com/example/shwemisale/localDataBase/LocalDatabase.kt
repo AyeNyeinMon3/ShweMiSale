@@ -11,6 +11,7 @@ private const val CUSTOMER_ID="customer_id"
 private const val GENERAL_SALE_SESSION_KEY="general-sale-session_key"
 private const val PURE_GOLD_SESSION_KEY="pure-gold-session_key"
 private const val STOCK_FROM_HOME_SESSION_KEY="stock-from-home-session_key"
+private const val PAWN_STOCK_FROM_HOME_SESSION_KEY="pawn-stock-from-home-session_key"
 private const val TOTAL_PAWN_PRICE="total-pawn-price"
 private const val TOTAL_GOLD_WEIGHT_YWAE="total-gold-weight-ywae"
 private const val TOTAL_C_VOUCHER_BUYING_PRICE="total-c-voucher-buying-price"
@@ -87,8 +88,8 @@ class LocalDatabase @Inject constructor(@ApplicationContext private val context:
         sharedPref.edit { remove(STOCK_FROM_HOME_SESSION_KEY) }
     }
 
-    fun getTotalPawnPriceForStockFromHome():String?{
-        val price =  sharedPref.getString(TOTAL_PAWN_PRICE, "")
+    fun getTotalPawnPriceForStockFromHome():String{
+        val price =  sharedPref.getString(TOTAL_PAWN_PRICE, "0")
         return "$price"
     }
 
@@ -100,8 +101,8 @@ class LocalDatabase @Inject constructor(@ApplicationContext private val context:
         sharedPref.edit { remove(TOTAL_PAWN_PRICE) }
     }
 
-    fun getGoldWeightYwaeForStockFromHome():String?{
-        val goldweightYwae =  sharedPref.getString(TOTAL_GOLD_WEIGHT_YWAE, "")
+    fun getGoldWeightYwaeForStockFromHome():String{
+        val goldweightYwae =  sharedPref.getString(TOTAL_GOLD_WEIGHT_YWAE, "0")
         return "$goldweightYwae"
     }
 
@@ -114,7 +115,7 @@ class LocalDatabase @Inject constructor(@ApplicationContext private val context:
     }
 
     fun getTotalCVoucherBuyingPriceForStockFromHome():String?{
-        val price =  sharedPref.getString(TOTAL_C_VOUCHER_BUYING_PRICE, "")
+        val price =  sharedPref.getString(TOTAL_C_VOUCHER_BUYING_PRICE, "0")
         return "$price"
     }
 
@@ -126,7 +127,18 @@ class LocalDatabase @Inject constructor(@ApplicationContext private val context:
         sharedPref.edit { remove(TOTAL_C_VOUCHER_BUYING_PRICE) }
     }
 
+    fun getPawnOldStockSessionKey():String?{
+        val sessionKey =  sharedPref.getString(PAWN_STOCK_FROM_HOME_SESSION_KEY, "")
+        return "$sessionKey"
+    }
 
+    fun savePawnOldStockSessionKey(sessionKey:String){
+        sharedPref.edit{putString(PAWN_STOCK_FROM_HOME_SESSION_KEY,sessionKey)}
+    }
+
+    fun removePawnOldStockSessionKey(){
+        sharedPref.edit { remove(PAWN_STOCK_FROM_HOME_SESSION_KEY) }
+    }
     fun clearSharedPreference(){
         removeToken()
         removeCustomerId()
@@ -136,5 +148,6 @@ class LocalDatabase @Inject constructor(@ApplicationContext private val context:
         removeTotalPawnPriceForStockFromHome()
         removeGoldWeightYwaeForStockFromHome()
         removeTotalCVoucherBuyingPriceForStockFromHome()
+        removePawnOldStockSessionKey()
     }
 }

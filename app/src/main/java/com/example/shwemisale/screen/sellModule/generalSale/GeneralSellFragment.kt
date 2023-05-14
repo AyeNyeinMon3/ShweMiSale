@@ -217,7 +217,7 @@ class GeneralSellFragment : Fragment() {
                     var idCount = 0
                     it.data!!.forEach {
                         it.id = idCount++
-                        totalCost += (it.maintenance_cost.toInt() + (viewModel.goldPrice.toInt() * ((((it.gold_weight_gm.toDouble() *it.qty.toInt())/16.6) + (it.wastage_ywae.toDouble()) / 128)))).toInt()
+                        totalCost += (it.maintenance_cost.toInt() + (viewModel.goldPrice.toInt() * (((it.gold_weight_gm.toDouble()/16.6) + (it.wastage_ywae.toDouble()) / 128)))).toInt()
                     }
                     adapter.submitList(it.data)
 

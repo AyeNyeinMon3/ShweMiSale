@@ -18,8 +18,9 @@ data class SampleDto(
     val weight_gm: String?
 )
 
-fun SampleDto.asDomain():SampleDomain{
+fun SampleDto.asDomain(isInventory:Boolean):SampleDomain{
     return SampleDomain(
-        id,box_code,name,product_code,product_id,specification,thumbnail,weight_gm, isNew = specification.isNullOrEmpty()
+        id,box_code,name,product_code,product_id,specification,thumbnail,weight_gm, isNew = specification.isNullOrEmpty(),
+        isInventory = isInventory
     )
 }

@@ -167,7 +167,7 @@ class ExchangeOrderFragment : Fragment() {
                 }
                 is Resource.Success -> {
                     loading.dismiss()
-                    binding.edtOldVoucherPayment.setText(it.data)
+                    binding.edtOldVoucherPayment.setText(it.data?.paid_amount)
                     binding.edtGoldFromHomeVoucher.setText(binding.edtVoucherBalance.text.toString())
 
                 }

@@ -69,7 +69,7 @@ class GeneralSellViewHolder(
                 wastageKpy[1].toInt().toString() + "P " +
                 wastageKpy[2].let { String.format("%.2f", it) } + "Y "
         binding.tvWastageYwae.text = wastageWeight
-        val cost =(((((data.gold_weight_gm.toDouble()*data.qty.toDouble()/16.6)+(data.wastage_ywae.toDouble()) / 128)) * goldPrice.toInt())+
+        val cost =(((((data.gold_weight_gm.toDouble()/16.6)+(data.wastage_ywae.toDouble()) / 128)) * goldPrice.toInt())+
                data.maintenance_cost.let {
             if (it.isEmpty()) 0 else it.toInt()
         })

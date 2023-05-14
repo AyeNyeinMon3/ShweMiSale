@@ -1,9 +1,9 @@
 package com.example.shwemi.util
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.database.Cursor
-import android.icu.util.ValueIterator
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.provider.MediaStore
 import android.text.TextUtils
@@ -17,20 +17,19 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.shwemisale.R
 import com.github.chrisbanes.photoview.PhotoView
-import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.JsonDataException
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
-import java.security.Key
-import java.text.SimpleDateFormat
-import java.util.*
-import com.squareup.moshi.internal.Util.NO_ANNOTATIONS
 import org.json.JSONObject
-import java.lang.reflect.Type
-import java.math.RoundingMode
-import javax.inject.Inject
-import kotlin.collections.HashMap
+import java.io.ByteArrayOutputStream
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 
 inline fun <reified T> ResponseBody.parseErrorWithDataClass(errorJsonString: String): T? {
@@ -134,12 +133,34 @@ fun getRoundDownForPrice(price: Int): Int {
     val lastTwoDigits = price % 100
     val firstDigits = price - lastTwoDigits
 
-    return if (lastTwoDigits < 50) {
+    return if (lastTwoDigits <= 50) {
         firstDigits
     } else {
         firstDigits + 100
     }
 
+}
+
+fun compressImage(imageFilePath:String):RequestBody{
+    var bitmap = BitmapFactory.decodeFile(imageFilePath)
+    val width = bitmap.width
+    val height = bitmap.height
+    val ratio = (width * height).toFloat() / (2 * 1024 * 1024)
+
+    if (ratio > 1) {
+        val scale = Math.sqrt(ratio.toDouble()).toFloat()
+        val newWidth = (width / scale).toInt()
+        val newHeight = (height / scale).toInt()
+        bitmap = Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true)
+    }
+
+    val outputStream = ByteArrayOutputStream()
+    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+    val byteArray = outputStream.toByteArray()
+    val requestBody = RequestBody.create("image/jpeg".toMediaTypeOrNull(), byteArray)
+    val body = MultipartBody.Part.createFormData("image", "image.jpg", requestBody)
+
+    return requestBody
 }
 
 

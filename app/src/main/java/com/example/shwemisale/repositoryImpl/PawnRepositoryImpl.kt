@@ -58,6 +58,7 @@ class PawnRepositoryImpl @Inject constructor(
             )
 
             if (response.isSuccessful && response.body() != null) {
+//                localDatabase.removePawnOldStockSessionKey()
                 Resource.Success(response.body()!!.data)
             } else {
                 val errorJsonString = response.errorBody()?.string().orEmpty()

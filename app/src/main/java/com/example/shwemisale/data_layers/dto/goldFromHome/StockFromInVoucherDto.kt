@@ -58,7 +58,9 @@ fun StockFromInVoucherDto.asDomain():StockFromHomeDomain{
         wastage_ywae = wastage_ywae,
         rebuy_price_vertical_option = "X",
         productId = listOf(id.orEmpty()),
-        derived_gold_type_id = derived_gold_type_id.orEmpty()
+        derived_gold_type_id = derived_gold_type_id.orEmpty(),
+        isEditable = true,
+        isChecked = true,
     )
 }
 

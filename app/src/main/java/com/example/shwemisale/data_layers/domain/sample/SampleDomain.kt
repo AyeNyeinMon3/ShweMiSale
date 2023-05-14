@@ -9,5 +9,7 @@ data class SampleDomain(
     var specification: String?,
     val thumbnail: String?,
     val weight_gm: String?,
-    var isNew:Boolean
+    var isNew:Boolean,
+    var isInventory:Boolean
+
 )

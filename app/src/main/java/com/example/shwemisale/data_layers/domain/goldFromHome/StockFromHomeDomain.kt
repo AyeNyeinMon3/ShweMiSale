@@ -40,6 +40,8 @@ data class StockFromHomeDomain(
     val wastage_ywae: String?,
     val rebuy_price_vertical_option:String?,
     val productId:List<String>?,
-    var isChecked:Boolean = false,
+    var isEditable:Boolean,
+    var isChecked:Boolean,
+    var isFromPawn:Boolean = false,
     var derived_gold_type_id:String = ""
 ):Parcelable

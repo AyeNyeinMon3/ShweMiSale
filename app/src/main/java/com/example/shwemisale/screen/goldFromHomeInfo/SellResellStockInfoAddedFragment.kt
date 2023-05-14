@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -60,6 +61,7 @@ class SellResellStockInfoAddedFragment : Fragment() {
     private lateinit var storagePermissionLauncher: ActivityResultLauncher<String>
     private var hasOtherReducedCost: Boolean = false
     var count = 0
+    var isButtonClickable = true
 
 
     override fun onCreateView(
@@ -351,6 +353,16 @@ class SellResellStockInfoAddedFragment : Fragment() {
         }
 
         binding.btnContinue.setOnClickListener {
+                if (isButtonClickable) {
+                    isButtonClickable = false
+                    binding.btnContinue.isEnabled = false
+                    Handler().postDelayed({
+                        binding.btnContinue.isEnabled = true
+                        isButtonClickable = true
+                    }, 1000) // Change this value to adjust the delay time
+                    // Your button click logic goes here
+                }
+
 
             if (binding.tvNameTag.text.isNullOrEmpty() ||
                 binding.edtGoldAndGemWeightK.text.isNullOrEmpty() ||
@@ -382,7 +394,7 @@ class SellResellStockInfoAddedFragment : Fragment() {
                 val gemWeightGmList =
                     viewModel.gemWeightCustomList.map { it.gem_weight_gm_per_unit }
 
-                val imageFile = viewModel.selectedImagePath?.let { File(it) }
+                val imageFile = viewModel.selectedImagePath?.let { compressImage(it) }
                 repeat(viewModel.gemWeightCustomList.size) {
                     gemQtyMultiPartList.add(
                         MultipartBody.Part.createFormData(
@@ -481,7 +493,8 @@ class SellResellStockInfoAddedFragment : Fragment() {
 
                 } else {
                     viewModel.createStockFromHome(
-                        listOf<StockFromHomeDomain>(
+                        isPawn = args.backPressType?.startsWith("Pawn") ?:false,
+                        itemList = listOf<StockFromHomeDomain>(
                             StockFromHomeDomain(
                                 a_buying_price = binding.edtPriceA.text.toString(),
                                 b_voucher_buying_value = if (binding.edtReducedPriceB.text.isNullOrEmpty()) {
@@ -531,8 +544,6 @@ class SellResellStockInfoAddedFragment : Fragment() {
                                     null,
                                     viewModel.selectedImagePath
                                 ),
-
-
                                 impurities_weight_ywae = getYwaeFromKPY(
                                     generateNumberFromEditText(binding.edtGeeWeightK).toInt(),
                                     generateNumberFromEditText(binding.edtGeeWeightP).toInt(),
@@ -553,7 +564,9 @@ class SellResellStockInfoAddedFragment : Fragment() {
                                     generateNumberFromEditText(binding.edtAddReducedY).toDouble()
                                 ).toString(),
                                 rebuy_price_vertical_option = viewModel.verticalOption,
-                                productId = null
+                                productId = null,
+                                isEditable = true,
+                                isChecked = false
                             )
                         )
                     )
@@ -1439,4 +1452,10 @@ class SellResellStockInfoAddedFragment : Fragment() {
             })
         }
     }
+    override fun onPause() {
+        super.onPause()
+        binding.btnContinue.isEnabled = true
+        isButtonClickable = true
+    }
+
 }

@@ -59,22 +59,33 @@ class GoldFromHomeViewHolder(
         binding.tvPawnPrice.text = data.calculated_for_pawn
         binding.tvResellItem.text = data.stock_name
 
-        binding.ivEdit.setOnClickListener {
+        binding.btnEdit.setOnClickListener {
             editClick(data)
         }
-        binding.ivDelete.setOnClickListener {
+        binding.btnDelete.setOnClickListener {
             deleteClick(data)
         }
-//        if (type.isNullOrEmpty().not()){
-//            binding.ivEdit.isVisible = false
-//            binding.ivDelete.isVisible = false
-//            binding.cbForPawn.isVisible = true
-//
-//            binding.cbForPawn.setOnCheckedChangeListener { compoundButton, isChecked ->
-//                data.isChecked = isChecked
-//            }
-//        }
-
+        binding.cbForPawn.isChecked= data.isChecked
+       if (type.orEmpty().startsWith("Pawn")){
+           if (type == "PawnSelect"){
+               binding.btnEdit.isVisible = true
+               binding.btnDelete.isVisible = false
+               binding.cbForPawn.isVisible = true
+               binding.cbForPawn.setOnCheckedChangeListener { compoundButton, isChecked ->
+                   data.isChecked = isChecked
+               }
+           }else if(type == "PawnSelectNoEdit"){
+               binding.cbForPawn.isVisible = true
+               binding.btnDelete.isVisible = false
+               binding.btnEdit.isVisible = false
+               binding.cbForPawn.setOnCheckedChangeListener { compoundButton, isChecked ->
+                   data.isChecked = isChecked
+               }
+           }else {
+               binding.btnEdit.isVisible = type == "PawnNewCanEdit" && data.isEditable
+               binding.btnDelete.isVisible = type == "PawnNewCanEdit" && data.isEditable
+           }
+       }
     }
 }
 

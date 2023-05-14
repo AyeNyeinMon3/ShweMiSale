@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shwemi.util.Resource
+import com.example.shwemisale.data_layers.domain.goldFromHome.PaidAmountOfVoucherDomain
 import com.example.shwemisale.data_layers.domain.goldFromHome.StockFromHomeDomain
 import com.example.shwemisale.data_layers.dto.calculation.GoldTypePriceDto
 import com.example.shwemisale.data_layers.dto.goldFromHome.GemWeightDetail
@@ -30,8 +31,8 @@ class ExchangeOrderViewModel @Inject constructor(
     private val _stockFromHomeInfoLiveData = SingleLiveEvent<Resource<List<StockFromHomeDomain>>>()
     val stockFromHomeInfoLiveData: SingleLiveEvent<Resource<List<StockFromHomeDomain>>>
         get() = _stockFromHomeInfoLiveData
-    private val _scanVoucherLiveData = SingleLiveEvent<Resource<String>>()
-    val scanVoucherLiveData: SingleLiveEvent<Resource<String>>
+    private val _scanVoucherLiveData = SingleLiveEvent<Resource<PaidAmountOfVoucherDomain>>()
+    val scanVoucherLiveData: SingleLiveEvent<Resource<PaidAmountOfVoucherDomain>>
         get() = _scanVoucherLiveData
     private val _updateStockFromHomeInfoLiveData =
         SingleLiveEvent<Resource<String>>()
@@ -112,6 +113,8 @@ class ExchangeOrderViewModel @Inject constructor(
             val wastage_ywae = mutableListOf<MultipartBody.Part>()
             val rebuy_price_vertical_option = mutableListOf<MultipartBody.Part>()
             val productIdList = mutableListOf<MultipartBody.Part>()
+            val isEditable = mutableListOf<MultipartBody.Part>()
+            val isChecked = mutableListOf<MultipartBody.Part>()
             repeat(itemList.size) {
                 val gemQtyList =
                     itemList[it].gem_weight_details.orEmpty().map { it.gem_qty }
@@ -379,6 +382,18 @@ class ExchangeOrderViewModel @Inject constructor(
                         )
                     )
                 }
+                isEditable.add(
+                    MultipartBody.Part.createFormData(
+                        "old_stocks[$it][is_editable]",
+                        "1"
+                    )
+                )
+                isChecked.add(
+                    MultipartBody.Part.createFormData(
+                        "old_stocks[$it][is_checked]",
+                        "0"
+                    )
+                )
             }
 
             addTotalGoldWeightYwaeToStockFromHome(totalFYwae.toString())
@@ -416,6 +431,8 @@ class ExchangeOrderViewModel @Inject constructor(
                     wastage_ywae = wastage_ywae,
                     rebuy_price_vertical_option = rebuy_price_vertical_option,
                     productIdList = productIdList,
+                    isEditable = isEditable,
+                    isChecked = isChecked,
                     sessionKey = localDatabase.getStockFromHomeSessionKey().orEmpty()
                 )
         }

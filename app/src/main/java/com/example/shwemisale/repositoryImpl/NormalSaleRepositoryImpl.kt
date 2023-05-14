@@ -1,11 +1,13 @@
 package com.example.shwemisale.repositoryImpl
 
+import android.text.Editable
 import android.util.Log
 import androidx.lifecycle.map
 import com.example.shwemi.util.Resource
 import com.example.shwemi.util.parseError
 import com.example.shwemi.util.parseErrorWithDataClass
 import com.example.shwemisale.data_layers.domain.generalSale.GeneralSaleListDomain
+import com.example.shwemisale.data_layers.domain.goldFromHome.PaidAmountOfVoucherDomain
 import com.example.shwemisale.data_layers.domain.goldFromHome.StockFromHomeDomain
 import com.example.shwemisale.data_layers.domain.pureGoldSale.PureGoldListDomain
 import com.example.shwemisale.data_layers.domain.sample.SampleDomain
@@ -17,8 +19,10 @@ import com.example.shwemisale.data_layers.dto.generalSale.asDomain
 import com.example.shwemisale.data_layers.dto.goldFromHome.asDomain
 import com.example.shwemisale.data_layers.dto.product.asDomain
 import com.example.shwemisale.data_layers.dto.sample.asDomain
+import com.example.shwemisale.data_layers.dto.voucher.PaidAmountOfVoucherDto
 import com.example.shwemisale.data_layers.dto.voucher.VoucherInfoWithKPYDto
 import com.example.shwemisale.data_layers.dto.voucher.VoucherInfoWithValueResponse
+import com.example.shwemisale.data_layers.dto.voucher.asDomain
 import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.network.api_services.NormalSaleService
 import com.example.shwemisale.repository.NormalSaleRepository
@@ -38,15 +42,17 @@ class NormalSaleRepositoryImpl @Inject constructor(
 ) : NormalSaleRepository {
     override suspend fun getPaidAmountOfVoucher(
         voucherCode: String
-    ): Resource<String> {
+    ): Resource<PaidAmountOfVoucherDomain> {
         return try {
             val response = normalSaleService.getPaidAmountOfVoucher(
                 localDatabase.getAccessToken().orEmpty(),
-                voucherCode
+                voucherCode,
+                localDatabase.getStockFromHomeSessionKey().let { if (it.isNullOrEmpty()) null else it }
             )
 
             if (response.isSuccessful && response.body() != null) {
-                Resource.Success(response.body()!!.data)
+                localDatabase.saveStockFromHomeSessionKey(response.body()!!.data.old_stock_session_key.orEmpty())
+                Resource.Success(response.body()!!.data.asDomain())
             } else if (response.code() == 500) {
                 Resource.Error("500 Server Error")
             } else {
@@ -172,7 +178,7 @@ class NormalSaleRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getStockFromHomeList(sessionKey: String?): Resource<List<StockFromHomeDomain>> {
+    override suspend fun getStockFromHomeList(sessionKey: String?,): Resource<List<StockFromHomeDomain>> {
         return try {
             val response = normalSaleService.getStockFromHomeList(
                 localDatabase.getAccessToken().orEmpty(),
@@ -211,6 +217,7 @@ class NormalSaleRepositoryImpl @Inject constructor(
             )
 
             if (response.isSuccessful && response.body() != null) {
+                localDatabase.removePawnOldStockSessionKey()
                 Resource.Success(response.body()!!.data.map { it.asDomain() })
             } else if (response.code() == 500) {
                 Resource.Error("500 Server Error")
@@ -268,7 +275,10 @@ class NormalSaleRepositoryImpl @Inject constructor(
         wastage_ywae: List<MultipartBody.Part>?,
         rebuy_price_vertical_option:  List<MultipartBody.Part>?,
         productIdList: List<MultipartBody.Part?>?,
-        sessionKey: String?
+        sessionKey: String?,
+        isPawn:Boolean,
+        isEditable:List<MultipartBody.Part?>?,
+        isChecked: List<MultipartBody.Part?>?,
     ): Resource<String> {
         val session =
             if (sessionKey.isNullOrEmpty()) null else sessionKey.toRequestBody("multipart/form-data".toMediaTypeOrNull())
@@ -308,12 +318,16 @@ class NormalSaleRepositoryImpl @Inject constructor(
                 wastage_ywae,
                 rebuy_price_vertical_option,
                 productIdList,
+                isEditable,
+                isChecked,
                 session
             )
 
             if (response.isSuccessful && response.body() != null) {
-                if (localDatabase.getStockFromHomeSessionKey().isNullOrEmpty()) {
+                if (localDatabase.getStockFromHomeSessionKey().isNullOrEmpty() && !isPawn) {
                     localDatabase.saveStockFromHomeSessionKey(response.body()!!.data)
+                }else if (localDatabase.getPawnOldStockSessionKey().isNullOrEmpty() && isPawn){
+                    localDatabase.savePawnOldStockSessionKey(response.body()!!.data)
                 }
                 Resource.Success(response.body()!!.data)
             } else if (response.code() == 500) {
@@ -341,6 +355,7 @@ class NormalSaleRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateStockFromHomeList(
+        id:List<MultipartBody.Part>?,
         a_buying_price: List<MultipartBody.Part>?,
         b_voucher_buying_value: List<MultipartBody.Part>?,
         c_voucher_buying_price: List<MultipartBody.Part>?,
@@ -373,6 +388,9 @@ class NormalSaleRepositoryImpl @Inject constructor(
         wastage_ywae: List<MultipartBody.Part>?,
         rebuy_price_vertical_option:  List<MultipartBody.Part>?,
         productIdList: List<MultipartBody.Part?>?,
+        isEditable: List<MultipartBody.Part>?,
+        isChecked: List<MultipartBody.Part?>?,
+
         sessionKey: String?
     ): Resource<String> {
         val session =
@@ -380,6 +398,7 @@ class NormalSaleRepositoryImpl @Inject constructor(
         return try {
             val response = normalSaleService.updateStockFromHome(
                 localDatabase.getAccessToken().orEmpty(),
+                id,
                 a_buying_price,
                 b_voucher_buying_value,
                 c_voucher_buying_price,
@@ -412,6 +431,8 @@ class NormalSaleRepositoryImpl @Inject constructor(
                 wastage_ywae,
                 rebuy_price_vertical_option,
                 productIdList,
+                isEditable,
+                isChecked,
                 session
             )
 
@@ -727,8 +748,8 @@ class NormalSaleRepositoryImpl @Inject constructor(
             )
 
             if (response.isSuccessful && response.body() != null) {
-                appDatabase.sampleDao.saveSample(response.body()!!.data.asDomain().asEntity())
-                Resource.Success(response.body()!!.data.asDomain())
+                appDatabase.sampleDao.saveSample(response.body()!!.data.asDomain(true).asEntity())
+                Resource.Success(response.body()!!.data.asDomain(true))
             } else if (response.code() == 500) {
                 Resource.Error("500 Server Error")
             } else {
@@ -760,8 +781,8 @@ class NormalSaleRepositoryImpl @Inject constructor(
             )
 
             if (response.isSuccessful && response.body() != null) {
-                appDatabase.sampleDao.saveSample(response.body()!!.data[0].asDomain().asEntity())
-                Resource.Success(response.body()!!.data[0].asDomain())
+                appDatabase.sampleDao.saveSample(response.body()!!.data[0].asDomain(true).asEntity())
+                Resource.Success(response.body()!!.data[0].asDomain(true))
             } else if (response.code() == 500) {
                 Resource.Error("500 Server Error")
             } else {
@@ -801,8 +822,8 @@ class NormalSaleRepositoryImpl @Inject constructor(
             )
 
             if (response.isSuccessful && response.body() != null) {
-                appDatabase.sampleDao.saveSample(response.body()!!.data.asDomain().asEntity())
-                Resource.Success(response.body()!!.data.asDomain())
+                appDatabase.sampleDao.saveSample(response.body()!!.data.asDomain(false).asEntity())
+                Resource.Success(response.body()!!.data.asDomain(false))
             } else if (response.code() == 500) {
                 Resource.Error("500 Server Error")
             } else {

@@ -93,7 +93,8 @@ class OutsideStockFragment:Fragment() {
             var photo: MultipartBody.Part? = null
             var imageRequestBody: RequestBody? = null
             viewModel.selectedImgUri?.let {
-                imageRequestBody = it.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+                imageRequestBody = compressImage(it.path)
+
                 photo = MultipartBody.Part.createFormData(
                     "image",
                     it.name,
@@ -109,7 +110,7 @@ class OutsideStockFragment:Fragment() {
             }
         }
         viewModel.samplesFromRoom.observe(viewLifecycleOwner) { list ->
-            adapter.submitList(list.filter { it.name.orEmpty().isNotEmpty() })
+            adapter.submitList(list.filter { it.isInventory.not() })
         }
 
         viewModel.outsideSampleLiveData.observe(viewLifecycleOwner){

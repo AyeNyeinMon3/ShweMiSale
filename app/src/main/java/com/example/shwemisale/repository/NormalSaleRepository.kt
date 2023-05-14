@@ -1,7 +1,9 @@
 package com.example.shwemisale.repository
 
+import android.text.Editable
 import com.example.shwemi.util.Resource
 import com.example.shwemisale.data_layers.domain.generalSale.GeneralSaleListDomain
+import com.example.shwemisale.data_layers.domain.goldFromHome.PaidAmountOfVoucherDomain
 import com.example.shwemisale.data_layers.domain.goldFromHome.StockFromHomeDomain
 import com.example.shwemisale.data_layers.domain.pureGoldSale.PureGoldListDomain
 import com.example.shwemisale.data_layers.domain.sample.SampleDomain
@@ -10,6 +12,7 @@ import com.example.shwemisale.data_layers.dto.calculation.GoldPriceDto
 import com.example.shwemisale.data_layers.dto.goldFromHome.GemWeightDetail
 import com.example.shwemisale.data_layers.dto.goldFromHome.Image
 import com.example.shwemisale.data_layers.dto.sample.SampleDto
+import com.example.shwemisale.data_layers.dto.voucher.PaidAmountOfVoucherDto
 import com.example.shwemisale.data_layers.dto.voucher.VoucherInfoWithKPYDto
 import com.example.shwemisale.data_layers.dto.voucher.VoucherInfoWithValueResponse
 import okhttp3.MultipartBody
@@ -20,7 +23,7 @@ import retrofit2.http.*
 interface NormalSaleRepository {
     suspend fun getPaidAmountOfVoucher(
         voucherCode: String
-    ): Resource<String>
+    ): Resource<PaidAmountOfVoucherDomain>
 
     suspend fun getGoldPrices(
         productIdList: List<String>
@@ -35,7 +38,7 @@ interface NormalSaleRepository {
     ): Resource<VoucherInfoWithValueResponse>
 
     suspend fun getStockFromHomeList(
-       sessionKey: String?
+       sessionKey: String?,
     ):Resource<List<StockFromHomeDomain>>
 
     suspend fun getStockFromHomeForPawn(
@@ -76,10 +79,14 @@ interface NormalSaleRepository {
         wastage_ywae: List<MultipartBody.Part>?,
         rebuy_price_vertical_option:  List<MultipartBody.Part>?,
         productIdList: List<MultipartBody.Part?>?,
-        sessionKey: String?
+        sessionKey: String?,
+        isPawn:Boolean,
+        isEditable:List<MultipartBody.Part?>?,
+        isChecked:List<MultipartBody.Part?>?,
     ):Resource<String>
 
     suspend fun updateStockFromHomeList(
+        id:List<MultipartBody.Part>?=null,
         a_buying_price: List<MultipartBody.Part>?,
         b_voucher_buying_value: List<MultipartBody.Part>?,
         c_voucher_buying_price: List<MultipartBody.Part>?,
@@ -112,6 +119,8 @@ interface NormalSaleRepository {
         wastage_ywae: List<MultipartBody.Part>?,
         rebuy_price_vertical_option:  List<MultipartBody.Part>?,
         productIdList: List<MultipartBody.Part?>?,
+        isEditable: List<MultipartBody.Part>?,
+        isChecked: List<MultipartBody.Part?>?,
         sessionKey: String?
     ):Resource<String>
 

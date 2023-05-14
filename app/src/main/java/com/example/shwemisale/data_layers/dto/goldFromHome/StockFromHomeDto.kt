@@ -33,6 +33,8 @@ data class StockFromHomeDto(
     val type: String?,
     val wastage_ywae: String?,
     val rebuy_price_vertical_option:String?,
+    val is_editable:String?,
+    val is_checked:String?,
     val products:List<String>?
 
 )
@@ -69,7 +71,9 @@ fun StockFromHomeDto.asDomain(): StockFromHomeDomain {
         type,
         wastage_ywae,
         rebuy_price_vertical_option,
-        products
+        products,
+        isEditable = is_editable == "1",
+        isChecked = is_checked == "1"
     )
 }
 

@@ -131,6 +131,8 @@ class ReceiveNewOrderViewModel @Inject constructor(
             val wastage_ywae = mutableListOf<MultipartBody.Part>()
             val rebuy_price_vertical_option = mutableListOf<MultipartBody.Part>()
             val productIdList = mutableListOf<MultipartBody.Part>()
+            val isEditable = mutableListOf<MultipartBody.Part>()
+            val isChecked = mutableListOf<MultipartBody.Part>()
             repeat(itemList.size) {
                 val gemQtyList =
                     itemList[it].gem_weight_details.orEmpty().map { it.gem_qty }
@@ -398,6 +400,18 @@ class ReceiveNewOrderViewModel @Inject constructor(
                         )
                     )
                 }
+                isEditable.add(
+                    MultipartBody.Part.createFormData(
+                        "old_stocks[$it][is_editable]",
+                        "1"
+                    )
+                )
+                isChecked.add(
+                    MultipartBody.Part.createFormData(
+                        "old_stocks[$it][is_checked]",
+                        "0"
+                    )
+                )
             }
 
             addTotalGoldWeightYwaeToStockFromHome(totalFYwae.toString())
@@ -435,7 +449,9 @@ class ReceiveNewOrderViewModel @Inject constructor(
                     wastage_ywae = wastage_ywae,
                     rebuy_price_vertical_option = rebuy_price_vertical_option,
                     productIdList = productIdList,
-                    sessionKey = localDatabase.getStockFromHomeSessionKey().orEmpty()
+                    sessionKey = localDatabase.getStockFromHomeSessionKey().orEmpty(),
+                    isEditable = isEditable,
+                    isChecked = isChecked
                 )
         }
     }

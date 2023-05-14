@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shwemi.util.Resource
+import com.example.shwemi.util.compressImage
 import com.example.shwemisale.data_layers.domain.goldFromHome.RebuyItemDto
 import com.example.shwemisale.data_layers.domain.goldFromHome.StockFromHomeDomain
 import com.example.shwemisale.data_layers.domain.product.GemWeightDetailDomain
@@ -51,6 +52,7 @@ class GoldFromHomeDetailViewModel @Inject constructor(
         gemWeightCustomList.addAll(item)
         gemWeightCustomListLiveData.value = gemWeightCustomList
     }
+
     fun addGemDetail(item: GemWeightDetailDomain) {
         gemWeightCustomList.add(item)
         gemWeightCustomListLiveData.value = gemWeightCustomList
@@ -120,7 +122,8 @@ class GoldFromHomeDetailViewModel @Inject constructor(
         get() = _createStockFromHomeInfoLiveData
 
     fun createStockFromHome(
-        itemList: List<StockFromHomeDomain>
+        itemList: List<StockFromHomeDomain>,
+        isPawn: Boolean,
     ) {
         viewModelScope.launch {
             val updatedList = itemList
@@ -156,6 +159,8 @@ class GoldFromHomeDetailViewModel @Inject constructor(
             val wastage_ywae = mutableListOf<MultipartBody.Part>()
             val rebuy_price_vertical_option = mutableListOf<MultipartBody.Part>()
             val productIdList = mutableListOf<MultipartBody.Part>()
+            val isEditable = mutableListOf<MultipartBody.Part>()
+            val isChecked = mutableListOf<MultipartBody.Part>()
             repeat(updatedList.size) {
                 val gemQtyList = updatedList[it].gem_weight_details.orEmpty().map { it.gem_qty }
                 val gemWeightYwaeList =
@@ -163,7 +168,7 @@ class GoldFromHomeDetailViewModel @Inject constructor(
                 val gemWeightGmList =
                     updatedList[it].gem_weight_details.orEmpty().map { it.gem_weight_gm_per_unit }
 
-                repeat(updatedList[it].gem_weight_details.orEmpty().size) {gemWeightIndex->
+                repeat(updatedList[it].gem_weight_details.orEmpty().size) { gemWeightIndex ->
                     gemQtyMultiPartList.add(
                         MultipartBody.Part.createFormData(
                             "old_stocks[$it][gem_weight_details][$gemWeightIndex][gem_qty]",
@@ -287,14 +292,14 @@ class GoldFromHomeDetailViewModel @Inject constructor(
                     )
                 }
                 updatedList[it].image?.url?.let { path ->
-                    val file = File(path)
+                    val requestBody = compressImage(path)
+
                     imageFile.add(
                         MultipartBody.Part.createFormData(
                             "old_stocks[$it][image][file]",
-                            file.name,
-                            file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+                            File(path).name,
+                            requestBody)
                         )
-                    )
                 }
 //
 
@@ -379,6 +384,23 @@ class GoldFromHomeDetailViewModel @Inject constructor(
                         )
                     )
                 }
+                isEditable.add(
+                    MultipartBody.Part.createFormData(
+                        "old_stocks[$it][is_editable]",
+                        "1"
+                    )
+                )
+                isChecked.add(
+                    MultipartBody.Part.createFormData(
+                        "old_stocks[$it][is_checked]",
+                        "0"
+                    )
+                )
+            }
+            val sessionKey = if (isPawn) {
+                localDatabase.getPawnOldStockSessionKey()
+            } else {
+                localDatabase.getStockFromHomeSessionKey()
             }
             _createStockFromHomeInfoLiveData.value = Resource.Loading()
             _createStockFromHomeInfoLiveData.value =
@@ -416,7 +438,10 @@ class GoldFromHomeDetailViewModel @Inject constructor(
                     wastage_ywae = wastage_ywae,
                     rebuy_price_vertical_option = rebuy_price_vertical_option,
                     productIdList = productIdList,
-                    sessionKey = localDatabase.getStockFromHomeSessionKey().orEmpty()
+                    sessionKey = sessionKey,
+                    isPawn = isPawn,
+                    isEditable = isEditable,
+                    isChecked = isChecked
                 )
         }
     }
@@ -447,7 +472,7 @@ class GoldFromHomeDetailViewModel @Inject constructor(
         gq_in_carat_update: String?,
         has_general_expenses_update: String?,
         imageId_update: String?,
-        imageFile_update: File?,
+        imageFile_update: RequestBody?,
         impurities_weight_ywae_update: String?,
         maintenance_cost_update: String?,
         price_for_pawn_update: String?,
@@ -497,6 +522,8 @@ class GoldFromHomeDetailViewModel @Inject constructor(
             val wastage_ywae = mutableListOf<MultipartBody.Part>()
             val rebuy_price_vertical_option = mutableListOf<MultipartBody.Part>()
             val productIdList = mutableListOf<MultipartBody.Part>()
+            val isEditable = mutableListOf<MultipartBody.Part>()
+            val isChecked = mutableListOf<MultipartBody.Part>()
             if (updatedList.isNotEmpty()) {
                 repeat(updatedList.size) {
                     if (updatedList[it].id == item.id) {
@@ -506,7 +533,7 @@ class GoldFromHomeDetailViewModel @Inject constructor(
                         val gemWeightGmList =
                             gemWeightCustomList.map { it.gem_weight_gm_per_unit }
 
-                        repeat(gemWeightCustomList.size) {gemWeightIndex->
+                        repeat(gemWeightCustomList.size) { gemWeightIndex ->
                             gemQtyMultiPartList.add(
                                 MultipartBody.Part.createFormData(
                                     "old_stocks[$it][gem_weight_details][$gemWeightIndex][gem_qty]",
@@ -622,26 +649,26 @@ class GoldFromHomeDetailViewModel @Inject constructor(
                             )
                         )
 
-                       if ( imageFile_update != null){
-                           imageFile_update.let { file ->
-                               imageFile.add(
-                                   MultipartBody.Part.createFormData(
-                                       "old_stocks[0][image][file]",
-                                       file.name,
-                                       file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-                                   )
-                               )
-                           }
-                       }else{
-                           imageId_update?.let { id ->
-                               imageId.add(
-                                   MultipartBody.Part.createFormData(
-                                       "old_stocks[$it][image][id]",
-                                       id
-                                   )
-                               )
-                           }
-                       }
+                        if (imageFile_update != null) {
+                            imageFile_update.let { requestBody ->
+                                imageFile.add(
+                                    MultipartBody.Part.createFormData(
+                                        "old_stocks[$it][image][file]",
+                                        File(selectedImagePath.orEmpty()).name,
+                                        requestBody
+                                    )
+                                )
+                            }
+                        } else {
+                            imageId_update?.let { id ->
+                                imageId.add(
+                                    MultipartBody.Part.createFormData(
+                                        "old_stocks[$it][image][id]",
+                                        id
+                                    )
+                                )
+                            }
+                        }
 
 
 
@@ -725,6 +752,18 @@ class GoldFromHomeDetailViewModel @Inject constructor(
                                 )
                             )
                         }
+                        isEditable.add(
+                            MultipartBody.Part.createFormData(
+                                "old_stocks[$it][is_editable]",
+                                if (updatedList[it].isEditable) "1" else "0"
+                            )
+                        )
+                        isChecked.add(
+                            MultipartBody.Part.createFormData(
+                                "old_stocks[$it][is_checked]",
+                                if (updatedList[it].isChecked) "1" else "0"
+                            )
+                        )
                     } else {
                         val gemQtyList =
                             updatedList[it].gem_weight_details.orEmpty().map { it.gem_qty }
@@ -735,7 +774,7 @@ class GoldFromHomeDetailViewModel @Inject constructor(
                             updatedList[it].gem_weight_details.orEmpty()
                                 .map { it.gem_weight_gm_per_unit }
 
-                        repeat(updatedList[it].gem_weight_details.orEmpty().size) {gemWeightIndex->
+                        repeat(updatedList[it].gem_weight_details.orEmpty().size) { gemWeightIndex ->
                             gemQtyMultiPartList.add(
                                 MultipartBody.Part.createFormData(
                                     "old_stocks[$it][gem_weight_details][$gemWeightIndex][gem_qty]",
@@ -947,6 +986,19 @@ class GoldFromHomeDetailViewModel @Inject constructor(
                                 )
                             )
                         }
+                        isEditable.add(
+                            MultipartBody.Part.createFormData(
+                                "old_stocks[$it][is_editable]",
+                                if (updatedList[it].isEditable) "1" else "0"
+
+                            )
+                        )
+                        isChecked.add(
+                            MultipartBody.Part.createFormData(
+                                "old_stocks[$it][is_checked]",
+                                if (updatedList[it].isChecked) "1" else "0"
+                            )
+                        )
                     }
                 }
                 _updateStockFromHomeInfoLiveData.value = Resource.Loading()
@@ -984,7 +1036,9 @@ class GoldFromHomeDetailViewModel @Inject constructor(
                         wastage_ywae = wastage_ywae,
                         rebuy_price_vertical_option = rebuy_price_vertical_option,
                         productIdList = productIdList,
-                        sessionKey = localDatabase.getStockFromHomeSessionKey().orEmpty()
+                        sessionKey = localDatabase.getStockFromHomeSessionKey().orEmpty(),
+                        isEditable = isEditable,
+                        isChecked = isChecked
                     )
 
             }

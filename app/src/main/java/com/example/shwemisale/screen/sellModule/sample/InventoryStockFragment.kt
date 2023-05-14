@@ -85,7 +85,7 @@ class InventoryStockFragment : Fragment() {
             }
         }
         viewModel.samplesFromRoom.observe(viewLifecycleOwner) { list ->
-            adapter.submitList(list)
+            adapter.submitList(list.filter { it.isInventory })
             binding.btnTakeSample.setOnClickListener {
                 if(list.filter { it.isNew }.isEmpty()){
                     requireContext().showSuccessDialog("Sample Taken") {

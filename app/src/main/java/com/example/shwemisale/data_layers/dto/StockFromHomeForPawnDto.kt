@@ -75,5 +75,8 @@ fun StockFromHomeForPawnDto.asDomain(): StockFromHomeDomain {
         wastage_ywae,
         rebuy_price_vertical_option,
         emptyList(),
+        isEditable = false,
+        isChecked = false,
+        isFromPawn = true
     )
 }
