@@ -31,6 +31,7 @@ class WithKPYFragment : Fragment() {
     private val viewModel by viewModels<WithKPYViewModel>()
     private lateinit var loading: AlertDialog
     private val args by navArgs<WithKPYFragmentArgs>()
+    private var redeemMoney = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,7 +62,7 @@ class WithKPYFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         loading = requireContext().getAlertDialog()
         binding.edtOldVoucherPayment.setText(args.oldVoucherPaidAmount.toString())
-
+        setTotalPromotionPrice()
         binding.btnEditGoldFromHomeValue.setOnClickListener {
             findNavController().navigate(
                 WithKPYFragmentDirections.actionGlobalGoldFromHomeFragment(
@@ -105,10 +106,11 @@ class WithKPYFragment : Fragment() {
 
                 is Resource.Success -> {
                     loading.dismiss()
-                    binding.edtReducedPay.setText(
-                        (generateNumberFromEditText(binding.edtReducedPay).toInt() + it.data.orEmpty()
-                            .let { if (it.isEmpty()) 0 else it.toInt() }).toString()
-                    )
+                    redeemMoney = (it.data?:"0").toInt()
+//                    binding.edtReducedPay.setText(
+//                        (generateNumberFromEditText(binding.edtReducedPay).toInt() + it.data.orEmpty()
+//                            .let { if (it.isEmpty()) 0 else it.toInt() }).toString()
+//                    )
                 }
 
                 is Resource.Error -> {
@@ -307,6 +309,15 @@ class WithKPYFragment : Fragment() {
         }
     }
 
+    fun setTotalPromotionPrice() {
+        var totalPromotionPrice = 0
+        args.scannedProducts.map { it.promotion_discount.toInt() }.forEach {
+            totalPromotionPrice += it
+        }
+        binding.edtTotalPromotionPrice.setText(totalPromotionPrice.toString())
+
+    }
+
     fun calculateValues() {
         val goldFromHomeValue = if (binding.radioBtnKpy.isChecked) {
             0.0
@@ -353,7 +364,7 @@ class WithKPYFragment : Fragment() {
             ).toDouble() +
                     generateNumberFromEditText(binding.edtPTclipValue).toDouble() + generateNumberFromEditText(
                 binding.edtTotalGemValue
-            ).toDouble() - goldFromHomeValue - args.oldVoucherPaidAmount
+            ).toDouble() - goldFromHomeValue - args.oldVoucherPaidAmount - generateNumberFromEditText(binding.edtTotalPromotionPrice).toInt() - redeemMoney
 
         binding.edtCharge.setText(totalPrice.toInt().toString())
         val leftMoney =

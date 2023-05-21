@@ -41,7 +41,7 @@ data class StockFromHomeDto(
 
 fun StockFromHomeDto.asDomain(): StockFromHomeDomain {
     return StockFromHomeDomain(
-        id?.toInt()?:0,
+        id?.toInt(),
         a_buying_price,
         b_voucher_buying_value,
         c_voucher_buying_price,

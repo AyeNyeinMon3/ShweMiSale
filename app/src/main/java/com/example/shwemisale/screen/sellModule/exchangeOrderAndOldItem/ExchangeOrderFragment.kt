@@ -98,7 +98,7 @@ class ExchangeOrderFragment : Fragment() {
                             ExchangeOrderFragmentDirections.actionExchangeOrderFragmentToWithKPYFragment(
                                 args.scannedProducts,
                                 generateNumberFromEditText(binding.edtOldVoucherPayment).toInt(),
-                                if (binding.edtGoldFromHomeVoucher.text.isNullOrEmpty()) null else binding.edtGoldFromHomeVoucher.text.toString()
+                                if (binding.edtGoldFromHomeVoucher.text.isNullOrEmpty()) null else binding.edtGoldFromHomeVoucher.text.toString(),
                             )
                         )
                     }else{
@@ -219,6 +219,8 @@ class ExchangeOrderFragment : Fragment() {
         dialogExchangeOrderBinding.btnWithKPY.setOnClickListener {
             if (args.goldPrice.isNullOrEmpty().not()){
                 viewModel.getStockFromHomeList()
+            }else{
+                Toast.makeText(requireContext(),"Gold Price is empty",Toast.LENGTH_LONG).show()
             }
 
             alertDialog.dismiss()

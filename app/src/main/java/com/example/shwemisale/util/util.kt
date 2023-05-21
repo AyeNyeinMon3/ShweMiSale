@@ -124,24 +124,38 @@ fun generateNumberFromEditText(editText: EditText): String {
     }
 }
 
+fun isNumeric(input: String): Boolean {
+    val number = input.toDoubleOrNull()
+    return number != null
+}
+
 fun hideKeyboard(activity: FragmentActivity?, view: View) {
     val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.hideSoftInputFromWindow(view.windowToken, 0)
 }
 
 fun getRoundDownForPrice(price: Int): Int {
-    val lastTwoDigits = price % 100
-    val firstDigits = price - lastTwoDigits
-
-    return if (lastTwoDigits <= 50) {
-        firstDigits
-    } else {
-        firstDigits + 100
-    }
-
+    val lastTwoDigits = price % 50
+    return price - lastTwoDigits
 }
 
-fun compressImage(imageFilePath:String):RequestBody{
+fun getRoundDownForPawn(price: Int): Int {
+    val lastTwoDigits = price % 100
+    val firstDigits = price - lastTwoDigits
+    var newTwoDigits =
+        if (lastTwoDigits in 0..25) {
+            0
+        } else if (lastTwoDigits in 26..50) {
+            50
+        } else if (lastTwoDigits in 51..75) {
+            50
+        } else{
+            100
+        }
+    return firstDigits + newTwoDigits
+}
+
+fun compressImage(imageFilePath: String): RequestBody {
     var bitmap = BitmapFactory.decodeFile(imageFilePath)
     val width = bitmap.width
     val height = bitmap.height

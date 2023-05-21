@@ -20,7 +20,7 @@ data class SampleDto(
 
 fun SampleDto.asDomain(isInventory:Boolean):SampleDomain{
     return SampleDomain(
-        id,box_code,name,product_code,product_id,specification,thumbnail,weight_gm, isNew = specification.isNullOrEmpty(),
+        null,id,box_code,name,product_code,product_id,specification,thumbnail,weight_gm, isNew = specification.isNullOrEmpty(),
         isInventory = isInventory
     )
 }

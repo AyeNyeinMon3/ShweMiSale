@@ -44,7 +44,7 @@ data class StockFromHomeForPawnDto(
 )
 fun StockFromHomeForPawnDto.asDomain(): StockFromHomeDomain {
     return StockFromHomeDomain(
-        id?.toInt()?:0,
+        id?.toInt(),
         a_buying_price?.toDouble()?.toInt().toString(),
         b_voucher_buying_value?.toDouble()?.toInt().toString(),
         c_voucher_buying_price?.toDouble()?.toInt().toString(),
@@ -77,6 +77,5 @@ fun StockFromHomeForPawnDto.asDomain(): StockFromHomeDomain {
         emptyList(),
         isEditable = false,
         isChecked = false,
-        isFromPawn = true
     )
 }

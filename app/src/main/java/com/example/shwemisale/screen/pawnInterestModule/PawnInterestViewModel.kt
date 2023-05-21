@@ -1,10 +1,10 @@
 package com.example.shwemisale.screen.pawnInterestModule
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shwemi.util.Resource
+import com.example.shwemisale.data_layers.domain.PawnVoucherScanDomain
 import com.example.shwemisale.data_layers.domain.goldFromHome.StockFromHomeDomain
 import com.example.shwemisale.data_layers.dto.pawn.PawnInterestRateDto
 import com.example.shwemisale.data_layers.dto.pawn.PawnVoucherScanDto
@@ -25,7 +25,7 @@ class PawnInterestViewModel @Inject constructor(
     private val normalSaleRepositoryImpl: NormalSaleRepositoryImpl,
     private val localDatabase: LocalDatabase
 ) : ViewModel() {
-    var pawnData: PawnVoucherScanDto? = null
+    var pawnData: PawnVoucherScanDomain? = null
     private val _createStockFromHomeInfoLiveData =
         SingleLiveEvent<Resource<String>>()
     val createStockFromHomeInfoLiveData: SingleLiveEvent<Resource<String>>
@@ -35,7 +35,16 @@ class PawnInterestViewModel @Inject constructor(
     private val _getPawnVoucherScanLiveData = SingleLiveEvent<Resource<PawnVoucherScanDto>>()
     val getPawnVoucherScanLiveData: SingleLiveEvent<Resource<PawnVoucherScanDto>>
         get() = _getPawnVoucherScanLiveData
+    fun getTotalPawnPrice():String {
+        return localDatabase.getTotalPawnPriceForStockFromHome()
+    }
 
+    fun getTotalVoucherBuyingPrice():String {
+        return localDatabase.getTotalVoucherBuyingPriceForPawn()
+    }
+    fun getPawnPriceForRemainedPawnItem():String {
+        return localDatabase.getRemainedPawnItemsPrice()
+    }
 
     fun pawnVoucherScan(voucherCode: String) {
         viewModelScope.launch {
@@ -44,7 +53,7 @@ class PawnInterestViewModel @Inject constructor(
         }
     }
 
-    private val _createPrepaidDebtLiveData = MutableLiveData<Resource<String>>()
+    private val _createPrepaidDebtLiveData = SingleLiveEvent<Resource<String>>()
     val createPrepaidDebtLiveData: LiveData<Resource<String>>
         get() = _createPrepaidDebtLiveData
 
@@ -67,7 +76,7 @@ class PawnInterestViewModel @Inject constructor(
         }
     }
 
-    private val _createPrepaidInterestLiveData = MutableLiveData<Resource<String>>()
+    private val _createPrepaidInterestLiveData = SingleLiveEvent<Resource<String>>()
     val createPrepaidInterestLiveData: LiveData<Resource<String>>
         get() = _createPrepaidInterestLiveData
 
@@ -90,8 +99,8 @@ class PawnInterestViewModel @Inject constructor(
         }
     }
 
-    private val _increaseDebtLiveData = MutableLiveData<Resource<String>>()
-    val increaseDebtLiveData: LiveData<Resource<String>>
+    private val _increaseDebtLiveData = SingleLiveEvent<Resource<String>>()
+    val increaseDebtLiveData: SingleLiveEvent<Resource<String>>
         get() = _increaseDebtLiveData
 
     fun increaseDebt(
@@ -112,8 +121,8 @@ class PawnInterestViewModel @Inject constructor(
         }
     }
 
-    private val _payInterestAndIncreaseDebtLiveData = MutableLiveData<Resource<String>>()
-    val payInterestAndIncreaseDebtLiveData: LiveData<Resource<String>>
+    private val _payInterestAndIncreaseDebtLiveData = SingleLiveEvent<Resource<String>>()
+    val payInterestAndIncreaseDebtLiveData: SingleLiveEvent<Resource<String>>
         get() = _payInterestAndIncreaseDebtLiveData
 
     fun payInterestAndIncreaseDebt(
@@ -136,8 +145,8 @@ class PawnInterestViewModel @Inject constructor(
         }
     }
 
-    private val _payInterestLiveData = MutableLiveData<Resource<String>>()
-    val payInterestLiveData: LiveData<Resource<String>>
+    private val _payInterestLiveData = SingleLiveEvent<Resource<String>>()
+    val payInterestLiveData: SingleLiveEvent<Resource<String>>
         get() = _payInterestLiveData
 
     fun payInterest(
@@ -157,8 +166,8 @@ class PawnInterestViewModel @Inject constructor(
         }
     }
 
-    private val _payInterestAndSettleDebtLiveData = MutableLiveData<Resource<String>>()
-    val payInterestAndSettleDebtLiveData: LiveData<Resource<String>>
+    private val _payInterestAndSettleDebtLiveData = SingleLiveEvent<Resource<String>>()
+    val payInterestAndSettleDebtLiveData: SingleLiveEvent<Resource<String>>
         get() = _payInterestAndSettleDebtLiveData
 
     fun payInterestAndSettleDebt(
@@ -179,8 +188,8 @@ class PawnInterestViewModel @Inject constructor(
         }
     }
 
-    private val _payInterestAndReturnStockLiveData = MutableLiveData<Resource<String>>()
-    val payInterestAndReturnStockLiveData: LiveData<Resource<String>>
+    private val _payInterestAndReturnStockLiveData = SingleLiveEvent<Resource<String>>()
+    val payInterestAndReturnStockLiveData: SingleLiveEvent<Resource<String>>
         get() = _payInterestAndReturnStockLiveData
 
     fun payInterestAndReturnStock(
@@ -204,8 +213,8 @@ class PawnInterestViewModel @Inject constructor(
         }
     }
 
-    private val _settleLiveData = MutableLiveData<Resource<String>>()
-    val settleLiveData: LiveData<Resource<String>>
+    private val _settleLiveData = SingleLiveEvent<Resource<String>>()
+    val settleLiveData: SingleLiveEvent<Resource<String>>
         get() = _settleLiveData
 
     fun settle(
@@ -221,8 +230,8 @@ class PawnInterestViewModel @Inject constructor(
         }
     }
 
-    private val _sellOldStockLiveData = MutableLiveData<Resource<String>>()
-    val sellOldStockLiveData: LiveData<Resource<String>>
+    private val _sellOldStockLiveData = SingleLiveEvent<Resource<String>>()
+    val sellOldStockLiveData: SingleLiveEvent<Resource<String>>
         get() = _sellOldStockLiveData
 
     fun sellOldStock(

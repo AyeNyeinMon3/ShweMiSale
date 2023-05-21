@@ -33,6 +33,7 @@ class WithValueFragment : Fragment() {
     private val viewModel by viewModels<WithValueViewModel>()
     private val args by navArgs<WithValueFragmentArgs>()
     private lateinit var loading: AlertDialog
+    private var redeemMoney = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -72,9 +73,10 @@ class WithValueFragment : Fragment() {
                 }
                 is Resource.Success -> {
                     loading.dismiss()
-                    binding.edtReducedPay.setText(
-                       ( generateNumberFromEditText(binding.edtReducedPay).toInt() + it.data.orEmpty()
-                            .let { if (it.isEmpty()) 0 else it.toInt() }).toString())
+//                    binding.edtReducedPay.setText(
+//                       ( generateNumberFromEditText(binding.edtReducedPay).toInt() + it.data.orEmpty()
+//                            .let { if (it.isEmpty()) 0 else it.toInt() }).toString())
+                    redeemMoney = (it.data?:"0").toInt()
                 }
                 is Resource.Error -> {
 
@@ -159,11 +161,10 @@ class WithValueFragment : Fragment() {
         binding.btnCalculate.setOnClickListener {
             viewModel.getRedeemMoney(generateNumberFromEditText(binding.edtRedeemPoint))
 
-
             //ကျသင့်ငွေ= အထည်တန်ဖိုးပေါင်း - အိမ်ပါရွှေတန်ဖိုး - ဘောင်ချာဟောင်းပေးသွင်းငွေ - လျော့ပေးငွေ ဖြစ်ရန်
             val chargeAmount = generateNumberFromEditText(binding.edtTotalValue).toInt() -
                     generateNumberFromEditText(binding.edtGoldFromHomeValue).toInt() - generateNumberFromEditText(binding.edtOldVoucherPayment).toInt()-
-                    generateNumberFromEditText(binding.edtReducedPay).toInt()
+                    generateNumberFromEditText(binding.edtReducedPay).toInt() - redeemMoney
             binding.edtCharge.setText(chargeAmount.toString())
 
             val remainAmount =

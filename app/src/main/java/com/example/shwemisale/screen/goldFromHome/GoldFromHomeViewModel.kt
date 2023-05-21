@@ -48,6 +48,12 @@ class GoldFromHomeViewModel @Inject constructor(
         localDatabase.saveGoldWeightYwaeForStockFromHome(ywae)
     }
 
+    fun saveVoucherBuyingPriceForPawn(price: String) {
+        localDatabase.saveTotalVoucherBuyingPriceForPawn(price)
+    }
+    fun savePawnPriceForRemainedPawnItems(price: String) {
+        localDatabase.saveRemainedPawnItemsPrice(price)
+    }
     fun saveTotalCVoucherBuyingPrice(price: String) {
         localDatabase.saveTotalCVoucherBuyingPriceForStockFromHome(price)
     }
@@ -483,7 +489,7 @@ class GoldFromHomeViewModel @Inject constructor(
             } else {
                 localDatabase.getStockFromHomeSessionKey().orEmpty()
             }
-            val updatedList = _stockFromHomeInfoLiveData.value?.data?.filter { it.id != item.id }
+            val updatedList = _stockFromHomeInfoLiveData.value?.data?.filter { it.id != item.id || it.localId != item.localId}
             val a_buying_price = mutableListOf<MultipartBody.Part>()
             val b_voucher_buying_value = mutableListOf<MultipartBody.Part>()
             val c_voucher_buying_price = mutableListOf<MultipartBody.Part>()
@@ -953,11 +959,11 @@ class GoldFromHomeViewModel @Inject constructor(
                             updatedList[it].a_buying_price.toString()
                         )
                     )
-                    if (updatedList[it].isFromPawn){
+                    updatedList[it].id?.let {id->
                         pawnOldStockId.add(
                             MultipartBody.Part.createFormData(
                                 "old_stocks[$it][id]",
-                                updatedList[it].id.toString()
+                                id.toString()
                             )
                         )
                     }

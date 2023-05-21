@@ -46,7 +46,7 @@ class OutsideStockViewModel @Inject constructor(
 
     fun removeSampleFromRoom(sample:SampleDomain){
         viewModelScope.launch {
-            appDatabase.sampleDao.deleteSamples(sample.asEntity())
+            appDatabase.sampleDao.deleteSamples(sample.localId.orEmpty())
             samplesFromRoom =  normalSaleRepositoryImpl.getSamplesFromRoom()
         }
     }

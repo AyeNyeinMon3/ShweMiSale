@@ -12,6 +12,7 @@ import com.example.shwemisale.repositoryImpl.GoldFromHomeRepositoryImpl
 import com.example.shwemisale.repositoryImpl.NormalSaleRepositoryImpl
 import com.example.shwemisale.room_database.AppDatabase
 import com.example.shwemisale.room_database.entity.StockFromHomeFinalInfo
+import com.example.shwemisale.room_database.entity.asEntity
 import com.example.shwemisale.room_database.entity.asUiModel
 import com.example.shwemisale.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -45,6 +46,12 @@ class ReceiveNewOrderViewModel @Inject constructor(
         get() = _receiveNewOrderLiveData
     fun addTotalGoldWeightYwaeToStockFromHome(ywae:String){
         localDatabase.saveGoldWeightYwaeForStockFromHome(ywae)
+    }
+    fun removeSampleFromRoom(sample:SampleDomain){
+        viewModelScope.launch {
+            appDatabase.sampleDao.deleteSamples(sample.localId.orEmpty())
+            samplesFromRoom =  normalSaleRepositoryImpl.getSamplesFromRoom()
+        }
     }
     fun getStockFromHomeList() {
         _stockFromHomeInfoLiveData.value = Resource.Loading()

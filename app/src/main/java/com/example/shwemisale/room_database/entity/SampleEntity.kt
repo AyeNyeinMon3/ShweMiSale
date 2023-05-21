@@ -10,7 +10,8 @@ import org.threeten.bp.ZoneOffset
 @Entity(tableName = "samples")
 data class SampleEntity(
     @PrimaryKey
-    val id: String,
+    val localId:String,
+    val id: String?,
     val box_code: String?,
     val name: String?,
     val product_code: String?,
@@ -23,12 +24,12 @@ data class SampleEntity(
 )
 fun SampleDomain.asEntity():SampleEntity{
     return SampleEntity(
-        id?: LocalDateTime.now().toEpochSecond(ZoneOffset.UTC).toString(), box_code, name, product_code, product_id.orEmpty(), specification, thumbnail, weight_gm,isNew,isInventory
+        LocalDateTime.now().toEpochSecond(ZoneOffset.UTC).toString(),id, box_code, name, product_code, product_id.orEmpty(), specification, thumbnail, weight_gm,isNew,isInventory
     )
 }
 
 fun SampleEntity.asDomain():SampleDomain{
     return SampleDomain(
-        id, box_code, name, product_code, product_id, specification, thumbnail, weight_gm,isNew?:false,isInventory
+        localId,id, box_code, name, product_code, product_id, specification, thumbnail, weight_gm,isNew?:false,isInventory
     )
 }

@@ -50,8 +50,10 @@ class InventoryStockViewModel @Inject constructor(
 
     fun removeSampleFromRoom(sample:SampleDomain){
         viewModelScope.launch {
-            appDatabase.sampleDao.deleteSamples(sample.asEntity())
-            samplesFromRoom =  normalSaleRepositoryImpl.getSamplesFromRoom()
+            var rowsDeleted = appDatabase.sampleDao.deleteSamples(sample.localId.orEmpty())
+            if (rowsDeleted>0){
+                samplesFromRoom =  normalSaleRepositoryImpl.getSamplesFromRoom()
+            }
         }
     }
 
@@ -61,7 +63,7 @@ class InventoryStockViewModel @Inject constructor(
         if (samples.map { it.specification }.filter { it.orEmpty().isNotEmpty() }.isEmpty()) {
             _saveSampleLiveData.value = Resource.Error("Please Enter Specification")
         } else {
-            repeat(samples.filter {it.isNew}.size) {
+            repeat(samples.filter {it.id == null}.size) {
                 val productId = samples[it].product_id
                 val specification = samples[it].specification
                 sampleIdHashMap["sample[$productId]"] =

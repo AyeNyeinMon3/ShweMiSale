@@ -9,7 +9,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class StockFromHomeDomain(
-    var id :Int = 0,
+    var id :Int?,
     val a_buying_price: String?,
     val b_voucher_buying_value: String?,
     val c_voucher_buying_price: String?,
@@ -42,6 +42,6 @@ data class StockFromHomeDomain(
     val productId:List<String>?,
     var isEditable:Boolean,
     var isChecked:Boolean,
-    var isFromPawn:Boolean = false,
+    var localId:Int = 0,
     var derived_gold_type_id:String = ""
 ):Parcelable

@@ -46,7 +46,7 @@ class ScanStockFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        repeat(viewModel.productInfoList.distinctBy { it.id }.size){
+        repeat(viewModel.productInfoList.distinctBy { it.id }.size) {
             viewModel.getProductInfo(viewModel.productInfoList[it].id)
         }
     }
@@ -80,7 +80,7 @@ class ScanStockFragment : Fragment() {
                     ScanStockFragmentDirections.actionScanStockFragmentToExchangeOrderFragment(
                         viewModel.productInfoList.toTypedArray(),
                         if (stockGoldPrice == 0) null else stockGoldPrice.toString(),
-                        args.scannedSalesCodeList
+                        args.scannedSalesCodeList,
                     )
                 )
             } else {
@@ -107,9 +107,11 @@ class ScanStockFragment : Fragment() {
                 is Resource.Loading -> {
                     loading.show()
                 }
+
                 is Resource.Success -> {
                     viewModel.getProductInfo(it.data.orEmpty())
                 }
+
                 is Resource.Error -> {
                     loading.dismiss()
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
@@ -123,22 +125,35 @@ class ScanStockFragment : Fragment() {
                 }
                 is Resource.Success -> {
                     loading.dismiss()
-                    if (viewModel.productInfoList.isNotEmpty() && viewModel.productInfoList.filter { it.is_order_sale == "1" }.isNotEmpty()){
-                        if (it.data?.is_order_sale == "1" && viewModel.productInfoList[0].order_sale_code == it.data?.order_sale_code){
+                    if (it.data?.is_order_sale == "1") {
+                        if (viewModel.productInfoList.any { product -> product.is_order_sale != "1" } ||
+                            viewModel.productInfoList.any{product-> product.order_sale_code != it.data?.order_sale_code}) {
+                            Toast.makeText(
+                                requireContext(),
+                                "If order sale is scanned only order sales in same voucher can be added",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        } else {
                             orderSaleGoldPrice = it.data?.order_sale_gold_price.orEmpty()
                             viewModel.addProduct(it.data!!.asUiModel())
-                        }else{
-                            Toast.makeText(requireContext(),"If order sale is scanned only order sales in same voucher can be added",Toast.LENGTH_LONG).show()
                         }
+                    } else if (viewModel.productInfoList.any { product -> product.is_order_sale == "1" }) {
+                        Toast.makeText(
+                            requireContext(),
+                            "If order sale is scanned only order sales in same voucher can be added",
+                            Toast.LENGTH_LONG
+                        ).show()
                     }else{
                         viewModel.addProduct(it.data!!.asUiModel())
                     }
 
                 }
+
                 is Resource.Error -> {
                     loading.dismiss()
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
                 }
+
                 else -> {}
             }
         }
@@ -148,14 +163,18 @@ class ScanStockFragment : Fragment() {
                 is Resource.Loading -> {
                     loading.show()
                 }
+
                 is Resource.Success -> {
                     loading.dismiss()
-                    if (viewModel.productInfoList.filter { it.is_order_sale == "1" }.isNotEmpty()){
-                        stockGoldPrice = orderSaleGoldPrice.toInt()
-                    }else{
-                        stockGoldPrice = it.data!![0].price?.toInt() ?: 0
-                    }
+                    stockGoldPrice =
+                        if (viewModel.productInfoList.filter { it.is_order_sale == "1" }
+                                .isNotEmpty()) {
+                            orderSaleGoldPrice.toInt()
+                        } else {
+                            it.data!![0].price?.toInt() ?: 0
+                        }
                 }
+
                 is Resource.Error -> {
                     loading.dismiss()
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()

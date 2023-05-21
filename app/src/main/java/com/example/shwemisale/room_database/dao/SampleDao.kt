@@ -17,6 +17,11 @@ interface SampleDao {
     @Query("SELECT * FROM samples")
     fun getSamples(): LiveData<List<SampleEntity>>
 
-    @Delete
-    suspend fun deleteSamples(sample:SampleEntity)
+
+
+    @Query("DELETE FROM samples WHERE localId = :itemId")
+    suspend fun deleteSamples(itemId: String):Int
+
+    @Query("DELETE FROM samples WHERE product_id = :productId")
+    suspend fun deleteSamplesWithProductId(productId: String)
 }

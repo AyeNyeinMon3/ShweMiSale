@@ -457,6 +457,7 @@ class GoldFromHomeDetailViewModel @Inject constructor(
         get() = _updateStockFromHomeInfoLiveData
 
     fun updateStockFromHome(
+        isPawn:Boolean,
         a_buying_price_update: String?,
         b_voucher_buying_value_update: String?,
         c_voucher_buying_price_update: String?,
@@ -526,7 +527,7 @@ class GoldFromHomeDetailViewModel @Inject constructor(
             val isChecked = mutableListOf<MultipartBody.Part>()
             if (updatedList.isNotEmpty()) {
                 repeat(updatedList.size) {
-                    if (updatedList[it].id == item.id) {
+                    if (updatedList[it].id == item.id || updatedList[it].localId == item.localId) {
                         val gemQtyList = gemWeightCustomList.map { it.gem_qty }
                         val gemWeightYwaeList =
                             gemWeightCustomList.map { it.gem_weight_ywae_per_unit }
@@ -1001,6 +1002,11 @@ class GoldFromHomeDetailViewModel @Inject constructor(
                         )
                     }
                 }
+                val sessionKey = if (isPawn) {
+                    localDatabase.getPawnOldStockSessionKey()
+                } else {
+                    localDatabase.getStockFromHomeSessionKey()
+                }
                 _updateStockFromHomeInfoLiveData.value = Resource.Loading()
                 _updateStockFromHomeInfoLiveData.value =
                     normalSaleRepositoryImpl.updateStockFromHomeList(
@@ -1036,7 +1042,7 @@ class GoldFromHomeDetailViewModel @Inject constructor(
                         wastage_ywae = wastage_ywae,
                         rebuy_price_vertical_option = rebuy_price_vertical_option,
                         productIdList = productIdList,
-                        sessionKey = localDatabase.getStockFromHomeSessionKey().orEmpty(),
+                        sessionKey =sessionKey,
                         isEditable = isEditable,
                         isChecked = isChecked
                     )

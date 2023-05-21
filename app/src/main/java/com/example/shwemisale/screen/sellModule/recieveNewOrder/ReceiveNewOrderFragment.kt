@@ -101,7 +101,9 @@ class ReceiveNewOrderFragment : Fragment() {
             )
         })
 
-        val adapter = SampleListRecyclerAdapter()
+        val adapter = SampleListRecyclerAdapter{
+            viewModel.removeSampleFromRoom(it)
+        }
         binding.includeRvSample.rvSampleList.adapter = adapter
         // binding.spinnerGoldType.adapter = adapter
         binding.tvOrderDate.setOnClickListener {
@@ -291,37 +293,45 @@ class ReceiveNewOrderFragment : Fragment() {
 
 
         binding.btnPrint.setOnClickListener {
-            val paid_amount = generateNumberFromEditText(binding.edtDeposit)
-            val sampleIdMultiPartList = mutableListOf<MultipartBody.Part>()
-            val sampleIdList = viewModel.takenSamples.map { it.id }
-            repeat(sampleIdList.size) {
-                sampleIdMultiPartList.add(
-                    MultipartBody.Part.createFormData(
-                        "samples[][sample_id]",
-                        sampleIdList[it].toString()
+            if (generateNumberFromEditText(binding.edtQuantity).toInt() > 0){
+                val paid_amount = generateNumberFromEditText(binding.edtDeposit)
+                val sampleIdMultiPartList = mutableListOf<MultipartBody.Part>()
+                val sampleIdList = viewModel.takenSamples.map { it.id }
+                repeat(sampleIdList.size) {
+                    sampleIdMultiPartList.add(
+                        MultipartBody.Part.createFormData(
+                            "samples[][sample_id]",
+                            sampleIdList[it].toString()
+                        )
                     )
-                )
-            }
+                }
 //            if(generateNumberFromEditText(binding.edtDeposit).toDouble()>poloValue){
 //                Toast.makeText(requireContext(),"ပေးသွင်းငွေသည် ပိုလိုတန်ဖိုးထက် မကြီးရန်",Toast.LENGTH_LONG).show()
 //            }else{
-            viewModel.submit(
-                binding.edtOrderItem.text.toString(),
-                selectedGoldType,
-                viewModel.goldPrice.toString(),
-                orderedGoldWeightYwae.toString(),
-                totalEstimatedWastageYwae.toString(),
-                generateNumberFromEditText(binding.edtQuantity),
-                generateNumberFromEditText(binding.edtGemValue),
-                generateNumberFromEditText(binding.edtFee),
-                binding.tvOrderDate.text.toString(),
-                binding.edtNote.text.toString(),
-                viewModel.getCustomerId(),
-                paid_amount,
-                "0",
-                oldStockSampleListId = sampleIdMultiPartList
-            )
-//            }
+                viewModel.submit(
+                    binding.edtOrderItem.text.toString(),
+                    selectedGoldType,
+                    viewModel.goldPrice.toString(),
+                    orderedGoldWeightYwae.toString(),
+                    getYwaeFromKPY(
+                        generateNumberFromEditText(binding.edtSingleEstimatedWastageK).toInt(),
+                        generateNumberFromEditText(binding.edtSingleEstimatedWastageP).toInt(),
+                        generateNumberFromEditText(binding.edtSingleEstimatedWastageY).toDouble(),
+                    ).toString(),
+                    generateNumberFromEditText(binding.edtQuantity),
+                    generateNumberFromEditText(binding.edtGemValue),
+                    generateNumberFromEditText(binding.edtFee),
+                    binding.tvOrderDate.text.toString(),
+                    binding.edtNote.text.toString(),
+                    viewModel.getCustomerId(),
+                    paid_amount,
+                    "0",
+                    oldStockSampleListId = sampleIdMultiPartList
+                )
+            }else{
+                Toast.makeText(requireContext(),"Qty must be larger than zero",Toast.LENGTH_LONG).show()
+            }
+
         }
 
     }
@@ -403,7 +413,7 @@ class ReceiveNewOrderFragment : Fragment() {
         )
         val remainedMoney =
             estimatedCharge - generateNumberFromEditText(binding.edtDeposit).toLong()
-        binding.edtBalance.setText(remainedMoney.toInt().toString())
+        binding.edtBalance.setText(getRoundDownForPrice(remainedMoney.toInt()).toString())
     }
 
 }

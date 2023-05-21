@@ -1,6 +1,7 @@
 package com.example.shwemisale.data_layers.domain.sample
 
 data class SampleDomain(
+    val localId:String?,
     val id: String?,
     val box_code: String?,
     val name: String?,

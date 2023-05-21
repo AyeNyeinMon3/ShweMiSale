@@ -15,12 +15,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.shwemi.util.*
+import com.example.shwemisale.data_layers.dto.pawn.asDomain
 import com.example.shwemisale.databinding.FragmentPawnInterestBinding
 import com.example.shwemisale.qrscan.getBarLauncher
 import com.example.shwemisale.qrscan.scanQrCode
 import dagger.hilt.android.AndroidEntryPoint
-
-
 @AndroidEntryPoint
 class PawnInterestFragment : Fragment() {
 
@@ -31,7 +30,7 @@ class PawnInterestFragment : Fragment() {
     private var is_app_functions_allowed = "0"
     private var oldStockIdList: List<String> = emptyList()
     var checkedAction = ""
-
+    var tierDiscount = 0
 
     //radio state saved
     var lastCheckedId = -1
@@ -40,7 +39,7 @@ class PawnInterestFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         return FragmentPawnInterestBinding.inflate(inflater).also {
             binding = it
         }.root
@@ -61,7 +60,6 @@ class PawnInterestFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loading = requireContext().getAlertDialog()
-
 
 
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<List<String>>("key")
@@ -100,12 +98,12 @@ class PawnInterestFragment : Fragment() {
         binding.includePaymentBox.tilOne.isVisible = true
         binding.includePaymentBox.tvOne.isVisible = true
         binding.includePaymentBox.tvOne.text = "အတိုးရက်"
-        binding.includePaymentBox.edtOne.setText(viewModel.pawnData?.interest_days)
+        binding.includePaymentBox.edtOne.setText(viewModel.pawnData?.interest_days.orEmpty())
 
         binding.includePaymentBox.tvThree.isVisible = true
         binding.includePaymentBox.tvThree.text = "အတိုးကျသင့်ငွေ"
         binding.includePaymentBox.tilThree.isVisible = true
-        binding.includePaymentBox.edtThree.setText(viewModel.pawnData?.interest_amount)
+        binding.includePaymentBox.edtThree.setText(viewModel.pawnData?.interest_amount.orEmpty())
 
 
         binding.includePaymentBox.tilTwo.isVisible = false
@@ -137,9 +135,13 @@ class PawnInterestFragment : Fragment() {
                 }
 
                 "တိုးယူသက်သက်" -> {
-                    if (viewModel.pawnData?.prepaid_debt.let { if (it.isNullOrEmpty()) 0 else it.toInt() } > 0){
-                        Toast.makeText(requireContext(),"Prepaid Debt must be larger than zero kyats",Toast.LENGTH_LONG).show()
-                    }else{
+                    if (viewModel.pawnData?.prepaid_debt.let { if (it.isNullOrEmpty()) 0 else it.toInt() } > 0) {
+                        Toast.makeText(
+                            requireContext(),
+                            "Prepaid Debt must be larger than zero kyats",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    } else {
                         viewModel.increaseDebt(
                             binding.edtScanVoucher.text.toString(),
                             binding.includePaymentBox.edtOne.text.toString(),
@@ -216,7 +218,19 @@ class PawnInterestFragment : Fragment() {
                 }
 
                 "တိုးယူသက်သက်" -> {
-                    binding.edtCharge.setText(binding.includePaymentBox.edtOne.text.toString())
+
+                    val totalPawnPrice = viewModel.getTotalPawnPrice().toInt()
+                    var availableMoney =
+                        totalPawnPrice - viewModel.pawnData?.remaining_debt.let { if (it.isNullOrEmpty()) 0 else it.toInt() }
+                    if (generateNumberFromEditText(binding.includePaymentBox.edtOne).toInt() > availableMoney) {
+                        Toast.makeText(
+                            requireContext(),
+                            "တိုးယူငွေ must less than available money",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    } else {
+                        binding.edtCharge.setText(binding.includePaymentBox.edtOne.text.toString())
+                    }
 
                 }
 
@@ -238,19 +252,38 @@ class PawnInterestFragment : Fragment() {
                 }
 
                 "အရင်းသွင်း ခွဲရွေး" -> {
-                    val cost =
-                        generateNumberFromEditText(binding.includePaymentBox.edtThree).toInt() + generateNumberFromEditText(
-                            binding.includePaymentBox.edtTwo
-                        ).toInt()
-                    binding.edtCharge.setText(cost.toString())
+                    var availableMoney = (viewModel.pawnData?.remaining_debt?:"0").toInt()- (viewModel.pawnData?.prepaid_debt?:"0").toInt()- generateNumberFromEditText(binding.includePaymentBox.edtTwo).toInt()
+                    var pawnPriceRemained = viewModel.getPawnPriceForRemainedPawnItem().toInt()
+                    if (availableMoney>pawnPriceRemained){
+                        Toast.makeText(requireContext(),"အရင်းသွင်းငွေ must less than remained pawn items price",Toast.LENGTH_LONG ).show()
+                    }else{
+                        val cost =
+                            generateNumberFromEditText(binding.includePaymentBox.edtThree).toInt() + generateNumberFromEditText(
+                                binding.includePaymentBox.edtTwo
+                            ).toInt()
+                        binding.edtCharge.setText(cost.toString())
+                    }
+
                 }
 
                 "တိုးယူ အတိုးရှင်း" -> {
                     val cost =
-                        generateNumberFromEditText(binding.includePaymentBox.edtThree).toInt() - generateNumberFromEditText(
+                        generateNumberFromEditText(
                             binding.includePaymentBox.edtTwo
-                        ).toInt()
-                    binding.edtCharge.setText(cost.toString())
+                        ).toInt() - generateNumberFromEditText(binding.includePaymentBox.edtThree).toInt()
+                    val totalPawnPrice = viewModel.getTotalPawnPrice().toInt()
+                    var availableMoney =
+                        totalPawnPrice - viewModel.pawnData?.remaining_debt.let { if (it.isNullOrEmpty()) 0 else it.toInt() }
+                    if (generateNumberFromEditText(binding.includePaymentBox.edtTwo).toInt() > availableMoney) {
+                        Toast.makeText(
+                            requireContext(),
+                            "တိုးယူငွေ must less than available money",
+                            Toast.LENGTH_LONG
+                        ).show()
+
+                    } else {
+                        binding.edtCharge.setText(cost.toString())
+                    }
                 }
 
                 "ရွေးယူ" -> {
@@ -266,16 +299,43 @@ class PawnInterestFragment : Fragment() {
                         generateNumberFromEditText(binding.includePaymentBox.edtThree).toInt() + generateNumberFromEditText(
                             binding.includePaymentBox.edtTwo
                         ).toInt()
+                    binding.edtClaimMoney.setText(viewModel.getTotalVoucherBuyingPrice())
+                    val moneyToGive =
+                        viewModel.getTotalVoucherBuyingPrice().toInt() - generateNumberFromEditText(
+                            binding.edtCharge
+                        ).toInt() - tierDiscount - generateNumberFromEditText(
+                            binding.edtReducedPay
+                        ).toInt()
+                    binding.edtMoneyToGive.setText(getRoundDownForPrice(moneyToGive).toString())
                     binding.edtCharge.setText(cost.toString())
                 }
             }
         }
         binding.btnSelect.setOnClickListener {
-            binding.edtClaimMoney.setText(
-                (generateNumberFromEditText(binding.edtCharge).toInt() - viewModel.pawnData?.tier_discount.let { if (it.isNullOrEmpty()) 0 else it.toInt() } - generateNumberFromEditText(
-                    binding.edtReducedPay
-                ).toInt()).toString()
-            )
+
+            if (checkedAction == "ရောင်းချ") {
+                val cost =
+                    generateNumberFromEditText(binding.includePaymentBox.edtThree).toInt() + generateNumberFromEditText(
+                        binding.includePaymentBox.edtTwo
+                    ).toInt()
+                binding.edtClaimMoney.setText(viewModel.getTotalVoucherBuyingPrice())
+                val moneyToGive =
+                    viewModel.getTotalVoucherBuyingPrice().toInt() - generateNumberFromEditText(
+                        binding.edtCharge
+                    ).toInt() - tierDiscount - generateNumberFromEditText(
+                        binding.edtReducedPay
+                    ).toInt()
+                binding.edtMoneyToGive.setText(getRoundDownForPrice(moneyToGive).toString())
+                binding.edtCharge.setText(cost.toString())
+            } else {
+                binding.edtClaimMoney.setText(
+                    getRoundDownForPrice(
+                        (generateNumberFromEditText(binding.edtCharge).toInt() - tierDiscount - generateNumberFromEditText(
+                            binding.edtReducedPay
+                        ).toInt())
+                    ).toString()
+                )
+            }
         }
 
 
@@ -287,12 +347,20 @@ class PawnInterestFragment : Fragment() {
 
                 is Resource.Success -> {
                     loading.dismiss()
-                    viewModel.pawnData = it.data
+                    viewModel.pawnData = it.data?.asDomain()
                     binding.edtName.setText(it.data?.username)
                     binding.edtPrePay.setText(it.data?.prepaid_debt)
                     binding.edtPrePayMonth.setText(it.data?.prepaid_months)
                     binding.tvTier.text = it.data?.tier_name
                     binding.tvTierDiscountAmount.text = it.data?.tier_discount
+                    if (it.data?.remark.isNullOrEmpty().not()) {
+                        Toast.makeText(
+                            requireContext(),
+                            it.data?.remark.orEmpty(),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                    doFunctionForCheck(if (lastCheckedId == -1) binding.radioInterestPay.id else lastCheckedId)
                     viewModel.getStockFromHomeForPawnList(binding.edtScanVoucher.text.toString())
 
                 }
@@ -312,6 +380,12 @@ class PawnInterestFragment : Fragment() {
                 is Resource.Success -> {
                     loading.dismiss()
                     viewModel.createStockFromHome(it.data.orEmpty(), true)
+                    var totalVoucherBuyingPriceForPawn = 0
+
+//                    it.data.orEmpty().forEach {
+//                        totalVoucherBuyingPriceForPawn += it.b_voucher_buying_value!!.toInt()
+//                    }
+//                    viewModel.saveTotalVoucherBuyingPrice(totalVoucherBuyingPriceForPawn.toString())
 
                 }
 
@@ -503,7 +577,7 @@ class PawnInterestFragment : Fragment() {
 
             if (lastCheckedId != checkedId && checkedId != binding.radioInterestPay.id) {
                 lastCheckedId = checkedId
-                if (binding.edtScanVoucher.text.isNullOrEmpty().not() ){
+                if (binding.edtScanVoucher.text.isNullOrEmpty().not()) {
                     viewModel.getStockFromHomeForPawnList(binding.edtScanVoucher.text.toString())
                 }
 
@@ -513,130 +587,7 @@ class PawnInterestFragment : Fragment() {
                 binding.radioGroup2.setOnCheckedChangeListener(null) // remove the listener before clearing so we don't throw that stackoverflow exception(like Vladimir Volodin pointed out)
                 binding.radioGroup2.clearCheck() // clear the second RadioGroup!
                 binding.radioGroup2.setOnCheckedChangeListener(listener2) //reset the listener
-                when (checkedId) {
-                    binding.radioPreInputOutput.id -> {
-
-                        binding.includePaymentBox.tilOne.isVisible = true
-                        binding.includePaymentBox.tvOne.isVisible = true
-                        binding.includePaymentBox.edtOne.setText("0")
-                        binding.includePaymentBox.tvOne.text = "အရင်းကြိုသွင်းငွေ"
-
-                        binding.includePaymentBox.tilTwo.isVisible = false
-                        binding.includePaymentBox.tilThree.isVisible = false
-
-                        binding.includePaymentBox.tvTwo.isVisible = false
-                        binding.includePaymentBox.tvThree.isVisible = false
-
-                        binding.includePaymentBox.btnEdit.isVisible = false
-                        binding.includePaymentBox.tvLabelGoldFromHome.isVisible = false
-
-
-                        binding.includePaymentBox.btnClick.text = "ကြိုသွင်း/ထုတ်"
-                        checkedAction = "ကြိုသွင်း/ထုတ်"
-                    }
-
-                    binding.radioPreInterestPay.id -> {
-                        binding.includePaymentBox.tilOne.isVisible = true
-                        binding.includePaymentBox.edtOne.setText("0")
-                        binding.includePaymentBox.tvOne.isVisible = true
-                        binding.includePaymentBox.tvOne.text = "လထည့်ရန်"
-
-                        binding.includePaymentBox.tvThree.isVisible = true
-                        binding.includePaymentBox.tvThree.text = "အတိုးကျသင့်ငွေ"
-                        binding.includePaymentBox.tilThree.isVisible = true
-                        binding.includePaymentBox.edtThree.setText(viewModel.pawnData?.interest_per_month)
-
-                        binding.includePaymentBox.tilTwo.isVisible = false
-                        binding.includePaymentBox.tvTwo.isVisible = false
-
-                        binding.includePaymentBox.btnEdit.isVisible = false
-                        binding.includePaymentBox.tvLabelGoldFromHome.isVisible = false
-                        binding.includePaymentBox.btnClick.text = "ကြိုတိုးရှင်း"
-                        checkedAction = "ကြိုတိုးရှင်း"
-
-                        binding.includePaymentBox.edtOne.addTextChangedListener {
-                            if (it.isNullOrEmpty().not()) {
-                                val month = it.toString()
-                                val money =
-                                    generateNumberFromEditText(binding.includePaymentBox.edtThree).toInt() * month.toInt()
-                                binding.includePaymentBox.edtThree.setText(money.toString())
-                            }
-                        }
-
-
-                    }
-
-                    binding.radioOnlyInterest.id -> {
-                        binding.includePaymentBox.tilOne.isVisible = true
-                        binding.includePaymentBox.edtOne.setText("0")
-                        binding.includePaymentBox.tvOne.isVisible = true
-                        binding.includePaymentBox.tvOne.text = "တိုးယူငွေ"
-
-                        binding.includePaymentBox.tvThree.isVisible = false
-                        binding.includePaymentBox.tilThree.isVisible = false
-
-                        binding.includePaymentBox.tilTwo.isVisible = false
-                        binding.includePaymentBox.tvTwo.isVisible = false
-
-                        binding.includePaymentBox.btnEdit.isVisible = true
-                        binding.includePaymentBox.btnEdit.setOnClickListener {
-                            findNavController().navigate(
-                                PawnInterestFragmentDirections.actionGlobalGoldFromHomeFragment(
-                                    "PawnNewCanEdit",
-                                    null
-                                )
-                            )
-                        }
-                        binding.includePaymentBox.tvLabelGoldFromHome.isVisible = true
-                        binding.includePaymentBox.btnClick.text = "တိုးယူသက်သက်"
-                        checkedAction = "တိုးယူသက်သက်"
-
-                    }
-
-                    binding.radioInterestPay.id -> {
-                        binding.includePaymentBox.tilOne.isVisible = true
-                        binding.includePaymentBox.tvOne.isVisible = true
-                        binding.includePaymentBox.tvOne.text = "အတိုးရက်"
-                        binding.includePaymentBox.edtOne.setText(viewModel.pawnData?.interest_days)
-
-                        binding.includePaymentBox.tvThree.isVisible = true
-                        binding.includePaymentBox.tvThree.text = "အတိုးကျသင့်ငွေ"
-                        binding.includePaymentBox.tilThree.isVisible = true
-                        binding.includePaymentBox.edtThree.setText(viewModel.pawnData?.interest_amount)
-
-
-                        binding.includePaymentBox.tilTwo.isVisible = false
-                        binding.includePaymentBox.tvTwo.isVisible = false
-
-                        binding.includePaymentBox.btnEdit.isVisible = false
-                        binding.includePaymentBox.tvLabelGoldFromHome.isVisible = false
-                        binding.includePaymentBox.btnClick.text = "အတိုးရှင်း"
-                        checkedAction = "အတိုးရှင်း"
-                    }
-
-                    binding.radioInvestmentInterestPay.id -> {
-                        binding.includePaymentBox.tilOne.isVisible = true
-                        binding.includePaymentBox.tvOne.isVisible = true
-                        binding.includePaymentBox.tvOne.text = "အတိုးရက်"
-                        binding.includePaymentBox.edtOne.setText(viewModel.pawnData?.interest_days)
-
-
-                        binding.includePaymentBox.tvTwo.isVisible = true
-                        binding.includePaymentBox.tvTwo.text = "အရင်းသွင်းငွေ"
-                        binding.includePaymentBox.tilTwo.isVisible = true
-
-                        binding.includePaymentBox.tilThree.isVisible = true
-                        binding.includePaymentBox.tvThree.text = "အတိုးကျသင့်ငွေ"
-                        binding.includePaymentBox.tvThree.isVisible = true
-                        binding.includePaymentBox.edtThree.setText(viewModel.pawnData?.interest_amount)
-
-
-                        binding.includePaymentBox.btnEdit.isVisible = false
-                        binding.includePaymentBox.tvLabelGoldFromHome.isVisible = false
-                        binding.includePaymentBox.btnClick.text = "အရင်းသွင်းအတိုးရှင်း"
-                        checkedAction = "အရင်းသွင်းအတိုးရှင်း"
-                    }
-                }
+                doFunctionForCheck(checkedId)
 
             }
         }
@@ -645,136 +596,354 @@ class PawnInterestFragment : Fragment() {
         RadioGroup.OnCheckedChangeListener { group, checkedId ->
             if (lastCheckedId != checkedId && checkedId != binding.radioInterestPay.id) {
                 lastCheckedId = checkedId
-                if (binding.edtScanVoucher.text.isNullOrEmpty().not() ){
+                if (binding.edtScanVoucher.text.isNullOrEmpty().not()) {
                     viewModel.getStockFromHomeForPawnList(binding.edtScanVoucher.text.toString())
                 }
 
             }
             if (checkedId != -1) {
-            binding.radioGroup.setOnCheckedChangeListener(null)
-            binding.radioGroup.clearCheck()
-            binding.radioGroup.setOnCheckedChangeListener(listener1)
-            when (checkedId) {
-                binding.radioSelectInvestment.id -> {
-                    binding.includePaymentBox.tilOne.isVisible = true
-                    binding.includePaymentBox.tvOne.isVisible = true
-                    binding.includePaymentBox.tvOne.text = "အတိုးရက်"
-                    binding.includePaymentBox.edtOne.setText(viewModel.pawnData?.interest_days)
+                binding.radioGroup.setOnCheckedChangeListener(null)
+                binding.radioGroup.clearCheck()
+                binding.radioGroup.setOnCheckedChangeListener(listener1)
+                doFunctionForCheck(checkedId)
+            }
+        }
 
-                    binding.includePaymentBox.tvTwo.isVisible = true
-                    binding.includePaymentBox.tvTwo.text = "အရင်းသွင်းငွေ"
-                    binding.includePaymentBox.tilTwo.isVisible = true
+    fun doFunctionForCheck(checkedId:Int){
+        binding.edtCharge.text?.clear()
+        binding.edtClaimMoney.text?.clear()
+        when (checkedId) {
+            binding.radioPreInputOutput.id -> {
+                binding.includePaymentBox.tilOne.isVisible = true
+                binding.includePaymentBox.tvOne.isVisible = true
+                binding.includePaymentBox.edtOne.setText("0")
+                binding.includePaymentBox.tvOne.text = "အရင်းကြိုသွင်းငွေ"
 
-                    binding.includePaymentBox.tilThree.isVisible = true
-                    binding.includePaymentBox.tvThree.text = "အတိုးကျသင့်ငွေ"
-                    binding.includePaymentBox.tvThree.isVisible = true
-                    binding.includePaymentBox.edtThree.setText(viewModel.pawnData?.interest_amount)
+                binding.includePaymentBox.tilTwo.isVisible = false
+                binding.includePaymentBox.tilTwo.isEnabled = true
+                binding.includePaymentBox.tilThree.isVisible = false
 
+                binding.includePaymentBox.tvTwo.isVisible = false
+                binding.includePaymentBox.tvThree.isVisible = false
 
-                    binding.includePaymentBox.btnEdit.isVisible = true
-                    binding.includePaymentBox.btnEdit.setOnClickListener {
-                        findNavController().navigate(
-                            PawnInterestFragmentDirections.actionGlobalGoldFromHomeFragment(
-                                "PawnSelectNoEdit",
-                                binding.edtScanVoucher.text.toString()
-                            )
-                        )
-                    }
-                    binding.includePaymentBox.tvLabelGoldFromHome.isVisible = true
+                binding.tilMoneyToGive.isVisible = false
+                binding.tvLabelMoneyToGive.isVisible = false
+                binding.tvLabelClaimMoney.text = "တောင်းခံရန်ငွေ"
 
-                    binding.includePaymentBox.btnClick.text = "အရင်းသွင်း ခွဲရွေး"
-                    checkedAction = "အရင်းသွင်း ခွဲရွေး"
-                }
+                binding.includePaymentBox.btnEdit.isVisible = false
+                binding.includePaymentBox.tvLabelGoldFromHome.isVisible = false
 
-                binding.radioClearingInterest.id -> {
-                    binding.includePaymentBox.tilOne.isVisible = true
-                    binding.includePaymentBox.tvOne.isVisible = true
-                    binding.includePaymentBox.tvOne.text = "အတိုးရက်"
-                    binding.includePaymentBox.edtOne.setText(viewModel.pawnData?.interest_days)
-
-                    binding.includePaymentBox.tvTwo.isVisible = true
-                    binding.includePaymentBox.tvTwo.text = "တိုးယူငွေ"
-                    binding.includePaymentBox.tilTwo.isVisible = true
-
-                    binding.includePaymentBox.tilThree.isVisible = true
-                    binding.includePaymentBox.tvThree.text = "အတိုးကျသင့်ငွေ"
-                    binding.includePaymentBox.tvThree.isVisible = true
-                    binding.includePaymentBox.edtThree.setText(viewModel.pawnData?.interest_amount)
-
-                    binding.includePaymentBox.btnEdit.isVisible = true
-                    binding.includePaymentBox.btnEdit.setOnClickListener {
-                        findNavController().navigate(
-                            PawnInterestFragmentDirections.actionGlobalGoldFromHomeFragment(
-                                "PawnNewCanEdit",
-                                binding.edtScanVoucher.text.toString()
-                            )
-                        )
-                    }
-                    binding.includePaymentBox.tvLabelGoldFromHome.isVisible = true
-
-                    binding.includePaymentBox.btnClick.text = "တိုးယူ အတိုးရှင်း"
-                    checkedAction = "တိုးယူ အတိုးရှင်း"
-
-                }
-
-                binding.radioChoose.id -> {
-                    binding.includePaymentBox.tilOne.isVisible = true
-                    binding.includePaymentBox.tvOne.isVisible = true
-                    binding.includePaymentBox.tvOne.text = "အတိုးရက်"
-                    binding.includePaymentBox.edtOne.setText(viewModel.pawnData?.interest_days)
-
-                    binding.includePaymentBox.tvTwo.isVisible = true
-                    binding.includePaymentBox.tvTwo.text = "အရင်းသွင်းငွေ"
-                    binding.includePaymentBox.tilTwo.isVisible = true
-
-                    binding.includePaymentBox.tilThree.isVisible = true
-                    binding.includePaymentBox.tvThree.text = "အတိုးကျသင့်ငွေ"
-                    binding.includePaymentBox.tvThree.isVisible = true
-                    binding.includePaymentBox.edtThree.setText(viewModel.pawnData?.interest_amount)
-
-
-                    binding.includePaymentBox.btnEdit.isVisible = false
-                    binding.includePaymentBox.tvLabelGoldFromHome.isVisible = false
-
-                    binding.includePaymentBox.btnClick.text = "ရွေးယူ"
-                    checkedAction = "ရွေးယူ"
-
-                }
-
-                binding.radioPawnItemSale.id -> {
-                    binding.includePaymentBox.tilOne.isVisible = true
-                    binding.includePaymentBox.tvOne.isVisible = true
-                    binding.includePaymentBox.tvOne.text = "အတိုးရက်"
-                    binding.includePaymentBox.edtOne.setText(viewModel.pawnData?.interest_days)
-
-                    binding.includePaymentBox.tvTwo.isVisible = true
-                    binding.includePaymentBox.tvTwo.text = "အရင်းသွင်းငွေ"
-                    binding.includePaymentBox.tilTwo.isVisible = true
-
-                    binding.includePaymentBox.tilThree.isVisible = true
-                    binding.includePaymentBox.tvThree.text = "အတိုးကျသင့်ငွေ"
-                    binding.includePaymentBox.tvThree.isVisible = true
-                    binding.includePaymentBox.edtThree.setText(viewModel.pawnData?.interest_amount)
-
-                    binding.includePaymentBox.btnEdit.isVisible = true
-                    binding.includePaymentBox.btnEdit.setOnClickListener {
-                        findNavController().navigate(
-                            PawnInterestFragmentDirections.actionGlobalGoldFromHomeFragment(
-                                "PawnSelect",
-                                binding.edtScanVoucher.text.toString()
-                            )
-                        )
-                    }
-                    binding.includePaymentBox.tvLabelGoldFromHome.isVisible = true
-
-                    binding.includePaymentBox.btnClick.text = "ရောင်းချ"
-                    checkedAction = "ရောင်းချ"
-                }
+                binding.includePaymentBox.btnClick.text = "ကြိုသွင်း/ထုတ်"
+                checkedAction = "ကြိုသွင်း/ထုတ်"
+                tierDiscount = 0
+                binding.tvTierDiscountAmount.text =
+                    getRoundDownForPawn(tierDiscount).toString()
             }
 
+            binding.radioPreInterestPay.id -> {
+                binding.includePaymentBox.tilOne.isVisible = true
+                binding.includePaymentBox.edtOne.setText("0")
+                binding.includePaymentBox.tvOne.isVisible = true
+                binding.includePaymentBox.tvOne.text = "လထည့်ရန်"
+                binding.includePaymentBox.tilTwo.isEnabled = true
 
+
+                binding.includePaymentBox.tvThree.isVisible = true
+                binding.includePaymentBox.tvThree.text = "အတိုးကျသင့်ငွေ"
+                binding.includePaymentBox.tilThree.isVisible = true
+                binding.includePaymentBox.edtThree.setText(viewModel.pawnData?.interest_per_month.orEmpty())
+
+                binding.includePaymentBox.tilTwo.isVisible = false
+                binding.includePaymentBox.tvTwo.isVisible = false
+
+                binding.tilMoneyToGive.isVisible = false
+                binding.tvLabelMoneyToGive.isVisible = false
+                binding.tvLabelClaimMoney.text = "တောင်းခံရန်ငွေ"
+
+                binding.includePaymentBox.btnEdit.isVisible = false
+                binding.includePaymentBox.tvLabelGoldFromHome.isVisible = false
+                binding.includePaymentBox.btnClick.text = "ကြိုတိုးရှင်း"
+                checkedAction = "ကြိုတိုးရှင်း"
+
+                tierDiscount = viewModel.pawnData?.tier_discount.let { if (it.isNullOrEmpty()) 0 else it.toInt() }
+                binding.tvTierDiscountAmount.text =
+                    getRoundDownForPawn(tierDiscount).toString()
+
+
+                binding.includePaymentBox.edtOne.addTextChangedListener {
+                    if (it.isNullOrEmpty().not() && isNumeric(it.toString())) {
+                        val month = it.toString()
+                        binding.tvTierDiscountAmount.text =
+                            (getRoundDownForPawn(tierDiscount) *month.toInt()).toString()
+                        val money =
+                            viewModel.pawnData?.interest_per_month.let { if (it.isNullOrEmpty()) 0 else it.toInt() } * month.toInt()
+                        binding.includePaymentBox.edtThree.setText(money.toString())
+                    }
+                }
+
+            }
+
+            binding.radioOnlyInterest.id -> {
+                binding.includePaymentBox.tilOne.isVisible = true
+                binding.includePaymentBox.edtOne.setText("0")
+                binding.includePaymentBox.tvOne.isVisible = true
+                binding.includePaymentBox.tvOne.text = "တိုးယူငွေ"
+
+
+                binding.includePaymentBox.tvThree.isVisible = false
+                binding.includePaymentBox.tilThree.isVisible = false
+
+                binding.includePaymentBox.tilTwo.isVisible = false
+                binding.includePaymentBox.tvTwo.isVisible = false
+                binding.includePaymentBox.tilTwo.isEnabled = true
+
+
+                binding.tilMoneyToGive.isVisible = false
+                binding.tvLabelMoneyToGive.isVisible = false
+                binding.tvLabelClaimMoney.text = "တောင်းခံရန်ငွေ"
+
+                binding.includePaymentBox.btnEdit.isVisible = true
+                binding.includePaymentBox.btnEdit.setOnClickListener {
+                    findNavController().navigate(
+                        PawnInterestFragmentDirections.actionGlobalGoldFromHomeFragment(
+                            "PawnNewCanEdit",
+                            null
+                        )
+                    )
+                }
+                binding.includePaymentBox.tvLabelGoldFromHome.isVisible = true
+                binding.includePaymentBox.btnClick.text = "တိုးယူသက်သက်"
+                checkedAction = "တိုးယူသက်သက်"
+                tierDiscount = 0
+                binding.tvTierDiscountAmount.text =
+                    getRoundDownForPawn(tierDiscount).toString()
+
+            }
+
+            binding.radioInterestPay.id -> {
+                binding.includePaymentBox.tilOne.isVisible = true
+                binding.includePaymentBox.tvOne.isVisible = true
+                binding.includePaymentBox.tvOne.text = "အတိုးရက်"
+                binding.includePaymentBox.edtOne.setText(viewModel.pawnData?.interest_days.orEmpty())
+
+                binding.includePaymentBox.tvThree.isVisible = true
+                binding.includePaymentBox.tvThree.text = "အတိုးကျသင့်ငွေ"
+                binding.includePaymentBox.tilThree.isVisible = true
+                binding.includePaymentBox.edtThree.setText(viewModel.pawnData?.interest_amount.orEmpty())
+
+
+                binding.includePaymentBox.tilTwo.isVisible = false
+                binding.includePaymentBox.tvTwo.isVisible = false
+                binding.includePaymentBox.tilTwo.isEnabled = true
+
+
+                binding.includePaymentBox.btnEdit.isVisible = false
+                binding.includePaymentBox.tvLabelGoldFromHome.isVisible = false
+
+                binding.tilMoneyToGive.isVisible = false
+                binding.tvLabelMoneyToGive.isVisible = false
+                binding.tvLabelClaimMoney.text = "တောင်းခံရန်ငွေ"
+                binding.includePaymentBox.btnClick.text = "အတိုးရှင်း"
+                checkedAction = "အတိုးရှင်း"
+                tierDiscount = viewModel.pawnData?.tier_discount.let { if (it.isNullOrEmpty()) 0 else it.toInt() }
+                binding.tvTierDiscountAmount.text =
+                    getRoundDownForPawn(tierDiscount).toString()
+
+            }
+
+            binding.radioInvestmentInterestPay.id -> {
+                binding.includePaymentBox.tilOne.isVisible = true
+                binding.includePaymentBox.tvOne.isVisible = true
+                binding.includePaymentBox.tvOne.text = "အတိုးရက်"
+                binding.includePaymentBox.edtOne.setText(viewModel.pawnData?.interest_days.orEmpty())
+
+
+                binding.includePaymentBox.tvTwo.isVisible = true
+                binding.includePaymentBox.tvTwo.text = "အရင်းသွင်းငွေ"
+                binding.includePaymentBox.tilTwo.isVisible = true
+                binding.includePaymentBox.tilTwo.isEnabled = true
+
+
+                binding.includePaymentBox.tilThree.isVisible = true
+                binding.includePaymentBox.tvThree.text = "အတိုးကျသင့်ငွေ"
+                binding.includePaymentBox.tvThree.isVisible = true
+                binding.includePaymentBox.edtThree.setText(viewModel.pawnData?.interest_amount.orEmpty())
+
+                binding.tilMoneyToGive.isVisible = false
+                binding.tvLabelMoneyToGive.isVisible = false
+                binding.tvLabelClaimMoney.text = "တောင်းခံရန်ငွေ"
+
+
+                binding.includePaymentBox.btnEdit.isVisible = false
+                binding.includePaymentBox.tvLabelGoldFromHome.isVisible = false
+                binding.includePaymentBox.btnClick.text = "အရင်းသွင်းအတိုးရှင်း"
+                checkedAction = "အရင်းသွင်းအတိုးရှင်း"
+                tierDiscount =viewModel.pawnData?.tier_discount.let { if (it.isNullOrEmpty()) 0 else it.toInt() }
+                binding.tvTierDiscountAmount.text =
+                    getRoundDownForPawn(tierDiscount).toString()
+            }
+            binding.radioSelectInvestment.id -> {
+
+                binding.includePaymentBox.tilOne.isVisible = true
+                binding.includePaymentBox.tvOne.isVisible = true
+                binding.includePaymentBox.tvOne.text = "အတိုးရက်"
+                binding.includePaymentBox.edtOne.setText(viewModel.pawnData?.interest_days.orEmpty())
+
+                binding.includePaymentBox.tvTwo.isVisible = true
+                binding.includePaymentBox.tvTwo.text = "အရင်းသွင်းငွေ"
+                binding.includePaymentBox.tilTwo.isVisible = true
+                binding.includePaymentBox.tilTwo.isEnabled = true
+
+
+
+                binding.includePaymentBox.tilThree.isVisible = true
+                binding.includePaymentBox.tvThree.text = "အတိုးကျသင့်ငွေ"
+                binding.includePaymentBox.tvThree.isVisible = true
+                binding.includePaymentBox.edtThree.setText(viewModel.pawnData?.interest_amount.orEmpty())
+
+
+                binding.includePaymentBox.btnEdit.isVisible = true
+                binding.includePaymentBox.btnEdit.setOnClickListener {
+                    findNavController().navigate(
+                        PawnInterestFragmentDirections.actionGlobalGoldFromHomeFragment(
+                            "PawnSelectNoEdit",
+                            binding.edtScanVoucher.text.toString()
+                        )
+                    )
+                }
+                binding.includePaymentBox.tvLabelGoldFromHome.isVisible = true
+
+                binding.tilMoneyToGive.isVisible = false
+                binding.tvLabelMoneyToGive.isVisible = false
+                binding.tvLabelClaimMoney.text = "တောင်းခံရန်ငွေ"
+
+                binding.includePaymentBox.btnClick.text = "အရင်းသွင်း ခွဲရွေး"
+                checkedAction = "အရင်းသွင်း ခွဲရွေး"
+                tierDiscount = viewModel.pawnData?.tier_discount.let { if (it.isNullOrEmpty()) 0 else it.toInt() }
+                binding.tvTierDiscountAmount.text =
+                    getRoundDownForPawn(tierDiscount).toString()
+            }
+
+            binding.radioClearingInterest.id -> {
+
+                binding.includePaymentBox.tilOne.isVisible = true
+                binding.includePaymentBox.tvOne.isVisible = true
+                binding.includePaymentBox.tvOne.text = "အတိုးရက်"
+                binding.includePaymentBox.edtOne.setText(viewModel.pawnData?.interest_days.orEmpty())
+
+                binding.includePaymentBox.tvTwo.isVisible = true
+                binding.includePaymentBox.tvTwo.text = "တိုးယူငွေ"
+                binding.includePaymentBox.tilTwo.isVisible = true
+                binding.includePaymentBox.tilTwo.isEnabled = true
+                binding.includePaymentBox.edtTwo.text?.clear()
+
+                binding.includePaymentBox.tilThree.isVisible = true
+                binding.includePaymentBox.tvThree.text = "အတိုးကျသင့်ငွေ"
+                binding.includePaymentBox.tvThree.isVisible = true
+                binding.includePaymentBox.edtThree.setText(viewModel.pawnData?.interest_amount.orEmpty())
+
+                binding.includePaymentBox.btnEdit.isVisible = true
+                binding.includePaymentBox.btnEdit.setOnClickListener {
+                    findNavController().navigate(
+                        PawnInterestFragmentDirections.actionGlobalGoldFromHomeFragment(
+                            "PawnNewCanEdit",
+                            binding.edtScanVoucher.text.toString()
+                        )
+                    )
+                }
+                binding.includePaymentBox.tvLabelGoldFromHome.isVisible = true
+
+                binding.tilMoneyToGive.isVisible = false
+                binding.tvLabelMoneyToGive.isVisible = false
+                binding.tvLabelClaimMoney.text = "တောင်းခံရန်ငွေ"
+
+                binding.includePaymentBox.btnClick.text = "တိုးယူ အတိုးရှင်း"
+                checkedAction = "တိုးယူ အတိုးရှင်း"
+                tierDiscount =viewModel.pawnData?.tier_discount.let { if (it.isNullOrEmpty()) 0 else it.toInt() }
+                binding.tvTierDiscountAmount.text =
+                    getRoundDownForPawn(tierDiscount).toString()
+
+            }
+
+            binding.radioChoose.id -> {
+
+                binding.includePaymentBox.tilOne.isVisible = true
+                binding.includePaymentBox.tvOne.isVisible = true
+                binding.includePaymentBox.tvOne.text = "အတိုးရက်"
+                binding.includePaymentBox.edtOne.setText(viewModel.pawnData?.interest_days.orEmpty())
+
+                binding.includePaymentBox.tvTwo.isVisible = true
+                binding.includePaymentBox.tvTwo.text = "အရင်းသွင်းငွေ"
+                binding.includePaymentBox.tilTwo.isVisible = true
+                binding.includePaymentBox.tilTwo.isEnabled = false
+                binding.includePaymentBox.edtTwo.setText(
+                    (viewModel.pawnData?.remaining_debt.let { if (it.isNullOrEmpty()) 0 else it.toInt() } - viewModel.pawnData?.prepaid_debt.let { if (it.isNullOrEmpty()) 0 else it.toInt() }).toString()
+                )
+
+
+                binding.includePaymentBox.tilThree.isVisible = true
+                binding.includePaymentBox.tvThree.text = "အတိုးကျသင့်ငွေ"
+                binding.includePaymentBox.tvThree.isVisible = true
+                binding.includePaymentBox.edtThree.setText(viewModel.pawnData?.interest_amount.orEmpty())
+
+
+                binding.includePaymentBox.btnEdit.isVisible = false
+                binding.includePaymentBox.tvLabelGoldFromHome.isVisible = false
+                binding.includePaymentBox.tilTwo.isEnabled = true
+
+
+                binding.tilMoneyToGive.isVisible = false
+                binding.tvLabelMoneyToGive.isVisible = false
+                binding.tvLabelClaimMoney.text = "တောင်းခံရန်ငွေ"
+
+                binding.includePaymentBox.btnClick.text = "ရွေးယူ"
+                checkedAction = "ရွေးယူ"
+                tierDiscount = viewModel.pawnData?.tier_discount.let { if (it.isNullOrEmpty()) 0 else it.toInt() }
+                binding.tvTierDiscountAmount.text =
+                    getRoundDownForPawn(tierDiscount).toString()
+
+            }
+
+            binding.radioPawnItemSale.id -> {
+
+                binding.includePaymentBox.tilOne.isVisible = true
+                binding.includePaymentBox.tvOne.isVisible = true
+                binding.includePaymentBox.tvOne.text = "အတိုးရက်"
+                binding.includePaymentBox.edtOne.setText(viewModel.pawnData?.interest_days.orEmpty())
+
+                binding.includePaymentBox.tvTwo.isVisible = true
+                binding.includePaymentBox.tvTwo.text = "အရင်းသွင်းငွေ"
+                binding.includePaymentBox.tilTwo.isVisible = true
+                binding.includePaymentBox.tilTwo.isEnabled = false
+                binding.includePaymentBox.edtTwo.setText(((viewModel.pawnData?.remaining_debt?:"0").toInt()-(viewModel.pawnData?.prepaid_debt?:"0").toInt()).toString())
+
+                binding.includePaymentBox.tilThree.isVisible = true
+                binding.includePaymentBox.tvThree.text = "အတိုးကျသင့်ငွေ"
+                binding.includePaymentBox.tvThree.isVisible = true
+                binding.includePaymentBox.edtThree.setText(viewModel.pawnData?.interest_amount.orEmpty())
+
+                binding.tilMoneyToGive.isVisible = true
+                binding.tvLabelMoneyToGive.isVisible = true
+                binding.tvLabelClaimMoney.text = "ဘောင်ချာဖွင့်ဝယ်ပေးငွေ"
+                binding.edtClaimMoney.setText(viewModel.getTotalVoucherBuyingPrice())
+
+                binding.includePaymentBox.btnEdit.isVisible = true
+                binding.includePaymentBox.btnEdit.setOnClickListener {
+                    findNavController().navigate(
+                        PawnInterestFragmentDirections.actionGlobalGoldFromHomeFragment(
+                            "PawnSelect",
+                            binding.edtScanVoucher.text.toString()
+                        )
+                    )
+                }
+                binding.includePaymentBox.tvLabelGoldFromHome.isVisible = true
+
+                binding.includePaymentBox.btnClick.text = "ရောင်းချ"
+                checkedAction = "ရောင်းချ"
+                tierDiscount = viewModel.pawnData?.tier_discount.let { if (it.isNullOrEmpty()) 0 else it.toInt() }
+                binding.tvTierDiscountAmount.text =
+                    getRoundDownForPawn(tierDiscount).toString()
+            }
         }
-        }
-
-
+    }
 }

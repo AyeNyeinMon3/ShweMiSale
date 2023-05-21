@@ -781,6 +781,7 @@ class NormalSaleRepositoryImpl @Inject constructor(
             )
 
             if (response.isSuccessful && response.body() != null) {
+                appDatabase.sampleDao.deleteSamplesWithProductId(response.body()!!.data[0].product_id.orEmpty())
                 appDatabase.sampleDao.saveSample(response.body()!!.data[0].asDomain(true).asEntity())
                 Resource.Success(response.body()!!.data[0].asDomain(true))
             } else if (response.code() == 500) {

@@ -15,6 +15,8 @@ private const val PAWN_STOCK_FROM_HOME_SESSION_KEY="pawn-stock-from-home-session
 private const val TOTAL_PAWN_PRICE="total-pawn-price"
 private const val TOTAL_GOLD_WEIGHT_YWAE="total-gold-weight-ywae"
 private const val TOTAL_C_VOUCHER_BUYING_PRICE="total-c-voucher-buying-price"
+private const val TOTAL_C_VOUCHER_BUYING_PRICE_FOR_PAWN="total-c-voucher-buying-price-for-pawn"
+private const val TOTAL_PAWN_PRICE_FOR_REMAINED_PAWN_ITEMS="total-pawn-price-price-for-pawn-remained-items"
 
 
 @Singleton
@@ -113,8 +115,17 @@ class LocalDatabase @Inject constructor(@ApplicationContext private val context:
     fun removeGoldWeightYwaeForStockFromHome(){
         sharedPref.edit { remove(TOTAL_GOLD_WEIGHT_YWAE) }
     }
-
-    fun getTotalCVoucherBuyingPriceForStockFromHome():String?{
+    fun getTotalVoucherBuyingPriceForPawn():String{
+        val price =  sharedPref.getString(TOTAL_C_VOUCHER_BUYING_PRICE_FOR_PAWN, "0")
+        return "$price"
+    }
+    fun saveTotalVoucherBuyingPriceForPawn(price:String){
+        sharedPref.edit{putString(TOTAL_C_VOUCHER_BUYING_PRICE_FOR_PAWN,price)}
+    }
+    fun removeTotalVoucherBuyingPriceForPawn(){
+        sharedPref.edit { remove(TOTAL_C_VOUCHER_BUYING_PRICE_FOR_PAWN) }
+    }
+    fun getTotalCVoucherBuyingPriceForStockFromHome():String{
         val price =  sharedPref.getString(TOTAL_C_VOUCHER_BUYING_PRICE, "0")
         return "$price"
     }
@@ -139,6 +150,20 @@ class LocalDatabase @Inject constructor(@ApplicationContext private val context:
     fun removePawnOldStockSessionKey(){
         sharedPref.edit { remove(PAWN_STOCK_FROM_HOME_SESSION_KEY) }
     }
+
+
+    fun getRemainedPawnItemsPrice():String{
+        val price =  sharedPref.getString(TOTAL_PAWN_PRICE_FOR_REMAINED_PAWN_ITEMS, "0")
+        return "$price"
+    }
+
+    fun saveRemainedPawnItemsPrice(price:String){
+        sharedPref.edit{putString(TOTAL_PAWN_PRICE_FOR_REMAINED_PAWN_ITEMS,price)}
+    }
+
+    fun removeRemainedPawnItemsPrice(){
+        sharedPref.edit { remove(TOTAL_PAWN_PRICE_FOR_REMAINED_PAWN_ITEMS) }
+    }
     fun clearSharedPreference(){
         removeToken()
         removeCustomerId()
@@ -149,5 +174,6 @@ class LocalDatabase @Inject constructor(@ApplicationContext private val context:
         removeGoldWeightYwaeForStockFromHome()
         removeTotalCVoucherBuyingPriceForStockFromHome()
         removePawnOldStockSessionKey()
+        removeTotalVoucherBuyingPriceForPawn()
     }
 }

@@ -13,9 +13,9 @@ data class SampleListData(
     val id:String,
 )
 
-class SampleListRecyclerAdapter:ListAdapter<SampleDomain,SampleListViewHolder>(SampleListDiffUtil) {
+class SampleListRecyclerAdapter(private val removeClick:(item:SampleDomain)->Unit):ListAdapter<SampleDomain,SampleListViewHolder>(SampleListDiffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SampleListViewHolder {
-        return SampleListViewHolder(ItemSampleListBinding.inflate(LayoutInflater.from(parent.context),parent,false))
+        return SampleListViewHolder(ItemSampleListBinding.inflate(LayoutInflater.from(parent.context),parent,false),removeClick)
     }
 
     override fun onBindViewHolder(holder: SampleListViewHolder, position: Int) {
@@ -25,9 +25,13 @@ class SampleListRecyclerAdapter:ListAdapter<SampleDomain,SampleListViewHolder>(S
 
 }
 
-class SampleListViewHolder(private var binding: ItemSampleListBinding): RecyclerView.ViewHolder(binding.root){
+class SampleListViewHolder(private var binding: ItemSampleListBinding,
+                           private val removeClick:(item:SampleDomain)->Unit): RecyclerView.ViewHolder(binding.root){
     fun bind(data: SampleDomain){
         binding.ivSampleItem.loadImageWithGlide(data.thumbnail)
+        binding.mcvRemove.setOnClickListener {
+            removeClick(data)
+        }
     }
 }
 

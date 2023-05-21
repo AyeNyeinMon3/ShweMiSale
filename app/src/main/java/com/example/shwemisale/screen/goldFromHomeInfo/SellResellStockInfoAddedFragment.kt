@@ -266,8 +266,8 @@ class SellResellStockInfoAddedFragment : Fragment() {
             calculateDecidedPawnPrice()
             binding.edtPriceB
                 .setText(generateNumberFromEditText(binding.edtPaymentFromShop))
-            binding.edtPriceA.setText(generateNumberFromEditText(binding.edtRepurchasePrice))
-            binding.edtPriceB.setText(generateNumberFromEditText(binding.edtPaymentFromShop))
+            binding.edtPriceA.setText(getRoundDownForPrice(generateNumberFromEditText(binding.edtRepurchasePrice).toInt()).toString())
+            binding.edtPriceB.setText(getRoundDownForPrice(generateNumberFromEditText(binding.edtPaymentFromShop).toInt()).toString())
             //f value will changed because b valued changed
             if (generateNumberFromEditText(binding.edtPriceE) != "0"){
                 var fywae =
@@ -417,6 +417,7 @@ class SellResellStockInfoAddedFragment : Fragment() {
                 }
                 if (args.stockFromHomeInfo != null) {
                     viewModel.updateStockFromHome(
+                        isPawn = args.backPressType?.startsWith("Pawn") ?:false,
                         a_buying_price_update = binding.edtPriceA.text.toString(),
                         b_voucher_buying_value_update =
                         if (binding.edtReducedPriceB.text.isNullOrEmpty()) {
@@ -566,7 +567,8 @@ class SellResellStockInfoAddedFragment : Fragment() {
                                 rebuy_price_vertical_option = viewModel.verticalOption,
                                 productId = null,
                                 isEditable = true,
-                                isChecked = false
+                                isChecked = false,
+                                id = null
                             )
                         )
                     )
@@ -833,7 +835,7 @@ class SellResellStockInfoAddedFragment : Fragment() {
     fun calculateDecidedPawnPrice() {
         val decidedPawnPrice =
             generateNumberFromEditText(binding.edtRepurchasePrice).toDouble() - viewModel.pawnDiffValue.toDouble()
-        val decidedPawnPriceDecimal = decidedPawnPrice.toInt().toString()
+        val decidedPawnPriceDecimal = getRoundDownForPrice(decidedPawnPrice.toInt()).toString()
         binding.edtDecidedPawnPrice.setText(decidedPawnPriceDecimal)
     }
 
@@ -857,7 +859,7 @@ class SellResellStockInfoAddedFragment : Fragment() {
         } else {
             (goldKyat) * generateNumberFromEditText(binding.edtDecidedPawnPrice).toDouble()
         }
-        binding.edtPawnPrice.setText(pawnPrice.toInt().toString())
+        binding.edtPawnPrice.setText(getRoundDownForPrice(pawnPrice.toInt()).toString())
     }
 
     fun calculatePriceB(hasotherReducedCost: Boolean) {
@@ -891,10 +893,10 @@ class SellResellStockInfoAddedFragment : Fragment() {
         val priceA = generateNumberFromEditText(binding.edtPriceA).toInt()
         val decidedPawnPrice =
             priceA - viewModel.pawnDiffValue.toDouble()
-        val decidedPawnPriceDecimal = decidedPawnPrice.toInt().toString()
+        val decidedPawnPriceDecimal = getRoundDownForPrice(decidedPawnPrice.toInt()).toString()
         binding.edtDecidedPawnPrice.setText(decidedPawnPriceDecimal)
         binding.edtPawnPrice.setText("")
-        binding.edtPriceB.setText(priceB.toInt().toString())
+        binding.edtPriceB.setText(getRoundDownForPrice(priceB.toInt()).toString())
         //f value will changed because b valued changed
         if (generateNumberFromEditText(binding.edtPriceE) != "0"){
             var fywae =
@@ -946,10 +948,10 @@ class SellResellStockInfoAddedFragment : Fragment() {
 
         val decidedPawnPrice =
             priceA - viewModel.pawnDiffValue.toDouble()
-        val decidedPawnPriceDecimal = decidedPawnPrice.toInt().toString()
+        val decidedPawnPriceDecimal = getRoundDownForPrice( decidedPawnPrice.toInt()).toString()
         binding.edtDecidedPawnPrice.setText(decidedPawnPriceDecimal)
         binding.edtPawnPrice.setText("")
-        binding.edtPriceA.setText(priceA.toInt().toString())
+        binding.edtPriceA.setText(getRoundDownForPrice(priceA.toInt()).toString())
         //f value will changed because b valued changed
 //        if (generateNumberFromEditText(binding.edtPriceE) != "0"){
 //            var fywae =
@@ -1288,7 +1290,7 @@ class SellResellStockInfoAddedFragment : Fragment() {
                 (generateNumberFromEditText(binding.edtPriceB).toDouble()) * percent / 100
             val result = generateNumberFromEditText(binding.edtPriceB).toDouble() - percentValue
             // need to change
-            binding.edtReducedPriceB.setText(result.toInt().toString())
+            binding.edtReducedPriceB.setText(getRoundDownForPrice(result.toInt()).toString())
             //f value will changed because b valued changed
             if (generateNumberFromEditText(binding.edtPriceE) != "0"){
                 var fywae =

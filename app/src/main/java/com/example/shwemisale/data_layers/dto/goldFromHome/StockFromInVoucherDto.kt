@@ -61,6 +61,7 @@ fun StockFromInVoucherDto.asDomain():StockFromHomeDomain{
         derived_gold_type_id = derived_gold_type_id.orEmpty(),
         isEditable = true,
         isChecked = true,
+        id = null
     )
 }
 

@@ -94,7 +94,7 @@ object GoldFromHomeDiffUtil : DiffUtil.ItemCallback<StockFromHomeDomain>() {
         oldItem: StockFromHomeDomain,
         newItem: StockFromHomeDomain
     ): Boolean {
-        return oldItem.id == newItem.id
+        return oldItem == newItem
     }
 
     override fun areContentsTheSame(

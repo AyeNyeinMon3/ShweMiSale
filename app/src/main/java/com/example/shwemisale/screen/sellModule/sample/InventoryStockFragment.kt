@@ -76,7 +76,11 @@ class InventoryStockFragment : Fragment() {
                     loading.show()
                 }
                 is Resource.Success -> {
-                    viewModel.checkSample(it.data.orEmpty())
+                    if (viewModel.samplesFromRoom.value?.map { it.product_id }?.contains(it.data) == true){
+                        Toast.makeText(requireContext(), "already scanned", Toast.LENGTH_LONG).show()
+                    }else{
+                        viewModel.checkSample(it.data.orEmpty())
+                    }
                 }
                 is Resource.Error -> {
                     loading.dismiss()
@@ -86,6 +90,7 @@ class InventoryStockFragment : Fragment() {
         }
         viewModel.samplesFromRoom.observe(viewLifecycleOwner) { list ->
             adapter.submitList(list.filter { it.isInventory })
+            adapter.notifyDataSetChanged()
             binding.btnTakeSample.setOnClickListener {
                 if(list.filter { it.isNew }.isEmpty()){
                     requireContext().showSuccessDialog("Sample Taken") {
