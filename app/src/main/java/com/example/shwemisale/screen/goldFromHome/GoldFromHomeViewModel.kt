@@ -10,6 +10,7 @@ import com.example.shwemisale.data_layers.dto.goldFromHome.GemWeightDetail
 import com.example.shwemisale.data_layers.ui_models.goldFromHome.StockFromHomeInfoUiModel
 import com.example.shwemisale.data_layers.ui_models.goldFromHome.StockWeightByVoucherUiModel
 import com.example.shwemisale.localDataBase.LocalDatabase
+import com.example.shwemisale.repositoryImpl.AuthRepoImpl
 import com.example.shwemisale.repositoryImpl.GoldFromHomeRepositoryImpl
 import com.example.shwemisale.repositoryImpl.NormalSaleRepositoryImpl
 import com.example.shwemisale.room_database.AppDatabase
@@ -31,6 +32,7 @@ import javax.inject.Inject
 class GoldFromHomeViewModel @Inject constructor(
     private val goldFromHomeRepositoryImpl: GoldFromHomeRepositoryImpl,
     private val normalSaleRepositoryImpl: NormalSaleRepositoryImpl,
+    private val authRepoImpl: AuthRepoImpl,
     private val appDatabase: AppDatabase,
     private val localDatabase: LocalDatabase
 ) : ViewModel() {
@@ -68,6 +70,16 @@ class GoldFromHomeViewModel @Inject constructor(
 
     fun removeTotalCVoucherBuyingPrice() {
         localDatabase.removeTotalCVoucherBuyingPriceForStockFromHome()
+    }
+    private val _logoutLiveData=SingleLiveEvent<Resource<String>>()
+    val logoutLiveData:SingleLiveEvent<Resource<String>>
+        get()=_logoutLiveData
+
+    fun logout(){
+        _logoutLiveData.value = Resource.Loading()
+        viewModelScope.launch {
+            _logoutLiveData.value = authRepoImpl.logout()
+        }
     }
 
     private val _stockWeightByVoucherLiveData =

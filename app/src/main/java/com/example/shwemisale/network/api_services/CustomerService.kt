@@ -47,11 +47,11 @@ interface CustomerService {
         @Header("Authorization") token:String,
         @Field("name") name:String,
         @Field("phone") phone:String,
-        @Field("date_of_birth") date_of_birth:String,
+        @Field("date_of_birth") date_of_birth:String?,
         @Field("gender") gender:String,
         @Field("province_id") province_id:String,
         @Field("township_id") township_id:String,
         @Field("address") address:String,
-        @Field("nrc") nrc:String,
+        @Field("nrc") nrc:String?,
     ): Response<AddNewCustomerResponse>
 }

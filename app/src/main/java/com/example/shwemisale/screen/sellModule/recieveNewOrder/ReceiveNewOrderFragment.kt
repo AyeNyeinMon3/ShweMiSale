@@ -1,6 +1,7 @@
 package com.example.shwemisale.screen.sellModule.recieveNewOrder
 
 import android.os.Bundle
+import android.os.Parcel
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +22,8 @@ import com.example.shwemisale.screen.goldFromHome.getYwaeFromGram
 import com.example.shwemisale.screen.goldFromHome.getYwaeFromKPY
 import com.example.shwemisale.screen.sellModule.SampleListRecyclerAdapter
 import com.example.shwemisale.screen.sellModule.exchangeOrderAndOldItem.ExchangeOrderFragmentDirections
+import com.example.shwemisale.screen.sellModule.generalSale.GeneralSellFragmentDirections
+import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -78,8 +81,28 @@ class ReceiveNewOrderFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val constraintsBuilder = CalendarConstraints.Builder()
+
+        val currentTimeMillis = System.currentTimeMillis()
+
+// Set the minimum date to disable past days
+
+// Set the minimum date to disable past days
+        constraintsBuilder.setValidator(object : CalendarConstraints.DateValidator {
+            override fun isValid(date: Long): Boolean {
+                return date >= currentTimeMillis
+            }
+
+            override fun describeContents(): Int {
+                return 0
+            }
+
+            override fun writeToParcel(parcel: Parcel, i: Int) {}
+        })
+        val constraints = constraintsBuilder.build()
         datePicker = MaterialDatePicker.Builder.datePicker()
             .setTitleText("Choose Date")
+            .setCalendarConstraints(constraints)
             .setSelection(Calendar.getInstance().timeInMillis)
             .build()
     }
@@ -109,7 +132,6 @@ class ReceiveNewOrderFragment : Fragment() {
         binding.tvOrderDate.setOnClickListener {
             if (!datePicker.isAdded) {
                 datePicker.show(childFragmentManager, "choose date")
-
             }
         }
         datePicker.addOnPositiveButtonClickListener {
@@ -214,6 +236,24 @@ class ReceiveNewOrderFragment : Fragment() {
                 }
             }
         }
+        viewModel.logoutLiveData.observe(viewLifecycleOwner){
+            when (it){
+                is Resource.Loading->{
+                    loading.show()
+                }
+                is Resource.Success->{
+                    loading.dismiss()
+//                    Toast.makeText(requireContext(),"log out successful", Toast.LENGTH_LONG).show()
+                    findNavController().navigate(GeneralSellFragmentDirections.actionGlobalLogout())
+                }
+                is Resource.Error->{
+                    loading.dismiss()
+                    findNavController().navigate(GeneralSellFragmentDirections.actionGlobalLogout())
+
+                }
+                else -> {}
+            }
+        }
 
         viewModel.receiveNewOrderLiveData.observe(viewLifecycleOwner) {
             when (it) {
@@ -224,7 +264,7 @@ class ReceiveNewOrderFragment : Fragment() {
                 is Resource.Success -> {
                     loading.dismiss()
                     requireContext().showSuccessDialog(it.data!!) {
-
+                        viewModel.logout()
                     }
 
                 }

@@ -81,6 +81,7 @@ class ExchangeOrderViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             var totalFYwae = 0.0
+            val id = mutableListOf<MultipartBody.Part>()
             val a_buying_price = mutableListOf<MultipartBody.Part>()
             val b_voucher_buying_value = mutableListOf<MultipartBody.Part>()
             val c_voucher_buying_price = mutableListOf<MultipartBody.Part>()
@@ -146,12 +147,21 @@ class ExchangeOrderViewModel @Inject constructor(
                     )
                 }
 
+                itemList[it].id?.let {oldStockId->
+                    id.add(
+                        MultipartBody.Part.createFormData(
+                            "old_stocks[$it][id]",
+                            oldStockId.toString()
+                        )
+                    )
+                }
                 a_buying_price.add(
                     MultipartBody.Part.createFormData(
                         "old_stocks[$it][a_buying_price]",
                         itemList[it].a_buying_price.toString()
                     )
                 )
+
 
                 b_voucher_buying_value.add(
                     MultipartBody.Part.createFormData(
@@ -399,6 +409,7 @@ class ExchangeOrderViewModel @Inject constructor(
             addTotalGoldWeightYwaeToStockFromHome(totalFYwae.toString())
             _updateStockFromHomeInfoLiveData.value =
                 normalSaleRepositoryImpl.updateStockFromHomeList(
+                    id = id,
                     a_buying_price = a_buying_price,
                     b_voucher_buying_value = b_voucher_buying_value,
                     c_voucher_buying_price = c_voucher_buying_price,

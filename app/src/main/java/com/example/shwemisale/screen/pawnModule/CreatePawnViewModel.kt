@@ -7,8 +7,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.shwemi.util.Resource
 import com.example.shwemisale.data_layers.dto.pawn.PawnInterestRateDto
 import com.example.shwemisale.localDataBase.LocalDatabase
+import com.example.shwemisale.repositoryImpl.AuthRepoImpl
 import com.example.shwemisale.repositoryImpl.PawnRepositoryImpl
 import com.example.shwemisale.room_database.AppDatabase
+import com.example.shwemisale.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
@@ -18,12 +20,23 @@ import javax.inject.Inject
 class CreatePawnViewModel @Inject constructor(
     private val appDatabase: AppDatabase,
     private val pawnRepositoryImpl: PawnRepositoryImpl,
-    private val localDatabase: LocalDatabase
+    private val localDatabase: LocalDatabase,
+    private val authRepoImpl: AuthRepoImpl
 ):ViewModel() {
     private val _createPawnLiveData = MutableLiveData<Resource<String>>()
     val createPawnLiveData: LiveData<Resource<String>>
         get() = _createPawnLiveData
 
+    private val _logoutLiveData= SingleLiveEvent<Resource<String>>()
+    val logoutLiveData: SingleLiveEvent<Resource<String>>
+        get()=_logoutLiveData
+
+    fun logout(){
+        _logoutLiveData.value = Resource.Loading()
+        viewModelScope.launch {
+            _logoutLiveData.value = authRepoImpl.logout()
+        }
+    }
 
     private val _getPawnInterestRateLiveData =
         MutableLiveData<Resource<List<PawnInterestRateDto>>>()

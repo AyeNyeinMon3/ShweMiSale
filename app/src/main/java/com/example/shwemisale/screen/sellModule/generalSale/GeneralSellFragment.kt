@@ -22,6 +22,7 @@ import com.example.shwemisale.screen.goldFromHome.getYwaeFromGram
 import com.example.shwemisale.screen.goldFromHome.getYwaeFromKPY
 import com.example.shwemisale.screen.sellModule.goldBlockSale.AkoukSellRecyclerAdapter
 import com.example.shwemisale.screen.sellModule.openVoucher.withKPY.WithKPYFragmentDirections
+import com.example.shwemisale.screen.sellModule.sellStart.SellStartFragmentDirections
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -95,6 +96,25 @@ class GeneralSellFragment : Fragment() {
 
                     }
                 }
+            }
+        }
+
+        viewModel.logoutLiveData.observe(viewLifecycleOwner){
+            when (it){
+                is Resource.Loading->{
+                    loading.show()
+                }
+                is Resource.Success->{
+                    loading.dismiss()
+//                    Toast.makeText(requireContext(),"log out successful", Toast.LENGTH_LONG).show()
+                    findNavController().navigate(GeneralSellFragmentDirections.actionGlobalLogout())
+                }
+                is Resource.Error->{
+                    loading.dismiss()
+                    findNavController().navigate(GeneralSellFragmentDirections.actionGlobalLogout())
+
+                }
+                else -> {}
             }
         }
         viewModel.goldTypePriceLiveData.observe(viewLifecycleOwner) {
@@ -185,7 +205,8 @@ class GeneralSellFragment : Fragment() {
                 is Resource.Success -> {
                     loading.dismiss()
                     requireContext().showSuccessDialog("Success") {
-                        findNavController().popBackStack()
+                        viewModel.logout()
+//                        findNavController().popBackStack()
                     }
                 }
 

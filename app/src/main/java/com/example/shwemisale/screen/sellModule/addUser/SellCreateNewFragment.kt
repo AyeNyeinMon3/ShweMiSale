@@ -28,7 +28,7 @@ class SellCreateNewFragment:Fragment() {
     private var selectedProvinceId = ""
     private var selectedTownshipId = ""
     private lateinit var datePicker: MaterialDatePicker<Long>
-
+    private var birthdate :String?= null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         datePicker = MaterialDatePicker.Builder.datePicker()
@@ -167,6 +167,7 @@ class SellCreateNewFragment:Fragment() {
             val calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"))
             calendar.time = Date(it)
             val date = convertToSqlDate(calendar)
+            birthdate = date
             binding.tvBirthDate.text = date
         }
 
@@ -174,12 +175,12 @@ class SellCreateNewFragment:Fragment() {
             viewModel.addUser(
                 binding.editName.text.toString(),
                 binding.editPhNumber.text.toString(),
-                binding.tvBirthDate.text.toString(),
+                birthdate,
                 selectedGender,
                 selectedProvinceId,
                 selectedTownshipId,
                 binding.editAddress.text.toString(),
-                binding.editNRC.text.toString()
+                if (binding.editNRC.text.isNullOrEmpty()) null else binding.editNRC.text.toString()
             )
         }
     }

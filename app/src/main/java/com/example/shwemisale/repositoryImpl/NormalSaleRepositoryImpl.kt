@@ -467,6 +467,7 @@ class NormalSaleRepositoryImpl @Inject constructor(
         user_id: RequestBody?,
         paid_amount: RequestBody?,
         reduced_cost: RequestBody?,
+        redeem_point: RequestBody?,
         old_voucher_paid_amount: MultipartBody.Part?,
         old_voucher_code:RequestBody?,
         old_stock_session_key: RequestBody,
@@ -479,6 +480,7 @@ class NormalSaleRepositoryImpl @Inject constructor(
                 user_id,
                 paid_amount,
                 reduced_cost,
+                redeem_point,
                 old_voucher_code,
                 old_voucher_paid_amount,
                 old_stock_session_key
@@ -515,6 +517,7 @@ class NormalSaleRepositoryImpl @Inject constructor(
         user_id: RequestBody?,
         paid_amount: RequestBody?,
         reduced_cost: RequestBody?,
+        redeem_point: RequestBody?,
         old_voucher_paid_amount: MultipartBody.Part?,
         old_voucher_code:RequestBody?,
         old_stock_session_key: RequestBody,
@@ -527,6 +530,7 @@ class NormalSaleRepositoryImpl @Inject constructor(
                 user_id,
                 paid_amount,
                 reduced_cost,
+                redeem_point,
                 old_voucher_code,
                 old_voucher_paid_amount,
                 old_stock_session_key

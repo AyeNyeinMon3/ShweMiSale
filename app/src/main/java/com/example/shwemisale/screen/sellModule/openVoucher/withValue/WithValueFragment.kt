@@ -19,6 +19,7 @@ import com.example.shwemisale.databinding.FragmentWithValueBinding
 import com.example.shwemisale.screen.goldFromHome.getKPYFromYwae
 import com.example.shwemisale.screen.goldFromHome.getKyatsFromKPY
 import com.example.shwemisale.screen.goldFromHome.getYwaeFromGram
+import com.example.shwemisale.screen.sellModule.generalSale.GeneralSellFragmentDirections
 import com.example.shwemisale.screen.sellModule.openVoucher.withKPY.WithKPYFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -77,6 +78,8 @@ class WithValueFragment : Fragment() {
 //                       ( generateNumberFromEditText(binding.edtReducedPay).toInt() + it.data.orEmpty()
 //                            .let { if (it.isEmpty()) 0 else it.toInt() }).toString())
                     redeemMoney = (it.data?:"0").toInt()
+                    binding.tvRedeemMoney.text = redeemMoney.toString()
+
                 }
                 is Resource.Error -> {
 
@@ -101,6 +104,24 @@ class WithValueFragment : Fragment() {
                 }
             }
         }
+        viewModel.logoutLiveData.observe(viewLifecycleOwner){
+            when (it){
+                is Resource.Loading->{
+                    loading.show()
+                }
+                is Resource.Success->{
+                    loading.dismiss()
+//                    Toast.makeText(requireContext(),"log out successful", Toast.LENGTH_LONG).show()
+                    findNavController().navigate(GeneralSellFragmentDirections.actionGlobalLogout())
+                }
+                is Resource.Error->{
+                    loading.dismiss()
+                    findNavController().navigate(GeneralSellFragmentDirections.actionGlobalLogout())
+
+                }
+                else -> {}
+            }
+        }
 
         viewModel.submitWithValueLiveData.observe(viewLifecycleOwner) {
             when (it) {
@@ -110,7 +131,7 @@ class WithValueFragment : Fragment() {
                 is Resource.Success -> {
                     loading.dismiss()
                     requireContext().showSuccessDialog(it.data.orEmpty()) {
-                        findNavController().popBackStack()
+                        viewModel.logout()
                     }
                 }
                 is Resource.Error -> {
@@ -151,6 +172,7 @@ class WithValueFragment : Fragment() {
                 viewModel.getCustomerId(),
                 paid_amount,
                 reduced_cost,
+                binding.edtRedeemPoint.text.toString(),
                 args.oldVoucherCode,
                 MultipartBody.Part.createFormData(
                     "old_voucher_paid_amount",

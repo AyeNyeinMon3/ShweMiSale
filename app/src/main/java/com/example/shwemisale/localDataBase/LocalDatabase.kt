@@ -175,5 +175,6 @@ class LocalDatabase @Inject constructor(@ApplicationContext private val context:
         removeTotalCVoucherBuyingPriceForStockFromHome()
         removePawnOldStockSessionKey()
         removeTotalVoucherBuyingPriceForPawn()
+        removeRemainedPawnItemsPrice()
     }
 }

@@ -8,6 +8,7 @@ import com.example.shwemisale.data_layers.domain.sample.SampleDomain
 import com.example.shwemisale.data_layers.dto.calculation.GoldTypePriceDto
 import com.example.shwemisale.data_layers.ui_models.goldFromHome.StockFromHomeInfoUiModel
 import com.example.shwemisale.localDataBase.LocalDatabase
+import com.example.shwemisale.repositoryImpl.AuthRepoImpl
 import com.example.shwemisale.repositoryImpl.GoldFromHomeRepositoryImpl
 import com.example.shwemisale.repositoryImpl.NormalSaleRepositoryImpl
 import com.example.shwemisale.room_database.AppDatabase
@@ -27,7 +28,8 @@ class ReceiveNewOrderViewModel @Inject constructor(
     private val appDatabase: AppDatabase,
     private val normalSaleRepositoryImpl: NormalSaleRepositoryImpl,
     private val goldFromHomeRepositoryImpl: GoldFromHomeRepositoryImpl,
-    private val localDatabase: LocalDatabase
+    private val localDatabase: LocalDatabase,
+    private val authRepoImpl: AuthRepoImpl
 ) : ViewModel() {
 //    var goldFromHomeWithKpy = "0"
 //    var goldFromHomeWithValue = "0"
@@ -44,6 +46,17 @@ class ReceiveNewOrderViewModel @Inject constructor(
     private val _receiveNewOrderLiveData = MutableLiveData<Resource<String>>()
     val receiveNewOrderLiveData: LiveData<Resource<String>>
         get() = _receiveNewOrderLiveData
+
+    private val _logoutLiveData=SingleLiveEvent<Resource<String>>()
+    val logoutLiveData:SingleLiveEvent<Resource<String>>
+        get()=_logoutLiveData
+
+    fun logout(){
+        _logoutLiveData.value = Resource.Loading()
+        viewModelScope.launch {
+            _logoutLiveData.value = authRepoImpl.logout()
+        }
+    }
     fun addTotalGoldWeightYwaeToStockFromHome(ywae:String){
         localDatabase.saveGoldWeightYwaeForStockFromHome(ywae)
     }

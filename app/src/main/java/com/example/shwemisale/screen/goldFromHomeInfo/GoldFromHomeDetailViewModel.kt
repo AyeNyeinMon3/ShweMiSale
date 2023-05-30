@@ -298,8 +298,9 @@ class GoldFromHomeDetailViewModel @Inject constructor(
                         MultipartBody.Part.createFormData(
                             "old_stocks[$it][image][file]",
                             File(path).name,
-                            requestBody)
+                            requestBody
                         )
+                    )
                 }
 //
 
@@ -457,7 +458,8 @@ class GoldFromHomeDetailViewModel @Inject constructor(
         get() = _updateStockFromHomeInfoLiveData
 
     fun updateStockFromHome(
-        isPawn:Boolean,
+        isPawn: Boolean,
+        id_to_update: Int?,
         a_buying_price_update: String?,
         b_voucher_buying_value_update: String?,
         c_voucher_buying_price_update: String?,
@@ -491,6 +493,7 @@ class GoldFromHomeDetailViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             val updatedList = itemList
+            val id = mutableListOf<MultipartBody.Part>()
             val a_buying_price = mutableListOf<MultipartBody.Part>()
             val b_voucher_buying_value = mutableListOf<MultipartBody.Part>()
             val c_voucher_buying_price = mutableListOf<MultipartBody.Part>()
@@ -527,33 +530,45 @@ class GoldFromHomeDetailViewModel @Inject constructor(
             val isChecked = mutableListOf<MultipartBody.Part>()
             if (updatedList.isNotEmpty()) {
                 repeat(updatedList.size) {
-                    if (updatedList[it].id == item.id || updatedList[it].localId == item.localId) {
-                        val gemQtyList = gemWeightCustomList.map { it.gem_qty }
+                    if ((updatedList[it].id == item.id && updatedList[it].id != null) || updatedList[it].localId == item.localId) {
+                        val gemQtyList = item.gem_weight_details?.map { it.gem_qty }
                         val gemWeightYwaeList =
                             gemWeightCustomList.map { it.gem_weight_ywae_per_unit }
                         val gemWeightGmList =
                             gemWeightCustomList.map { it.gem_weight_gm_per_unit }
 
-                        repeat(gemWeightCustomList.size) { gemWeightIndex ->
-                            gemQtyMultiPartList.add(
-                                MultipartBody.Part.createFormData(
-                                    "old_stocks[$it][gem_weight_details][$gemWeightIndex][gem_qty]",
-                                    gemQtyList[gemWeightIndex]
+                        if (item.gem_weight_details.orEmpty().isNotEmpty()) {
+                            repeat(gemWeightCustomList.size) { gemWeightIndex ->
+                                gemQtyMultiPartList.add(
+                                    MultipartBody.Part.createFormData(
+                                        "old_stocks[$it][gem_weight_details][$gemWeightIndex][gem_qty]",
+                                        gemQtyList!![gemWeightIndex]
+                                    )
                                 )
-                            )
-                            gemWeightYwaeMultiPartList.add(
-                                MultipartBody.Part.createFormData(
-                                    "old_stocks[$it][gem_weight_details][$gemWeightIndex][gem_weight_ywae_per_unit]",
-                                    gemWeightYwaeList[gemWeightIndex]
+                                gemWeightYwaeMultiPartList.add(
+                                    MultipartBody.Part.createFormData(
+                                        "old_stocks[$it][gem_weight_details][$gemWeightIndex][gem_weight_ywae_per_unit]",
+                                        gemWeightYwaeList[gemWeightIndex]
+                                    )
                                 )
-                            )
-                            gemWeightGmMultiPartList.add(
+                                gemWeightGmMultiPartList.add(
+                                    MultipartBody.Part.createFormData(
+                                        "old_stocks[$it][gem_weight_details][$gemWeightIndex][gem_weight_gm_per_unit]",
+                                        gemWeightGmList[gemWeightIndex]
+                                    )
+                                )
+                            }
+
+                        }
+                        id_to_update?.let { oldStockId->
+                            id.add(
                                 MultipartBody.Part.createFormData(
-                                    "old_stocks[$it][gem_weight_details][$gemWeightIndex][gem_weight_gm_per_unit]",
-                                    gemWeightGmList[gemWeightIndex]
+                                    "old_stocks[$it][id]",
+                                    oldStockId.toString()
                                 )
                             )
                         }
+
 
                         a_buying_price.add(
                             MultipartBody.Part.createFormData(
@@ -796,6 +811,16 @@ class GoldFromHomeDetailViewModel @Inject constructor(
                             )
                         }
 
+                        updatedList[it].id?.let { oldStockId ->
+                            id.add(
+                                MultipartBody.Part.createFormData(
+                                    "old_stocks[$it][id]",
+                                    oldStockId.toString()
+                                )
+                            )
+
+                        }
+
                         a_buying_price.add(
                             MultipartBody.Part.createFormData(
                                 "old_stocks[$it][a_buying_price]",
@@ -1010,6 +1035,7 @@ class GoldFromHomeDetailViewModel @Inject constructor(
                 _updateStockFromHomeInfoLiveData.value = Resource.Loading()
                 _updateStockFromHomeInfoLiveData.value =
                     normalSaleRepositoryImpl.updateStockFromHomeList(
+                        id =id,
                         a_buying_price = a_buying_price,
                         b_voucher_buying_value = b_voucher_buying_value,
                         c_voucher_buying_price = c_voucher_buying_price,
@@ -1042,7 +1068,7 @@ class GoldFromHomeDetailViewModel @Inject constructor(
                         wastage_ywae = wastage_ywae,
                         rebuy_price_vertical_option = rebuy_price_vertical_option,
                         productIdList = productIdList,
-                        sessionKey =sessionKey,
+                        sessionKey = sessionKey,
                         isEditable = isEditable,
                         isChecked = isChecked
                     )

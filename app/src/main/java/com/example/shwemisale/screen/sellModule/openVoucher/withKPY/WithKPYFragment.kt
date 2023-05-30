@@ -18,6 +18,7 @@ import com.example.shwemisale.screen.goldFromHome.getKPYFromYwae
 import com.example.shwemisale.screen.goldFromHome.getKyatsFromKPY
 import com.example.shwemisale.screen.goldFromHome.getYwaeFromGram
 import com.example.shwemisale.screen.goldFromHome.getYwaeFromKPY
+import com.example.shwemisale.screen.sellModule.generalSale.GeneralSellFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -79,7 +80,24 @@ class WithKPYFragment : Fragment() {
                 )
             )
         }
+        viewModel.logoutLiveData.observe(viewLifecycleOwner){
+            when (it){
+                is Resource.Loading->{
+                    loading.show()
+                }
+                is Resource.Success->{
+                    loading.dismiss()
+//                    Toast.makeText(requireContext(),"log out successful", Toast.LENGTH_LONG).show()
+                    findNavController().navigate(GeneralSellFragmentDirections.actionGlobalLogout())
+                }
+                is Resource.Error->{
+                    loading.dismiss()
+                    findNavController().navigate(GeneralSellFragmentDirections.actionGlobalLogout())
 
+                }
+                else -> {}
+            }
+        }
         viewModel.getUserRedeemPointsLiveData.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Loading -> {
@@ -107,12 +125,32 @@ class WithKPYFragment : Fragment() {
                 is Resource.Success -> {
                     loading.dismiss()
                     redeemMoney = (it.data?:"0").toInt()
+                    binding.tvRedeemMoney.text = redeemMoney.toString()
 //                    binding.edtReducedPay.setText(
 //                        (generateNumberFromEditText(binding.edtReducedPay).toInt() + it.data.orEmpty()
 //                            .let { if (it.isEmpty()) 0 else it.toInt() }).toString()
 //                    )
                 }
 
+                is Resource.Error -> {
+
+                    loading.dismiss()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+
+        viewModel.submitWithValueLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {
+                    loading.show()
+                }
+                is Resource.Success -> {
+                    loading.dismiss()
+                    requireContext().showSuccessDialog(it.data.orEmpty()) {
+                       viewModel.logout()
+                    }
+                }
                 is Resource.Error -> {
 
                     loading.dismiss()
@@ -130,7 +168,7 @@ class WithKPYFragment : Fragment() {
                 is Resource.Success -> {
                     loading.dismiss()
                     requireContext().showSuccessDialog(it.data.orEmpty()) {
-                        findNavController().popBackStack()
+                        viewModel.logout()
                     }
                 }
 
@@ -295,17 +333,34 @@ class WithKPYFragment : Fragment() {
             }
             val paid_amount = binding.edtDeposit.text.toString()
             val reduced_cost = binding.edtReducedPay.text.toString()
-            viewModel.submitWithKPY(
-                productIdList,
-                viewModel.getCustomerId(),
-                paid_amount,
-                reduced_cost,
-                args.oldVoucherCode,
-                MultipartBody.Part.createFormData(
-                    "old_voucher_paid_amount",
-                    args.oldVoucherPaidAmount.toString()
-                ),
-            )
+            if (binding.radioBtnKpy.isChecked){
+                viewModel.submitWithKPY(
+                    productIdList,
+                    viewModel.getCustomerId(),
+                    paid_amount,
+                    reduced_cost,
+                    binding.edtRedeemPoint.text.toString(),
+                    args.oldVoucherCode,
+                    MultipartBody.Part.createFormData(
+                        "old_voucher_paid_amount",
+                        args.oldVoucherPaidAmount.toString()
+                    ),
+                )
+            }else{
+                viewModel.submitWithValue(
+                    productIdList,
+                    viewModel.getCustomerId(),
+                    paid_amount,
+                    reduced_cost,
+                    binding.edtRedeemPoint.text.toString(),
+                    args.oldVoucherCode,
+                    MultipartBody.Part.createFormData(
+                        "old_voucher_paid_amount",
+                        args.oldVoucherPaidAmount.toString()
+                    )
+                )
+            }
+
         }
     }
 
@@ -364,16 +419,14 @@ class WithKPYFragment : Fragment() {
             ).toDouble() +
                     generateNumberFromEditText(binding.edtPTclipValue).toDouble() + generateNumberFromEditText(
                 binding.edtTotalGemValue
-            ).toDouble() - goldFromHomeValue - args.oldVoucherPaidAmount - generateNumberFromEditText(binding.edtTotalPromotionPrice).toInt() - redeemMoney
+            ).toDouble() - goldFromHomeValue - args.oldVoucherPaidAmount - generateNumberFromEditText(binding.edtTotalPromotionPrice).toInt() - redeemMoney -
+                    generateNumberFromEditText(binding.edtReducedPay).toInt()
 
-        binding.edtCharge.setText(totalPrice.toInt().toString())
-        val leftMoney =
-            +generateNumberFromEditText(
+        binding.edtCharge.setText(getRoundDownForPrice(totalPrice.toInt()).toString())
+        val leftMoney = generateNumberFromEditText(
                 binding.edtCharge
-            ).toInt() - generateNumberFromEditText(binding.edtDeposit).toInt() - generateNumberFromEditText(
-                binding.edtReducedPay
-            ).toInt()
-        binding.edtBalance.setText(leftMoney.toInt().toString())
+            ).toInt() - generateNumberFromEditText(binding.edtDeposit).toInt()
+        binding.edtBalance.setText(getRoundDownForPrice(leftMoney).toString())
     }
 
 

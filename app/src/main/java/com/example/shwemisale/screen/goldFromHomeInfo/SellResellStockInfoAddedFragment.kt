@@ -417,6 +417,7 @@ class SellResellStockInfoAddedFragment : Fragment() {
                 }
                 if (args.stockFromHomeInfo != null) {
                     viewModel.updateStockFromHome(
+                        id_to_update = args.stockFromHomeInfo?.id,
                         isPawn = args.backPressType?.startsWith("Pawn") ?:false,
                         a_buying_price_update = binding.edtPriceA.text.toString(),
                         b_voucher_buying_value_update =
@@ -829,7 +830,7 @@ class SellResellStockInfoAddedFragment : Fragment() {
             goldKyat * generateNumberFromEditText(binding.edtRepurchasePrice).toDouble()
         }
 
-        binding.edtPaymentFromShop.setText(buyPriceFromShop.toInt().toString())
+        binding.edtPaymentFromShop.setText(getRoundDownForPrice(buyPriceFromShop.toInt()).toString())
     }
 
     fun calculateDecidedPawnPrice() {

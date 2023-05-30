@@ -33,12 +33,12 @@ interface CustomerRepository {
     suspend fun addNewUser(
         name: String,
         phone: String,
-        date_of_birth: String,
+        date_of_birth: String?,
         gender: String,
         province_id: String,
         township_id: String,
         address: String,
-        nrc: String,
+        nrc: String?,
     ):Resource<CustomerDataDomain>
 
 }

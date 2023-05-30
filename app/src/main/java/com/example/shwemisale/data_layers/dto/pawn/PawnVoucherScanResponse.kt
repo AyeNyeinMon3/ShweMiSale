@@ -17,6 +17,7 @@ data class PawnVoucherScanDto(
     val transaction_id: String?,
     val username: String?,
     val tier_discount: String?,
+    val tier_discount_percentage: String?,
     val tier_name: String?,
     val remark: String?
 )
@@ -33,6 +34,7 @@ fun PawnVoucherScanDto.asDomain(): PawnVoucherScanDomain {
         transaction_id.orEmpty(),
         username.orEmpty(),
         tier_discount.orEmpty(),
+        tier_discount_percentage.orEmpty(),
         tier_name.orEmpty(),
         remark.orEmpty()
     )

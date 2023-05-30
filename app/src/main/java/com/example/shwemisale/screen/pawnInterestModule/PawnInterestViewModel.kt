@@ -9,6 +9,7 @@ import com.example.shwemisale.data_layers.domain.goldFromHome.StockFromHomeDomai
 import com.example.shwemisale.data_layers.dto.pawn.PawnInterestRateDto
 import com.example.shwemisale.data_layers.dto.pawn.PawnVoucherScanDto
 import com.example.shwemisale.localDataBase.LocalDatabase
+import com.example.shwemisale.repositoryImpl.AuthRepoImpl
 import com.example.shwemisale.repositoryImpl.NormalSaleRepositoryImpl
 import com.example.shwemisale.repositoryImpl.PawnRepositoryImpl
 import com.example.shwemisale.room_database.AppDatabase
@@ -23,7 +24,8 @@ class PawnInterestViewModel @Inject constructor(
     private val appDatabase: AppDatabase,
     private val pawnRepositoryImpl: PawnRepositoryImpl,
     private val normalSaleRepositoryImpl: NormalSaleRepositoryImpl,
-    private val localDatabase: LocalDatabase
+    private val localDatabase: LocalDatabase,
+    private val authRepoImpl: AuthRepoImpl
 ) : ViewModel() {
     var pawnData: PawnVoucherScanDomain? = null
     private val _createStockFromHomeInfoLiveData =
@@ -31,6 +33,16 @@ class PawnInterestViewModel @Inject constructor(
     val createStockFromHomeInfoLiveData: SingleLiveEvent<Resource<String>>
         get() = _createStockFromHomeInfoLiveData
 
+    private val _logoutLiveData=SingleLiveEvent<Resource<String>>()
+    val logoutLiveData:SingleLiveEvent<Resource<String>>
+        get()=_logoutLiveData
+
+    fun logout(){
+        _logoutLiveData.value = Resource.Loading()
+        viewModelScope.launch {
+            _logoutLiveData.value = authRepoImpl.logout()
+        }
+    }
 
     private val _getPawnVoucherScanLiveData = SingleLiveEvent<Resource<PawnVoucherScanDto>>()
     val getPawnVoucherScanLiveData: SingleLiveEvent<Resource<PawnVoucherScanDto>>
@@ -116,7 +128,7 @@ class PawnInterestViewModel @Inject constructor(
                 increased_debt,
                 reduced_amount,
                 is_app_functions_allowed,
-                localDatabase.getStockFromHomeSessionKey().orEmpty()
+                localDatabase.getPawnOldStockSessionKey().orEmpty()
             )
         }
     }

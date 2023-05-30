@@ -31,12 +31,12 @@ class SellCreateNewViewModel @Inject constructor(
     fun addUser(
         name: String,
         phone: String,
-        date_of_birth: String,
+        date_of_birth: String?,
         gender: String,
         province_id: String,
         township_id: String,
         address: String,
-        nrc: String
+        nrc: String?
     ) {
         _addUserLiveData.value = Resource.Loading()
         viewModelScope.launch {

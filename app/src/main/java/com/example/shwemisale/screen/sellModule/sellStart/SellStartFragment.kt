@@ -1,10 +1,13 @@
 package com.example.shwemisale.screen.sellModule.sellStart
 
 import android.os.Bundle
+import android.util.DisplayMetrics
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -23,11 +26,14 @@ import com.example.shwemisale.CustomerListRecyclerAdapter
 import com.example.shwemisale.R
 import com.example.shwemisale.data_layers.domain.customers.asUiModel
 import com.example.shwemisale.databinding.FragmentStartSellBinding
+import com.example.shwemisale.qrscan.getBarLauncher
+import com.example.shwemisale.qrscan.scanQrCode
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.io.File
 import java.util.*
 
 
@@ -38,6 +44,10 @@ class SellStartFragment : Fragment() {
     private val viewModel by viewModels<SellStartViewModel>()
     private lateinit var loading : AlertDialog
     private lateinit var datePicker: MaterialDatePicker<Long>
+    private lateinit var barlauncer: Any
+
+    private var townShipList = mutableListOf<String>()
+    private var provinceList = mutableListOf<String>()
 
     private var selectedProvinceId = ""
     private var selectedTownshipId = ""
@@ -56,21 +66,105 @@ class SellStartFragment : Fragment() {
             .setTitleText("Choose Date of Birth")
             .setSelection(Calendar.getInstance().timeInMillis)
             .build()
+
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loading = requireContext().getAlertDialog()
-        networkcall()
-        binding.btnNew.setOnClickListener { view:View->
-//            throw RuntimeException("Test Crash")
-            view.findNavController().navigate(SellStartFragmentDirections.actionSellStartFragmentToSellCreateNewFragment())
-        }
-
         val adapter = CustomerListRecyclerAdapter{
             view.findNavController().navigate(SellStartFragmentDirections.actionSellStartFragmentToSellCustomerInfoFragment(it))
 
         }
+
         binding.includeSearchResult.rvCustomerList.adapter = adapter
+        barlauncer = this.getBarLauncher(requireContext()) {
+            viewModel.getCustomerInfo(it,null,null,null, null, null , null , null, null).observe(viewLifecycleOwner) {
+                lifecycleScope.launch {
+                    adapter.submitData(it.map { it.asUiModel() })
+                }
+            }
+        }
+        binding.ivScan.setOnClickListener {
+            this.scanQrCode(requireContext(),barlauncer)
+        }
+        binding.ivScanner.setOnClickListener {
+            this.scanQrCode(requireContext(),barlauncer)
+        }
+        networkcall()
+        binding.btnNew.setOnClickListener { view:View->
+//            throw RuntimeException("Test Crash")
+            view.findNavController().navigate(SellStartFragmentDirections.actionSellStartFragmentToSellCreateNewFragment())
+//            val page: AbstractViewRenderer = object : AbstractViewRenderer(context, com.example.shwemisale.R.layout.fragment_pdf_test) {
+//
+//
+//                override fun initView(view: View) {
+//                val tv_hello = view.findViewById<View>(R.id.tv_hello) as TextView
+//                tv_hello.text = "Hello My Name is Akp"
+//                }
+//            }
+//
+//// you can reuse the bitmap if you want
+//
+//// you can reuse the bitmap if you want
+//            page.isReuseBitmap = true
+//
+//            val doc = PdfDocument(requireContext())
+//
+//// add as many pages as you have
+//
+//            val displayMetrics = DisplayMetrics()
+//            requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)
+//
+//            val screenWidth = displayMetrics.widthPixels
+//            val screenHeight = displayMetrics.heightPixels
+//
+//// add as many pages as you have
+//            doc.addPage(page)
+//
+//            doc.setRenderWidth(screenWidth)
+//            doc.setRenderHeight(screenHeight)
+//            doc.orientation = PdfDocument.A4_MODE.LANDSCAPE
+//            doc.setProgressTitle(R.string.app_name)
+//            doc.setProgressMessage(R.string.loading)
+//            doc.fileName = "test"
+//            doc.setSaveDirectory(requireContext().getExternalFilesDir(null))
+//            doc.setInflateOnMainThread(false)
+//            doc.setListener(object : PdfDocument.Callback {
+//                override fun onComplete(file: File?) {
+//                    Log.i(PdfDocument.TAG_PDF_MY_XML, "Complete")
+//                }
+//
+//                override fun onError(e: Exception?) {
+//                    Log.i(PdfDocument.TAG_PDF_MY_XML, "Error")
+//                }
+//            })
+//
+//            doc.createPdf(requireContext())
+//
+//            val builder = PdfDocument.Builder(requireContext())
+//
+//            builder.addPage(page)
+//                .orientation(PdfDocument.A4_MODE.LANDSCAPE)
+//                .progressMessage(R.string.loading)
+//                .progressTitle(R.string.please_wait)
+//                .renderWidth(screenWidth)
+//                .renderHeight(screenHeight)
+//                .saveDirectory(requireContext().getExternalFilesDir(null))
+//                .filename("test")
+//                .listener(object : PdfDocument.Callback {
+//                    override fun onComplete(file: File) {
+//                        Log.i(PdfDocument.TAG_PDF_MY_XML, "Complete")
+//                    }
+//
+//                    override fun onError(e: Exception) {
+//                        Log.i(PdfDocument.TAG_PDF_MY_XML, "Error")
+//                    }
+//                })
+//                .create()
+//                .createPdf(requireContext())
+        }
+
+
 //        adapter.submitList(listOf(
 //            CustomerListData("1","ဒေါ်ကလျာနွဲ့မူရာခင်"," 09 420 12 3456 ","၁၄/ဟသတ(နိုင်)၁၂၃၄၅၆","၀၅-၁၂-၁၉၆၇","ဟင်္သာတ","မရှိ"),
 //            CustomerListData("2","Daw Than Than"," 09 420 12 3456 ","၁၄/ဟသတ(နိုင်)၁၂၃၄၅၆","၀၅-၁၂-၁၉၆၇","ဟင်္သာတ","ရှိ"),
@@ -129,17 +223,23 @@ class SellStartFragment : Fragment() {
                 }
                 is Resource.Success->{
                     loading.dismiss()
-                    val list = it.data!!.map { it.name }.filterNotNull()
-                    val arrayAdapter = ArrayAdapter(requireContext(),R.layout.item_drop_down_text,list)
+                    provinceList = it.data!!.map { it.name }.filterNotNull().toMutableList()
+                    provinceList.add("None")
+                    val arrayAdapter = ArrayAdapter(requireContext(),R.layout.item_drop_down_text,provinceList)
                     binding.actProvince.addTextChangedListener {editable->
-                        selectedProvinceId = it.data!!.find {
-                            it.name==binding.actProvince.text.toString()
-                        }?.id.toString()
-                        viewModel.getTownShip(selectedProvinceId)
+                        if (editable.toString() == "None"){
+                            selectedProvinceId = ""
+                            viewModel.getTownShip(selectedProvinceId)
 
+                        }else{
+                            selectedProvinceId = it.data!!.find {
+                                it.name==editable.toString()
+                            }?.id.toString()
+                            viewModel.getTownShip(selectedProvinceId)
+                        }
                     }
                     binding.actProvince.setAdapter(arrayAdapter)
-                    binding.actProvince.setText(list[0],false)
+                    binding.actProvince.setText(provinceList[0],false)
                     binding.actProvince.setOnClickListener {
                         binding.actProvince.showDropdown(arrayAdapter)
                     }
@@ -163,15 +263,26 @@ class SellStartFragment : Fragment() {
                 }
                 is Resource.Success->{
                     loading.dismiss()
-                    val list = it.data!!.map { it.name }.filterNotNull()
-                    val arrayAdapter = ArrayAdapter(requireContext(),R.layout.item_drop_down_text,list)
+                    if (selectedProvinceId == ""){
+                        townShipList = mutableListOf("None")
+                        townShipList.toSet()
+                    }else{
+                        townShipList = it.data!!.map { it.name }.filterNotNull().toMutableList()
+                        townShipList.add("None")
+                    }
+                    val arrayAdapter = ArrayAdapter(requireContext(),R.layout.item_drop_down_text,townShipList)
                     binding.actTownship.addTextChangedListener {editable->
-                        selectedTownshipId = it.data!!.find {
-                            it.name==binding.actTownship.text.toString()
-                        }?.id.toString()
+                        if (editable.toString() == "None"){
+                            selectedTownshipId = ""
+                        }else{
+                            selectedTownshipId = it.data!!.find {
+                                it.name==binding.actTownship.text.toString()
+                            }?.id.toString()
+                        }
+
                     }
                     binding.actTownship.setAdapter(arrayAdapter)
-                    binding.actTownship.setText(if (list.isEmpty()) "" else list[0],false)
+                    binding.actTownship.setText(if (townShipList.isEmpty()) "" else townShipList[0],false)
                     binding.actTownship.setOnClickListener {
                         binding.actTownship.showDropdown(arrayAdapter)
                     }

@@ -1,6 +1,7 @@
 package com.example.shwemisale.screen.pawnModule
 
 import android.os.Bundle
+import android.os.Parcel
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -10,22 +11,22 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.shwemi.util.Resource
 import com.example.shwemi.util.convertToSqlDate
 import com.example.shwemi.util.generateNumberFromEditText
 import com.example.shwemi.util.getAlertDialog
 import com.example.shwemi.util.showSuccessDialog
 import com.example.shwemisale.databinding.FragmentCreatePawnBinding
-import com.example.shwemisale.screen.pawnInterestModule.PawnInterestViewModel
+import com.example.shwemisale.screen.sellModule.generalSale.GeneralSellFragmentDirections
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.CalendarConstraints.DateValidator
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
-import okhttp3.internal.trimSubstring
-import java.math.BigDecimal
-import java.math.RoundingMode
-import java.util.*
-import kotlin.math.absoluteValue
-import kotlin.math.floor
-import kotlin.math.roundToInt
+import java.util.Calendar
+import java.util.Date
+import java.util.TimeZone
+
 
 @AndroidEntryPoint
 class CreatePawnFragment : Fragment() {
@@ -50,12 +51,35 @@ class CreatePawnFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val constraintsBuilder = CalendarConstraints.Builder()
+
+        val currentTimeMillis = System.currentTimeMillis()
+
+// Set the minimum date to disable past days
+
+// Set the minimum date to disable past days
+        constraintsBuilder.setValidator(object : DateValidator {
+            override fun isValid(date: Long): Boolean {
+                return date >= currentTimeMillis
+            }
+
+            override fun describeContents(): Int {
+                return 0
+            }
+
+            override fun writeToParcel(parcel: Parcel, i: Int) {}
+        })
+        val constraints = constraintsBuilder.build()
+
+
         datePickerFrom = MaterialDatePicker.Builder.datePicker()
             .setTitleText("Choose Date From")
+            .setCalendarConstraints(constraints)
             .setSelection(Calendar.getInstance().timeInMillis)
             .build()
         datePickerTo = MaterialDatePicker.Builder.datePicker()
             .setTitleText("Choose Date To")
+            .setCalendarConstraints(constraints)
             .setSelection(Calendar.getInstance().timeInMillis)
             .build()
     }
@@ -158,6 +182,25 @@ class CreatePawnFragment : Fragment() {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
                 }
             }
+            viewModel.logoutLiveData.observe(viewLifecycleOwner){
+                when (it){
+                    is Resource.Loading->{
+                        loading.show()
+                    }
+                    is Resource.Success->{
+                        loading.dismiss()
+//                    Toast.makeText(requireContext(),"log out successful", Toast.LENGTH_LONG).show()
+                        findNavController().navigate(GeneralSellFragmentDirections.actionGlobalLogout())
+                    }
+                    is Resource.Error->{
+                        loading.dismiss()
+                        findNavController().navigate(GeneralSellFragmentDirections.actionGlobalLogout())
+
+                    }
+                    else -> {}
+                }
+            }
+
             viewModel.createPawnLiveData.observe(viewLifecycleOwner) {
                 when (it) {
                     is Resource.Loading -> {
@@ -167,7 +210,7 @@ class CreatePawnFragment : Fragment() {
                     is Resource.Success -> {
                         loading.dismiss()
                         requireContext().showSuccessDialog("Success") {
-
+                            viewModel.logout()
                         }
 
                     }

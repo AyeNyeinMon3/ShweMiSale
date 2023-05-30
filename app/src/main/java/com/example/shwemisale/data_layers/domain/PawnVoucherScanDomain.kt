@@ -11,6 +11,7 @@ data class PawnVoucherScanDomain(
     val transaction_id: String,
     val username: String,
     val tier_discount: String,
+    val tier_discount_percentage: String?,
     val tier_name: String,
     val remark:String
 )

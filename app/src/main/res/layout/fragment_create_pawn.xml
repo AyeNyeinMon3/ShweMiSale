@@ -135,7 +135,7 @@
                 android:id="@+id/edt_interest_percent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                 android:textColor="@color/primary_text"
                 android:textStyle="bold" />

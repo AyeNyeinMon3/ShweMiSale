@@ -635,6 +635,24 @@
                         android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                         android:textColor="@color/primary_text" />
                 </com.google.android.material.textfield.TextInputLayout>
+                <TextView
+                    android:id="@+id/tv_label_tier_discount_under_reduced_pay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                    android:text="Tier Discount - "
+                    app:layout_constraintStart_toStartOf="@id/textInputLayout_reducedPay"
+                    app:layout_constraintTop_toBottomOf="@id/textInputLayout_reducedPay"/>
+                <TextView
+                    android:id="@+id/tv_tier_discount_amount_under_reduced_pay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+                    tools:text="500"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintStart_toEndOf="@+id/tv_label_tier_discount_under_reduced_pay"
+                    app:layout_constraintTop_toTopOf="@+id/tv_label_tier_discount_under_reduced_pay"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_select"

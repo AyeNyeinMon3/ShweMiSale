@@ -5,6 +5,7 @@ import com.example.shwemi.util.Resource
 import com.example.shwemisale.data_layers.dto.calculation.GoldPriceDto
 import com.example.shwemisale.data_layers.ui_models.goldFromHome.StockFromHomeInfoUiModel
 import com.example.shwemisale.localDataBase.LocalDatabase
+import com.example.shwemisale.repositoryImpl.AuthRepoImpl
 import com.example.shwemisale.repositoryImpl.GoldFromHomeRepositoryImpl
 import com.example.shwemisale.repositoryImpl.NormalSaleRepositoryImpl
 import com.example.shwemisale.room_database.AppDatabase
@@ -24,6 +25,7 @@ class WithValueViewModel @Inject constructor(
     private val goldFromHomeRepositoryImpl: GoldFromHomeRepositoryImpl,
     private val appDatabase: AppDatabase,
     private val normalSaleRepositoryImpl: NormalSaleRepositoryImpl,
+    private val authRepoImpl: AuthRepoImpl,
     private val localDatabase: LocalDatabase
 ) : ViewModel() {
 
@@ -36,6 +38,7 @@ class WithValueViewModel @Inject constructor(
         user_id: String?,
         paid_amount: String?,
         reduced_cost: String?,
+        redeem_point: String?,
         old_voucher_code:String?,
         old_voucher_paid_amount: MultipartBody.Part?,
 
@@ -47,6 +50,7 @@ class WithValueViewModel @Inject constructor(
                 user_id?.toRequestBody("multipart/form-data".toMediaTypeOrNull()),
                 paid_amount?.toRequestBody("multipart/form-data".toMediaTypeOrNull()),
                 reduced_cost?.toRequestBody("multipart/form-data".toMediaTypeOrNull()),
+                redeem_point?.toRequestBody("multipart/form-data".toMediaTypeOrNull()),
                 old_voucher_paid_amount,
                 old_voucher_code?.toRequestBody("multipart/form-data".toMediaTypeOrNull()),
                 localDatabase.getStockFromHomeSessionKey().orEmpty().toRequestBody("multipart/form-data".toMediaTypeOrNull())
@@ -54,7 +58,16 @@ class WithValueViewModel @Inject constructor(
         }
     }
 
+    private val _logoutLiveData=SingleLiveEvent<Resource<String>>()
+    val logoutLiveData:SingleLiveEvent<Resource<String>>
+        get()=_logoutLiveData
 
+    fun logout(){
+        _logoutLiveData.value = Resource.Loading()
+        viewModelScope.launch {
+            _logoutLiveData.value = authRepoImpl.logout()
+        }
+    }
     var goldPrice = ""
 
     private val _getGoldPriceLiveData = MutableLiveData<Resource<GoldPriceDto>>()

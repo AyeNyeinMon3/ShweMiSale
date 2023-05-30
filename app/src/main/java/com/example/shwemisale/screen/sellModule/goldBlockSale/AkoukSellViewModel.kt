@@ -5,6 +5,7 @@ import com.example.shwemi.util.Resource
 import com.example.shwemisale.data_layers.domain.pureGoldSale.PureGoldListDomain
 import com.example.shwemisale.data_layers.dto.calculation.GoldTypePriceDto
 import com.example.shwemisale.localDataBase.LocalDatabase
+import com.example.shwemisale.repositoryImpl.AuthRepoImpl
 import com.example.shwemisale.repositoryImpl.GoldFromHomeRepositoryImpl
 import com.example.shwemisale.repositoryImpl.NormalSaleRepositoryImpl
 import com.example.shwemisale.room_database.AppDatabase
@@ -21,6 +22,7 @@ class AkoukSellViewModel @Inject constructor(
     private val normalSaleRepositoryImpl: NormalSaleRepositoryImpl,
     private val localDatabase: LocalDatabase,
     private val goldFromHomeRepositoryImpl: GoldFromHomeRepositoryImpl,
+    private val authRepoImpl: AuthRepoImpl,
     private val appDatabase: AppDatabase
 ) : ViewModel() {
     var goldPrice = ""
@@ -42,6 +44,16 @@ class AkoukSellViewModel @Inject constructor(
         _goldTypePriceLiveData.value = Resource.Loading()
         viewModelScope.launch {
             _goldTypePriceLiveData.value = goldFromHomeRepositoryImpl.getGoldType("1")
+        }
+    }
+    private val _logoutLiveData=SingleLiveEvent<Resource<String>>()
+    val logoutLiveData:SingleLiveEvent<Resource<String>>
+        get()=_logoutLiveData
+
+    fun logout(){
+        _logoutLiveData.value = Resource.Loading()
+        viewModelScope.launch {
+            _logoutLiveData.value = authRepoImpl.logout()
         }
     }
 

@@ -9,6 +9,7 @@ import com.example.shwemisale.data_layers.domain.generalSale.GeneralSaleListDoma
 import com.example.shwemisale.data_layers.dto.GeneralSaleDto
 import com.example.shwemisale.data_layers.dto.calculation.GoldTypePriceDto
 import com.example.shwemisale.localDataBase.LocalDatabase
+import com.example.shwemisale.repositoryImpl.AuthRepoImpl
 import com.example.shwemisale.repositoryImpl.GoldFromHomeRepositoryImpl
 import com.example.shwemisale.repositoryImpl.NormalSaleRepositoryImpl
 import com.example.shwemisale.util.SingleLiveEvent
@@ -23,7 +24,8 @@ import javax.inject.Inject
 class GeneralSaleViewModel @Inject constructor(
     private val normalSaleRepositoryImpl: NormalSaleRepositoryImpl,
     private val localDatabase: LocalDatabase,
-    private val goldFromHomeRepositoryImpl: GoldFromHomeRepositoryImpl
+    private val goldFromHomeRepositoryImpl: GoldFromHomeRepositoryImpl,
+    private val authRepoImpl: AuthRepoImpl
 ) : ViewModel() {
     var goldPrice = ""
     private val _createGeneralItemLiveData = MutableLiveData<Resource<String>>()
@@ -38,6 +40,17 @@ class GeneralSaleViewModel @Inject constructor(
     private val _goldTypePriceLiveData = MutableLiveData<Resource<List<GoldTypePriceDto>>>()
     val goldTypePriceLiveData: LiveData<Resource<List<GoldTypePriceDto>>>
         get() = _goldTypePriceLiveData
+
+    private val _logoutLiveData=SingleLiveEvent<Resource<String>>()
+    val logoutLiveData:SingleLiveEvent<Resource<String>>
+        get()=_logoutLiveData
+
+    fun logout(){
+        _logoutLiveData.value = Resource.Loading()
+        viewModelScope.launch {
+            _logoutLiveData.value = authRepoImpl.logout()
+        }
+    }
 
     fun getGoldTypePrice() {
         _goldTypePriceLiveData.value = Resource.Loading()

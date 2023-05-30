@@ -26,6 +26,7 @@ import com.example.shwemisale.qrscan.scanQrCode
 import com.example.shwemisale.screen.sellModule.GoldFromHomeData
 import com.example.shwemisale.screen.sellModule.GoldFromHomeRecyclerAdapter
 import com.example.shwemisale.screen.sellModule.StockCheckRecyclerAdapter
+import com.example.shwemisale.screen.sellModule.generalSale.GeneralSellFragmentDirections
 import com.example.shwemisale.screen.sellModule.sellStart.SellStartViewModel
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -198,6 +199,26 @@ class SellGoldFromHomeFragment : Fragment() {
                 }
             }
         }
+
+        viewModel.logoutLiveData.observe(viewLifecycleOwner){
+            when (it){
+                is Resource.Loading->{
+                    loading.show()
+                }
+                is Resource.Success->{
+                    loading.dismiss()
+//                    Toast.makeText(requireContext(),"log out successful", Toast.LENGTH_LONG).show()
+                    findNavController().navigate(GeneralSellFragmentDirections.actionGlobalLogout())
+                }
+                is Resource.Error->{
+                    loading.dismiss()
+                    findNavController().navigate(GeneralSellFragmentDirections.actionGlobalLogout())
+
+                }
+                else -> {}
+            }
+        }
+
         viewModel.stockFromHomeInfoLiveData.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Loading -> {
@@ -236,7 +257,7 @@ class SellGoldFromHomeFragment : Fragment() {
 
                         if (args.backpressType.startsWith("Pawn") && it.data.isNullOrEmpty().not() ){
                             if (it.data.orEmpty().size == it.data?.filter { it.isChecked }.orEmpty().size &&
-                                    args.backpressType == "PawnSelect"){
+                                    args.backpressType == "PawnSelectNoEdit"){
                                 Toast.makeText(requireContext(),"You can't check all items",Toast.LENGTH_LONG).show()
                             }else{
                                 var totalVoucherBuyingPriceForPawn = 0
@@ -386,7 +407,7 @@ class SellGoldFromHomeFragment : Fragment() {
                 is Resource.Success -> {
                     loading.dismiss()
                     requireContext().showSuccessDialog(it.data.orEmpty()) {
-                        findNavController().popBackStack()
+                        viewModel.logout()
                     }
 
                 }

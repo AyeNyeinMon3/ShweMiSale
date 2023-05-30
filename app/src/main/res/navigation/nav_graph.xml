@@ -48,6 +48,9 @@
             app:argType="com.example.shwemisale.data_layers.ui_models.customers.CustomerDataUiModel" />
     </fragment>
     <action
+        android:id="@+id/action_global_logout"
+        app:destination="@id/loginFragment" />
+    <action
         android:id="@+id/action_global_gold_from_home_fragment"
         app:destination="@id/sellGoldFromHomeFragment" />
     <fragment
@@ -209,5 +212,9 @@
         android:id="@+id/buyResellStockInfoAddedFragment"
         android:name="com.example.shwemisale.screen.buyModule.BuyResellStockInfoAddedFragment"
         android:label="ပြန်သွင်းထည်အချက်အလက်" />
+    <fragment
+        android:id="@+id/pdfTestFragment"
+        android:name="com.example.shwemisale.screen.PdfTestFragment"
+        android:label="PdfTestFragment" />
 
 </navigation>

@@ -1,6 +1,7 @@
 package com.example.shwemisale.screen.pawnInterestModule
 
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -19,7 +20,9 @@ import com.example.shwemisale.data_layers.dto.pawn.asDomain
 import com.example.shwemisale.databinding.FragmentPawnInterestBinding
 import com.example.shwemisale.qrscan.getBarLauncher
 import com.example.shwemisale.qrscan.scanQrCode
+import com.example.shwemisale.screen.sellModule.generalSale.GeneralSellFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
+
 @AndroidEntryPoint
 class PawnInterestFragment : Fragment() {
 
@@ -34,6 +37,14 @@ class PawnInterestFragment : Fragment() {
 
     //radio state saved
     var lastCheckedId = -1
+
+
+    override fun onResume() {
+        super.onResume()
+        if (binding.tvLabelClaimMoney.text == "ဘောင်ချာဖွင့်ဝယ်ပေးငွေ") {
+            binding.edtClaimMoney.setText(viewModel.getTotalVoucherBuyingPrice())
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -236,9 +247,7 @@ class PawnInterestFragment : Fragment() {
 
                 "အတိုးရှင်း" -> {
                     val cost =
-                        generateNumberFromEditText(binding.includePaymentBox.edtThree).toInt() + generateNumberFromEditText(
-                            binding.includePaymentBox.edtTwo
-                        ).toInt()
+                        generateNumberFromEditText(binding.includePaymentBox.edtThree).toInt()
                     binding.edtCharge.setText(cost.toString())
 
                 }
@@ -252,11 +261,17 @@ class PawnInterestFragment : Fragment() {
                 }
 
                 "အရင်းသွင်း ခွဲရွေး" -> {
-                    var availableMoney = (viewModel.pawnData?.remaining_debt?:"0").toInt()- (viewModel.pawnData?.prepaid_debt?:"0").toInt()- generateNumberFromEditText(binding.includePaymentBox.edtTwo).toInt()
+                    var availableMoney = (viewModel.pawnData?.remaining_debt
+                        ?: "0").toInt() - (viewModel.pawnData?.prepaid_debt
+                        ?: "0").toInt() - generateNumberFromEditText(binding.includePaymentBox.edtTwo).toInt()
                     var pawnPriceRemained = viewModel.getPawnPriceForRemainedPawnItem().toInt()
-                    if (availableMoney>pawnPriceRemained){
-                        Toast.makeText(requireContext(),"အရင်းသွင်းငွေ must less than remained pawn items price",Toast.LENGTH_LONG ).show()
-                    }else{
+                    if (availableMoney > pawnPriceRemained) {
+                        Toast.makeText(
+                            requireContext(),
+                            "အရင်းသွင်းငွေ must less than remained pawn items price",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    } else {
                         val cost =
                             generateNumberFromEditText(binding.includePaymentBox.edtThree).toInt() + generateNumberFromEditText(
                                 binding.includePaymentBox.edtTwo
@@ -328,6 +343,11 @@ class PawnInterestFragment : Fragment() {
                 binding.edtMoneyToGive.setText(getRoundDownForPrice(moneyToGive).toString())
                 binding.edtCharge.setText(cost.toString())
             } else {
+                Log.i("akpcustom", tierDiscount.toString())
+                Log.i(
+                    "akpcustomCharge",
+                    generateNumberFromEditText(binding.edtCharge).toInt().toString()
+                )
                 binding.edtClaimMoney.setText(
                     getRoundDownForPrice(
                         (generateNumberFromEditText(binding.edtCharge).toInt() - tierDiscount - generateNumberFromEditText(
@@ -338,6 +358,24 @@ class PawnInterestFragment : Fragment() {
             }
         }
 
+        viewModel.logoutLiveData.observe(viewLifecycleOwner){
+            when (it){
+                is Resource.Loading->{
+                    loading.show()
+                }
+                is Resource.Success->{
+                    loading.dismiss()
+//                    Toast.makeText(requireContext(),"log out successful", Toast.LENGTH_LONG).show()
+                    findNavController().navigate(GeneralSellFragmentDirections.actionGlobalLogout())
+                }
+                is Resource.Error->{
+                    loading.dismiss()
+                    findNavController().navigate(GeneralSellFragmentDirections.actionGlobalLogout())
+
+                }
+                else -> {}
+            }
+        }
 
         viewModel.getPawnVoucherScanLiveData.observe(viewLifecycleOwner) {
             when (it) {
@@ -405,7 +443,7 @@ class PawnInterestFragment : Fragment() {
                 is Resource.Success -> {
                     loading.dismiss()
                     requireContext().showSuccessDialog("Success") {
-
+                        viewModel.logout()
                     }
                 }
 
@@ -424,7 +462,7 @@ class PawnInterestFragment : Fragment() {
                 is Resource.Success -> {
                     loading.dismiss()
                     requireContext().showSuccessDialog("Success") {
-
+                        viewModel.logout()
                     }
                 }
 
@@ -443,7 +481,7 @@ class PawnInterestFragment : Fragment() {
                 is Resource.Success -> {
                     loading.dismiss()
                     requireContext().showSuccessDialog("Success") {
-
+                        viewModel.logout()
                     }
                 }
 
@@ -462,7 +500,7 @@ class PawnInterestFragment : Fragment() {
                 is Resource.Success -> {
                     loading.dismiss()
                     requireContext().showSuccessDialog("Success") {
-
+                        viewModel.logout()
                     }
                 }
 
@@ -481,7 +519,7 @@ class PawnInterestFragment : Fragment() {
                 is Resource.Success -> {
                     loading.dismiss()
                     requireContext().showSuccessDialog("Success") {
-
+                        viewModel.logout()
                     }
                 }
 
@@ -500,7 +538,7 @@ class PawnInterestFragment : Fragment() {
                 is Resource.Success -> {
                     loading.dismiss()
                     requireContext().showSuccessDialog("Success") {
-
+                        viewModel.logout()
                     }
                 }
 
@@ -519,7 +557,7 @@ class PawnInterestFragment : Fragment() {
                 is Resource.Success -> {
                     loading.dismiss()
                     requireContext().showSuccessDialog("Success") {
-
+                        viewModel.logout()
                     }
                 }
 
@@ -538,7 +576,7 @@ class PawnInterestFragment : Fragment() {
                 is Resource.Success -> {
                     loading.dismiss()
                     requireContext().showSuccessDialog("Success") {
-
+                        viewModel.logout()
                     }
                 }
 
@@ -557,7 +595,7 @@ class PawnInterestFragment : Fragment() {
                 is Resource.Success -> {
                     loading.dismiss()
                     requireContext().showSuccessDialog("Success") {
-
+                        viewModel.logout()
                     }
                 }
 
@@ -597,9 +635,10 @@ class PawnInterestFragment : Fragment() {
             if (lastCheckedId != checkedId && checkedId != binding.radioInterestPay.id) {
                 lastCheckedId = checkedId
                 if (binding.edtScanVoucher.text.isNullOrEmpty().not()) {
-                    viewModel.getStockFromHomeForPawnList(binding.edtScanVoucher.text.toString())
+                    if (binding.radioOnlyInterest.isChecked || binding.radioSelectInvestment.isChecked || binding.radioClearingInterest.isChecked || binding.radioPawnItemSale.isChecked ){
+                        viewModel.getStockFromHomeForPawnList(binding.edtScanVoucher.text.toString())
+                    }
                 }
-
             }
             if (checkedId != -1) {
                 binding.radioGroup.setOnCheckedChangeListener(null)
@@ -609,7 +648,7 @@ class PawnInterestFragment : Fragment() {
             }
         }
 
-    fun doFunctionForCheck(checkedId:Int){
+    fun doFunctionForCheck(checkedId: Int) {
         binding.edtCharge.text?.clear()
         binding.edtClaimMoney.text?.clear()
         when (checkedId) {
@@ -618,10 +657,14 @@ class PawnInterestFragment : Fragment() {
                 binding.includePaymentBox.tvOne.isVisible = true
                 binding.includePaymentBox.edtOne.setText("0")
                 binding.includePaymentBox.tvOne.text = "အရင်းကြိုသွင်းငွေ"
+                binding.includePaymentBox.tilOne.isEnabled = true
+
 
                 binding.includePaymentBox.tilTwo.isVisible = false
                 binding.includePaymentBox.tilTwo.isEnabled = true
                 binding.includePaymentBox.tilThree.isVisible = false
+                binding.includePaymentBox.edtThree.isEnabled = true
+
 
                 binding.includePaymentBox.tvTwo.isVisible = false
                 binding.includePaymentBox.tvThree.isVisible = false
@@ -637,7 +680,7 @@ class PawnInterestFragment : Fragment() {
                 checkedAction = "ကြိုသွင်း/ထုတ်"
                 tierDiscount = 0
                 binding.tvTierDiscountAmount.text =
-                    getRoundDownForPawn(tierDiscount).toString()
+                    tierDiscount.toString()
             }
 
             binding.radioPreInterestPay.id -> {
@@ -646,6 +689,9 @@ class PawnInterestFragment : Fragment() {
                 binding.includePaymentBox.tvOne.isVisible = true
                 binding.includePaymentBox.tvOne.text = "လထည့်ရန်"
                 binding.includePaymentBox.tilTwo.isEnabled = true
+                binding.includePaymentBox.tilOne.isEnabled = true
+                binding.includePaymentBox.tilThree.isEnabled = false
+
 
 
                 binding.includePaymentBox.tvThree.isVisible = true
@@ -665,19 +711,23 @@ class PawnInterestFragment : Fragment() {
                 binding.includePaymentBox.btnClick.text = "ကြိုတိုးရှင်း"
                 checkedAction = "ကြိုတိုးရှင်း"
 
-                tierDiscount = viewModel.pawnData?.tier_discount.let { if (it.isNullOrEmpty()) 0 else it.toInt() }
+                tierDiscount =
+                    viewModel.pawnData?.tier_discount.let { if (it.isNullOrEmpty()) 0 else it.toInt() }
                 binding.tvTierDiscountAmount.text =
-                    getRoundDownForPawn(tierDiscount).toString()
+                    tierDiscount.toString()
 
 
                 binding.includePaymentBox.edtOne.addTextChangedListener {
                     if (it.isNullOrEmpty().not() && isNumeric(it.toString())) {
                         val month = it.toString()
-                        binding.tvTierDiscountAmount.text =
-                            (getRoundDownForPawn(tierDiscount) *month.toInt()).toString()
+                        val tierPercentage = (viewModel.pawnData?.tier_discount_percentage?:"0").toDouble()/100
+                        tierDiscount = getRoundDownForPawn(( tierPercentage * month.toDouble() *
+                                (viewModel.pawnData?.interest_per_month?:"0").toDouble()).toInt())
+                        binding.tvTierDiscountAmount.text =tierDiscount.toString()
+                        binding.tvTierDiscountAmountUnderReducedPay.text = tierDiscount.toString()
                         val money =
                             viewModel.pawnData?.interest_per_month.let { if (it.isNullOrEmpty()) 0 else it.toInt() } * month.toInt()
-                        binding.includePaymentBox.edtThree.setText(money.toString())
+                        binding.includePaymentBox.edtThree.setText(getRoundDownForPawn(money).toString())
                     }
                 }
 
@@ -688,6 +738,8 @@ class PawnInterestFragment : Fragment() {
                 binding.includePaymentBox.edtOne.setText("0")
                 binding.includePaymentBox.tvOne.isVisible = true
                 binding.includePaymentBox.tvOne.text = "တိုးယူငွေ"
+                binding.includePaymentBox.tilOne.isEnabled = true
+                binding.includePaymentBox.edtThree.isEnabled = true
 
 
                 binding.includePaymentBox.tvThree.isVisible = false
@@ -716,7 +768,7 @@ class PawnInterestFragment : Fragment() {
                 checkedAction = "တိုးယူသက်သက်"
                 tierDiscount = 0
                 binding.tvTierDiscountAmount.text =
-                    getRoundDownForPawn(tierDiscount).toString()
+                    tierDiscount.toString()
 
             }
 
@@ -724,6 +776,10 @@ class PawnInterestFragment : Fragment() {
                 binding.includePaymentBox.tilOne.isVisible = true
                 binding.includePaymentBox.tvOne.isVisible = true
                 binding.includePaymentBox.tvOne.text = "အတိုးရက်"
+                binding.includePaymentBox.tilOne.isEnabled = false
+
+                binding.includePaymentBox.tilThree.isEnabled = false
+
                 binding.includePaymentBox.edtOne.setText(viewModel.pawnData?.interest_days.orEmpty())
 
                 binding.includePaymentBox.tvThree.isVisible = true
@@ -745,9 +801,11 @@ class PawnInterestFragment : Fragment() {
                 binding.tvLabelClaimMoney.text = "တောင်းခံရန်ငွေ"
                 binding.includePaymentBox.btnClick.text = "အတိုးရှင်း"
                 checkedAction = "အတိုးရှင်း"
-                tierDiscount = viewModel.pawnData?.tier_discount.let { if (it.isNullOrEmpty()) 0 else it.toInt() }
-                binding.tvTierDiscountAmount.text =
-                    getRoundDownForPawn(tierDiscount).toString()
+                tierDiscount =
+                    viewModel.pawnData?.tier_discount.let { if (it.isNullOrEmpty()) 0 else it.toInt() }
+                binding.tvTierDiscountAmount.text = tierDiscount.toString()
+                binding.tvTierDiscountAmountUnderReducedPay.text = tierDiscount.toString()
+
 
             }
 
@@ -755,6 +813,9 @@ class PawnInterestFragment : Fragment() {
                 binding.includePaymentBox.tilOne.isVisible = true
                 binding.includePaymentBox.tvOne.isVisible = true
                 binding.includePaymentBox.tvOne.text = "အတိုးရက်"
+                binding.includePaymentBox.tilOne.isEnabled = false
+
+
                 binding.includePaymentBox.edtOne.setText(viewModel.pawnData?.interest_days.orEmpty())
 
 
@@ -778,15 +839,21 @@ class PawnInterestFragment : Fragment() {
                 binding.includePaymentBox.tvLabelGoldFromHome.isVisible = false
                 binding.includePaymentBox.btnClick.text = "အရင်းသွင်းအတိုးရှင်း"
                 checkedAction = "အရင်းသွင်းအတိုးရှင်း"
-                tierDiscount =viewModel.pawnData?.tier_discount.let { if (it.isNullOrEmpty()) 0 else it.toInt() }
-                binding.tvTierDiscountAmount.text =
-                    getRoundDownForPawn(tierDiscount).toString()
+                tierDiscount =
+                    viewModel.pawnData?.tier_discount.let { if (it.isNullOrEmpty()) 0 else it.toInt() }
+                binding.tvTierDiscountAmount.text = tierDiscount.toString()
+                binding.tvTierDiscountAmountUnderReducedPay.text = tierDiscount.toString()
+
             }
+
             binding.radioSelectInvestment.id -> {
 
                 binding.includePaymentBox.tilOne.isVisible = true
                 binding.includePaymentBox.tvOne.isVisible = true
                 binding.includePaymentBox.tvOne.text = "အတိုးရက်"
+                binding.includePaymentBox.tilOne.isEnabled = false
+
+
                 binding.includePaymentBox.edtOne.setText(viewModel.pawnData?.interest_days.orEmpty())
 
                 binding.includePaymentBox.tvTwo.isVisible = true
@@ -819,9 +886,11 @@ class PawnInterestFragment : Fragment() {
 
                 binding.includePaymentBox.btnClick.text = "အရင်းသွင်း ခွဲရွေး"
                 checkedAction = "အရင်းသွင်း ခွဲရွေး"
-                tierDiscount = viewModel.pawnData?.tier_discount.let { if (it.isNullOrEmpty()) 0 else it.toInt() }
-                binding.tvTierDiscountAmount.text =
-                    getRoundDownForPawn(tierDiscount).toString()
+                tierDiscount =
+                    viewModel.pawnData?.tier_discount.let { if (it.isNullOrEmpty()) 0 else it.toInt() }
+                binding.tvTierDiscountAmount.text = tierDiscount.toString()
+                binding.tvTierDiscountAmountUnderReducedPay.text = tierDiscount.toString()
+
             }
 
             binding.radioClearingInterest.id -> {
@@ -829,6 +898,9 @@ class PawnInterestFragment : Fragment() {
                 binding.includePaymentBox.tilOne.isVisible = true
                 binding.includePaymentBox.tvOne.isVisible = true
                 binding.includePaymentBox.tvOne.text = "အတိုးရက်"
+                binding.includePaymentBox.tilOne.isEnabled = false
+
+
                 binding.includePaymentBox.edtOne.setText(viewModel.pawnData?.interest_days.orEmpty())
 
                 binding.includePaymentBox.tvTwo.isVisible = true
@@ -859,9 +931,11 @@ class PawnInterestFragment : Fragment() {
 
                 binding.includePaymentBox.btnClick.text = "တိုးယူ အတိုးရှင်း"
                 checkedAction = "တိုးယူ အတိုးရှင်း"
-                tierDiscount =viewModel.pawnData?.tier_discount.let { if (it.isNullOrEmpty()) 0 else it.toInt() }
-                binding.tvTierDiscountAmount.text =
-                    getRoundDownForPawn(tierDiscount).toString()
+                tierDiscount =
+                    viewModel.pawnData?.tier_discount.let { if (it.isNullOrEmpty()) 0 else it.toInt() }
+                binding.tvTierDiscountAmount.text = tierDiscount.toString()
+                binding.tvTierDiscountAmountUnderReducedPay.text = tierDiscount.toString()
+
 
             }
 
@@ -870,12 +944,15 @@ class PawnInterestFragment : Fragment() {
                 binding.includePaymentBox.tilOne.isVisible = true
                 binding.includePaymentBox.tvOne.isVisible = true
                 binding.includePaymentBox.tvOne.text = "အတိုးရက်"
+                binding.includePaymentBox.tilOne.isEnabled = false
+
+
                 binding.includePaymentBox.edtOne.setText(viewModel.pawnData?.interest_days.orEmpty())
 
                 binding.includePaymentBox.tvTwo.isVisible = true
                 binding.includePaymentBox.tvTwo.text = "အရင်းသွင်းငွေ"
                 binding.includePaymentBox.tilTwo.isVisible = true
-                binding.includePaymentBox.tilTwo.isEnabled = false
+                binding.includePaymentBox.tilTwo.isEnabled = true
                 binding.includePaymentBox.edtTwo.setText(
                     (viewModel.pawnData?.remaining_debt.let { if (it.isNullOrEmpty()) 0 else it.toInt() } - viewModel.pawnData?.prepaid_debt.let { if (it.isNullOrEmpty()) 0 else it.toInt() }).toString()
                 )
@@ -889,18 +966,21 @@ class PawnInterestFragment : Fragment() {
 
                 binding.includePaymentBox.btnEdit.isVisible = false
                 binding.includePaymentBox.tvLabelGoldFromHome.isVisible = false
-                binding.includePaymentBox.tilTwo.isEnabled = true
+                binding.includePaymentBox.tilTwo.isEnabled = false
 
 
                 binding.tilMoneyToGive.isVisible = false
                 binding.tvLabelMoneyToGive.isVisible = false
                 binding.tvLabelClaimMoney.text = "တောင်းခံရန်ငွေ"
+                binding.includePaymentBox.tilThree.isEnabled = false
 
                 binding.includePaymentBox.btnClick.text = "ရွေးယူ"
                 checkedAction = "ရွေးယူ"
-                tierDiscount = viewModel.pawnData?.tier_discount.let { if (it.isNullOrEmpty()) 0 else it.toInt() }
-                binding.tvTierDiscountAmount.text =
-                    getRoundDownForPawn(tierDiscount).toString()
+                tierDiscount =
+                    viewModel.pawnData?.tier_discount.let { if (it.isNullOrEmpty()) 0 else it.toInt() }
+                binding.tvTierDiscountAmount.text = tierDiscount.toString()
+                binding.tvTierDiscountAmountUnderReducedPay.text = tierDiscount.toString()
+
 
             }
 
@@ -909,13 +989,19 @@ class PawnInterestFragment : Fragment() {
                 binding.includePaymentBox.tilOne.isVisible = true
                 binding.includePaymentBox.tvOne.isVisible = true
                 binding.includePaymentBox.tvOne.text = "အတိုးရက်"
+                binding.includePaymentBox.tilOne.isEnabled = false
+                binding.includePaymentBox.tilThree.isEnabled = false
                 binding.includePaymentBox.edtOne.setText(viewModel.pawnData?.interest_days.orEmpty())
 
                 binding.includePaymentBox.tvTwo.isVisible = true
                 binding.includePaymentBox.tvTwo.text = "အရင်းသွင်းငွေ"
                 binding.includePaymentBox.tilTwo.isVisible = true
                 binding.includePaymentBox.tilTwo.isEnabled = false
-                binding.includePaymentBox.edtTwo.setText(((viewModel.pawnData?.remaining_debt?:"0").toInt()-(viewModel.pawnData?.prepaid_debt?:"0").toInt()).toString())
+                binding.includePaymentBox.edtTwo.setText(
+                    ((viewModel.pawnData?.remaining_debt
+                        ?: "0").toInt() - (viewModel.pawnData?.prepaid_debt
+                        ?: "0").toInt()).toString()
+                )
 
                 binding.includePaymentBox.tilThree.isVisible = true
                 binding.includePaymentBox.tvThree.text = "အတိုးကျသင့်ငွေ"
@@ -940,9 +1026,11 @@ class PawnInterestFragment : Fragment() {
 
                 binding.includePaymentBox.btnClick.text = "ရောင်းချ"
                 checkedAction = "ရောင်းချ"
-                tierDiscount = viewModel.pawnData?.tier_discount.let { if (it.isNullOrEmpty()) 0 else it.toInt() }
-                binding.tvTierDiscountAmount.text =
-                    getRoundDownForPawn(tierDiscount).toString()
+                tierDiscount =
+                    viewModel.pawnData?.tier_discount.let { if (it.isNullOrEmpty()) 0 else it.toInt() }
+                binding.tvTierDiscountAmount.text = tierDiscount.toString()
+                binding.tvTierDiscountAmountUnderReducedPay.text = tierDiscount.toString()
+
             }
         }
     }

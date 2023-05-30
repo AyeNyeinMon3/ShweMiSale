@@ -396,6 +396,7 @@
                 app:boxStrokeColor="@color/edit_text_color_2"
                 app:boxStrokeWidth="1dp"
                 app:errorEnabled="false"
+                android:enabled="false"
                 app:hintEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -455,6 +456,24 @@
 
 
         </LinearLayout>
+        <TextView
+            android:id="@+id/tv_label_redeem_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+            android:text="Redeemed Money - "
+            app:layout_constraintStart_toStartOf="@id/layout_redeem_manual"
+            app:layout_constraintTop_toBottomOf="@id/layout_redeem_manual"/>
+        <TextView
+            android:id="@+id/tv_redeem_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+            tools:text="500"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toEndOf="@+id/tv_label_redeem_money"
+            app:layout_constraintTop_toTopOf="@+id/tv_label_redeem_money"/>
         <View
             android:id="@+id/view"
             android:layout_width="match_parent"
