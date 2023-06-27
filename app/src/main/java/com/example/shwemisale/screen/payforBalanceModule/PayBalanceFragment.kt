@@ -9,11 +9,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.shwemi.util.*
 import com.example.shwemisale.databinding.FragmentPayBalanceBinding
 import com.example.shwemisale.qrscan.getBarLauncher
 import com.example.shwemisale.qrscan.scanQrCode
 import com.example.shwemisale.screen.pawnModule.CreatePawnViewModel
+import com.example.shwemisale.screen.sellModule.generalSale.GeneralSellFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -92,7 +94,7 @@ class PayBalanceFragment:Fragment() {
                 is Resource.Success -> {
                     loading.dismiss()
                     requireContext().showSuccessDialog("Success"){
-
+                        viewModel.logout()
                     }
 
                 }
@@ -102,5 +104,24 @@ class PayBalanceFragment:Fragment() {
                 }
             }
         }
+        viewModel.logoutLiveData.observe(viewLifecycleOwner){
+            when (it){
+                is Resource.Loading->{
+                    loading.show()
+                }
+                is Resource.Success->{
+                    loading.dismiss()
+//                    Toast.makeText(requireContext(),"log out successful", Toast.LENGTH_LONG).show()
+                    findNavController().navigate(GeneralSellFragmentDirections.actionGlobalLogout())
+                }
+                is Resource.Error->{
+                    loading.dismiss()
+                    findNavController().navigate(GeneralSellFragmentDirections.actionGlobalLogout())
+
+                }
+                else -> {}
+            }
+        }
+
     }
 }

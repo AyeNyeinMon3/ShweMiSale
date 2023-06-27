@@ -8,10 +8,13 @@ import com.example.shwemisale.data_layers.domain.PawnVoucherScanDomain
 import com.example.shwemisale.data_layers.domain.goldFromHome.StockFromHomeDomain
 import com.example.shwemisale.data_layers.dto.pawn.PawnInterestRateDto
 import com.example.shwemisale.data_layers.dto.pawn.PawnVoucherScanDto
+import com.example.shwemisale.data_layers.dto.printing.PawnCreatePrintDto
+import com.example.shwemisale.data_layers.dto.printing.RebuyPrintDto
 import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.repositoryImpl.AuthRepoImpl
 import com.example.shwemisale.repositoryImpl.NormalSaleRepositoryImpl
 import com.example.shwemisale.repositoryImpl.PawnRepositoryImpl
+import com.example.shwemisale.repositoryImpl.PrintingRepoImpl
 import com.example.shwemisale.room_database.AppDatabase
 import com.example.shwemisale.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,7 +28,8 @@ class PawnInterestViewModel @Inject constructor(
     private val pawnRepositoryImpl: PawnRepositoryImpl,
     private val normalSaleRepositoryImpl: NormalSaleRepositoryImpl,
     private val localDatabase: LocalDatabase,
-    private val authRepoImpl: AuthRepoImpl
+    private val authRepoImpl: AuthRepoImpl,
+    private val printingRepoImpl: PrintingRepoImpl
 ) : ViewModel() {
     var pawnData: PawnVoucherScanDomain? = null
     private val _createStockFromHomeInfoLiveData =
@@ -41,6 +45,16 @@ class PawnInterestViewModel @Inject constructor(
         _logoutLiveData.value = Resource.Loading()
         viewModelScope.launch {
             _logoutLiveData.value = authRepoImpl.logout()
+        }
+    }
+    private val _printPawnSaleLiveData=SingleLiveEvent<Resource<PawnCreatePrintDto>>()
+    val printPawnSaleLiveData:SingleLiveEvent<Resource<PawnCreatePrintDto>>
+        get()=_printPawnSaleLiveData
+
+    fun printPawnSale(pawnSaleId:String){
+        _printPawnSaleLiveData.value = Resource.Loading()
+        viewModelScope.launch {
+            _printPawnSaleLiveData.value = printingRepoImpl.getPawnCreatePrint(pawnSaleId)
         }
     }
 

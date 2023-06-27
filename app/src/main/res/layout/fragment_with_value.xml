@@ -131,6 +131,7 @@
                 app:boxStrokeColor="@color/edit_text_color_2"
                 app:boxStrokeWidth="1dp"
                 app:errorEnabled="false"
+                android:enabled="false"
                 app:hintEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText

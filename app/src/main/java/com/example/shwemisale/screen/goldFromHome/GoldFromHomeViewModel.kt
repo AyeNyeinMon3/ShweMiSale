@@ -7,12 +7,15 @@ import com.example.shwemisale.data_layers.domain.goldFromHome.StockWeightByVouch
 import com.example.shwemisale.data_layers.domain.goldFromHome.asUiModel
 import com.example.shwemisale.data_layers.dto.calculation.GoldTypePriceDto
 import com.example.shwemisale.data_layers.dto.goldFromHome.GemWeightDetail
+import com.example.shwemisale.data_layers.dto.printing.RebuyPrintDto
+import com.example.shwemisale.data_layers.dto.printing.RebuyPrintResponse
 import com.example.shwemisale.data_layers.ui_models.goldFromHome.StockFromHomeInfoUiModel
 import com.example.shwemisale.data_layers.ui_models.goldFromHome.StockWeightByVoucherUiModel
 import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.repositoryImpl.AuthRepoImpl
 import com.example.shwemisale.repositoryImpl.GoldFromHomeRepositoryImpl
 import com.example.shwemisale.repositoryImpl.NormalSaleRepositoryImpl
+import com.example.shwemisale.repositoryImpl.PrintingRepoImpl
 import com.example.shwemisale.room_database.AppDatabase
 import com.example.shwemisale.room_database.entity.StockFromHomeFinalInfo
 import com.example.shwemisale.room_database.entity.asEntity
@@ -34,7 +37,8 @@ class GoldFromHomeViewModel @Inject constructor(
     private val normalSaleRepositoryImpl: NormalSaleRepositoryImpl,
     private val authRepoImpl: AuthRepoImpl,
     private val appDatabase: AppDatabase,
-    private val localDatabase: LocalDatabase
+    private val localDatabase: LocalDatabase,
+    private val printingRepoImpl: PrintingRepoImpl
 ) : ViewModel() {
 
     private val _updateStockFromHomeInfoLiveData =
@@ -60,6 +64,9 @@ class GoldFromHomeViewModel @Inject constructor(
         localDatabase.saveTotalCVoucherBuyingPriceForStockFromHome(price)
     }
 
+    fun getCurrentUserName():String {
+        return localDatabase.getCurrentSalesPersonName()
+    }
     fun removeTotalPawnPrice() {
         localDatabase.removeTotalPawnPriceForStockFromHome()
     }
@@ -79,6 +86,17 @@ class GoldFromHomeViewModel @Inject constructor(
         _logoutLiveData.value = Resource.Loading()
         viewModelScope.launch {
             _logoutLiveData.value = authRepoImpl.logout()
+        }
+    }
+
+    private val _printRebuyLiveData=SingleLiveEvent<Resource<RebuyPrintDto>>()
+    val printRebuyLiveData:SingleLiveEvent<Resource<RebuyPrintDto>>
+        get()=_printRebuyLiveData
+
+    fun printRebuy(rebuyId:String){
+        _printRebuyLiveData.value = Resource.Loading()
+        viewModelScope.launch {
+            _printRebuyLiveData.value = printingRepoImpl.getRebuyPrint(rebuyId)
         }
     }
 

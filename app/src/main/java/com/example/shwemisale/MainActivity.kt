@@ -1,6 +1,7 @@
 package com.example.shwemisale
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
@@ -10,6 +11,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.viewModels
@@ -21,24 +23,37 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
+import com.epson.epos2.Epos2Exception
+import com.epson.epos2.printer.Printer
 import com.example.shwemi.util.Resource
 import com.example.shwemi.util.getAlertDialog
+import com.example.shwemi.util.showSuccessDialog
 import com.example.shwemisale.databinding.ActivityMainBinding
+import com.example.shwemisale.databinding.DialogIpAddressBinding
+import com.example.shwemisale.databinding.ShwemiSuccessDialogBinding
 import com.example.shwemisale.room_database.AppDatabase
 import com.example.shwemisale.screen.sellModule.sellStart.SellStartFragmentDirections
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var appBarConfiguration: AppBarConfiguration
+
+    lateinit var dialogIpAddressBinding: DialogIpAddressBinding
     private val viewModel by viewModels<MainViewModel>()
     private lateinit var loading : AlertDialog
     private lateinit var navController:NavController
     lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
+
+    @Inject
+    lateinit var printer:Printer
+
 
     private val startDestinationList = listOf<Int>(
         R.id.loginFragment
@@ -148,5 +163,7 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         deleteDatabase("AppDatabase")
     }
+
+
 
 }

@@ -49,7 +49,7 @@
     </fragment>
     <action
         android:id="@+id/action_global_logout"
-        app:destination="@id/loginFragment" />
+        app:destination="@id/sellStartFragment" />
     <action
         android:id="@+id/action_global_gold_from_home_fragment"
         app:destination="@id/sellGoldFromHomeFragment" />

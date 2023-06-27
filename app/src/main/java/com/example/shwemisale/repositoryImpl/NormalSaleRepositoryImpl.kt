@@ -1179,7 +1179,7 @@ class NormalSaleRepositoryImpl @Inject constructor(
             )
 
             if (response.isSuccessful && response.body() != null) {
-                Resource.Success(response.body()!!.response.message)
+                Resource.Success(response.body()!!.data)
             } else if (response.code() == 500) {
                 Resource.Error("500 Server Error")
             } else {

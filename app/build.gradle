@@ -108,4 +108,6 @@ dependencies {
     implementation "pl.droidsonroids.gif:android-gif-drawable:1.2.22"
     implementation 'id.zelory:compressor:3.0.1'
 
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
 }

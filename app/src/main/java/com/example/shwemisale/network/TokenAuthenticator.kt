@@ -33,7 +33,7 @@ class TokenAuthenticator @Inject constructor(
                     localDatabase.saveToken(refreshToken.data.orEmpty())
                     authRepo.get().refreshTokenLog()
                     result = response.request.newBuilder()
-                        .header("Authorization", localDatabase.getAccessToken().orEmpty())
+//                        .header("Authorization", localDatabase.getAccessToken().orEmpty())
                         .build().also {
                             Log.i("new_request", "new req url => ${it.url}, new req header size => ${it.headers.size}, new token => ${refreshToken.data}")
                         }

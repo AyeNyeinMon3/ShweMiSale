@@ -6,9 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shwemi.util.Resource
 import com.example.shwemisale.data_layers.dto.pawn.PawnInterestRateDto
+import com.example.shwemisale.data_layers.dto.printing.PawnCreatePrintDto
 import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.repositoryImpl.AuthRepoImpl
 import com.example.shwemisale.repositoryImpl.PawnRepositoryImpl
+import com.example.shwemisale.repositoryImpl.PrintingRepoImpl
 import com.example.shwemisale.room_database.AppDatabase
 import com.example.shwemisale.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +23,8 @@ class CreatePawnViewModel @Inject constructor(
     private val appDatabase: AppDatabase,
     private val pawnRepositoryImpl: PawnRepositoryImpl,
     private val localDatabase: LocalDatabase,
-    private val authRepoImpl: AuthRepoImpl
+    private val authRepoImpl: AuthRepoImpl,
+    private val printingRepoImpl: PrintingRepoImpl
 ):ViewModel() {
     private val _createPawnLiveData = MutableLiveData<Resource<String>>()
     val createPawnLiveData: LiveData<Resource<String>>
@@ -35,6 +38,17 @@ class CreatePawnViewModel @Inject constructor(
         _logoutLiveData.value = Resource.Loading()
         viewModelScope.launch {
             _logoutLiveData.value = authRepoImpl.logout()
+        }
+    }
+
+    private val _printCreatePawnLiveData= SingleLiveEvent<Resource<PawnCreatePrintDto>>()
+    val printCreatePawnLiveData: SingleLiveEvent<Resource<PawnCreatePrintDto>>
+        get()=_printCreatePawnLiveData
+
+    fun printPawnCreate(pawnId:String){
+        _printCreatePawnLiveData.value = Resource.Loading()
+        viewModelScope.launch {
+            _printCreatePawnLiveData.value = printingRepoImpl.getPawnCreatePrint(pawnId)
         }
     }
 

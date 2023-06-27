@@ -81,6 +81,7 @@ class AuthRepoImpl @Inject constructor(
             val response = authService.getProfile(localDatabase.getAccessToken().orEmpty())
 
             if (response.isSuccessful && response.body() != null) {
+                localDatabase.saveCurrentSalesPersonName(response.body()?.data?.name.orEmpty())
                 Resource.Success(response.body()!!.data!!.name)
             } else if (response.code() == 500) {
                 Resource.Error("500 Server Error")

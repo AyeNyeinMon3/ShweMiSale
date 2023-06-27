@@ -195,7 +195,7 @@ class AkoukSellFragment : Fragment() {
                 is Resource.Success -> {
                     loading.dismiss()
                     requireContext().showSuccessDialog("Success") {
-                        findNavController().popBackStack()
+                        viewModel.logout()
                     }
                 }
 

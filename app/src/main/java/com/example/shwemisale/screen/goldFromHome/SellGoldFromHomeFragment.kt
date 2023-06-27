@@ -8,16 +8,24 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.epson.epos2.Epos2CallbackCode
+import com.epson.epos2.Epos2Exception
+import com.epson.epos2.printer.Printer
+import com.epson.epos2.printer.PrinterStatusInfo
+import com.epson.epos2.printer.ReceiveListener
 import com.example.shwemi.util.*
 import com.example.shwemisale.R
 import com.example.shwemisale.data_layers.domain.goldFromHome.asUiModel
+import com.example.shwemisale.data_layers.dto.printing.RebuyPrintItem
 import com.example.shwemisale.data_layers.ui_models.goldFromHome.StockWeightByVoucherUiModel
 import com.example.shwemisale.databinding.DialogChangeFeatureBinding
+import com.example.shwemisale.databinding.DialogIpAddressBinding
 import com.example.shwemisale.databinding.DialogSellTypeBinding
 import com.example.shwemisale.databinding.DialogStockCheckBinding
 import com.example.shwemisale.databinding.FragmentGoldFromHomeSellBinding
@@ -33,9 +41,18 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneOffset
+import javax.inject.Inject
+import javax.inject.Singleton
 
 @AndroidEntryPoint
-class SellGoldFromHomeFragment : Fragment() {
+class SellGoldFromHomeFragment : Fragment(), ReceiveListener {
+    @Inject
+    lateinit var mPrinter: Printer
+    private val paperLength = calculateLineLength(80)
+    private val magicSpace = "          "
+    override fun onDestroy() {
+        super.onDestroy()
+    }
 
     lateinit var binding: FragmentGoldFromHomeSellBinding
     lateinit var alertDialogBinding: DialogStockCheckBinding
@@ -59,11 +76,32 @@ class SellGoldFromHomeFragment : Fragment() {
         }.root
     }
 
+    override fun onPtrReceive(p0: Printer?, p1: Int, p2: PrinterStatusInfo?, p3: String?) {
+        lifecycleScope.launchWhenStarted {
+            if (p1 == Epos2CallbackCode.CODE_SUCCESS) {
+//Displays successful print messages
+
+                mPrinter.clearCommandBuffer()
+                mPrinter.setReceiveEventListener(null)
+                Toast.makeText(requireContext(), "Print Receive Success", Toast.LENGTH_LONG).show()
+            } else {
+//Displays error messages
+                Toast.makeText(requireContext(), "Print Receive Fail", Toast.LENGTH_LONG).show()
+
+            }
+        }
+        Thread {
+            //Abort process
+//            disconnectPrinter()
+        }.start()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 //        binding.checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
 //            binding.btnSkip.isVisible = isChecked
 //        }
         loading = requireContext().getAlertDialog()
+        mPrinter.setReceiveEventListener(this)
 
         if (args.backpressType == "Global") {
             binding.layoutPayment.isVisible = false
@@ -138,18 +176,21 @@ class SellGoldFromHomeFragment : Fragment() {
                 is Resource.Loading -> {
                     loading.show()
                 }
+
                 is Resource.Success -> {
                     loading.dismiss()
                     requireContext().showSuccessDialog("Success") {
                         if (args.pawnVoucherCode.isNullOrEmpty().not()) {
                             findNavController().previousBackStackEntry?.savedStateHandle?.set(
                                 "key",
-                                viewModel.stockFromHomeInfoLiveData.value?.data.orEmpty().filter { it.isChecked }.map { it.id })
+                                viewModel.stockFromHomeInfoLiveData.value?.data.orEmpty()
+                                    .filter { it.isChecked }.map { it.id })
                         }
                         findNavController().popBackStack()
                     }
 
                 }
+
                 is Resource.Error -> {
                     loading.dismiss()
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
@@ -200,21 +241,27 @@ class SellGoldFromHomeFragment : Fragment() {
             }
         }
 
-        viewModel.logoutLiveData.observe(viewLifecycleOwner){
-            when (it){
-                is Resource.Loading->{
+        viewModel.logoutLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {
                     loading.show()
                 }
-                is Resource.Success->{
+
+                is Resource.Success -> {
                     loading.dismiss()
+                    requireContext().showSuccessDialog("Done"){
+                        findNavController().navigate(GeneralSellFragmentDirections.actionGlobalLogout())
+                    }
+
 //                    Toast.makeText(requireContext(),"log out successful", Toast.LENGTH_LONG).show()
-                    findNavController().navigate(GeneralSellFragmentDirections.actionGlobalLogout())
                 }
-                is Resource.Error->{
+
+                is Resource.Error -> {
                     loading.dismiss()
                     findNavController().navigate(GeneralSellFragmentDirections.actionGlobalLogout())
 
                 }
+
                 else -> {}
             }
         }
@@ -252,28 +299,40 @@ class SellGoldFromHomeFragment : Fragment() {
                     adapter.submitList(it.data)
 
                     //pawn
-                    binding.btnDone.setOnClickListener {view->
+                    binding.btnDone.setOnClickListener { view ->
 
 
-                        if (args.backpressType.startsWith("Pawn") && it.data.isNullOrEmpty().not() ){
-                            if (it.data.orEmpty().size == it.data?.filter { it.isChecked }.orEmpty().size &&
-                                    args.backpressType == "PawnSelectNoEdit"){
-                                Toast.makeText(requireContext(),"You can't check all items",Toast.LENGTH_LONG).show()
-                            }else{
+                        if (args.backpressType.startsWith("Pawn") && it.data.isNullOrEmpty()
+                                .not()
+                        ) {
+                            if (it.data.orEmpty().size == it.data?.filter { it.isChecked }
+                                    .orEmpty().size &&
+                                args.backpressType == "PawnSelectNoEdit"
+                            ) {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "You can't check all items",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            } else {
                                 var totalVoucherBuyingPriceForPawn = 0
                                 var totalPawnPriceForRemainedPawnItems = 0
                                 it.data.orEmpty().forEach {
-                                    if(it.isChecked){
+                                    if (it.isChecked) {
                                         totalVoucherBuyingPriceForPawn += it.b_voucher_buying_value!!.toInt()
-                                    }else{
+                                    } else {
                                         totalPawnPriceForRemainedPawnItems += it.calculated_for_pawn!!.toInt()
                                     }
                                 }
-                                viewModel.saveVoucherBuyingPriceForPawn(totalVoucherBuyingPriceForPawn.toString())
-                                viewModel.savePawnPriceForRemainedPawnItems(totalPawnPriceForRemainedPawnItems.toString())
+                                viewModel.saveVoucherBuyingPriceForPawn(
+                                    totalVoucherBuyingPriceForPawn.toString()
+                                )
+                                viewModel.savePawnPriceForRemainedPawnItems(
+                                    totalPawnPriceForRemainedPawnItems.toString()
+                                )
                                 viewModel.updateStockFromHome(it.data.orEmpty())
                             }
-                        }else{
+                        } else {
                             findNavController().popBackStack()
                         }
                     }
@@ -405,11 +464,32 @@ class SellGoldFromHomeFragment : Fragment() {
                 }
 
                 is Resource.Success -> {
-                    loading.dismiss()
-                    requireContext().showSuccessDialog(it.data.orEmpty()) {
-                        viewModel.logout()
-                    }
+                    viewModel.printRebuy(it.data.orEmpty())
+                }
 
+                is Resource.Error -> {
+                    loading.dismiss()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+        viewModel.printRebuyLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {
+                    loading.show()
+                }
+
+                is Resource.Success -> {
+
+                    printSample(
+                        it.data?.sold_at.orEmpty(),
+                        it.data?.code.orEmpty(),
+                        it.data?.user?.address.orEmpty(),
+                        it.data?.salesperson.orEmpty(),
+                        it.data?.user?.name.orEmpty(),
+                        (it.data?.total_cost ?: 0).toString(),
+                        it.data?.items.orEmpty()
+                    )
                 }
 
                 is Resource.Error -> {
@@ -571,6 +651,148 @@ class SellGoldFromHomeFragment : Fragment() {
             view?.findNavController()
                 ?.navigate(SellGoldFromHomeFragmentDirections.actionSellGoldFromHomeFragmentToGeneralSellFragment())
             alertDialog.dismiss()
+        }
+
+    }
+
+    private fun printSample(
+        date: String,
+        voucherNumber: String,
+        address: String,
+        salesPerson: String,
+        customerName: String,
+        totalRebuyPrice: String,
+        itemList: List<RebuyPrintItem>
+    ) {
+        try {
+            // Start the print job
+            mPrinter.beginTransaction()
+            val lineLength = paperLength
+            var numSpaces = 0
+            var spaces = ""
+
+            mPrinter?.addText("-------------------------------------------------\n")
+            mPrinter?.addTextAlign(Printer.ALIGN_CENTER)
+            mPrinter?.addText("Rebuy Voucher\n")
+            mPrinter?.addText("-------------------------------------------------\n")
+
+
+            // Print an image
+            mPrinter?.addTextAlign(Printer.ALIGN_LEFT)
+            mPrinter?.addText("Date")
+
+            numSpaces = lineLength - date.length - "Date".length + magicSpace.length
+            spaces = " ".repeat(numSpaces)
+            mPrinter?.addText("$spaces$date\n")
+
+            mPrinter?.addText("Voucher Number")
+
+            numSpaces =
+                lineLength - voucherNumber.length - "Voucher Number".length + magicSpace.length
+            spaces = " ".repeat(numSpaces)
+            mPrinter?.addText("$spaces$voucherNumber\n")
+
+
+            val qrCodeContent = voucherNumber // Replace with your desired content
+
+            val qrCodeWidth = 100 // Adjust the size based on your requirements
+
+            val qrCodeHeight = 100
+            val qrCodeBitmap = generateQRCode(qrCodeContent, qrCodeWidth, qrCodeHeight)
+            mPrinter?.addTextAlign(Printer.ALIGN_RIGHT)
+            mPrinter?.addImage(
+                qrCodeBitmap,
+                0,
+                0,
+                qrCodeWidth,
+                qrCodeHeight,
+                Printer.PARAM_DEFAULT,
+                Printer.PARAM_DEFAULT,
+                Printer.PARAM_DEFAULT,
+                Printer.PARAM_DEFAULT.toDouble(),
+                Printer.PARAM_DEFAULT
+            );
+
+            mPrinter?.addText("\n")
+            mPrinter?.addTextAlign(Printer.ALIGN_LEFT)
+            mPrinter?.addText("Customer Name")
+
+            numSpaces =
+                lineLength - customerName.length - "Customer Name".length + magicSpace.length
+            spaces = " ".repeat(numSpaces)
+            mPrinter?.addText("$spaces$customerName\n")
+
+            mPrinter?.addText("Address")
+            numSpaces = lineLength - address.length - "Address".length + magicSpace.length
+            spaces = " ".repeat(numSpaces)
+            mPrinter?.addText("$spaces$address\n")
+            mPrinter?.addText("------------------------------------------\n")
+
+            val data1 = listOf("necklace,earrings", "1K 2P 3Y", "9000000", "1033500")
+            val data2 = listOf("ring", "1K 2P 3Y", "900000", "1033500")
+            val dataList = listOf(data1, data2)
+            val columnWidths = listOf(10, 10, 10, 10)
+            printTableRowWithFixPosition(itemList, columnWidths, mPrinter)
+
+
+            // Replace mPrinter with your Printer object
+
+//            printTableRow("Item Name","Gold Weight","Price","Rebuy Price")
+//
+//            printTableRow("necklace","1K 2P 3Y","900000","1033500")
+//            printTableRow("ring","1K 2P 3Y","900000","1033500")
+            mPrinter?.addText("\n")
+            mPrinter?.addText("Total Rebuy Price")
+            numSpaces =
+                lineLength - totalRebuyPrice.length - "Total Rebuy Price Kyats".length + magicSpace.length
+            spaces = " ".repeat(numSpaces)
+            mPrinter?.addText("$spaces$totalRebuyPrice Kyats\n")
+            mPrinter?.addText("-------------------------------------------------\n")
+
+
+            mPrinter?.addTextAlign(Printer.ALIGN_RIGHT)
+            mPrinter?.addText("SalePerson")
+            numSpaces = lineLength - salesPerson.length - "SalePerson".length + magicSpace.length
+            spaces = " ".repeat(numSpaces)
+            mPrinter?.addText("$spaces$salesPerson\n")
+            mPrinter?.addFeedLine(9)
+            mPrinter?.addCut(Printer.CUT_FEED)
+            // End the print
+            mPrinter?.sendData(Printer.PARAM_DEFAULT)
+
+        } catch (e: Epos2Exception) {
+            e.printStackTrace()
+        } finally {
+            try {
+                // End the transaction
+                mPrinter.endTransaction()
+                viewModel.logout()
+            } catch (e: Epos2Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun printTableRowWithFixPosition(
+        columns: List<RebuyPrintItem>,
+        columnWidths: List<Int>,
+        printer: Printer
+    ) {
+        val headerList = listOf("Item Name", "Gold Weight", "Price", "Rebuy")
+
+        val combineList = combineLists(headerList, columns)
+        for (item in combineList) {
+            mPrinter?.addTextAlign(Printer.ALIGN_LEFT)
+            mPrinter?.addText(item.first + magicSpace)
+
+
+            val numSpaces = paperLength - item.second.length - item.first.length
+            val spaces = " ".repeat(numSpaces)
+            mPrinter?.addText("$spaces${item.second}")
+            mPrinter?.addText("\n")
+            if (item.first == "Rebuy") {
+                mPrinter?.addText("-------------------------------------------------\n")
+            }
         }
 
     }

@@ -4,6 +4,7 @@ import android.content.Context
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.net.Uri
 import android.provider.MediaStore
 import android.text.TextUtils
@@ -16,7 +17,13 @@ import androidx.fragment.app.FragmentActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.shwemisale.R
+import com.example.shwemisale.data_layers.dto.printing.RebuyPrintItem
+import com.example.shwemisale.screen.goldFromHome.getKPYFromYwae
 import com.github.chrisbanes.photoview.PhotoView
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.WriterException
+import com.google.zxing.common.BitMatrix
+import com.google.zxing.qrcode.QRCodeWriter
 import com.squareup.moshi.JsonDataException
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
@@ -149,7 +156,7 @@ fun getRoundDownForPawn(price: Int): Int {
             50
         } else if (lastTwoDigits in 51..75) {
             50
-        } else{
+        } else {
             100
         }
     return firstDigits + newTwoDigits
@@ -177,5 +184,79 @@ fun compressImage(imageFilePath: String): RequestBody {
     return requestBody
 }
 
+fun generateQRCode(content: String, width: Int, height: Int): Bitmap? {
+    val qrCodeWriter = QRCodeWriter()
+    return try {
+        val bitMatrix: BitMatrix =
+            qrCodeWriter.encode(content, BarcodeFormat.QR_CODE, width, height)
+        val qrCodeWidth: Int = bitMatrix.getWidth()
+        val qrCodeHeight: Int = bitMatrix.getHeight()
+        val pixels = IntArray(qrCodeWidth * qrCodeHeight)
+        for (y in 0 until qrCodeHeight) {
+            val offset = y * qrCodeWidth
+            for (x in 0 until qrCodeWidth) {
+                pixels[offset + x] = if (bitMatrix.get(x, y)) Color.BLACK else Color.WHITE
+            }
+        }
+        val qrCodeBitmap = Bitmap.createBitmap(qrCodeWidth, qrCodeHeight, Bitmap.Config.RGB_565)
+        qrCodeBitmap.setPixels(pixels, 0, qrCodeWidth, 0, 0, qrCodeWidth, qrCodeHeight)
+        qrCodeBitmap
+    } catch (e: WriterException) {
+        e.printStackTrace()
+        null
+    }
+}
+
+fun calculateLineLength(paperLength: Int): Int {
+    val averageCharacterWidth = 2 // Width of an average character in mm
+    val margin = 3 // Margin space on each side of the paper in mm
+
+    val effectivePaperLength =
+        paperLength - (2 * margin) // Subtracting the margins from the paper length
+    val maxNumCharacters =
+        effectivePaperLength / averageCharacterWidth // Calculating the maximum number of characters that can fit in the available space
+
+    return maxNumCharacters
+}
+
+fun combineLists(list1: List<String>, list2: List<RebuyPrintItem>): List<Pair<String, String>> {
+
+    val combinedList = mutableListOf<Pair<String, String>>()
+
+    for (i in list2.indices) {
+        for (j in list1.indices){
+            val pair = when (j) {
+                0 -> Pair(list1[j], list2[i].name.orEmpty())
+                1 -> {
+                    val kpy =getKPYFromYwae(list2[i].gold_weight_ywae.toDouble())
+                    val goldWeightKpy = "${kpy[0].toInt()}K ${kpy[1].toInt()}P ${kpy[2]}Y"
+                    Pair(list1[j], goldWeightKpy)
+                }
+                2 -> Pair(list1[j], list2[i].b_voucher_buying_value + " Kyats")
+                3 -> Pair(list1[j], list2[i].rebuy_price+" Kyats")
+                else->Pair("","")
+            }
+            combinedList.add(pair)
+        }
+
+    }
+
+    return combinedList
+}
+
+fun Any.toStringList(): List<String> {
+    val properties = this::class.java.declaredFields
+    val values = mutableListOf<String>()
+
+    properties.forEach { field ->
+        field.isAccessible = true
+        val value = field.get(this)
+        if (value is String) {
+            values.add(value)
+        }
+    }
+
+    return values
+}
 
 

@@ -15,13 +15,18 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.epson.epos2.Epos2Exception
+import com.epson.epos2.printer.Printer
 import com.example.shwemi.util.*
 import com.example.shwemisale.data_layers.dto.pawn.asDomain
+import com.example.shwemisale.data_layers.dto.printing.PawnedStock
+import com.example.shwemisale.data_layers.dto.printing.RebuyPrintItem
 import com.example.shwemisale.databinding.FragmentPawnInterestBinding
 import com.example.shwemisale.qrscan.getBarLauncher
 import com.example.shwemisale.qrscan.scanQrCode
 import com.example.shwemisale.screen.sellModule.generalSale.GeneralSellFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class PawnInterestFragment : Fragment() {
@@ -35,6 +40,11 @@ class PawnInterestFragment : Fragment() {
     var checkedAction = ""
     var tierDiscount = 0
 
+
+    @Inject
+    lateinit var mPrinter: Printer
+    private val paperLength = calculateLineLength(80)
+    private val magicSpace = "          "
     //radio state saved
     var lastCheckedId = -1
 
@@ -594,9 +604,36 @@ class PawnInterestFragment : Fragment() {
 
                 is Resource.Success -> {
                     loading.dismiss()
-                    requireContext().showSuccessDialog("Success") {
-                        viewModel.logout()
-                    }
+                    viewModel.printPawnSale(it.data.orEmpty())
+                }
+
+                is Resource.Error -> {
+                    loading.dismiss()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+        viewModel.printPawnSaleLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {
+
+                }
+
+                is Resource.Success -> {
+
+                    printSample(
+                        date = it.data.invoiced_date.orEmpty(),
+                        voucherNumber = "",
+                        address = "",
+                        salesPerson = "",
+                        customerName = "",
+                        totalRebuyPrice = "",
+                        totalInterestAndDebt = "",
+                        reducedMoney = "",
+                        tierDiscount = "",
+                        buyPriceFromShop = "",
+                        itemList = it.data!!.pawned_stocks,
+                    )
                 }
 
                 is Resource.Error -> {
@@ -1033,5 +1070,170 @@ class PawnInterestFragment : Fragment() {
 
             }
         }
+    }
+    private fun printSample(
+        date: String,
+        voucherNumber: String,
+        address: String,
+        salesPerson: String,
+        customerName: String,
+        totalRebuyPrice: String,
+        totalInterestAndDebt: String,
+        reducedMoney: String,
+tierDiscount:String,
+buyPriceFromShop:String,
+        itemList: List<PawnedStock>
+    ) {
+        try {
+            // Start the print job
+            mPrinter.beginTransaction()
+            val lineLength = paperLength
+            var numSpaces = 0
+            var spaces = ""
+
+            mPrinter?.addText("-------------------------------------------------\n")
+            mPrinter?.addTextAlign(Printer.ALIGN_CENTER)
+            mPrinter?.addText("Pawn Items Sale Voucher\n")
+            mPrinter?.addText("-------------------------------------------------\n")
+
+
+            // Print an image
+            mPrinter?.addTextAlign(Printer.ALIGN_LEFT)
+            mPrinter?.addText("Date")
+
+            numSpaces = lineLength - date.length - "Date".length + magicSpace.length
+            spaces = " ".repeat(numSpaces)
+            mPrinter?.addText("$spaces$date\n")
+
+            mPrinter?.addText("Voucher Number")
+
+            numSpaces =
+                lineLength - voucherNumber.length - "Voucher Number".length + magicSpace.length
+            spaces = " ".repeat(numSpaces)
+            mPrinter?.addText("$spaces$voucherNumber\n")
+
+
+            val qrCodeContent = voucherNumber // Replace with your desired content
+
+            val qrCodeWidth = 200 // Adjust the size based on your requirements
+
+            val qrCodeHeight = 200
+            val qrCodeBitmap = generateQRCode(qrCodeContent, qrCodeWidth, qrCodeHeight)
+            mPrinter?.addTextAlign(Printer.ALIGN_RIGHT)
+            mPrinter?.addImage(
+                qrCodeBitmap,
+                0,
+                0,
+                qrCodeWidth,
+                qrCodeHeight,
+                Printer.PARAM_DEFAULT,
+                Printer.PARAM_DEFAULT,
+                Printer.PARAM_DEFAULT,
+                Printer.PARAM_DEFAULT.toDouble(),
+                Printer.PARAM_DEFAULT
+            );
+
+            mPrinter?.addText("\n")
+            mPrinter?.addTextAlign(Printer.ALIGN_LEFT)
+            mPrinter?.addText("Customer Name")
+
+            numSpaces =
+                lineLength - customerName.length - "Customer Name".length + magicSpace.length
+            spaces = " ".repeat(numSpaces)
+            mPrinter?.addText("$spaces$customerName\n")
+
+            mPrinter?.addText("Address")
+            numSpaces = lineLength - address.length - "Address".length + magicSpace.length
+            spaces = " ".repeat(numSpaces)
+            mPrinter?.addText("$spaces$address\n")
+            mPrinter?.addText("------------------------------------------\n")
+
+            val data1 = listOf("necklace,earrings", "1K 2P 3Y", "9000000", "1033500")
+            val data2 = listOf("ring", "1K 2P 3Y", "900000", "1033500")
+            val dataList = listOf(data1, data2)
+            val columnWidths = listOf(10, 10, 10, 10)
+            printTableRowWithFixPosition(itemList, columnWidths, mPrinter)
+
+
+            // Replace mPrinter with your Printer object
+
+//            printTableRow("Item Name","Gold Weight","Price","Rebuy Price")
+//
+//            printTableRow("necklace","1K 2P 3Y","900000","1033500")
+//            printTableRow("ring","1K 2P 3Y","900000","1033500")
+            mPrinter?.addText("\n")
+            mPrinter?.addText("Total Rebuy Price")
+            numSpaces =
+                lineLength - totalRebuyPrice.length - "Total Rebuy Price Kyats".length + magicSpace.length
+            spaces = " ".repeat(numSpaces)
+            mPrinter?.addText("$spaces$totalRebuyPrice Kyats\n")
+
+
+            mPrinter?.addText("Total Interest And Debt")
+            numSpaces = lineLength - totalInterestAndDebt.length - "Total Interest And Debt".length + magicSpace.length
+            spaces = " ".repeat(numSpaces)
+            mPrinter?.addText("$spaces$totalInterestAndDebt\n")
+
+            mPrinter?.addText("Reduced Money")
+            numSpaces = lineLength - reducedMoney.length - "Reduced Money".length + magicSpace.length
+            spaces = " ".repeat(numSpaces)
+            mPrinter?.addText("$spaces$reducedMoney\n")
+
+            mPrinter?.addText("Tier Discount")
+            numSpaces = lineLength - tierDiscount.length - "Tier Discount".length + magicSpace.length
+            spaces = " ".repeat(numSpaces)
+            mPrinter?.addText("$spaces$tierDiscount\n")
+            mPrinter?.addText("-------------------------------------------------\n")
+
+            mPrinter?.addText("Buy Price From Shop")
+            numSpaces = lineLength - buyPriceFromShop.length - "Buy Price From Shop".length + magicSpace.length
+            spaces = " ".repeat(numSpaces)
+            mPrinter?.addText("$spaces$buyPriceFromShop\n")
+
+            mPrinter?.addTextAlign(Printer.ALIGN_RIGHT)
+            mPrinter?.addText("SalePerson")
+            numSpaces = lineLength - salesPerson.length - "SalePerson".length + magicSpace.length
+            spaces = " ".repeat(numSpaces)
+            mPrinter?.addText("$spaces$salesPerson\n")
+
+            mPrinter?.addFeedLine(9)
+            mPrinter?.addCut(Printer.CUT_FEED)
+            // End the print
+            mPrinter?.sendData(Printer.PARAM_DEFAULT)
+
+        } catch (e: Epos2Exception) {
+            e.printStackTrace()
+        } finally {
+            try {
+                // End the transaction
+                mPrinter.endTransaction()
+                viewModel.logout()
+            } catch (e: Epos2Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+    fun printTableRowWithFixPosition(
+        columns: List<PawnedStock>,
+        columnWidths: List<Int>,
+        printer: Printer
+    ) {
+        val headerList = listOf("Item Name", "Gold Weight", "Price", "Rebuy")
+
+        val combineList = combineLists(headerList, columns)
+        for (item in combineList) {
+            printer?.addTextAlign(Printer.ALIGN_LEFT)
+            printer?.addText(item.first + magicSpace)
+
+
+            val numSpaces = paperLength - item.second.length - item.first.length
+            val spaces = " ".repeat(numSpaces)
+            printer?.addText("$spaces${item.second}")
+            printer?.addText("\n")
+            if (item.first == "Rebuy") {
+                printer?.addText("-------------------------------------------------\n")
+            }
+        }
+
     }
 }

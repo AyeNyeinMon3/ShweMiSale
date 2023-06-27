@@ -338,4 +338,5 @@ interface NormalSaleService {
         @Field("user_id") userId: String?,
         @Field("old_stock_session_key") old_stock_session_key: String?
     ): Response<SimpleResponse>
+
 }

@@ -10,7 +10,9 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -18,6 +20,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.paging.map
+import com.epson.epos2.Epos2Exception
+import com.epson.epos2.printer.Printer
 import com.example.shwemi.util.Resource
 import com.example.shwemi.util.convertToSqlDate
 import com.example.shwemi.util.getAlertDialog
@@ -25,16 +29,19 @@ import com.example.shwemi.util.showDropdown
 import com.example.shwemisale.CustomerListRecyclerAdapter
 import com.example.shwemisale.R
 import com.example.shwemisale.data_layers.domain.customers.asUiModel
+import com.example.shwemisale.databinding.DialogIpAddressBinding
 import com.example.shwemisale.databinding.FragmentStartSellBinding
 import com.example.shwemisale.qrscan.getBarLauncher
 import com.example.shwemisale.qrscan.scanQrCode
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.File
 import java.util.*
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -44,10 +51,14 @@ class SellStartFragment : Fragment() {
     private val viewModel by viewModels<SellStartViewModel>()
     private lateinit var loading : AlertDialog
     private lateinit var datePicker: MaterialDatePicker<Long>
+    private lateinit var dialogIpAddressBinding:DialogIpAddressBinding
     private lateinit var barlauncer: Any
 
     private var townShipList = mutableListOf<String>()
     private var provinceList = mutableListOf<String>()
+
+    @Inject
+    lateinit var printer:Printer
 
     private var selectedProvinceId = ""
     private var selectedTownshipId = ""
@@ -66,6 +77,11 @@ class SellStartFragment : Fragment() {
             .setTitleText("Choose Date of Birth")
             .setSelection(Calendar.getInstance().timeInMillis)
             .build()
+        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                activity?.finish()
+            }
+        })
 
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -197,7 +213,9 @@ class SellStartFragment : Fragment() {
                     val headerView = navigationView.getHeaderView(0)
                    headerView.findViewById<TextView>(com.example.shwemisale.R.id.tv_name).text = it.data
                     viewModel.getProvince()
-
+                    if (printer.status.connection == Printer.FALSE){
+                        showConnectPrinterDialog()
+                    }
                     viewModel.resetProfileLiveData()
                 }
                 is Resource.Error->{
@@ -330,6 +348,40 @@ class SellStartFragment : Fragment() {
 
     fun networkcall(){
         viewModel.getProfile()
+    }
+
+    fun showConnectPrinterDialog(){
+        val builder = MaterialAlertDialogBuilder(requireContext())
+        val inflater: LayoutInflater = LayoutInflater.from(builder.context)
+        dialogIpAddressBinding = DialogIpAddressBinding.inflate(
+            inflater, ConstraintLayout(builder.context), false
+        )
+        builder.setView(dialogIpAddressBinding.root)
+        val alertDialog = builder.create()
+        alertDialog.setCancelable(false)
+        dialogIpAddressBinding.btnConnectToPrinter.setOnClickListener {
+            try {
+                printer.connect("TCP:"+dialogIpAddressBinding.edtIpAddress.text.toString(), Printer.PARAM_DEFAULT)
+            } catch (e: Epos2Exception) {
+                showErrorDialog(e.message ?: "UnknownError")
+
+            }
+            alertDialog.dismiss()
+        }
+        alertDialog.show()
+    }
+    private fun showErrorDialog(message: String) {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Error")
+        builder.setMessage(message)
+        builder.setIcon(android.R.drawable.ic_dialog_alert)
+
+        builder.setPositiveButton("OK") { dialog, which ->
+            // do nothing
+        }
+
+        val dialog = builder.create()
+        dialog.show()
     }
 
 }

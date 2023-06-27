@@ -11,12 +11,22 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.epson.epos2.Epos2CallbackCode
+import com.epson.epos2.Epos2Exception
+import com.epson.epos2.printer.Printer
+import com.epson.epos2.printer.PrinterStatusInfo
+import com.epson.epos2.printer.ReceiveListener
 import com.example.shwemi.util.Resource
+import com.example.shwemi.util.calculateLineLength
+import com.example.shwemi.util.combineLists
 import com.example.shwemi.util.convertToSqlDate
 import com.example.shwemi.util.generateNumberFromEditText
+import com.example.shwemi.util.generateQRCode
 import com.example.shwemi.util.getAlertDialog
 import com.example.shwemi.util.showSuccessDialog
+import com.example.shwemisale.data_layers.dto.printing.RebuyPrintItem
 import com.example.shwemisale.databinding.FragmentCreatePawnBinding
 import com.example.shwemisale.screen.sellModule.generalSale.GeneralSellFragmentDirections
 import com.google.android.material.datepicker.CalendarConstraints
@@ -26,10 +36,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
 import java.util.Date
 import java.util.TimeZone
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class CreatePawnFragment : Fragment() {
+class CreatePawnFragment : Fragment(){
 
     lateinit var binding: FragmentCreatePawnBinding
     private val viewModel by viewModels<CreatePawnViewModel>()
@@ -38,6 +49,7 @@ class CreatePawnFragment : Fragment() {
     private lateinit var datePickerTo: MaterialDatePicker<Long>
     private var is_app_functions_allowed = "0"
     private var dateInclude = false
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -87,6 +99,7 @@ class CreatePawnFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loading = requireContext().getAlertDialog()
+
         binding.cbDate.setOnCheckedChangeListener { compoundButton, ischecked ->
             dateInclude = ischecked
         }
@@ -248,4 +261,5 @@ class CreatePawnFragment : Fragment() {
         // [voucher Buying priceB- debt] / [interest rate/100*(debt))] = result
         // if result >6, take 6 for ထားနိုင်သည့်လ, if result<=0, take 1 for ထားနိုင်သည့်လ
     }
+
 }

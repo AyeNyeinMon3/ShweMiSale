@@ -191,9 +191,6 @@ class SellResellStockInfoAddedFragment : Fragment() {
             }
             calculateBuyPriceFromShop(hasOtherReducedCost)
             calculatePawnPrice(hasOtherReducedCost)
-//            calculatePriceB(hasOtherReducedCost)
-//            calculatePriceA(hasOtherReducedCost)
-//            calculatePriceD(hasOtherReducedCost)
 
         }
         binding.radioGroupType.setOnCheckedChangeListener { radioGroup, checkedId ->
