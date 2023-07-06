@@ -8,6 +8,7 @@ import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.repositoryImpl.AuthRepoImpl
 import com.example.shwemisale.repositoryImpl.GoldFromHomeRepositoryImpl
 import com.example.shwemisale.repositoryImpl.NormalSaleRepositoryImpl
+import com.example.shwemisale.repositoryImpl.PrintingRepoImpl
 import com.example.shwemisale.room_database.AppDatabase
 import com.example.shwemisale.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,6 +24,7 @@ class AkoukSellViewModel @Inject constructor(
     private val localDatabase: LocalDatabase,
     private val goldFromHomeRepositoryImpl: GoldFromHomeRepositoryImpl,
     private val authRepoImpl: AuthRepoImpl,
+    private val printingRepoImpl: PrintingRepoImpl,
     private val appDatabase: AppDatabase
 ) : ViewModel() {
     var goldPrice = ""
@@ -35,6 +37,17 @@ class AkoukSellViewModel @Inject constructor(
     private val _updatePureGoldSaleItemsLiveData = SingleLiveEvent<Resource<String>>()
     val updatePureGoldSaleItemsLiveData: SingleLiveEvent<Resource<String>>
         get() = _updatePureGoldSaleItemsLiveData
+
+    private val _pdfDownloadLiveData = SingleLiveEvent<Resource<String>>()
+    val pdfDownloadLiveData: SingleLiveEvent<Resource<String>>
+        get() = _pdfDownloadLiveData
+
+    fun getPdf(saleId:String){
+        viewModelScope.launch {
+            _pdfDownloadLiveData.value = Resource.Loading()
+            _pdfDownloadLiveData.value=printingRepoImpl.getSalePrint(saleId)
+        }
+    }
 
     private val _goldTypePriceLiveData = MutableLiveData<Resource<List<GoldTypePriceDto>>>()
     val goldTypePriceLiveData: LiveData<Resource<List<GoldTypePriceDto>>>

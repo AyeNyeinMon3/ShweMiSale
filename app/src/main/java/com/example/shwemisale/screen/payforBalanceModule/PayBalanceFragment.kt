@@ -10,8 +10,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.satoprintertest.AkpDownloader
 import com.example.shwemi.util.*
 import com.example.shwemisale.databinding.FragmentPayBalanceBinding
+import com.example.shwemisale.printerHelper.printPdf
 import com.example.shwemisale.qrscan.getBarLauncher
 import com.example.shwemisale.qrscan.scanQrCode
 import com.example.shwemisale.screen.pawnModule.CreatePawnViewModel
@@ -25,6 +27,7 @@ class PayBalanceFragment:Fragment() {
     private val viewModel by viewModels<PayForBalanceViewModel>()
     private lateinit var loading: AlertDialog
     private lateinit var barlauncer: Any
+    private val downloader by lazy { AkpDownloader(requireContext()) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -93,12 +96,32 @@ class PayBalanceFragment:Fragment() {
                 }
                 is Resource.Success -> {
                     loading.dismiss()
-                    requireContext().showSuccessDialog("Success"){
-                        viewModel.logout()
+                    requireContext().showSuccessDialog("Press Ok To Download And Print!") {
+                        viewModel.getPdf(it.data.orEmpty())
                     }
-
                 }
                 is Resource.Error -> {
+                    loading.dismiss()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+        viewModel.pdfDownloadLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {
+                    loading.show()
+                }
+
+                is Resource.Success -> {
+                    loading.dismiss()
+                    printPdf(downloader.downloadFile(it.data.orEmpty()).orEmpty(), requireContext())
+                    requireContext().showSuccessDialog("Press Ok When Printing is finished!") {
+                        viewModel.logout()
+                    }
+                }
+
+                is Resource.Error -> {
+
                     loading.dismiss()
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
                 }

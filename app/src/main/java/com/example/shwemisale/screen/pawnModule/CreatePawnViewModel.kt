@@ -41,16 +41,17 @@ class CreatePawnViewModel @Inject constructor(
         }
     }
 
-    private val _printCreatePawnLiveData= SingleLiveEvent<Resource<PawnCreatePrintDto>>()
-    val printCreatePawnLiveData: SingleLiveEvent<Resource<PawnCreatePrintDto>>
-        get()=_printCreatePawnLiveData
+    private val _pdfDownloadLiveData = SingleLiveEvent<Resource<String>>()
+    val pdfDownloadLiveData: SingleLiveEvent<Resource<String>>
+        get() = _pdfDownloadLiveData
 
-    fun printPawnCreate(pawnId:String){
-        _printCreatePawnLiveData.value = Resource.Loading()
+    fun getPdf(pawnId:String){
         viewModelScope.launch {
-            _printCreatePawnLiveData.value = printingRepoImpl.getPawnCreatePrint(pawnId)
+            _pdfDownloadLiveData.value = Resource.Loading()
+            _pdfDownloadLiveData.value=printingRepoImpl.getPawnPrint(pawnId)
         }
     }
+
 
     private val _getPawnInterestRateLiveData =
         MutableLiveData<Resource<List<PawnInterestRateDto>>>()

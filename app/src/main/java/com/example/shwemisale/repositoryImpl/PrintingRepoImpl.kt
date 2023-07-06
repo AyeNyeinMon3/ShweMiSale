@@ -15,11 +15,11 @@ class PrintingRepoImpl @Inject constructor(
     private val printingService: PrintingService,
     private val localDatabase: LocalDatabase
 ) : PrintingRepository {
-    override suspend fun getRebuyPrint( rebuyId: String): Resource<RebuyPrintDto> {
+    override suspend fun getSalePrint( saleId: String): Resource<String> {
         return try {
             val response = printingService.getRebuyPrint(
                 localDatabase.getAccessToken().orEmpty(),
-                rebuyId
+                saleId
             )
 
             if (response.isSuccessful && response.body() != null) {
@@ -46,13 +46,13 @@ class PrintingRepoImpl @Inject constructor(
     }
 
 
-    override suspend fun getPawnCreatePrint(
-        pawnId: String
-    ): Resource<PawnCreatePrintDto> {
+    override suspend fun getPawnPrint(
+        pawnVoucherId: String
+    ): Resource<String> {
         return try {
             val response = printingService.getPawnCreatePrint(
                 localDatabase.getAccessToken().orEmpty(),
-                pawnId
+                pawnVoucherId
             )
 
             if (response.isSuccessful && response.body() != null) {

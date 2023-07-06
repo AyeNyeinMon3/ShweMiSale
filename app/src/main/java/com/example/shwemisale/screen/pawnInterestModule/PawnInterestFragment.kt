@@ -1,5 +1,6 @@
 package com.example.shwemisale.screen.pawnInterestModule
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
@@ -17,11 +19,13 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.epson.epos2.Epos2Exception
 import com.epson.epos2.printer.Printer
+import com.example.satoprintertest.AkpDownloader
 import com.example.shwemi.util.*
 import com.example.shwemisale.data_layers.dto.pawn.asDomain
 import com.example.shwemisale.data_layers.dto.printing.PawnedStock
 import com.example.shwemisale.data_layers.dto.printing.RebuyPrintItem
 import com.example.shwemisale.databinding.FragmentPawnInterestBinding
+import com.example.shwemisale.printerHelper.printPdf
 import com.example.shwemisale.qrscan.getBarLauncher
 import com.example.shwemisale.qrscan.scanQrCode
 import com.example.shwemisale.screen.sellModule.generalSale.GeneralSellFragmentDirections
@@ -39,12 +43,14 @@ class PawnInterestFragment : Fragment() {
     private var oldStockIdList: List<String> = emptyList()
     var checkedAction = ""
     var tierDiscount = 0
+    private val downloader by lazy { AkpDownloader(requireContext()) }
 
 
     @Inject
     lateinit var mPrinter: Printer
     private val paperLength = calculateLineLength(80)
     private val magicSpace = "          "
+
     //radio state saved
     var lastCheckedId = -1
 
@@ -78,6 +84,7 @@ class PawnInterestFragment : Fragment() {
 //        binding.radioGroup2.setOnCheckedChangeListener(listener2);
 //    }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loading = requireContext().getAlertDialog()
@@ -368,22 +375,46 @@ class PawnInterestFragment : Fragment() {
             }
         }
 
-        viewModel.logoutLiveData.observe(viewLifecycleOwner){
-            when (it){
-                is Resource.Loading->{
+        viewModel.logoutLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {
                     loading.show()
                 }
-                is Resource.Success->{
+
+                is Resource.Success -> {
                     loading.dismiss()
 //                    Toast.makeText(requireContext(),"log out successful", Toast.LENGTH_LONG).show()
                     findNavController().navigate(GeneralSellFragmentDirections.actionGlobalLogout())
                 }
-                is Resource.Error->{
+
+                is Resource.Error -> {
                     loading.dismiss()
                     findNavController().navigate(GeneralSellFragmentDirections.actionGlobalLogout())
 
                 }
+
                 else -> {}
+            }
+        }
+        viewModel.pdfDownloadLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {
+                    loading.show()
+                }
+
+                is Resource.Success -> {
+                    loading.dismiss()
+                    printPdf(downloader.downloadFile(it.data.orEmpty()).orEmpty(), requireContext())
+                    requireContext().showSuccessDialog("Press Ok When Printing is finished!") {
+                        viewModel.logout()
+                    }
+                }
+
+                is Resource.Error -> {
+
+                    loading.dismiss()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                }
             }
         }
 
@@ -452,8 +483,8 @@ class PawnInterestFragment : Fragment() {
 
                 is Resource.Success -> {
                     loading.dismiss()
-                    requireContext().showSuccessDialog("Success") {
-                        viewModel.logout()
+                    requireContext().showSuccessDialog("Press Ok To Download And Print!") {
+                        viewModel.getPdf(it.data.orEmpty())
                     }
                 }
 
@@ -471,8 +502,8 @@ class PawnInterestFragment : Fragment() {
 
                 is Resource.Success -> {
                     loading.dismiss()
-                    requireContext().showSuccessDialog("Success") {
-                        viewModel.logout()
+                    requireContext().showSuccessDialog("Press Ok To Download And Print!") {
+                        viewModel.getPdf(it.data.orEmpty())
                     }
                 }
 
@@ -490,8 +521,8 @@ class PawnInterestFragment : Fragment() {
 
                 is Resource.Success -> {
                     loading.dismiss()
-                    requireContext().showSuccessDialog("Success") {
-                        viewModel.logout()
+                    requireContext().showSuccessDialog("Press Ok To Download And Print!") {
+                        viewModel.getPdf(it.data.orEmpty())
                     }
                 }
 
@@ -509,8 +540,8 @@ class PawnInterestFragment : Fragment() {
 
                 is Resource.Success -> {
                     loading.dismiss()
-                    requireContext().showSuccessDialog("Success") {
-                        viewModel.logout()
+                    requireContext().showSuccessDialog("Press Ok To Download And Print!") {
+                        viewModel.getPdf(it.data.orEmpty())
                     }
                 }
 
@@ -528,8 +559,8 @@ class PawnInterestFragment : Fragment() {
 
                 is Resource.Success -> {
                     loading.dismiss()
-                    requireContext().showSuccessDialog("Success") {
-                        viewModel.logout()
+                    requireContext().showSuccessDialog("Press Ok To Download And Print!") {
+                        viewModel.getPdf(it.data.orEmpty())
                     }
                 }
 
@@ -547,8 +578,8 @@ class PawnInterestFragment : Fragment() {
 
                 is Resource.Success -> {
                     loading.dismiss()
-                    requireContext().showSuccessDialog("Success") {
-                        viewModel.logout()
+                    requireContext().showSuccessDialog("Press Ok To Download And Print!") {
+                        viewModel.getPdf(it.data.orEmpty())
                     }
                 }
 
@@ -566,8 +597,8 @@ class PawnInterestFragment : Fragment() {
 
                 is Resource.Success -> {
                     loading.dismiss()
-                    requireContext().showSuccessDialog("Success") {
-                        viewModel.logout()
+                    requireContext().showSuccessDialog("Press Ok To Download And Print!") {
+                        viewModel.getPdf(it.data.orEmpty())
                     }
                 }
 
@@ -585,8 +616,8 @@ class PawnInterestFragment : Fragment() {
 
                 is Resource.Success -> {
                     loading.dismiss()
-                    requireContext().showSuccessDialog("Success") {
-                        viewModel.logout()
+                    requireContext().showSuccessDialog("Press Ok To Download And Print!") {
+                        viewModel.getPdf(it.data.orEmpty())
                     }
                 }
 
@@ -621,19 +652,19 @@ class PawnInterestFragment : Fragment() {
 
                 is Resource.Success -> {
 
-                    printSample(
-                        date = it.data.invoiced_date.orEmpty(),
-                        voucherNumber = "",
-                        address = "",
-                        salesPerson = "",
-                        customerName = "",
-                        totalRebuyPrice = "",
-                        totalInterestAndDebt = "",
-                        reducedMoney = "",
-                        tierDiscount = "",
-                        buyPriceFromShop = "",
-                        itemList = it.data!!.pawned_stocks,
-                    )
+//                    printSample(
+//                        date = it.data.invoiced_date.orEmpty(),
+//                        voucherNumber = "",
+//                        address = "",
+//                        salesPerson = "",
+//                        customerName = "",
+//                        totalRebuyPrice = "",
+//                        totalInterestAndDebt = "",
+//                        reducedMoney = "",
+//                        tierDiscount = "",
+//                        buyPriceFromShop = "",
+//                        itemList = it.data!!.pawned_stocks,
+//                    )
                 }
 
                 is Resource.Error -> {
@@ -672,7 +703,7 @@ class PawnInterestFragment : Fragment() {
             if (lastCheckedId != checkedId && checkedId != binding.radioInterestPay.id) {
                 lastCheckedId = checkedId
                 if (binding.edtScanVoucher.text.isNullOrEmpty().not()) {
-                    if (binding.radioOnlyInterest.isChecked || binding.radioSelectInvestment.isChecked || binding.radioClearingInterest.isChecked || binding.radioPawnItemSale.isChecked ){
+                    if (binding.radioOnlyInterest.isChecked || binding.radioSelectInvestment.isChecked || binding.radioClearingInterest.isChecked || binding.radioPawnItemSale.isChecked) {
                         viewModel.getStockFromHomeForPawnList(binding.edtScanVoucher.text.toString())
                     }
                 }
@@ -757,10 +788,14 @@ class PawnInterestFragment : Fragment() {
                 binding.includePaymentBox.edtOne.addTextChangedListener {
                     if (it.isNullOrEmpty().not() && isNumeric(it.toString())) {
                         val month = it.toString()
-                        val tierPercentage = (viewModel.pawnData?.tier_discount_percentage?:"0").toDouble()/100
-                        tierDiscount = getRoundDownForPawn(( tierPercentage * month.toDouble() *
-                                (viewModel.pawnData?.interest_per_month?:"0").toDouble()).toInt())
-                        binding.tvTierDiscountAmount.text =tierDiscount.toString()
+                        val tierPercentage =
+                            (viewModel.pawnData?.tier_discount_percentage ?: "0").toDouble() / 100
+                        tierDiscount = getRoundDownForPawn(
+                            (tierPercentage * month.toDouble() *
+                                    (viewModel.pawnData?.interest_per_month
+                                        ?: "0").toDouble()).toInt()
+                        )
+                        binding.tvTierDiscountAmount.text = tierDiscount.toString()
                         binding.tvTierDiscountAmountUnderReducedPay.text = tierDiscount.toString()
                         val money =
                             viewModel.pawnData?.interest_per_month.let { if (it.isNullOrEmpty()) 0 else it.toInt() } * month.toInt()
@@ -1071,6 +1106,7 @@ class PawnInterestFragment : Fragment() {
             }
         }
     }
+
     private fun printSample(
         date: String,
         voucherNumber: String,
@@ -1080,8 +1116,8 @@ class PawnInterestFragment : Fragment() {
         totalRebuyPrice: String,
         totalInterestAndDebt: String,
         reducedMoney: String,
-tierDiscount:String,
-buyPriceFromShop:String,
+        tierDiscount: String,
+        buyPriceFromShop: String,
         itemList: List<PawnedStock>
     ) {
         try {
@@ -1170,23 +1206,27 @@ buyPriceFromShop:String,
 
 
             mPrinter?.addText("Total Interest And Debt")
-            numSpaces = lineLength - totalInterestAndDebt.length - "Total Interest And Debt".length + magicSpace.length
+            numSpaces =
+                lineLength - totalInterestAndDebt.length - "Total Interest And Debt".length + magicSpace.length
             spaces = " ".repeat(numSpaces)
             mPrinter?.addText("$spaces$totalInterestAndDebt\n")
 
             mPrinter?.addText("Reduced Money")
-            numSpaces = lineLength - reducedMoney.length - "Reduced Money".length + magicSpace.length
+            numSpaces =
+                lineLength - reducedMoney.length - "Reduced Money".length + magicSpace.length
             spaces = " ".repeat(numSpaces)
             mPrinter?.addText("$spaces$reducedMoney\n")
 
             mPrinter?.addText("Tier Discount")
-            numSpaces = lineLength - tierDiscount.length - "Tier Discount".length + magicSpace.length
+            numSpaces =
+                lineLength - tierDiscount.length - "Tier Discount".length + magicSpace.length
             spaces = " ".repeat(numSpaces)
             mPrinter?.addText("$spaces$tierDiscount\n")
             mPrinter?.addText("-------------------------------------------------\n")
 
             mPrinter?.addText("Buy Price From Shop")
-            numSpaces = lineLength - buyPriceFromShop.length - "Buy Price From Shop".length + magicSpace.length
+            numSpaces =
+                lineLength - buyPriceFromShop.length - "Buy Price From Shop".length + magicSpace.length
             spaces = " ".repeat(numSpaces)
             mPrinter?.addText("$spaces$buyPriceFromShop\n")
 
@@ -1213,6 +1253,7 @@ buyPriceFromShop:String,
             }
         }
     }
+
     fun printTableRowWithFixPosition(
         columns: List<PawnedStock>,
         columnWidths: List<Int>,
@@ -1220,20 +1261,20 @@ buyPriceFromShop:String,
     ) {
         val headerList = listOf("Item Name", "Gold Weight", "Price", "Rebuy")
 
-        val combineList = combineLists(headerList, columns)
-        for (item in combineList) {
-            printer?.addTextAlign(Printer.ALIGN_LEFT)
-            printer?.addText(item.first + magicSpace)
-
-
-            val numSpaces = paperLength - item.second.length - item.first.length
-            val spaces = " ".repeat(numSpaces)
-            printer?.addText("$spaces${item.second}")
-            printer?.addText("\n")
-            if (item.first == "Rebuy") {
-                printer?.addText("-------------------------------------------------\n")
-            }
-        }
+//        val combineList = combineLists(headerList, columns)
+//        for (item in combineList) {
+//            printer?.addTextAlign(Printer.ALIGN_LEFT)
+//            printer?.addText(item.first + magicSpace)
+//
+//
+//            val numSpaces = paperLength - item.second.length - item.first.length
+//            val spaces = " ".repeat(numSpaces)
+//            printer?.addText("$spaces${item.second}")
+//            printer?.addText("\n")
+//            if (item.first == "Rebuy") {
+//                printer?.addText("-------------------------------------------------\n")
+//            }
+//        }
 
     }
 }

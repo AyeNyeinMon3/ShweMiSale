@@ -12,6 +12,7 @@ import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.repositoryImpl.AuthRepoImpl
 import com.example.shwemisale.repositoryImpl.GoldFromHomeRepositoryImpl
 import com.example.shwemisale.repositoryImpl.NormalSaleRepositoryImpl
+import com.example.shwemisale.repositoryImpl.PrintingRepoImpl
 import com.example.shwemisale.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -25,6 +26,7 @@ class GeneralSaleViewModel @Inject constructor(
     private val normalSaleRepositoryImpl: NormalSaleRepositoryImpl,
     private val localDatabase: LocalDatabase,
     private val goldFromHomeRepositoryImpl: GoldFromHomeRepositoryImpl,
+    private val printingRepoImpl: PrintingRepoImpl,
     private val authRepoImpl: AuthRepoImpl
 ) : ViewModel() {
     var goldPrice = ""
@@ -51,7 +53,16 @@ class GeneralSaleViewModel @Inject constructor(
             _logoutLiveData.value = authRepoImpl.logout()
         }
     }
+    private val _pdfDownloadLiveData = SingleLiveEvent<Resource<String>>()
+    val pdfDownloadLiveData: SingleLiveEvent<Resource<String>>
+        get() = _pdfDownloadLiveData
 
+    fun getPdf(saleId:String){
+        viewModelScope.launch {
+            _pdfDownloadLiveData.value = Resource.Loading()
+            _pdfDownloadLiveData.value=printingRepoImpl.getSalePrint(saleId)
+        }
+    }
     fun getGoldTypePrice() {
         _goldTypePriceLiveData.value = Resource.Loading()
         viewModelScope.launch {

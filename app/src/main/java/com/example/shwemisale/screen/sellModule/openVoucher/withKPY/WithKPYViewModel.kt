@@ -9,6 +9,7 @@ import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.repositoryImpl.AuthRepoImpl
 import com.example.shwemisale.repositoryImpl.GoldFromHomeRepositoryImpl
 import com.example.shwemisale.repositoryImpl.NormalSaleRepositoryImpl
+import com.example.shwemisale.repositoryImpl.PrintingRepoImpl
 import com.example.shwemisale.room_database.AppDatabase
 import com.example.shwemisale.room_database.entity.StockFromHomeFinalInfo
 import com.example.shwemisale.room_database.entity.asUiModel
@@ -27,6 +28,7 @@ class WithKPYViewModel @Inject constructor(
     private val appDatabase: AppDatabase,
     private val normalSaleRepositoryImpl: NormalSaleRepositoryImpl,
     private val authRepoImpl: AuthRepoImpl,
+    private val printingRepoImpl: PrintingRepoImpl,
     private val localDatabase: LocalDatabase
 ) : ViewModel() {
     var goldPrice = ""
@@ -35,6 +37,16 @@ class WithKPYViewModel @Inject constructor(
     val submitWithValueLiveData: SingleLiveEvent<Resource<String>>
         get() = _submitWithValueLiveData
 
+    private val _pdfDownloadLiveData = SingleLiveEvent<Resource<String>>()
+    val pdfDownloadLiveData: SingleLiveEvent<Resource<String>>
+        get() = _pdfDownloadLiveData
+
+    fun getPdf(saleId:String){
+        viewModelScope.launch {
+            _pdfDownloadLiveData.value = Resource.Loading()
+            _pdfDownloadLiveData.value=printingRepoImpl.getSalePrint(saleId)
+        }
+    }
     fun submitWithValue(
         productIdList: List<MultipartBody.Part>?,
         user_id: String?,

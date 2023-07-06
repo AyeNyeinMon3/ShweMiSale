@@ -1,29 +1,51 @@
 package com.example.shwemisale.screen.sellModule.openVoucher.withKPY
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.print.PrintAttributes
+import android.print.PrintManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.satoprintertest.AkpDownloader
 import com.example.shwemi.util.*
+import com.example.shwemisale.R
 import com.example.shwemisale.databinding.FragmentWithKpyBinding
+import com.example.shwemisale.printerHelper.PdfDocumentAdapter
+import com.example.shwemisale.printerHelper.printPdf
 import com.example.shwemisale.screen.goldFromHome.getKPYFromYwae
 import com.example.shwemisale.screen.goldFromHome.getKyatsFromKPY
 import com.example.shwemisale.screen.goldFromHome.getYwaeFromGram
 import com.example.shwemisale.screen.goldFromHome.getYwaeFromKPY
 import com.example.shwemisale.screen.sellModule.generalSale.GeneralSellFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.ResponseBody
 import java.io.File
+import java.io.FileOutputStream
+import java.lang.Exception
 
 @AndroidEntryPoint
 class WithKPYFragment : Fragment() {
@@ -33,6 +55,20 @@ class WithKPYFragment : Fragment() {
     private lateinit var loading: AlertDialog
     private val args by navArgs<WithKPYFragmentArgs>()
     private var redeemMoney = 0
+    private val downloader by lazy { AkpDownloader(requireContext()) }
+    private lateinit var storagePermissionLauncher: ActivityResultLauncher<String>
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        storagePermissionLauncher = registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted ->
+            if (isGranted) {
+                //
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,6 +94,7 @@ class WithKPYFragment : Fragment() {
         })
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     @SuppressLint("SetTextI18n", "SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -80,21 +117,24 @@ class WithKPYFragment : Fragment() {
                 )
             )
         }
-        viewModel.logoutLiveData.observe(viewLifecycleOwner){
-            when (it){
-                is Resource.Loading->{
+        viewModel.logoutLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {
                     loading.show()
                 }
-                is Resource.Success->{
+
+                is Resource.Success -> {
                     loading.dismiss()
 //                    Toast.makeText(requireContext(),"log out successful", Toast.LENGTH_LONG).show()
                     findNavController().navigate(GeneralSellFragmentDirections.actionGlobalLogout())
                 }
-                is Resource.Error->{
+
+                is Resource.Error -> {
                     loading.dismiss()
                     findNavController().navigate(GeneralSellFragmentDirections.actionGlobalLogout())
 
                 }
+
                 else -> {}
             }
         }
@@ -124,7 +164,7 @@ class WithKPYFragment : Fragment() {
 
                 is Resource.Success -> {
                     loading.dismiss()
-                    redeemMoney = (it.data?:"0").toInt()
+                    redeemMoney = (it.data ?: "0").toInt()
                     binding.tvRedeemMoney.text = redeemMoney.toString()
 //                    binding.edtReducedPay.setText(
 //                        (generateNumberFromEditText(binding.edtReducedPay).toInt() + it.data.orEmpty()
@@ -145,12 +185,14 @@ class WithKPYFragment : Fragment() {
                 is Resource.Loading -> {
                     loading.show()
                 }
+
                 is Resource.Success -> {
                     loading.dismiss()
-                    requireContext().showSuccessDialog(it.data.orEmpty()) {
-                       viewModel.logout()
+                    requireContext().showSuccessDialog("Press Ok To Download And Print!") {
+                        viewModel.getPdf(it.data.orEmpty())
                     }
                 }
+
                 is Resource.Error -> {
 
                     loading.dismiss()
@@ -167,7 +209,28 @@ class WithKPYFragment : Fragment() {
 
                 is Resource.Success -> {
                     loading.dismiss()
-                    requireContext().showSuccessDialog(it.data.orEmpty()) {
+                    requireContext().showSuccessDialog("Press Ok To Download And Print!") {
+                        viewModel.getPdf(it.data.orEmpty())
+                    }
+                }
+
+                is Resource.Error -> {
+
+                    loading.dismiss()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+        viewModel.pdfDownloadLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {
+                    loading.show()
+                }
+
+                is Resource.Success -> {
+                    loading.dismiss()
+                    printPdf(downloader.downloadFile(it.data.orEmpty()).orEmpty(), requireContext())
+                    requireContext().showSuccessDialog("Press Ok When Printing is finished!") {
                         viewModel.logout()
                     }
                 }
@@ -188,17 +251,6 @@ class WithKPYFragment : Fragment() {
                 is Resource.Success -> {
                     loading.dismiss()
                     viewModel.goldPrice = it.data?.gold_price.toString()
-
-//                    val totalPrice =
-//                        generateNumberFromEditText(binding.edtPoloValue).toDouble() + generateNumberFromEditText(
-//                            binding.edtTotalFee
-//                        ).toDouble() +
-//                                generateNumberFromEditText(binding.edtPTclipValue).toDouble() + generateNumberFromEditText(
-//                            binding.edtTotalGemValue
-//                        ).toDouble() - generateNumberFromEditText(binding.edtGoldFromHomeValue).toDouble()
-//
-//                    binding.edtCharge.setText(totalPrice.toInt().toString())
-
                 }
 
                 is Resource.Error -> {
@@ -333,7 +385,7 @@ class WithKPYFragment : Fragment() {
             }
             val paid_amount = binding.edtDeposit.text.toString()
             val reduced_cost = binding.edtReducedPay.text.toString()
-            if (binding.radioBtnKpy.isChecked){
+            if (binding.radioBtnKpy.isChecked) {
                 viewModel.submitWithKPY(
                     productIdList,
                     viewModel.getCustomerId(),
@@ -346,7 +398,7 @@ class WithKPYFragment : Fragment() {
                         args.oldVoucherPaidAmount.toString()
                     ),
                 )
-            }else{
+            } else {
                 viewModel.submitWithValue(
                     productIdList,
                     viewModel.getCustomerId(),
@@ -419,15 +471,33 @@ class WithKPYFragment : Fragment() {
             ).toDouble() +
                     generateNumberFromEditText(binding.edtPTclipValue).toDouble() + generateNumberFromEditText(
                 binding.edtTotalGemValue
-            ).toDouble() - goldFromHomeValue - args.oldVoucherPaidAmount - generateNumberFromEditText(binding.edtTotalPromotionPrice).toInt() - redeemMoney -
+            ).toDouble() - goldFromHomeValue - args.oldVoucherPaidAmount - generateNumberFromEditText(
+                binding.edtTotalPromotionPrice
+            ).toInt() - redeemMoney -
                     generateNumberFromEditText(binding.edtReducedPay).toInt()
 
         binding.edtCharge.setText(getRoundDownForPrice(totalPrice.toInt()).toString())
         val leftMoney = generateNumberFromEditText(
-                binding.edtCharge
-            ).toInt() - generateNumberFromEditText(binding.edtDeposit).toInt()
+            binding.edtCharge
+        ).toInt() - generateNumberFromEditText(binding.edtDeposit).toInt()
         binding.edtBalance.setText(getRoundDownForPrice(leftMoney).toString())
     }
 
+    fun downloadPdf(): String {
+        val savePath = "/path/to/save/sample.pdf"
+        val pdfUrl = "https://example.com/sample.pdf"
 
+        val client = OkHttpClient()
+        val request = Request.Builder().url(pdfUrl).build()
+        val response = client.newCall(request).execute()
+        val responseBody: ResponseBody? = response.body
+
+        if (response.isSuccessful && responseBody != null) {
+            val file = File(savePath)
+            val outputStream = FileOutputStream(file)
+            outputStream.write(responseBody.bytes())
+            outputStream.close()
+        }
+        return savePath
+    }
 }

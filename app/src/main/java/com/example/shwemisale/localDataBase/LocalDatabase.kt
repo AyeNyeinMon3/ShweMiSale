@@ -26,7 +26,13 @@ class LocalDatabase @Inject constructor(@ApplicationContext private val context:
     private val sharedPref = context.getSharedPreferences("city_hr", Context.MODE_PRIVATE)
 
     fun saveToken(token:String){
-        sharedPref.edit{putString(ACCESS_TOKEN,token)}
+        var result = ""
+        if (token.startsWith("Bearer")){
+            result = token.removePrefix("Bearer ")
+        }else{
+            result = token
+        }
+        sharedPref.edit{putString(ACCESS_TOKEN,result)}
     }
 
     fun removeToken(){

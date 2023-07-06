@@ -1,5 +1,6 @@
 package com.example.shwemisale.screen.sellModule.recieveNewOrder
 
+import android.os.Build
 import android.os.Bundle
 import android.os.Parcel
 import android.view.LayoutInflater
@@ -7,15 +8,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.example.satoprintertest.AkpDownloader
 import com.example.shwemi.util.*
 import com.example.shwemisale.R
 import com.example.shwemisale.databinding.FragmentReceiveNewOrderBinding
+import com.example.shwemisale.printerHelper.printPdf
 import com.example.shwemisale.screen.goldFromHome.getKPYFromYwae
 import com.example.shwemisale.screen.goldFromHome.getKyatsFromKPY
 import com.example.shwemisale.screen.goldFromHome.getYwaeFromGram
@@ -40,6 +44,7 @@ class ReceiveNewOrderFragment : Fragment() {
     private lateinit var datePicker: MaterialDatePicker<Long>
     private lateinit var loading: AlertDialog
     private var selectedGoldType = ""
+    private val downloader by lazy { AkpDownloader(requireContext()) }
 
     var oldStockTotalGoldWeightYwae = 0.0
     var totalEstimatedWastageYwae = 0.0
@@ -107,6 +112,7 @@ class ReceiveNewOrderFragment : Fragment() {
             .build()
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         loading = requireContext().getAlertDialog()
 //        binding.edtGoldFromHomeValue.setText(viewModel.getTotalCVoucherBuyingPrice())
@@ -263,8 +269,8 @@ class ReceiveNewOrderFragment : Fragment() {
 
                 is Resource.Success -> {
                     loading.dismiss()
-                    requireContext().showSuccessDialog(it.data!!) {
-                        viewModel.logout()
+                    requireContext().showSuccessDialog("Press Ok To Download And Print!") {
+                        viewModel.getPdf(it.data.orEmpty())
                     }
 
                 }
@@ -273,6 +279,27 @@ class ReceiveNewOrderFragment : Fragment() {
                     loading.dismiss()
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
 
+                }
+            }
+        }
+        viewModel.pdfDownloadLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {
+                    loading.show()
+                }
+
+                is Resource.Success -> {
+                    loading.dismiss()
+                    printPdf(downloader.downloadFile(it.data.orEmpty()).orEmpty(), requireContext())
+                    requireContext().showSuccessDialog("Press Ok When Printing is finished!") {
+                        viewModel.logout()
+                    }
+                }
+
+                is Resource.Error -> {
+
+                    loading.dismiss()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
                 }
             }
         }

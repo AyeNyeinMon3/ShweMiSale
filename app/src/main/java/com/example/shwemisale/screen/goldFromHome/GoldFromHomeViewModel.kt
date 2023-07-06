@@ -89,14 +89,14 @@ class GoldFromHomeViewModel @Inject constructor(
         }
     }
 
-    private val _printRebuyLiveData=SingleLiveEvent<Resource<RebuyPrintDto>>()
-    val printRebuyLiveData:SingleLiveEvent<Resource<RebuyPrintDto>>
+    private val _printRebuyLiveData=SingleLiveEvent<Resource<String>>()
+    val printRebuyLiveData:SingleLiveEvent<Resource<String>>
         get()=_printRebuyLiveData
 
     fun printRebuy(rebuyId:String){
         _printRebuyLiveData.value = Resource.Loading()
         viewModelScope.launch {
-            _printRebuyLiveData.value = printingRepoImpl.getRebuyPrint(rebuyId)
+            _printRebuyLiveData.value = printingRepoImpl.getSalePrint(rebuyId)
         }
     }
 

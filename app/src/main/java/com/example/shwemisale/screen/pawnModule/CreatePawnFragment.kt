@@ -1,5 +1,6 @@
 package com.example.shwemisale.screen.pawnModule
 
+import android.os.Build
 import android.os.Bundle
 import android.os.Parcel
 import android.text.Editable
@@ -8,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -18,6 +20,7 @@ import com.epson.epos2.Epos2Exception
 import com.epson.epos2.printer.Printer
 import com.epson.epos2.printer.PrinterStatusInfo
 import com.epson.epos2.printer.ReceiveListener
+import com.example.satoprintertest.AkpDownloader
 import com.example.shwemi.util.Resource
 import com.example.shwemi.util.calculateLineLength
 import com.example.shwemi.util.combineLists
@@ -28,6 +31,7 @@ import com.example.shwemi.util.getAlertDialog
 import com.example.shwemi.util.showSuccessDialog
 import com.example.shwemisale.data_layers.dto.printing.RebuyPrintItem
 import com.example.shwemisale.databinding.FragmentCreatePawnBinding
+import com.example.shwemisale.printerHelper.printPdf
 import com.example.shwemisale.screen.sellModule.generalSale.GeneralSellFragmentDirections
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.CalendarConstraints.DateValidator
@@ -49,6 +53,7 @@ class CreatePawnFragment : Fragment(){
     private lateinit var datePickerTo: MaterialDatePicker<Long>
     private var is_app_functions_allowed = "0"
     private var dateInclude = false
+    private val downloader by lazy { AkpDownloader(requireContext()) }
 
 
     override fun onCreateView(
@@ -96,6 +101,7 @@ class CreatePawnFragment : Fragment(){
             .build()
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loading = requireContext().getAlertDialog()
@@ -222,13 +228,33 @@ class CreatePawnFragment : Fragment(){
 
                     is Resource.Success -> {
                         loading.dismiss()
-                        requireContext().showSuccessDialog("Success") {
-                            viewModel.logout()
+                        requireContext().showSuccessDialog("Press Ok To Download And Print!") {
+                            viewModel.getPdf(it.data.orEmpty())
                         }
-
                     }
 
                     is Resource.Error -> {
+                        loading.dismiss()
+                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+            viewModel.pdfDownloadLiveData.observe(viewLifecycleOwner) {
+                when (it) {
+                    is Resource.Loading -> {
+                        loading.show()
+                    }
+
+                    is Resource.Success -> {
+                        loading.dismiss()
+                        printPdf(downloader.downloadFile(it.data.orEmpty()).orEmpty(), requireContext())
+                        requireContext().showSuccessDialog("Press Ok When Printing is finished!") {
+                            viewModel.logout()
+                        }
+                    }
+
+                    is Resource.Error -> {
+
                         loading.dismiss()
                         Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
                     }
@@ -255,7 +281,6 @@ class CreatePawnFragment : Fragment(){
                         is_app_functions_allowed
                     )
                 }
-
             }
         }
         // [voucher Buying priceB- debt] / [interest rate/100*(debt))] = result

@@ -144,7 +144,7 @@ class PawnRepositoryImpl @Inject constructor(
             )
 
             if (response.isSuccessful && response.body() != null) {
-                Resource.Success(response.body()!!.response.message)
+                Resource.Success(response.body()!!.data)
             } else {
                 val errorJsonString = response.errorBody()?.string().orEmpty()
                 val singleError =
@@ -180,7 +180,7 @@ class PawnRepositoryImpl @Inject constructor(
             )
 
             if (response.isSuccessful && response.body() != null) {
-                Resource.Success(response.body()!!.response.message)
+                Resource.Success(response.body()!!.data)
             } else {
                 val errorJsonString = response.errorBody()?.string().orEmpty()
                 val singleError =
@@ -221,7 +221,7 @@ class PawnRepositoryImpl @Inject constructor(
             )
 
             if (response.isSuccessful && response.body() != null) {
-                Resource.Success(response.body()!!.response.message)
+                Resource.Success(response.body()!!.data)
             } else {
                 val errorJsonString = response.errorBody()?.string().orEmpty()
                 val singleError =
@@ -262,7 +262,7 @@ class PawnRepositoryImpl @Inject constructor(
             )
 
             if (response.isSuccessful && response.body() != null) {
-                Resource.Success(response.body()!!.response.message)
+                Resource.Success(response.body()!!.data)
             } else {
                 val errorJsonString = response.errorBody()?.string().orEmpty()
                 val singleError =
@@ -297,7 +297,7 @@ class PawnRepositoryImpl @Inject constructor(
             )
 
             if (response.isSuccessful && response.body() != null) {
-                Resource.Success(response.body()!!.response.message)
+                Resource.Success(response.body()!!.data)
             } else {
                 val errorJsonString = response.errorBody()?.string().orEmpty()
                 val singleError =
@@ -333,7 +333,7 @@ class PawnRepositoryImpl @Inject constructor(
             )
 
             if (response.isSuccessful && response.body() != null) {
-                Resource.Success(response.body()!!.response.message)
+                Resource.Success(response.body()!!.data)
             } else {
                 val errorJsonString = response.errorBody()?.string().orEmpty()
                 val singleError =
@@ -369,7 +369,7 @@ class PawnRepositoryImpl @Inject constructor(
             )
 
             if (response.isSuccessful && response.body() != null) {
-                Resource.Success(response.body()!!.response.message)
+                Resource.Success(response.body()!!.data)
             } else {
                 val errorJsonString = response.errorBody()?.string().orEmpty()
                 val singleError =
@@ -404,7 +404,7 @@ class PawnRepositoryImpl @Inject constructor(
             )
 
             if (response.isSuccessful && response.body() != null) {
-                Resource.Success(response.body()!!.response.message)
+                Resource.Success(response.body()!!.data)
             } else {
                 val errorJsonString = response.errorBody()?.string().orEmpty()
                 val singleError =
@@ -475,7 +475,7 @@ class PawnRepositoryImpl @Inject constructor(
             )
 
             if (response.isSuccessful && response.body() != null) {
-                Resource.Success(response.body()!!.response.message)
+                Resource.Success(response.body()!!.data)
             } else {
                 val errorJsonString = response.errorBody()?.string().orEmpty()
                 val singleError =

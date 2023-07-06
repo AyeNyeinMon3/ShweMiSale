@@ -1,22 +1,26 @@
 package com.example.shwemisale.screen.sellModule.generalSale
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.satoprintertest.AkpDownloader
 import com.example.shwemi.util.*
 import com.example.shwemisale.R
 import com.example.shwemisale.data_layers.domain.generalSale.GeneralSaleListDomain
 import com.example.shwemisale.databinding.DialogGeneralSellAddProductBinding
 import com.example.shwemisale.databinding.FragmentGeneralSellBinding
+import com.example.shwemisale.printerHelper.printPdf
 import com.example.shwemisale.screen.goldFromHome.getKPYFromYwae
 import com.example.shwemisale.screen.goldFromHome.getYwaeFromGram
 import com.example.shwemisale.screen.goldFromHome.getYwaeFromKPY
@@ -35,6 +39,7 @@ class GeneralSellFragment : Fragment() {
     lateinit var loading: AlertDialog
     lateinit var adapter: GeneralSellRecyclerAdapter
     var generalSaleItemId = ""
+    private val downloader by lazy { AkpDownloader(requireContext()) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,6 +56,7 @@ class GeneralSellFragment : Fragment() {
         binding.edtGoldFromHomeValue.setText(viewModel.getTotalCVoucherBuyingPrice())
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         loading = requireContext().getAlertDialog()
         binding.btnCalculate.setOnClickListener {
@@ -204,13 +210,33 @@ class GeneralSellFragment : Fragment() {
 
                 is Resource.Success -> {
                     loading.dismiss()
-                    requireContext().showSuccessDialog("Success") {
-                        viewModel.logout()
-//                        findNavController().popBackStack()
+                    requireContext().showSuccessDialog("Press Ok To Download And Print!") {
+                        viewModel.getPdf(it.data.orEmpty())
                     }
                 }
 
                 is Resource.Error -> {
+                    loading.dismiss()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+        viewModel.pdfDownloadLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {
+                    loading.show()
+                }
+
+                is Resource.Success -> {
+                    loading.dismiss()
+                    printPdf(downloader.downloadFile(it.data.orEmpty()).orEmpty(), requireContext())
+                    requireContext().showSuccessDialog("Press Ok When Printing is finished!") {
+                        viewModel.logout()
+                    }
+                }
+
+                is Resource.Error -> {
+
                     loading.dismiss()
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
                 }

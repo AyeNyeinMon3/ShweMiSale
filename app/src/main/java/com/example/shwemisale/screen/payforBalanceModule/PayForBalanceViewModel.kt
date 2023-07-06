@@ -10,6 +10,7 @@ import com.example.shwemisale.data_layers.dto.pawn.PawnInterestRateDto
 import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.repositoryImpl.AuthRepoImpl
 import com.example.shwemisale.repositoryImpl.PawnRepositoryImpl
+import com.example.shwemisale.repositoryImpl.PrintingRepoImpl
 import com.example.shwemisale.room_database.AppDatabase
 import com.example.shwemisale.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,6 +21,7 @@ import javax.inject.Inject
 class PayForBalanceViewModel @Inject constructor(
     private val pawnRepositoryImpl: PawnRepositoryImpl,
     private val localDatabase: LocalDatabase,
+    private val printingRepoImpl: PrintingRepoImpl,
     private val authRepoImpl: AuthRepoImpl
 ) : ViewModel() {
 
@@ -45,6 +47,17 @@ class PayForBalanceViewModel @Inject constructor(
             _getRemainAmountLiveData.value = Resource.Loading()
             _getRemainAmountLiveData.value =
                 pawnRepositoryImpl.getRemainingAmount(saleCode)
+        }
+    }
+
+    private val _pdfDownloadLiveData = SingleLiveEvent<Resource<String>>()
+    val pdfDownloadLiveData: SingleLiveEvent<Resource<String>>
+        get() = _pdfDownloadLiveData
+
+    fun getPdf(pawnId:String){
+        viewModelScope.launch {
+            _pdfDownloadLiveData.value = Resource.Loading()
+            _pdfDownloadLiveData.value=printingRepoImpl.getPawnPrint(pawnId)
         }
     }
 

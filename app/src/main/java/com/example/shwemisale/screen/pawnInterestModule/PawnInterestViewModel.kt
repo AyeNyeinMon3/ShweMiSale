@@ -47,14 +47,24 @@ class PawnInterestViewModel @Inject constructor(
             _logoutLiveData.value = authRepoImpl.logout()
         }
     }
-    private val _printPawnSaleLiveData=SingleLiveEvent<Resource<PawnCreatePrintDto>>()
-    val printPawnSaleLiveData:SingleLiveEvent<Resource<PawnCreatePrintDto>>
+    private val _pdfDownloadLiveData = SingleLiveEvent<Resource<String>>()
+    val pdfDownloadLiveData: SingleLiveEvent<Resource<String>>
+        get() = _pdfDownloadLiveData
+
+    fun getPdf(pawnId:String){
+        viewModelScope.launch {
+            _pdfDownloadLiveData.value = Resource.Loading()
+            _pdfDownloadLiveData.value=printingRepoImpl.getPawnPrint(pawnId)
+        }
+    }
+    private val _printPawnSaleLiveData=SingleLiveEvent<Resource<String>>()
+    val printPawnSaleLiveData:SingleLiveEvent<Resource<String>>
         get()=_printPawnSaleLiveData
 
     fun printPawnSale(pawnSaleId:String){
         _printPawnSaleLiveData.value = Resource.Loading()
         viewModelScope.launch {
-            _printPawnSaleLiveData.value = printingRepoImpl.getPawnCreatePrint(pawnSaleId)
+            _printPawnSaleLiveData.value = printingRepoImpl.getPawnPrint(pawnSaleId)
         }
     }
 

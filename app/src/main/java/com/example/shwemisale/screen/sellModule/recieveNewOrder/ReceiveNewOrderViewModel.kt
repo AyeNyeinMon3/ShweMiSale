@@ -11,6 +11,7 @@ import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.repositoryImpl.AuthRepoImpl
 import com.example.shwemisale.repositoryImpl.GoldFromHomeRepositoryImpl
 import com.example.shwemisale.repositoryImpl.NormalSaleRepositoryImpl
+import com.example.shwemisale.repositoryImpl.PrintingRepoImpl
 import com.example.shwemisale.room_database.AppDatabase
 import com.example.shwemisale.room_database.entity.StockFromHomeFinalInfo
 import com.example.shwemisale.room_database.entity.asEntity
@@ -29,6 +30,7 @@ class ReceiveNewOrderViewModel @Inject constructor(
     private val normalSaleRepositoryImpl: NormalSaleRepositoryImpl,
     private val goldFromHomeRepositoryImpl: GoldFromHomeRepositoryImpl,
     private val localDatabase: LocalDatabase,
+    private val printingRepoImpl: PrintingRepoImpl,
     private val authRepoImpl: AuthRepoImpl
 ) : ViewModel() {
 //    var goldFromHomeWithKpy = "0"
@@ -46,7 +48,16 @@ class ReceiveNewOrderViewModel @Inject constructor(
     private val _receiveNewOrderLiveData = MutableLiveData<Resource<String>>()
     val receiveNewOrderLiveData: LiveData<Resource<String>>
         get() = _receiveNewOrderLiveData
+    private val _pdfDownloadLiveData = SingleLiveEvent<Resource<String>>()
+    val pdfDownloadLiveData: SingleLiveEvent<Resource<String>>
+        get() = _pdfDownloadLiveData
 
+    fun getPdf(saleId:String){
+        viewModelScope.launch {
+            _pdfDownloadLiveData.value = Resource.Loading()
+            _pdfDownloadLiveData.value=printingRepoImpl.getSalePrint(saleId)
+        }
+    }
     private val _logoutLiveData=SingleLiveEvent<Resource<String>>()
     val logoutLiveData:SingleLiveEvent<Resource<String>>
         get()=_logoutLiveData
