@@ -1,5 +1,7 @@
 package com.example.shwemisale
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -7,11 +9,14 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.viewModels
@@ -51,6 +56,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController:NavController
     lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
 
+
+    private lateinit var storagePermissionLauncher: ActivityResultLauncher<String>
+
     @Inject
     lateinit var printer:Printer
 
@@ -63,6 +71,18 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         loading = this.getAlertDialog()
+        storagePermissionLauncher = registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted ->
+            if (isGranted) {
+               //do something
+            }
+        }
+        if (isExternalStoragePermissionGranted().not()) {
+            requestStoragePermission()
+        } else {
+            //do something
+        }
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
 
         //  setContentView(R.layout.activity_main)
@@ -165,5 +185,18 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    private fun requestStoragePermission() {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//            storagePermissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
+//        } else {
+        storagePermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
+//        }
+    }
+
+    private fun isExternalStoragePermissionGranted(): Boolean {
+        return ContextCompat.checkSelfPermission(
+           this, Manifest.permission.WRITE_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED
+    }
 }

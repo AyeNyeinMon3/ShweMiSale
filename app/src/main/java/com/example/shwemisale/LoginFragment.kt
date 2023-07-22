@@ -42,6 +42,7 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         loading = requireContext().getAlertDialog()
+        requireActivity().deleteDatabase("AppDatabase")
 
         binding.btnLogin.setOnClickListener {
             if (binding.edtPassword.text.toString().isEmpty()){
