@@ -69,9 +69,50 @@
         android:textColor="@color/primary"
         android:textStyle="bold"
         app:cornerRadius="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_name" />
 
+    <TextView
+        android:id="@+id/tv_label_ip_address"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Printer IP : "
+        android:textAlignment="textEnd"
+        android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/tv_ip_address"
+        app:layout_constraintEnd_toStartOf="@id/tv_ip_address"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_ip_address" />
+    <TextView
+        android:id="@+id/tv_ip_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        tools:text="192.168.100.1"
+        android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/btn_logout"
+        app:layout_constraintStart_toStartOf="@+id/btn_logout"
+        app:layout_constraintTop_toBottomOf="@+id/btn_logout"
+        />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_edit_printer_ip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit IP Addres"
+        app:backgroundTint="@color/white"
+        android:textColor="@color/primary"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_ip_address"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

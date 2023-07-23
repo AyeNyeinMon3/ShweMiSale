@@ -18,6 +18,7 @@ private const val TOTAL_GOLD_WEIGHT_YWAE="total-gold-weight-ywae"
 private const val TOTAL_C_VOUCHER_BUYING_PRICE="total-c-voucher-buying-price"
 private const val TOTAL_C_VOUCHER_BUYING_PRICE_FOR_PAWN="total-c-voucher-buying-price-for-pawn"
 private const val TOTAL_PAWN_PRICE_FOR_REMAINED_PAWN_ITEMS="total-pawn-price-price-for-pawn-remained-items"
+private const val PRINTER_IP="printer-ip-address"
 
 
 @Singleton
@@ -184,6 +185,14 @@ class LocalDatabase @Inject constructor(@ApplicationContext private val context:
     fun removeRemainedPawnItemsPrice(){
         sharedPref.edit { remove(TOTAL_PAWN_PRICE_FOR_REMAINED_PAWN_ITEMS) }
     }
+    fun savePrinterIp(printerIp:String){
+        sharedPref.edit{putString(PRINTER_IP,printerIp)}
+    }
+    fun getPrinterIp():String{
+        val printerIp =  sharedPref.getString(PRINTER_IP, "")
+        return "$printerIp"
+    }
+
     fun clearSharedPreference(){
         removeToken()
         removeCustomerId()

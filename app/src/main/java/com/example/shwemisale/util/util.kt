@@ -33,6 +33,9 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import org.json.JSONObject
+import org.threeten.bp.Instant
+import org.threeten.bp.LocalDate
+import org.threeten.bp.ZoneId
 import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -232,8 +235,8 @@ fun combineLists(list1: List<String>, list2: List<RebuyPrintItem>): List<Pair<St
                     val goldWeightKpy = "${kpy[0].toInt()}K ${kpy[1].toInt()}P ${kpy[2]}Y"
                     Pair(list1[j], goldWeightKpy)
                 }
-                2 -> Pair(list1[j], list2[i].b_voucher_buying_value + " Kyats")
-                3 -> Pair(list1[j], list2[i].rebuy_price+" Kyats")
+                2 -> Pair(list1[j], list2[i].rebuy_price + " Kyats")
+                3 -> Pair(list1[j], list2[i].b_voucher_buying_value+" Kyats")
                 else->Pair("","")
             }
             combinedList.add(pair)
@@ -258,5 +261,13 @@ fun Any.toStringList(): List<String> {
 
     return values
 }
+fun convertMillisecondsToDate(milliseconds: Long): LocalDate {
+    // Convert milliseconds to Instant
+    val instant = Instant.ofEpochMilli(milliseconds)
 
+    // Extract LocalDate from Instant using a specific timezone (you can change ZoneId as needed)
+    val localDate = instant.atZone(ZoneId.systemDefault()).toLocalDate()
+
+    return localDate
+}
 

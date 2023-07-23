@@ -24,6 +24,7 @@ import com.example.satoprintertest.AkpDownloader
 import com.example.shwemi.util.Resource
 import com.example.shwemi.util.calculateLineLength
 import com.example.shwemi.util.combineLists
+import com.example.shwemi.util.convertMillisecondsToDate
 import com.example.shwemi.util.convertToSqlDate
 import com.example.shwemi.util.generateNumberFromEditText
 import com.example.shwemi.util.generateQRCode
@@ -37,6 +38,8 @@ import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.CalendarConstraints.DateValidator
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
+import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalDateTime
 import java.util.Calendar
 import java.util.Date
 import java.util.TimeZone
@@ -77,7 +80,9 @@ class CreatePawnFragment : Fragment(){
 // Set the minimum date to disable past days
         constraintsBuilder.setValidator(object : DateValidator {
             override fun isValid(date: Long): Boolean {
-                return date >= currentTimeMillis
+                val today = LocalDate.now()
+                val setDate = convertMillisecondsToDate(date)
+                return setDate.isAfter(today) || setDate.isEqual(today)
             }
 
             override fun describeContents(): Int {

@@ -27,10 +27,11 @@ data class User(
     val province: String
 )
 
-//fun PawnedStock.asPrintData():RebuyPrintItem{
-//    return RebuyPrintItem(
-//        name = stock_name,
-//        gold_weight_ywae = d_gold_weight_ywae.toString(),
-//        b_voucher_buying_value =
-//    )
-//}
+fun PawnedStock.asPrintData():RebuyPrintItem{
+    return RebuyPrintItem(
+        name = stock_name,
+        gold_weight_ywae = d_gold_weight_ywae.toString(),
+        b_voucher_buying_value = b_voucher_buying_value.toString(),
+        rebuy_price = c_voucher_buying_value
+    )
+}

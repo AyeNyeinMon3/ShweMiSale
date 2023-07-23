@@ -51,8 +51,10 @@ class PdfDocumentAdapter(private val context:Context,private val path:String):Pr
             if (!cancellationSignal!!.isCanceled){
                 `in`.copyTo(out)
                 writeResultCallback!!.onWriteFinished(arrayOf(PageRange.ALL_PAGES))
+                file.delete()
             }else{
                 writeResultCallback!!.onWriteCancelled()
+                file.delete()
             }
         }catch (e:Exception){
             writeResultCallback!!.onWriteFailed(e.message)

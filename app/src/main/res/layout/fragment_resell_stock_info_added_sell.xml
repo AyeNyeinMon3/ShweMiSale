@@ -2132,24 +2132,24 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_calculate_4"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="24dp"
-                android:layout_weight="1"
-                android:insetLeft="0dp"
-                android:insetTop="0dp"
-                android:insetRight="0dp"
-                android:insetBottom="0dp"
-                app:cornerRadius="10dp"
-                app:icon="@drawable/right"
-                app:iconSize="15dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/linearLayout11" />
+<!--            <com.google.android.material.button.MaterialButton-->
+<!--                android:id="@+id/btn_calculate_4"-->
+<!--                android:layout_width="45dp"-->
+<!--                android:layout_height="45dp"-->
+<!--                android:layout_marginStart="16dp"-->
+<!--                android:layout_marginEnd="16dp"-->
+<!--                android:layout_marginBottom="24dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:insetLeft="0dp"-->
+<!--                android:insetTop="0dp"-->
+<!--                android:insetRight="0dp"-->
+<!--                android:insetBottom="0dp"-->
+<!--                app:cornerRadius="10dp"-->
+<!--                app:icon="@drawable/right"-->
+<!--                app:iconSize="15dp"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toEndOf="@+id/linearLayout11" />-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -9,9 +9,9 @@ data class PawnCreatePrintDto(
     val invoiced_date: String?,
     val is_app_functions_allowed: Int,
     val pawned_stocks: List<PawnedStock>,
-    val prepaid_debts: List<Int?>,
-    val prepaid_interests: List<Int?>,
     val remaining_debt: String,
+    val interest_amount:String,
+    val reduced_amount:String,
     val salesperson: String,
     val status: String,
     val user: User,
@@ -19,9 +19,10 @@ data class PawnCreatePrintDto(
 )
 
 data class PawnedStock(
-    val d_gold_weight_ywae: Int?,
-    val pawned: Any,
+    val d_gold_weight_ywae: String?,
     val qty: Int,
-    val stock_name: String
+    val stock_name: String,
+    val c_voucher_buying_value:String,
+    val b_voucher_buying_value:String,
 )
 

@@ -10,14 +10,26 @@ import retrofit2.http.Header
 import retrofit2.http.Path
 
 interface PrintingService {
-    @GET("api/sales/{saleId}/voucher-download")
+    @GET("api/rebuys/{rebuyId}/print")
     suspend fun getRebuyPrint(
+        @Header("Authorization") token: String,
+        @Path("rebuyId") rebuyId: String
+    ): Response<RebuyPrintResponse>
+
+    @GET("api/pawn/{pawnItemSaleId}/print")
+    suspend fun getPawnItemSalePrint(
+        @Header("Authorization") token: String,
+        @Path("pawnItemSaleId") pawnItemSaleId: String
+    ): Response<PawnCreatePrintResponse>
+
+    @GET("api/sales/{saleId}/voucher-download")
+    suspend fun getSalePrint(
         @Header("Authorization") token: String,
         @Path("saleId") saleId: String
     ): Response<SimpleResponse>
 
     @GET("api/pawns/{pawnVoucherId}/voucher-download")
-    suspend fun getPawnCreatePrint(
+    suspend fun getPawnPdfPrint(
         @Header("Authorization") token: String,
         @Path("pawnVoucherId") pawnVoucherId: String
     ): Response<SimpleResponse>

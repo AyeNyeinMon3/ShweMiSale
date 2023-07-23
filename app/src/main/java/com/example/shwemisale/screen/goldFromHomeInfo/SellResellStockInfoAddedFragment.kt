@@ -208,12 +208,12 @@ class SellResellStockInfoAddedFragment : Fragment() {
         binding.btnCalculateRebuyPriceFromGq.setOnClickListener {
             calculateRebuyPriceFromGQ()
         }
-        binding.btnCalculate4.setOnClickListener {
-            binding.btnCalculate2.isEnabled = true
-            binding.btnCalculate3.isEnabled = true
-            resetPricesValue()
-            calculateWhenFValueChange()
-        }
+//        binding.btnCalculate4.setOnClickListener {
+//            binding.btnCalculate2.isEnabled = true
+//            binding.btnCalculate3.isEnabled = true
+//            resetPricesValue()
+//            calculateWhenFValueChange()
+//        }
         binding.btnCalculate2.setOnClickListener {
             binding.btnCalculate2.isEnabled = false
             calculateGQinCarat()

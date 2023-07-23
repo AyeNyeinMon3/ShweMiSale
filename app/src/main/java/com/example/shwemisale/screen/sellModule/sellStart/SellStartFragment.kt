@@ -22,6 +22,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.map
 import com.epson.epos2.Epos2Exception
 import com.epson.epos2.printer.Printer
+import com.epson.eposprint.Print
 import com.example.shwemi.util.Resource
 import com.example.shwemi.util.convertToSqlDate
 import com.example.shwemi.util.getAlertDialog
@@ -31,6 +32,7 @@ import com.example.shwemisale.R
 import com.example.shwemisale.data_layers.domain.customers.asUiModel
 import com.example.shwemisale.databinding.DialogIpAddressBinding
 import com.example.shwemisale.databinding.FragmentStartSellBinding
+import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.qrscan.getBarLauncher
 import com.example.shwemisale.qrscan.scanQrCode
 import com.google.android.material.button.MaterialButton
@@ -59,6 +61,9 @@ class SellStartFragment : Fragment() {
 
     @Inject
     lateinit var printer:Printer
+
+    @Inject
+    lateinit var localDatabase:LocalDatabase
 
     private var selectedProvinceId = ""
     private var selectedTownshipId = ""
@@ -110,85 +115,9 @@ class SellStartFragment : Fragment() {
         binding.btnNew.setOnClickListener { view:View->
 //            throw RuntimeException("Test Crash")
             view.findNavController().navigate(SellStartFragmentDirections.actionSellStartFragmentToSellCreateNewFragment())
-//            val page: AbstractViewRenderer = object : AbstractViewRenderer(context, com.example.shwemisale.R.layout.fragment_pdf_test) {
-//
-//
-//                override fun initView(view: View) {
-//                val tv_hello = view.findViewById<View>(R.id.tv_hello) as TextView
-//                tv_hello.text = "Hello My Name is Akp"
-//                }
-//            }
-//
-//// you can reuse the bitmap if you want
-//
-//// you can reuse the bitmap if you want
-//            page.isReuseBitmap = true
-//
-//            val doc = PdfDocument(requireContext())
-//
-//// add as many pages as you have
-//
-//            val displayMetrics = DisplayMetrics()
-//            requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)
-//
-//            val screenWidth = displayMetrics.widthPixels
-//            val screenHeight = displayMetrics.heightPixels
-//
-//// add as many pages as you have
-//            doc.addPage(page)
-//
-//            doc.setRenderWidth(screenWidth)
-//            doc.setRenderHeight(screenHeight)
-//            doc.orientation = PdfDocument.A4_MODE.LANDSCAPE
-//            doc.setProgressTitle(R.string.app_name)
-//            doc.setProgressMessage(R.string.loading)
-//            doc.fileName = "test"
-//            doc.setSaveDirectory(requireContext().getExternalFilesDir(null))
-//            doc.setInflateOnMainThread(false)
-//            doc.setListener(object : PdfDocument.Callback {
-//                override fun onComplete(file: File?) {
-//                    Log.i(PdfDocument.TAG_PDF_MY_XML, "Complete")
-//                }
-//
-//                override fun onError(e: Exception?) {
-//                    Log.i(PdfDocument.TAG_PDF_MY_XML, "Error")
-//                }
-//            })
-//
-//            doc.createPdf(requireContext())
-//
-//            val builder = PdfDocument.Builder(requireContext())
-//
-//            builder.addPage(page)
-//                .orientation(PdfDocument.A4_MODE.LANDSCAPE)
-//                .progressMessage(R.string.loading)
-//                .progressTitle(R.string.please_wait)
-//                .renderWidth(screenWidth)
-//                .renderHeight(screenHeight)
-//                .saveDirectory(requireContext().getExternalFilesDir(null))
-//                .filename("test")
-//                .listener(object : PdfDocument.Callback {
-//                    override fun onComplete(file: File) {
-//                        Log.i(PdfDocument.TAG_PDF_MY_XML, "Complete")
-//                    }
-//
-//                    override fun onError(e: Exception) {
-//                        Log.i(PdfDocument.TAG_PDF_MY_XML, "Error")
-//                    }
-//                })
-//                .create()
-//                .createPdf(requireContext())
+
         }
 
-
-//        adapter.submitList(listOf(
-//            CustomerListData("1","ဒေါ်ကလျာနွဲ့မူရာခင်"," 09 420 12 3456 ","၁၄/ဟသတ(နိုင်)၁၂၃၄၅၆","၀၅-၁၂-၁၉၆၇","ဟင်္သာတ","မရှိ"),
-//            CustomerListData("2","Daw Than Than"," 09 420 12 3456 ","၁၄/ဟသတ(နိုင်)၁၂၃၄၅၆","၀၅-၁၂-၁၉၆၇","ဟင်္သာတ","ရှိ"),
-//            CustomerListData("3","ဒေါ်ကလျာနွဲ့မူရာခင်"," 09 420 12 3456 ","၁၄/ဟသတ(နိုင်)၁၂၃၄၅၆","၀၅-၁၂-၁၉၆၇","ဟင်္သာတ","မရှိ"),
-//            CustomerListData("4","ဒေါ်ကလျာနွဲ့မူရာခင်"," 09 420 12 3456 ","၁၄/ဟသတ(နိုင်)၁၂၃၄၅၆","၀၅-၁၂-၁၉၆၇","ဟင်္သာတ","ရှိ"),
-//            CustomerListData("5","ဒေါ်ကလျာနွဲ့မူရာခင်"," 09 420 12 3456 ","၁၄/ဟသတ(နိုင်)၁၂၃၄၅၆","၀၅-၁၂-၁၉၆၇","ဟင်္သာတ","မရှိ"),
-//            CustomerListData("6","ဒေါ်ကလျာနွဲ့မူရာခင်"," 09 420 12 3456 ","၁၄/ဟသတ(နိုင်)၁၂၃၄၅၆","၀၅-၁၂-၁၉၆၇","ဟင်္သာတ","ရှိ"),
-//        ))
         binding.tvBirthDate.setOnClickListener {
             datePicker.show(childFragmentManager, "choose date")
         }
@@ -213,10 +142,20 @@ class SellStartFragment : Fragment() {
                     val headerView = navigationView.getHeaderView(0)
                    headerView.findViewById<TextView>(com.example.shwemisale.R.id.tv_name).text = it.data
                     viewModel.getProvince()
-                    if (printer.status.connection == Printer.FALSE){
-                        showConnectPrinterDialog()
-                    }
+
                     viewModel.resetProfileLiveData()
+                    Toast.makeText(requireContext(),"connection status is ${printer.status.connection.toString()}",Toast.LENGTH_LONG).show()
+
+                    if (printer.status.connection == Printer.FALSE) {
+                        try {
+                            printer.connect("TCP:" + localDatabase.getPrinterIp(), Printer.PARAM_DEFAULT)
+                        } catch (e: Epos2Exception) {
+                            //Cannot Connect to Printer IP : ${localDatabase.getPrinterIp()}
+                            showErrorDialog(e.message ?: " connection status is ${printer.status.connection.toString()}")
+                        }
+                    }else if (printer.status.connection == Printer.TRUE){
+                        Toast.makeText(requireContext(),"Printer Connect Success",Toast.LENGTH_LONG).show()
+                    }
                 }
                 is Resource.Error->{
                     loading.dismiss()
@@ -350,26 +289,6 @@ class SellStartFragment : Fragment() {
         viewModel.getProfile()
     }
 
-    fun showConnectPrinterDialog(){
-        val builder = MaterialAlertDialogBuilder(requireContext())
-        val inflater: LayoutInflater = LayoutInflater.from(builder.context)
-        dialogIpAddressBinding = DialogIpAddressBinding.inflate(
-            inflater, ConstraintLayout(builder.context), false
-        )
-        builder.setView(dialogIpAddressBinding.root)
-        val alertDialog = builder.create()
-        alertDialog.setCancelable(false)
-        dialogIpAddressBinding.btnConnectToPrinter.setOnClickListener {
-            try {
-                printer.connect("TCP:"+dialogIpAddressBinding.edtIpAddress.text.toString(), Printer.PARAM_DEFAULT)
-            } catch (e: Epos2Exception) {
-                showErrorDialog(e.message ?: "UnknownError")
-
-            }
-            alertDialog.dismiss()
-        }
-        alertDialog.show()
-    }
     private fun showErrorDialog(message: String) {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Error")

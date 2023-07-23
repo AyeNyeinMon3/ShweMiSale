@@ -24,6 +24,7 @@ import com.example.shwemi.util.*
 import com.example.shwemisale.data_layers.dto.pawn.asDomain
 import com.example.shwemisale.data_layers.dto.printing.PawnedStock
 import com.example.shwemisale.data_layers.dto.printing.RebuyPrintItem
+import com.example.shwemisale.data_layers.dto.printing.asPrintData
 import com.example.shwemisale.databinding.FragmentPawnInterestBinding
 import com.example.shwemisale.printerHelper.printPdf
 import com.example.shwemisale.qrscan.getBarLauncher
@@ -651,20 +652,25 @@ class PawnInterestFragment : Fragment() {
                 }
 
                 is Resource.Success -> {
+                    var totalRebuyPrice = 0
+                    var totalInterestAndDebt = (it.data?.remaining_debt?:"0").toInt()+(it.data?.interest_amount?:"0").toInt()
+                    it.data?.pawned_stocks?.forEach { pawnedStock ->
+                        totalRebuyPrice += pawnedStock.b_voucher_buying_value.toInt()
+                    }
 
-//                    printSample(
-//                        date = it.data.invoiced_date.orEmpty(),
-//                        voucherNumber = "",
-//                        address = "",
-//                        salesPerson = "",
-//                        customerName = "",
-//                        totalRebuyPrice = "",
-//                        totalInterestAndDebt = "",
-//                        reducedMoney = "",
-//                        tierDiscount = "",
-//                        buyPriceFromShop = "",
-//                        itemList = it.data!!.pawned_stocks,
-//                    )
+                    var buyPriceFromShop = totalRebuyPrice-totalInterestAndDebt-(it.data?.reduced_amount?:"0").toInt()
+                    printSample(
+                        date = it.data?.invoiced_date.orEmpty(),
+                        voucherNumber = it.data?.code.orEmpty(),
+                        address = it.data?.user?.address.orEmpty(),
+                        salesPerson = it.data?.salesperson.orEmpty(),
+                        customerName = it.data?.user?.name.orEmpty(),
+                        totalRebuyPrice = totalRebuyPrice.toString(),
+                        totalInterestAndDebt = totalInterestAndDebt.toString(),
+                        reducedMoney = it.data?.reduced_amount.orEmpty(),
+                        buyPriceFromShop = buyPriceFromShop.toString(),
+                        itemList = it.data!!.pawned_stocks,
+                    )
                 }
 
                 is Resource.Error -> {
@@ -1116,7 +1122,6 @@ class PawnInterestFragment : Fragment() {
         totalRebuyPrice: String,
         totalInterestAndDebt: String,
         reducedMoney: String,
-        tierDiscount: String,
         buyPriceFromShop: String,
         itemList: List<PawnedStock>
     ) {
@@ -1217,12 +1222,6 @@ class PawnInterestFragment : Fragment() {
             spaces = " ".repeat(numSpaces)
             mPrinter?.addText("$spaces$reducedMoney\n")
 
-            mPrinter?.addText("Tier Discount")
-            numSpaces =
-                lineLength - tierDiscount.length - "Tier Discount".length + magicSpace.length
-            spaces = " ".repeat(numSpaces)
-            mPrinter?.addText("$spaces$tierDiscount\n")
-            mPrinter?.addText("-------------------------------------------------\n")
 
             mPrinter?.addText("Buy Price From Shop")
             numSpaces =
@@ -1261,20 +1260,20 @@ class PawnInterestFragment : Fragment() {
     ) {
         val headerList = listOf("Item Name", "Gold Weight", "Price", "Rebuy")
 
-//        val combineList = combineLists(headerList, columns)
-//        for (item in combineList) {
-//            printer?.addTextAlign(Printer.ALIGN_LEFT)
-//            printer?.addText(item.first + magicSpace)
-//
-//
-//            val numSpaces = paperLength - item.second.length - item.first.length
-//            val spaces = " ".repeat(numSpaces)
-//            printer?.addText("$spaces${item.second}")
-//            printer?.addText("\n")
-//            if (item.first == "Rebuy") {
-//                printer?.addText("-------------------------------------------------\n")
-//            }
-//        }
+        val combineList = combineLists(headerList, columns.map { it.asPrintData() })
+        for (item in combineList) {
+            printer?.addTextAlign(Printer.ALIGN_LEFT)
+            printer?.addText(item.first + magicSpace)
+
+
+            val numSpaces = paperLength - item.second.length - item.first.length
+            val spaces = " ".repeat(numSpaces)
+            printer?.addText("$spaces${item.second}")
+            printer?.addText("\n")
+            if (item.first == "Rebuy") {
+                printer?.addText("-------------------------------------------------\n")
+            }
+        }
 
     }
 }

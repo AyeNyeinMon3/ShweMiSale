@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -36,6 +37,7 @@ import com.example.shwemi.util.showSuccessDialog
 import com.example.shwemisale.databinding.ActivityMainBinding
 import com.example.shwemisale.databinding.DialogIpAddressBinding
 import com.example.shwemisale.databinding.ShwemiSuccessDialogBinding
+import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.room_database.AppDatabase
 import com.example.shwemisale.screen.sellModule.sellStart.SellStartFragmentDirections
 import com.google.android.material.button.MaterialButton
@@ -52,15 +54,18 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var dialogIpAddressBinding: DialogIpAddressBinding
     private val viewModel by viewModels<MainViewModel>()
-    private lateinit var loading : AlertDialog
-    private lateinit var navController:NavController
+    private lateinit var loading: AlertDialog
+    private lateinit var navController: NavController
     lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
 
 
     private lateinit var storagePermissionLauncher: ActivityResultLauncher<String>
 
     @Inject
-    lateinit var printer:Printer
+    lateinit var printer: Printer
+
+    @Inject
+    lateinit var localDatabase: LocalDatabase
 
 
     private val startDestinationList = listOf<Int>(
@@ -75,7 +80,7 @@ class MainActivity : AppCompatActivity() {
             ActivityResultContracts.RequestPermission()
         ) { isGranted ->
             if (isGranted) {
-               //do something
+                //do something
             }
         }
         if (isExternalStoragePermissionGranted().not()) {
@@ -86,7 +91,7 @@ class MainActivity : AppCompatActivity() {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
 
         //  setContentView(R.layout.activity_main)
-         binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+        binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
 
 //        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
 //
@@ -104,47 +109,68 @@ class MainActivity : AppCompatActivity() {
 ////
 ////        }
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         loading = this.getAlertDialog()
 
         setSupportActionBar(binding.materialToolbar)
 
         val navController = navHostFragment.navController
         drawerLayout = binding.drawerLayout
-        NavigationUI.setupActionBarWithNavController(this,navController,drawerLayout)
-        appBarConfiguration = AppBarConfiguration(navController.graph,drawerLayout)
-        NavigationUI.setupWithNavController(binding.navView,navController)
-        binding.navView.getHeaderView(0).findViewById<MaterialButton>(R.id.btn_logout).setOnClickListener {
-            viewModel.logout()
+        NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
+        appBarConfiguration = AppBarConfiguration(navController.graph, drawerLayout)
+        NavigationUI.setupWithNavController(binding.navView, navController)
+        binding.navView.getHeaderView(0).findViewById<MaterialButton>(R.id.btn_logout)
+            .setOnClickListener {
+                viewModel.logout()
+            }
+
+        //printerip management
+        if (localDatabase.getPrinterIp().isNullOrEmpty()) {
+            binding.navView.getHeaderView(0).findViewById<TextView>(R.id.tv_ip_address).text =
+                "000.000.0.0"
+        } else {
+            binding.navView.getHeaderView(0).findViewById<TextView>(R.id.tv_ip_address).text =
+                localDatabase.getPrinterIp()
         }
 
-        navController.addOnDestinationChangedListener{nc:NavController,nd:NavDestination, _->
+
+        binding.navView.getHeaderView(0).findViewById<MaterialButton>(R.id.btn_edit_printer_ip)
+            .setOnClickListener {
+                showSavePrinterIpDioalog()
+            }
+
+
+        navController.addOnDestinationChangedListener { nc: NavController, nd: NavDestination, _ ->
             binding.materialToolbar.visibility =
-                if(startDestinationList.contains(nd.id))
+                if (startDestinationList.contains(nd.id))
                     View.GONE
-            else View.VISIBLE
+                else View.VISIBLE
         }//custom toolbar
 
 
-        viewModel.logoutLiveData.observe(this){
-            when (it){
-                is Resource.Loading->{
+        viewModel.logoutLiveData.observe(this) {
+            when (it) {
+                is Resource.Loading -> {
                     loading.show()
                 }
-                is Resource.Success->{
+
+                is Resource.Success -> {
                     loading.dismiss()
-                    Toast.makeText(this,"log out successful", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "log out successful", Toast.LENGTH_LONG).show()
                     navController.navigate(
                         SellStartFragmentDirections.actionSellStartFragmentToLoginFragment()
                     )
                 }
-                is Resource.Error->{
+
+                is Resource.Error -> {
                     loading.dismiss()
-                    Toast.makeText(this,it.message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
                     navController.navigate(
                         SellStartFragmentDirections.actionSellStartFragmentToLoginFragment()
                     )
                 }
+
                 else -> {}
             }
         }
@@ -152,7 +178,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    //    override fun onOptionsItemSelected(item: MenuItem): Boolean {
 //        when(item.itemId){
 //            R.id.sellStartFragment->{
 //                navController.navigate(R.id.sellStartFragment)
@@ -174,7 +200,7 @@ class MainActivity : AppCompatActivity() {
 //        return super.onOptionsItemSelected(item)
 //
 //    }
-    override fun onSupportNavigateUp() : Boolean {
+    override fun onSupportNavigateUp(): Boolean {
         val navController = this.findNavController(R.id.nav_host_fragment)
         return NavigationUI.navigateUp(navController, drawerLayout)
     }
@@ -196,7 +222,51 @@ class MainActivity : AppCompatActivity() {
 
     private fun isExternalStoragePermissionGranted(): Boolean {
         return ContextCompat.checkSelfPermission(
-           this, Manifest.permission.WRITE_EXTERNAL_STORAGE
+            this, Manifest.permission.WRITE_EXTERNAL_STORAGE
         ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    fun showSavePrinterIpDioalog() {
+        val builder = MaterialAlertDialogBuilder(this)
+        val inflater: LayoutInflater = LayoutInflater.from(builder.context)
+        dialogIpAddressBinding = DialogIpAddressBinding.inflate(
+            inflater, ConstraintLayout(builder.context), false
+        )
+        builder.setView(dialogIpAddressBinding.root)
+        val alertDialog = builder.create()
+        alertDialog.setCancelable(true)
+        dialogIpAddressBinding.edtIpAddress.setText(localDatabase.getPrinterIp())
+        dialogIpAddressBinding.btnSavePrinterIp.setOnClickListener {
+            if (printer.status.connection == Printer.FALSE) {
+                try {
+                    localDatabase.savePrinterIp(dialogIpAddressBinding.edtIpAddress.text.toString())
+                    binding.navView.getHeaderView(0)
+                        .findViewById<TextView>(R.id.tv_ip_address).text =
+                        localDatabase.getPrinterIp()
+                    printer.connect("TCP:" + localDatabase.getPrinterIp(), Printer.PARAM_DEFAULT)
+
+                } catch (e: Epos2Exception) {
+                    showErrorDialog(e.message ?: " connection status is ${printer.status.connection.toString()}")
+                }
+            }else if (printer.status.connection == Printer.TRUE){
+                Toast.makeText(this,"Printer Connect Success",Toast.LENGTH_LONG).show()
+            }
+            alertDialog.dismiss()
+        }
+        alertDialog.show()
+    }
+
+    private fun showErrorDialog(message: String) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Error")
+        builder.setMessage(message)
+        builder.setIcon(android.R.drawable.ic_dialog_alert)
+
+        builder.setPositiveButton("OK") { dialog, which ->
+            // do nothing
+        }
+
+        val dialog = builder.create()
+        dialog.show()
     }
 }

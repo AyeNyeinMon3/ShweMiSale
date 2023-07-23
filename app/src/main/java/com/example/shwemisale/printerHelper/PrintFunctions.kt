@@ -13,8 +13,10 @@ fun printPdf(path: String,context: Context) {
         val printAdapter = PdfDocumentAdapter(context, path)
         printManager.print(
             "${context.getString(R.string.app_name)} Document", printAdapter,
-            PrintAttributes.Builder().build()
+            PrintAttributes.Builder()
+                .build()
         )
+
     } catch (e: Exception) {
         Log.e("AkpDev", e.message.orEmpty())
     }

@@ -481,7 +481,15 @@ class SellGoldFromHomeFragment : Fragment(), ReceiveListener {
 
                 is Resource.Success -> {
 
-//
+                    printSample(
+                        it.data?.sold_at.orEmpty(),
+                        it.data?.code.orEmpty(),
+                        it.data?.user?.address.orEmpty(),
+                        it.data?.salesperson.orEmpty(),
+                        it.data?.user?.name.orEmpty(),
+                        (it.data?.total_cost ?: 0).toString(),
+                        it.data?.items.orEmpty()
+                    )
                 }
 
                 is Resource.Error -> {

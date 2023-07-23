@@ -33,6 +33,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import org.threeten.bp.LocalDate
 import java.io.File
 import java.util.*
 
@@ -95,7 +96,9 @@ class ReceiveNewOrderFragment : Fragment() {
 // Set the minimum date to disable past days
         constraintsBuilder.setValidator(object : CalendarConstraints.DateValidator {
             override fun isValid(date: Long): Boolean {
-                return date >= currentTimeMillis
+                val today = LocalDate.now()
+                val setDate = convertMillisecondsToDate(date)
+                return setDate.isAfter(today) || setDate.isEqual(today)
             }
 
             override fun describeContents(): Int {
