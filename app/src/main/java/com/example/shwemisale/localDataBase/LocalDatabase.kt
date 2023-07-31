@@ -19,6 +19,8 @@ private const val TOTAL_C_VOUCHER_BUYING_PRICE="total-c-voucher-buying-price"
 private const val TOTAL_C_VOUCHER_BUYING_PRICE_FOR_PAWN="total-c-voucher-buying-price-for-pawn"
 private const val TOTAL_PAWN_PRICE_FOR_REMAINED_PAWN_ITEMS="total-pawn-price-price-for-pawn-remained-items"
 private const val PRINTER_IP="printer-ip-address"
+private const val GEM_WEIGHT_DETAIL_SESSION="gem-weight-detail-session-key"
+private const val E_VALUE="e-value"
 
 
 @Singleton
@@ -193,7 +195,33 @@ class LocalDatabase @Inject constructor(@ApplicationContext private val context:
         return "$printerIp"
     }
 
+    fun getGemWeightDetailSessionKey():String?{
+        val sessionKey =  sharedPref.getString(GEM_WEIGHT_DETAIL_SESSION, "")
+        return "$sessionKey"
+    }
+
+    fun saveGemWeightDetailSessionKey(sessionKey:String){
+        sharedPref.edit{putString(GEM_WEIGHT_DETAIL_SESSION,sessionKey)}
+    }
+
+    fun removeGemWeightDetailSessionKey(){
+        sharedPref.edit { remove(GEM_WEIGHT_DETAIL_SESSION) }
+    }
+
+    fun getEValue():String?{
+        val eValue =  sharedPref.getString(E_VALUE, "")
+        return "$eValue"
+    }
+
+    fun saveEValue(eValue:String){
+        sharedPref.edit{putString(E_VALUE,eValue)}
+    }
+
+    fun removeEValue(){
+        sharedPref.edit { remove(E_VALUE) }
+    }
     fun clearSharedPreference(){
+        removeEValue()
         removeToken()
         removeCustomerId()
         removeGeneralSaleSessionKey()
@@ -205,5 +233,6 @@ class LocalDatabase @Inject constructor(@ApplicationContext private val context:
         removePawnOldStockSessionKey()
         removeTotalVoucherBuyingPriceForPawn()
         removeRemainedPawnItemsPrice()
+        removeGemWeightDetailSessionKey()
     }
 }

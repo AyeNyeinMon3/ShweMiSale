@@ -47,7 +47,8 @@ class NormalSaleRepositoryImpl @Inject constructor(
             val response = normalSaleService.getPaidAmountOfVoucher(
                 localDatabase.getAccessToken().orEmpty(),
                 voucherCode,
-                localDatabase.getStockFromHomeSessionKey().let { if (it.isNullOrEmpty()) null else it }
+                localDatabase.getStockFromHomeSessionKey()
+                    .let { if (it.isNullOrEmpty()) null else it }
             )
 
             if (response.isSuccessful && response.body() != null) {
@@ -178,7 +179,7 @@ class NormalSaleRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getStockFromHomeList(sessionKey: String?,): Resource<List<StockFromHomeDomain>> {
+    override suspend fun getStockFromHomeList(sessionKey: String?): Resource<List<StockFromHomeDomain>> {
         return try {
             val response = normalSaleService.getStockFromHomeList(
                 localDatabase.getAccessToken().orEmpty(),
@@ -209,16 +210,20 @@ class NormalSaleRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getStockFromHomeForPawn(pawnVoucherCode: String?): Resource<List<StockFromHomeDomain>> {
+    override suspend fun getStockFromHomeForPawn(
+        pawnVoucherCode: String?,
+        is_pawned_sale:String?
+    ): Resource<List<StockFromHomeDomain>> {
         return try {
             val response = normalSaleService.getStockFromHomeForPawn(
                 localDatabase.getAccessToken().orEmpty(),
-                pawnVoucherCode.orEmpty()
+                pawnVoucherCode.orEmpty(),
+                is_pawned_sale.orEmpty()
             )
 
             if (response.isSuccessful && response.body() != null) {
-                localDatabase.removePawnOldStockSessionKey()
-                Resource.Success(response.body()!!.data.map { it.asDomain() })
+                localDatabase.savePawnOldStockSessionKey(response.body()!!.data.session_key)
+                Resource.Success(response.body()!!.data.old_stocks.map { it.asDomain() })
             } else if (response.code() == 500) {
                 Resource.Error("500 Server Error")
             } else {
@@ -242,50 +247,46 @@ class NormalSaleRepositoryImpl @Inject constructor(
     }
 
     override suspend fun createStockFromHomeList(
-        id:List<MultipartBody.Part>?,
-        a_buying_price: List<MultipartBody.Part>?,
-        b_voucher_buying_value: List<MultipartBody.Part>?,
-        c_voucher_buying_price: List<MultipartBody.Part>?,
-        calculated_buying_value: List<MultipartBody.Part>?,
-        calculated_for_pawn: List<MultipartBody.Part>?,
-        d_gold_weight_ywae: List<MultipartBody.Part>?,
-        e_price_from_new_voucher: List<MultipartBody.Part>?,
-        f_voucher_shown_gold_weight_ywae: List<MultipartBody.Part>?,
-        gem_value: List<MultipartBody.Part>?,
-        gem_weight_details_qty: List<MultipartBody.Part?>?,
-        gem_weight_details_gm: List<MultipartBody.Part?>?,
-        gem_weight_details_ywae: List<MultipartBody.Part?>?,
-        gem_weight_ywae: List<MultipartBody.Part>?,
-        gold_gem_weight_ywae: List<MultipartBody.Part>?,
-        gold_weight_ywae: List<MultipartBody.Part>?,
-        gq_in_carat: List<MultipartBody.Part>?,
-        has_general_expenses: List<MultipartBody.Part>?,
-        imageId: List<MultipartBody.Part>?,
-        imageFile: List<MultipartBody.Part>?,
-        impurities_weight_ywae: List<MultipartBody.Part>?,
-        maintenance_cost: List<MultipartBody.Part>?,
-        price_for_pawn: List<MultipartBody.Part>?,
-        pt_and_clip_cost: List<MultipartBody.Part>?,
-        qty: List<MultipartBody.Part>?,
-        rebuy_price: List<MultipartBody.Part>?,
-        size: List<MultipartBody.Part>?,
-        stock_condition: List<MultipartBody.Part>?,
-        stock_name: List<MultipartBody.Part>?,
-        type: List<MultipartBody.Part>?,
-        wastage_ywae: List<MultipartBody.Part>?,
-        rebuy_price_vertical_option:  List<MultipartBody.Part>?,
+        a_buying_price: MultipartBody.Part?,
+        b_voucher_buying_value: MultipartBody.Part?,
+        c_voucher_buying_price: MultipartBody.Part?,
+        calculated_buying_value: MultipartBody.Part?,
+        calculated_for_pawn: MultipartBody.Part?,
+        d_gold_weight_ywae: MultipartBody.Part?,
+        e_price_from_new_voucher: MultipartBody.Part?,
+        f_voucher_shown_gold_weight_ywae: MultipartBody.Part?,
+        gem_value: MultipartBody.Part?,
+        gem_weight_details_session_key: MultipartBody.Part?,
+        gem_weight_ywae: MultipartBody.Part?,
+        gold_gem_weight_ywae: MultipartBody.Part?,
+        gold_weight_ywae: MultipartBody.Part?,
+        gq_in_carat: MultipartBody.Part?,
+        has_general_expenses: MultipartBody.Part?,
+        imageFile: MultipartBody.Part?,
+        imageId: MultipartBody.Part?,
+        impurities_weight_ywae: MultipartBody.Part?,
+        maintenance_cost: MultipartBody.Part?,
+        price_for_pawn: MultipartBody.Part?,
+        pt_and_clip_cost: MultipartBody.Part?,
+        qty: MultipartBody.Part?,
+        rebuy_price: MultipartBody.Part?,
+        size: MultipartBody.Part?,
+        stock_condition: MultipartBody.Part?,
+        stock_name: MultipartBody.Part?,
+        type: MultipartBody.Part?,
+        wastage_ywae: MultipartBody.Part?,
+        rebuy_price_vertical_option: MultipartBody.Part?,
         productIdList: List<MultipartBody.Part?>?,
+        isEditable: MultipartBody.Part?,
+        isChecked: MultipartBody.Part?,
         sessionKey: String?,
-        isPawn:Boolean,
-        isEditable:List<MultipartBody.Part?>?,
-        isChecked: List<MultipartBody.Part?>?,
+        isPawn: Boolean
     ): Resource<String> {
         val session =
             if (sessionKey.isNullOrEmpty()) null else sessionKey.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         return try {
             val response = normalSaleService.createStockFromHome(
                 localDatabase.getAccessToken().orEmpty(),
-                id,
                 a_buying_price,
                 b_voucher_buying_value,
                 c_voucher_buying_price,
@@ -295,16 +296,14 @@ class NormalSaleRepositoryImpl @Inject constructor(
                 e_price_from_new_voucher,
                 f_voucher_shown_gold_weight_ywae,
                 gem_value,
-                gem_weight_details_qty,
-                gem_weight_details_gm,
-                gem_weight_details_ywae,
+                gem_weight_details_session_key,
                 gem_weight_ywae,
                 gold_gem_weight_ywae,
                 gold_weight_ywae,
                 gq_in_carat,
                 has_general_expenses,
-                imageId,
                 imageFile,
+                imageId,
                 impurities_weight_ywae,
                 maintenance_cost,
                 price_for_pawn,
@@ -324,9 +323,10 @@ class NormalSaleRepositoryImpl @Inject constructor(
             )
 
             if (response.isSuccessful && response.body() != null) {
+                //saving for pawn or sale
                 if (localDatabase.getStockFromHomeSessionKey().isNullOrEmpty() && !isPawn) {
                     localDatabase.saveStockFromHomeSessionKey(response.body()!!.data)
-                }else if (localDatabase.getPawnOldStockSessionKey().isNullOrEmpty() && isPawn){
+                } else if (localDatabase.getPawnOldStockSessionKey().isNullOrEmpty() && isPawn) {
                     localDatabase.savePawnOldStockSessionKey(response.body()!!.data)
                 }
                 Resource.Success(response.body()!!.data)
@@ -354,47 +354,44 @@ class NormalSaleRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun updateStockFromHomeList(
-        id:List<MultipartBody.Part>?,
-        a_buying_price: List<MultipartBody.Part>?,
-        b_voucher_buying_value: List<MultipartBody.Part>?,
-        c_voucher_buying_price: List<MultipartBody.Part>?,
-        calculated_buying_value: List<MultipartBody.Part>?,
-        calculated_for_pawn: List<MultipartBody.Part>?,
-        d_gold_weight_ywae: List<MultipartBody.Part>?,
-        e_price_from_new_voucher: List<MultipartBody.Part>?,
-        f_voucher_shown_gold_weight_ywae: List<MultipartBody.Part>?,
-        gem_value: List<MultipartBody.Part>?,
-        gem_weight_details_qty: List<MultipartBody.Part?>?,
-        gem_weight_details_gm: List<MultipartBody.Part?>?,
-        gem_weight_details_ywae: List<MultipartBody.Part?>?,
-        gem_weight_ywae: List<MultipartBody.Part>?,
-        gold_gem_weight_ywae: List<MultipartBody.Part>?,
-        gold_weight_ywae: List<MultipartBody.Part>?,
-        gq_in_carat: List<MultipartBody.Part>?,
-        has_general_expenses: List<MultipartBody.Part>?,
-        imageId: List<MultipartBody.Part>?,
-        imageFile: List<MultipartBody.Part>?,
-        impurities_weight_ywae: List<MultipartBody.Part>?,
-        maintenance_cost: List<MultipartBody.Part>?,
-        price_for_pawn: List<MultipartBody.Part>?,
-        pt_and_clip_cost: List<MultipartBody.Part>?,
-        qty: List<MultipartBody.Part>?,
-        rebuy_price: List<MultipartBody.Part>?,
-        size: List<MultipartBody.Part>?,
-        stock_condition: List<MultipartBody.Part>?,
-        stock_name: List<MultipartBody.Part>?,
-        type: List<MultipartBody.Part>?,
-        wastage_ywae: List<MultipartBody.Part>?,
-        rebuy_price_vertical_option:  List<MultipartBody.Part>?,
-        productIdList: List<MultipartBody.Part?>?,
-        isEditable: List<MultipartBody.Part>?,
-        isChecked: List<MultipartBody.Part?>?,
 
-        sessionKey: String?
+    override suspend fun updateStockFromHomeList(
+        id: MultipartBody.Part?,
+        a_buying_price: MultipartBody.Part?,
+        b_voucher_buying_value: MultipartBody.Part?,
+        c_voucher_buying_price: MultipartBody.Part?,
+        calculated_buying_value: MultipartBody.Part?,
+        calculated_for_pawn: MultipartBody.Part?,
+        d_gold_weight_ywae: MultipartBody.Part?,
+        e_price_from_new_voucher: MultipartBody.Part?,
+        f_voucher_shown_gold_weight_ywae: MultipartBody.Part?,
+        gem_value: MultipartBody.Part?,
+        gem_weight_details_session_key: MultipartBody.Part?,
+        gem_weight_ywae: MultipartBody.Part?,
+        gold_gem_weight_ywae: MultipartBody.Part?,
+        gold_weight_ywae: MultipartBody.Part?,
+        gq_in_carat: MultipartBody.Part?,
+        has_general_expenses: MultipartBody.Part?,
+        imageFile: MultipartBody.Part?,
+        impurities_weight_ywae: MultipartBody.Part?,
+        maintenance_cost: MultipartBody.Part?,
+        price_for_pawn: MultipartBody.Part?,
+        pt_and_clip_cost: MultipartBody.Part?,
+        qty: MultipartBody.Part?,
+        rebuy_price: MultipartBody.Part?,
+        size: MultipartBody.Part?,
+        stock_condition: MultipartBody.Part?,
+        stock_name: MultipartBody.Part?,
+        type: MultipartBody.Part?,
+        wastage_ywae: MultipartBody.Part?,
+        rebuy_price_vertical_option: MultipartBody.Part?,
+        productIdList: List<MultipartBody.Part?>?,
+        isEditable: MultipartBody.Part?,
+        isChecked: MultipartBody.Part?,
+        sessionKey: String?,
+        isPawn: Boolean
     ): Resource<String> {
-        val session =
-            if (sessionKey.isNullOrEmpty()) null else sessionKey.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+
         return try {
             val response = normalSaleService.updateStockFromHome(
                 localDatabase.getAccessToken().orEmpty(),
@@ -408,15 +405,12 @@ class NormalSaleRepositoryImpl @Inject constructor(
                 e_price_from_new_voucher,
                 f_voucher_shown_gold_weight_ywae,
                 gem_value,
-                gem_weight_details_qty,
-                gem_weight_details_gm,
-                gem_weight_details_ywae,
+                gem_weight_details_session_key,
                 gem_weight_ywae,
                 gold_gem_weight_ywae,
                 gold_weight_ywae,
                 gq_in_carat,
                 has_general_expenses,
-                imageId,
                 imageFile,
                 impurities_weight_ywae,
                 maintenance_cost,
@@ -433,11 +427,80 @@ class NormalSaleRepositoryImpl @Inject constructor(
                 productIdList,
                 isEditable,
                 isChecked,
-                session
+
+                )
+
+            if (response.isSuccessful && response.body() != null) {
+                Resource.Success(response.body()!!.response.message)
+            } else if (response.code() == 500) {
+                Resource.Error("500 Server Error")
+            } else {
+                val errorJsonString = response.errorBody()?.string().orEmpty()
+                val singleError =
+                    response.errorBody()?.parseErrorWithDataClass<SimpleError>(errorJsonString)
+                if (singleError != null) {
+                    Resource.Error(singleError.response.message)
+                } else {
+                    val errorMessage =
+                        response.errorBody()?.parseError(errorJsonString)
+                    val list: List<Map.Entry<String, Any>> =
+                        ArrayList<Map.Entry<String, Any>>(errorMessage!!.entries)
+                    val (key, value) = list[0]
+                    Resource.Error(value.toString())
+                }
+
+            }
+        } catch (e: Exception) {
+            Log.i("customError", e.message.orEmpty())
+            Resource.Error(e.message)
+        }
+    }
+
+    override suspend fun updateEValue(eValue: String, sessionKey: String?): Resource<String> {
+        return try {
+            val response = normalSaleService.updateEvalueOldStocks(
+                localDatabase.getAccessToken().orEmpty(),
+                sessionKey,
+                eValue
             )
 
             if (response.isSuccessful && response.body() != null) {
-                Resource.Success(response.body()!!.data)
+                localDatabase.saveEValue(eValue)
+                Resource.Success(response.body()!!.response.message)
+            } else if (response.code() == 500) {
+                Resource.Error("500 Server Error")
+            } else {
+                val errorJsonString = response.errorBody()?.string().orEmpty()
+                val singleError =
+                    response.errorBody()?.parseErrorWithDataClass<SimpleError>(errorJsonString)
+                if (singleError != null) {
+                    Resource.Error(singleError.response.message)
+                } else {
+                    val errorMessage =
+                        response.errorBody()?.parseError(errorJsonString)
+                    val list: List<Map.Entry<String, Any>> =
+                        ArrayList<Map.Entry<String, Any>>(errorMessage!!.entries)
+                    val (key, value) = list[0]
+                    Resource.Error(value.toString())
+                }
+
+            }
+        } catch (e: Exception) {
+            Log.i("customError", e.message.orEmpty())
+            Resource.Error(e.message)
+        }
+    }
+
+    override suspend fun deleteOldStock(oldStockId: String): Resource<String> {
+
+        return try {
+            val response = normalSaleService.deleteOldStock(
+                localDatabase.getAccessToken().orEmpty(),
+                oldStockId
+            )
+
+            if (response.isSuccessful && response.body() != null) {
+                Resource.Success(response.body()!!.response.message)
             } else if (response.code() == 500) {
                 Resource.Error("500 Server Error")
             } else {
@@ -469,7 +532,7 @@ class NormalSaleRepositoryImpl @Inject constructor(
         reduced_cost: RequestBody?,
         redeem_point: RequestBody?,
         old_voucher_paid_amount: MultipartBody.Part?,
-        old_voucher_code:RequestBody?,
+        old_voucher_code: RequestBody?,
         old_stock_session_key: RequestBody,
 
         ): Resource<String> {
@@ -484,7 +547,7 @@ class NormalSaleRepositoryImpl @Inject constructor(
                 old_voucher_code,
                 old_voucher_paid_amount,
                 old_stock_session_key
-                )
+            )
 
             if (response.isSuccessful && response.body() != null) {
                 localDatabase.removeStockFromHomeSessionKey()
@@ -519,7 +582,7 @@ class NormalSaleRepositoryImpl @Inject constructor(
         reduced_cost: RequestBody?,
         redeem_point: RequestBody?,
         old_voucher_paid_amount: MultipartBody.Part?,
-        old_voucher_code:RequestBody?,
+        old_voucher_code: RequestBody?,
         old_stock_session_key: RequestBody,
 
         ): Resource<String> {
@@ -631,7 +694,7 @@ class NormalSaleRepositoryImpl @Inject constructor(
         paid_amount: String,
         reduced_cost: String,
         old_stock_session_key: RequestBody,
-        ): Resource<String> {
+    ): Resource<String> {
         return try {
             val response = normalSaleService.submitPureGoldSale(
                 localDatabase.getAccessToken().orEmpty(),
@@ -641,7 +704,7 @@ class NormalSaleRepositoryImpl @Inject constructor(
                 paid_amount.toRequestBody("multipart/form-data".toMediaTypeOrNull()),
                 reduced_cost.toRequestBody("multipart/form-data".toMediaTypeOrNull()),
                 old_stock_session_key
-                )
+            )
             if (response.isSuccessful && response.body() != null) {
                 localDatabase.removeGeneralSaleSessionKey()
                 localDatabase.removeStockFromHomeSessionKey()
@@ -684,7 +747,7 @@ class NormalSaleRepositoryImpl @Inject constructor(
                 paid_amount.toRequestBody("multipart/form-data".toMediaTypeOrNull()),
                 reduced_cost.toRequestBody("multipart/form-data".toMediaTypeOrNull()),
                 old_stock_session_key
-                )
+            )
 
             if (response.isSuccessful && response.body() != null) {
                 localDatabase.removeGeneralSaleSessionKey()
@@ -786,7 +849,9 @@ class NormalSaleRepositoryImpl @Inject constructor(
 
             if (response.isSuccessful && response.body() != null) {
                 appDatabase.sampleDao.deleteSamplesWithProductId(response.body()!!.data[0].product_id.orEmpty())
-                appDatabase.sampleDao.saveSample(response.body()!!.data[0].asDomain(true).asEntity())
+                appDatabase.sampleDao.saveSample(
+                    response.body()!!.data[0].asDomain(true).asEntity()
+                )
                 Resource.Success(response.body()!!.data[0].asDomain(true))
             } else if (response.code() == 500) {
                 Resource.Error("500 Server Error")
@@ -1069,11 +1134,11 @@ class NormalSaleRepositoryImpl @Inject constructor(
                 localDatabase.getAccessToken().orEmpty(),
                 general_sale_item_id = general_sale_item_id.toRequestBody("multipart/form-data".toMediaTypeOrNull()),
                 gold_weight_gm = gold_weight_gm.toRequestBody("multipart/form-data".toMediaTypeOrNull()),
-               maintenance_cost= maintenance_cost.toRequestBody("multipart/form-data".toMediaTypeOrNull()),
+                maintenance_cost = maintenance_cost.toRequestBody("multipart/form-data".toMediaTypeOrNull()),
                 qty = qty.toRequestBody("multipart/form-data".toMediaTypeOrNull()),
                 wastage_ywae = wastage_ywae.toRequestBody("multipart/form-data".toMediaTypeOrNull()),
                 session_key = session
-                )
+            )
 
             if (response.isSuccessful && response.body() != null) {
                 if (localDatabase.getGeneralSaleSessionKey().isNullOrEmpty()) {
@@ -1107,7 +1172,7 @@ class NormalSaleRepositoryImpl @Inject constructor(
         return try {
             val response = normalSaleService.getUserRedeemPoints(
                 localDatabase.getAccessToken().orEmpty(),
-             userId
+                userId
             )
 
             if (response.isSuccessful && response.body() != null) {

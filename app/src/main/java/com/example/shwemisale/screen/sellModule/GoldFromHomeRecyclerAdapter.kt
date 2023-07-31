@@ -24,7 +24,8 @@ data class GoldFromHomeData(
 class GoldFromHomeRecyclerAdapter(
     private val type:String?,
     private val editClick: (item: StockFromHomeDomain) -> Unit,
-    private val deleteClick: (item: StockFromHomeDomain) -> Unit
+    private val deleteClick: (item: StockFromHomeDomain) -> Unit,
+    private val checkBox:(id:String,isChecked:Boolean)->Unit
 ) : ListAdapter<StockFromHomeDomain, GoldFromHomeViewHolder>(
     GoldFromHomeDiffUtil
 ) {
@@ -34,7 +35,7 @@ class GoldFromHomeRecyclerAdapter(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            ), type,editClick, deleteClick
+            ), type,editClick, deleteClick, checkBox
         )
     }
 
@@ -48,7 +49,8 @@ class GoldFromHomeViewHolder(
     private var binding: ItemGoldFromHomeBinding,
     private val type:String?,
     private val editClick: (item: StockFromHomeDomain) -> Unit,
-    private val deleteClick: (item: StockFromHomeDomain) -> Unit
+    private val deleteClick: (item: StockFromHomeDomain) -> Unit,
+    private val checkBox:(id:String,isChecked:Boolean)->Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     @SuppressLint("SetTextI18n")
     fun bind(data: StockFromHomeDomain) {
@@ -72,14 +74,14 @@ class GoldFromHomeViewHolder(
                binding.btnDelete.isVisible = false
                binding.cbForPawn.isVisible = true
                binding.cbForPawn.setOnCheckedChangeListener { compoundButton, isChecked ->
-                   data.isChecked = isChecked
+                   checkBox(data.id.toString(),isChecked)
                }
            }else if(type == "PawnSelectNoEdit"){
                binding.cbForPawn.isVisible = true
                binding.btnDelete.isVisible = false
                binding.btnEdit.isVisible = false
                binding.cbForPawn.setOnCheckedChangeListener { compoundButton, isChecked ->
-                   data.isChecked = isChecked
+                   checkBox(data.id.toString(),isChecked)
                }
            }else {
                binding.btnEdit.isVisible = type == "PawnNewCanEdit" && data.isEditable

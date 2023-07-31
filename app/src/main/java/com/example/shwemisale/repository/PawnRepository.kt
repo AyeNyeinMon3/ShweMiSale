@@ -2,15 +2,8 @@ package com.example.shwemisale.repository
 
 import com.example.shwemi.util.Resource
 import com.example.shwemisale.data_layers.dto.RemainingAmountDto
-import com.example.shwemisale.data_layers.dto.SimpleResponse
-import com.example.shwemisale.data_layers.dto.pawn.PawnInterestRateApiResponse
 import com.example.shwemisale.data_layers.dto.pawn.PawnInterestRateDto
 import com.example.shwemisale.data_layers.dto.pawn.PawnVoucherScanDto
-import com.example.shwemisale.data_layers.dto.pawn.PawnVoucherScanResponse
-import com.example.shwemisale.network.api_services.PawnService
-import okhttp3.MultipartBody
-import retrofit2.Response
-import retrofit2.http.*
 
 interface PawnRepository {
 
@@ -113,7 +106,7 @@ interface PawnRepository {
         voucherCode:String,
         reduced_amount:String,
         is_app_functions_allowed:String?,
-        old_session_key:String
+        old_stock_id:List<String>,
 
     ): Resource<String>
 

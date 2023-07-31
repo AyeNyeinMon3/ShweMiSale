@@ -26,8 +26,8 @@ class CreatePawnViewModel @Inject constructor(
     private val authRepoImpl: AuthRepoImpl,
     private val printingRepoImpl: PrintingRepoImpl
 ):ViewModel() {
-    private val _createPawnLiveData = MutableLiveData<Resource<String>>()
-    val createPawnLiveData: LiveData<Resource<String>>
+    private val _createPawnLiveData = SingleLiveEvent<Resource<String>>()
+    val createPawnLiveData: SingleLiveEvent<Resource<String>>
         get() = _createPawnLiveData
 
     private val _logoutLiveData= SingleLiveEvent<Resource<String>>()

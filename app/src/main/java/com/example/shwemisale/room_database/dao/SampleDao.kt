@@ -24,4 +24,7 @@ interface SampleDao {
 
     @Query("DELETE FROM samples WHERE product_id = :productId")
     suspend fun deleteSamplesWithProductId(productId: String)
+
+    @Query("DELETE FROM samples")
+    suspend fun deleteAll()
 }

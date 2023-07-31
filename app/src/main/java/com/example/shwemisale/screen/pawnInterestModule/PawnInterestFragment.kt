@@ -26,6 +26,7 @@ import com.example.shwemisale.data_layers.dto.printing.PawnedStock
 import com.example.shwemisale.data_layers.dto.printing.RebuyPrintItem
 import com.example.shwemisale.data_layers.dto.printing.asPrintData
 import com.example.shwemisale.databinding.FragmentPawnInterestBinding
+import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.printerHelper.printPdf
 import com.example.shwemisale.qrscan.getBarLauncher
 import com.example.shwemisale.qrscan.scanQrCode
@@ -45,7 +46,8 @@ class PawnInterestFragment : Fragment() {
     var checkedAction = ""
     var tierDiscount = 0
     private val downloader by lazy { AkpDownloader(requireContext()) }
-
+    @Inject
+    lateinit var localDatabase: LocalDatabase
 
     @Inject
     lateinit var mPrinter: Printer
@@ -213,7 +215,8 @@ class PawnInterestFragment : Fragment() {
                         binding.edtScanVoucher.text.toString(),
                         binding.includePaymentBox.edtTwo.text.toString(),
                         binding.edtReducedPay.text.toString(),
-                        is_app_functions_allowed
+                        is_app_functions_allowed,
+
                     )
                 }
 
@@ -229,7 +232,8 @@ class PawnInterestFragment : Fragment() {
                     viewModel.sellOldStock(
                         binding.edtScanVoucher.text.toString(),
                         binding.edtReducedPay.text.toString(),
-                        is_app_functions_allowed
+                        is_app_functions_allowed,
+                        oldStockIdList
                     )
                 }
             }
@@ -431,6 +435,7 @@ class PawnInterestFragment : Fragment() {
                     binding.edtName.setText(it.data?.username)
                     binding.edtPrePay.setText(it.data?.prepaid_debt)
                     binding.edtPrePayMonth.setText(it.data?.prepaid_months)
+                    binding.edtRemainingDebt.setText(it.data?.remaining_debt)
                     binding.tvTier.text = it.data?.tier_name
                     binding.tvTierDiscountAmount.text = it.data?.tier_discount
                     if (it.data?.remark.isNullOrEmpty().not()) {
@@ -441,7 +446,12 @@ class PawnInterestFragment : Fragment() {
                         ).show()
                     }
                     doFunctionForCheck(if (lastCheckedId == -1) binding.radioInterestPay.id else lastCheckedId)
-                    viewModel.getStockFromHomeForPawnList(binding.edtScanVoucher.text.toString())
+                    if (binding.radioPawnItemSale.isChecked){
+                        viewModel.getStockFromHomeForPawnList(binding.edtScanVoucher.text.toString(),true)
+
+                    }else if (binding.radioOnlyInterest.isChecked || binding.radioSelectInvestment.isChecked || binding.radioClearingInterest.isChecked || binding.radioPawnItemSale.isChecked) {
+                        viewModel.getStockFromHomeForPawnList(binding.edtScanVoucher.text.toString(),false)
+                    }
 
                 }
 
@@ -459,7 +469,43 @@ class PawnInterestFragment : Fragment() {
 
                 is Resource.Success -> {
                     loading.dismiss()
-                    viewModel.createStockFromHome(it.data.orEmpty(), true)
+//                    if (!binding.radioSelectInvestment.isChecked || !binding.radioPawnItemSale.isChecked){
+//                        it.data?.forEach { oldStock->
+//                            viewModel.createStockFromHome(
+//                                oldStock.a_buying_price.orEmpty(),
+//                                oldStock.b_voucher_buying_value.orEmpty(),
+//                                oldStock.c_voucher_buying_price.orEmpty(),
+//                                oldStock.calculated_buying_value.orEmpty(),
+//                                oldStock.calculated_for_pawn.orEmpty(),
+//                                oldStock.d_gold_weight_ywae.orEmpty(),
+//                                oldStock.e_price_from_new_voucher.orEmpty(),
+//                                oldStock.f_voucher_shown_gold_weight_ywae.orEmpty(),
+//                                oldStock.gem_value.orEmpty(),
+//                                oldStock.gem_weight_ywae.orEmpty(),
+//                                oldStock.gold_gem_weight_ywae.orEmpty(),
+//                                oldStock.gold_weight_ywae.orEmpty(),
+//                                oldStock.gq_in_carat.orEmpty(),
+//                                oldStock.has_general_expenses.orEmpty(),
+//
+//                                oldStock.impurities_weight_ywae.orEmpty(),
+//                                oldStock.maintenance_cost.orEmpty(),
+//                                oldStock.price_for_pawn.orEmpty(),
+//                                oldStock.pt_and_clip_cost.orEmpty(),
+//                                oldStock.qty.orEmpty(),
+//                                oldStock.rebuy_price.orEmpty(),
+//                                oldStock.size.orEmpty(),
+//                                oldStock.stock_condition.orEmpty(),
+//                                oldStock.stock_name.orEmpty(),
+//                                oldStock.type.orEmpty(),
+//                                oldStock.wastage_ywae.orEmpty(),
+//                                oldStock.rebuy_price_vertical_option.orEmpty(),
+//                                productIdList = oldStock.productId,
+//                                isEditable = oldStock.isEditable,
+//                                isChecked = oldStock.isChecked,
+//                                isPawn = false
+//                            )
+//                        }
+//                    }
                     var totalVoucherBuyingPriceForPawn = 0
 
 //                    it.data.orEmpty().forEach {
@@ -652,13 +698,23 @@ class PawnInterestFragment : Fragment() {
                 }
 
                 is Resource.Success -> {
+                    if (mPrinter.status.connection == Printer.FALSE) {
+                        try {
+                            mPrinter.connect("TCP:" + localDatabase.getPrinterIp(), Printer.PARAM_DEFAULT)
+                        } catch (e: Epos2Exception) {
+                            //Cannot Connect to Printer IP : ${localDatabase.getPrinterIp()}
+                            showErrorDialog(e.message ?: "Cannot Connect to Printer IP : ${localDatabase.getPrinterIp()}")
+                        }
+                    }else if (mPrinter.status.connection == Printer.TRUE){
+                        Toast.makeText(requireContext(),"Printer Connect Success",Toast.LENGTH_LONG).show()
+                    }
                     var totalRebuyPrice = 0
                     var totalInterestAndDebt = (it.data?.remaining_debt?:"0").toInt()+(it.data?.interest_amount?:"0").toInt()
                     it.data?.pawned_stocks?.forEach { pawnedStock ->
-                        totalRebuyPrice += pawnedStock.b_voucher_buying_value.toInt()
+                        totalRebuyPrice += (pawnedStock.b_voucher_buying_value?:"0").toInt()
                     }
 
-                    var buyPriceFromShop = totalRebuyPrice-totalInterestAndDebt-(it.data?.reduced_amount?:"0").toInt()
+                    var buyPriceFromShop = totalRebuyPrice-totalInterestAndDebt+(it.data?.reduced_amount?:"0").toInt()
                     printSample(
                         date = it.data?.invoiced_date.orEmpty(),
                         voucherNumber = it.data?.code.orEmpty(),
@@ -689,8 +745,11 @@ class PawnInterestFragment : Fragment() {
 
             if (lastCheckedId != checkedId && checkedId != binding.radioInterestPay.id) {
                 lastCheckedId = checkedId
-                if (binding.edtScanVoucher.text.isNullOrEmpty().not()) {
-                    viewModel.getStockFromHomeForPawnList(binding.edtScanVoucher.text.toString())
+                if (binding.radioPawnItemSale.isChecked){
+                    viewModel.getStockFromHomeForPawnList(binding.edtScanVoucher.text.toString(),true)
+
+                }else if (binding.radioOnlyInterest.isChecked || binding.radioSelectInvestment.isChecked || binding.radioClearingInterest.isChecked || binding.radioPawnItemSale.isChecked) {
+                    viewModel.getStockFromHomeForPawnList(binding.edtScanVoucher.text.toString(),false)
                 }
 
             }
@@ -709,8 +768,11 @@ class PawnInterestFragment : Fragment() {
             if (lastCheckedId != checkedId && checkedId != binding.radioInterestPay.id) {
                 lastCheckedId = checkedId
                 if (binding.edtScanVoucher.text.isNullOrEmpty().not()) {
-                    if (binding.radioOnlyInterest.isChecked || binding.radioSelectInvestment.isChecked || binding.radioClearingInterest.isChecked || binding.radioPawnItemSale.isChecked) {
-                        viewModel.getStockFromHomeForPawnList(binding.edtScanVoucher.text.toString())
+                    if (binding.radioPawnItemSale.isChecked){
+                        viewModel.getStockFromHomeForPawnList(binding.edtScanVoucher.text.toString(),true)
+
+                    }else if (binding.radioOnlyInterest.isChecked || binding.radioSelectInvestment.isChecked || binding.radioClearingInterest.isChecked || binding.radioPawnItemSale.isChecked) {
+                        viewModel.getStockFromHomeForPawnList(binding.edtScanVoucher.text.toString(),false)
                     }
                 }
             }
@@ -732,6 +794,8 @@ class PawnInterestFragment : Fragment() {
                 binding.includePaymentBox.edtOne.setText("0")
                 binding.includePaymentBox.tvOne.text = "အရင်းကြိုသွင်းငွေ"
                 binding.includePaymentBox.tilOne.isEnabled = true
+                binding.includePaymentBox.tvMaximumMoney.isVisible = false
+
 
 
                 binding.includePaymentBox.tilTwo.isVisible = false
@@ -765,6 +829,7 @@ class PawnInterestFragment : Fragment() {
                 binding.includePaymentBox.tilTwo.isEnabled = true
                 binding.includePaymentBox.tilOne.isEnabled = true
                 binding.includePaymentBox.tilThree.isEnabled = false
+                binding.includePaymentBox.tvMaximumMoney.isVisible = false
 
 
 
@@ -808,6 +873,7 @@ class PawnInterestFragment : Fragment() {
                         binding.includePaymentBox.edtThree.setText(getRoundDownForPawn(money).toString())
                     }
                 }
+                binding.includePaymentBox.edtOne.setText("1")
 
             }
 
@@ -816,6 +882,13 @@ class PawnInterestFragment : Fragment() {
                 binding.includePaymentBox.edtOne.setText("0")
                 binding.includePaymentBox.tvOne.isVisible = true
                 binding.includePaymentBox.tvOne.text = "တိုးယူငွေ"
+                val totalPawnPrice = viewModel.getTotalPawnPrice().toInt()
+                binding.includePaymentBox.tvMaximumMoney.isVisible = true
+                var availableMoney =
+                    totalPawnPrice - viewModel.pawnData?.remaining_debt.let { if (it.isNullOrEmpty()) 0 else it.toInt() }
+                if (availableMoney<0) availableMoney = 0
+                binding.includePaymentBox.tvMaximumMoney.text = "Maximum Money : $availableMoney"
+
                 binding.includePaymentBox.tilOne.isEnabled = true
                 binding.includePaymentBox.edtThree.isEnabled = true
 
@@ -837,7 +910,7 @@ class PawnInterestFragment : Fragment() {
                     findNavController().navigate(
                         PawnInterestFragmentDirections.actionGlobalGoldFromHomeFragment(
                             "PawnNewCanEdit",
-                            null
+                            binding.edtScanVoucher.text.toString()
                         )
                     )
                 }
@@ -864,6 +937,7 @@ class PawnInterestFragment : Fragment() {
                 binding.includePaymentBox.tvThree.text = "အတိုးကျသင့်ငွေ"
                 binding.includePaymentBox.tilThree.isVisible = true
                 binding.includePaymentBox.edtThree.setText(viewModel.pawnData?.interest_amount.orEmpty())
+                binding.includePaymentBox.tvMaximumMoney.isVisible = false
 
 
                 binding.includePaymentBox.tilTwo.isVisible = false
@@ -892,6 +966,7 @@ class PawnInterestFragment : Fragment() {
                 binding.includePaymentBox.tvOne.isVisible = true
                 binding.includePaymentBox.tvOne.text = "အတိုးရက်"
                 binding.includePaymentBox.tilOne.isEnabled = false
+                binding.includePaymentBox.tvMaximumMoney.isVisible = false
 
 
                 binding.includePaymentBox.edtOne.setText(viewModel.pawnData?.interest_days.orEmpty())
@@ -938,6 +1013,15 @@ class PawnInterestFragment : Fragment() {
                 binding.includePaymentBox.tvTwo.text = "အရင်းသွင်းငွေ"
                 binding.includePaymentBox.tilTwo.isVisible = true
                 binding.includePaymentBox.tilTwo.isEnabled = true
+                var availableMoney = (viewModel.pawnData?.remaining_debt
+                    ?: "0").toInt() - (viewModel.pawnData?.prepaid_debt
+                    ?: "0").toInt() - generateNumberFromEditText(binding.includePaymentBox.edtTwo).toInt()
+                var pawnPriceRemained = viewModel.getPawnPriceForRemainedPawnItem().toInt()
+                var moneyToShow = availableMoney - pawnPriceRemained
+                if (moneyToShow<0) moneyToShow = 0
+
+                binding.includePaymentBox.tvMaximumMoney.isVisible = true
+                binding.includePaymentBox.tvMaximumMoney.text = "Available Money : $moneyToShow"
 
 
 
@@ -983,6 +1067,13 @@ class PawnInterestFragment : Fragment() {
 
                 binding.includePaymentBox.tvTwo.isVisible = true
                 binding.includePaymentBox.tvTwo.text = "တိုးယူငွေ"
+                val totalPawnPrice = viewModel.getTotalPawnPrice().toInt()
+                var availableMoney =
+                    totalPawnPrice - viewModel.pawnData?.remaining_debt.let { if (it.isNullOrEmpty()) 0 else it.toInt() }
+                binding.includePaymentBox.tvMaximumMoney.isVisible = true
+                if (availableMoney<0) availableMoney = 0
+                binding.includePaymentBox.tvMaximumMoney.text = "Available Money : $availableMoney"
+
                 binding.includePaymentBox.tilTwo.isVisible = true
                 binding.includePaymentBox.tilTwo.isEnabled = true
                 binding.includePaymentBox.edtTwo.text?.clear()
@@ -1023,6 +1114,7 @@ class PawnInterestFragment : Fragment() {
                 binding.includePaymentBox.tvOne.isVisible = true
                 binding.includePaymentBox.tvOne.text = "အတိုးရက်"
                 binding.includePaymentBox.tilOne.isEnabled = false
+                binding.includePaymentBox.tvMaximumMoney.isVisible = false
 
 
                 binding.includePaymentBox.edtOne.setText(viewModel.pawnData?.interest_days.orEmpty())
@@ -1070,6 +1162,7 @@ class PawnInterestFragment : Fragment() {
                 binding.includePaymentBox.tilOne.isEnabled = false
                 binding.includePaymentBox.tilThree.isEnabled = false
                 binding.includePaymentBox.edtOne.setText(viewModel.pawnData?.interest_days.orEmpty())
+                binding.includePaymentBox.tvMaximumMoney.isVisible = false
 
                 binding.includePaymentBox.tvTwo.isVisible = true
                 binding.includePaymentBox.tvTwo.text = "အရင်းသွင်းငွေ"
@@ -1274,6 +1367,18 @@ class PawnInterestFragment : Fragment() {
                 printer?.addText("-------------------------------------------------\n")
             }
         }
+    }
+    private fun showErrorDialog(message: String) {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Error")
+        builder.setMessage(message)
+        builder.setIcon(android.R.drawable.ic_dialog_alert)
 
+        builder.setPositiveButton("OK") { dialog, which ->
+            // do nothing
+        }
+
+        val dialog = builder.create()
+        dialog.show()
     }
 }

@@ -41,20 +41,19 @@ class PdfDocumentAdapter(private val context:Context,private val path:String):Pr
         cancellationSignal: CancellationSignal?,
         writeResultCallback: WriteResultCallback?
     ) {
+        val file = File(path)
         var `in` :InputStream? = null
         var out :OutputStream?=null
         try {
-            val file = File(path)
             `in` = FileInputStream(file)
             out = FileOutputStream(parcelFileDescriptor!!.fileDescriptor)
 
             if (!cancellationSignal!!.isCanceled){
                 `in`.copyTo(out)
                 writeResultCallback!!.onWriteFinished(arrayOf(PageRange.ALL_PAGES))
-                file.delete()
+
             }else{
                 writeResultCallback!!.onWriteCancelled()
-                file.delete()
             }
         }catch (e:Exception){
             writeResultCallback!!.onWriteFailed(e.message)

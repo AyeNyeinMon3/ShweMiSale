@@ -1,9 +1,8 @@
 package com.example.shwemisale.network.api_services
 
-import com.example.shwemisale.data_layers.dto.SimpleResponse
+import com.example.shwemisale.data_layers.dto.SimpleResponseWithDataString
 import com.example.shwemisale.data_layers.dto.printing.PawnCreatePrintResponse
 import com.example.shwemisale.data_layers.dto.printing.RebuyPrintResponse
-import com.example.shwemisale.data_layers.dto.product.SessionKeyResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -26,11 +25,11 @@ interface PrintingService {
     suspend fun getSalePrint(
         @Header("Authorization") token: String,
         @Path("saleId") saleId: String
-    ): Response<SimpleResponse>
+    ): Response<SimpleResponseWithDataString>
 
     @GET("api/pawns/{pawnVoucherId}/voucher-download")
     suspend fun getPawnPdfPrint(
         @Header("Authorization") token: String,
         @Path("pawnVoucherId") pawnVoucherId: String
-    ): Response<SimpleResponse>
+    ): Response<SimpleResponseWithDataString>
 }

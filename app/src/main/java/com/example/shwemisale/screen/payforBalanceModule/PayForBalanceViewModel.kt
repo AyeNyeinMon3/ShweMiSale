@@ -50,16 +50,8 @@ class PayForBalanceViewModel @Inject constructor(
         }
     }
 
-    private val _pdfDownloadLiveData = SingleLiveEvent<Resource<String>>()
-    val pdfDownloadLiveData: SingleLiveEvent<Resource<String>>
-        get() = _pdfDownloadLiveData
 
-    fun getPdf(pawnId:String){
-        viewModelScope.launch {
-            _pdfDownloadLiveData.value = Resource.Loading()
-            _pdfDownloadLiveData.value=printingRepoImpl.getPawnPrint(pawnId)
-        }
-    }
+
 
     private val _payBalanceLiveData =
         MutableLiveData<Resource<String>>()

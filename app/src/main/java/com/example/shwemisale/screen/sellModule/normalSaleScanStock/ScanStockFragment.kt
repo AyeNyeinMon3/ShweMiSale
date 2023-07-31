@@ -20,6 +20,7 @@ import com.example.shwemisale.data_layers.domain.product.asUiModel
 import com.example.shwemisale.databinding.FragmentScanStockBinding
 import com.example.shwemisale.qrscan.getBarLauncher
 import com.example.shwemisale.qrscan.scanQrCode
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -32,6 +33,7 @@ class ScanStockFragment : Fragment() {
     private lateinit var barlauncer: Any
     private var stockGoldPrice = 0
     private var orderSaleGoldPrice = "0"
+    private var snackBar: Snackbar? = null
 
     private var isContinuable = false
     override fun onCreateView(
@@ -57,6 +59,7 @@ class ScanStockFragment : Fragment() {
             binding.edtStockCode.setText(it)
             viewModel.getProductId(it)
         }
+
         binding.textInputLayoutStockCode.setEndIconOnClickListener {
             this.scanQrCode(requireContext(), barlauncer)
         }
@@ -125,6 +128,13 @@ class ScanStockFragment : Fragment() {
                 }
                 is Resource.Success -> {
                     loading.dismiss()
+                    snackBar?.dismiss()
+                    snackBar = Snackbar.make(
+                        binding.root,
+                        "${it.data?.code}'s Bonus : ${it.data?.bonus?:"0"}",
+                        Snackbar.LENGTH_LONG
+                    )
+                    snackBar?.show()
                     if (it.data?.is_order_sale == "1") {
                         if (viewModel.productInfoList.any { product -> product.is_order_sale != "1" } ||
                             viewModel.productInfoList.any{product-> product.order_sale_code != it.data?.order_sale_code}) {

@@ -430,7 +430,7 @@ class PawnRepositoryImpl @Inject constructor(
         voucherCode: String,
         reduced_amount: String,
         is_app_functions_allowed:String?,
-        old_session_key:String
+        old_stock_id:List<String>,
 
     ): Resource<String> {
         return try {
@@ -439,7 +439,7 @@ class PawnRepositoryImpl @Inject constructor(
                 voucherCode,
                 reduced_amount,
                 is_app_functions_allowed,
-                old_session_key
+                old_stock_id
 
             )
 

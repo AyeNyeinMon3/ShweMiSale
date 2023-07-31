@@ -1,6 +1,7 @@
 package com.example.shwemisale
 
 import android.os.Bundle
+import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,11 +10,15 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.shwemi.util.Resource
 import com.example.shwemi.util.getAlertDialog
 import com.example.shwemisale.databinding.FragmentLoginBinding
+import com.example.shwemisale.room_database.AppDatabase
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
@@ -21,6 +26,9 @@ class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
     private val viewModel by viewModels<LoginViewModel>()
     private lateinit var loading : AlertDialog
+
+    @Inject
+    lateinit var appDatabase: AppDatabase
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,8 +50,12 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         loading = requireContext().getAlertDialog()
-        requireActivity().deleteDatabase("AppDatabase")
-
+        lifecycleScope.launchWhenCreated {
+            appDatabase.sampleDao.deleteAll()
+        }
+        val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        val fileToDelete = File(downloadsDir, "shweMi.pdf")
+         fileToDelete.delete()
         binding.btnLogin.setOnClickListener {
             if (binding.edtPassword.text.toString().isEmpty()){
                 binding.userNameTextInputLayout.helperText = "required *"
@@ -67,7 +79,6 @@ class LoginFragment : Fragment() {
                 is Resource.Error->{
                     loading.dismiss()
                     Toast.makeText(requireContext(),it.message,Toast.LENGTH_LONG).show()
-
                 }
                 else -> {}
             }

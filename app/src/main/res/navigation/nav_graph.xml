@@ -194,10 +194,6 @@
             app:argType="com.example.shwemisale.data_layers.domain.goldFromHome.StockFromHomeDomain"
             app:nullable="true" />
         <argument
-            android:name="stockFromHomeList"
-            app:argType="com.example.shwemisale.data_layers.domain.goldFromHome.StockFromHomeDomain[]"
-            app:nullable="true" />
-        <argument
             android:name="backPressType"
             app:argType="string"
             app:nullable="true" />

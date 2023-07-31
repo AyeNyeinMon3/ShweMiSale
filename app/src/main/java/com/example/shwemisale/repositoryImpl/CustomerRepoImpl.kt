@@ -1,14 +1,11 @@
 package com.example.shwemisale.repositoryImpl
 
 import com.example.shwemi.util.Resource
-import com.example.shwemi.util.getErrorMessageFromHashMap
 import com.example.shwemi.util.parseError
 import com.example.shwemi.util.parseErrorWithDataClass
 import com.example.shwemisale.data_layers.domain.customers.CustomerDataDomain
 import com.example.shwemisale.data_layers.domain.customers.CustomerWhistListDomain
 import com.example.shwemisale.data_layers.dto.SimpleError
-import com.example.shwemisale.data_layers.dto.SimpleResponse
-import com.example.shwemisale.data_layers.dto.auth.AuthError
 import com.example.shwemisale.data_layers.dto.customers.*
 import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.network.api_services.CustomerService

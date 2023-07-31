@@ -123,6 +123,15 @@
         app:layout_constraintBottom_toBottomOf="@+id/til_two"
         app:layout_constraintStart_toEndOf="@+id/til_one"
         app:layout_constraintTop_toTopOf="@+id/til_two" />
+    <TextView
+        android:id="@+id/tv_maximum_money"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/til_two"
+        app:layout_constraintBottom_toTopOf="@id/til_two"
+        android:layout_margin="8dp"
+        android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+        tools:text="Maximum : 100000Kyats"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_two"

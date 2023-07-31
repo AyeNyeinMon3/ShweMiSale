@@ -146,16 +146,32 @@ class SellStartFragment : Fragment() {
                     viewModel.resetProfileLiveData()
                     Toast.makeText(requireContext(),"connection status is ${printer.status.connection.toString()}",Toast.LENGTH_LONG).show()
 
-                    if (printer.status.connection == Printer.FALSE) {
-                        try {
-                            printer.connect("TCP:" + localDatabase.getPrinterIp(), Printer.PARAM_DEFAULT)
-                        } catch (e: Epos2Exception) {
-                            //Cannot Connect to Printer IP : ${localDatabase.getPrinterIp()}
-                            showErrorDialog(e.message ?: " connection status is ${printer.status.connection.toString()}")
+                    //auto search when app start
+                    val name =
+                        if (binding.editName.text.isNullOrEmpty()) null else binding.editName.text.toString()
+                    val phoneNumber =
+                        if (binding.editPhNumber.text.isNullOrEmpty()) null else binding.editPhNumber.text.toString()
+                    val birthday =
+                        if (binding.tvBirthDate.text.isNullOrEmpty() || binding.tvBirthDate.text == "မွေးနေ့") null else binding.tvBirthDate.text.toString()
+                    val nrc =
+                        if (binding.editNRC.text.isNullOrEmpty()) null else binding.editNRC.text.toString()
+
+                    viewModel.getCustomerInfo(
+                        null,
+                        name,
+                        phoneNumber,
+                        birthday,
+                        null,
+                        selectedProvinceId,
+                        selectedTownshipId,
+                        null,
+                        nrc
+                    ).observe(viewLifecycleOwner) {
+                        lifecycleScope.launch {
+                            adapter.submitData(it.map { it.asUiModel() })
                         }
-                    }else if (printer.status.connection == Printer.TRUE){
-                        Toast.makeText(requireContext(),"Printer Connect Success",Toast.LENGTH_LONG).show()
                     }
+
                 }
                 is Resource.Error->{
                     loading.dismiss()
@@ -196,7 +212,7 @@ class SellStartFragment : Fragment() {
                         }
                     }
                     binding.actProvince.setAdapter(arrayAdapter)
-                    binding.actProvince.setText(provinceList[0],false)
+                    binding.actProvince.setText(provinceList.last(),false)
                     binding.actProvince.setOnClickListener {
                         binding.actProvince.showDropdown(arrayAdapter)
                     }
@@ -239,7 +255,7 @@ class SellStartFragment : Fragment() {
 
                     }
                     binding.actTownship.setAdapter(arrayAdapter)
-                    binding.actTownship.setText(if (townShipList.isEmpty()) "" else townShipList[0],false)
+                    binding.actTownship.setText(if (townShipList.isEmpty()) "" else townShipList.last(),false)
                     binding.actTownship.setOnClickListener {
                         binding.actTownship.showDropdown(arrayAdapter)
                     }
@@ -289,19 +305,7 @@ class SellStartFragment : Fragment() {
         viewModel.getProfile()
     }
 
-    private fun showErrorDialog(message: String) {
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Error")
-        builder.setMessage(message)
-        builder.setIcon(android.R.drawable.ic_dialog_alert)
 
-        builder.setPositiveButton("OK") { dialog, which ->
-            // do nothing
-        }
-
-        val dialog = builder.create()
-        dialog.show()
-    }
 
 }
 

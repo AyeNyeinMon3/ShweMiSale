@@ -1,16 +1,9 @@
 package com.example.shwemisale.repository
 
-import com.example.shwemi.network.dto.ResponseDto
 import com.example.shwemi.util.Resource
 import com.example.shwemisale.data_layers.domain.product.ProductInfoDomain
 import com.example.shwemisale.data_layers.domain.product.ProductSizeAndReasonDomain
-import com.example.shwemisale.data_layers.dto.SimpleResponse
 import com.example.shwemisale.data_layers.dto.calculation.GoldTypePriceDto
-import com.example.shwemisale.data_layers.dto.product.ProductIdDto
-import com.example.shwemisale.data_layers.dto.product.ProductInfoApiResponse
-import com.example.shwemisale.data_layers.dto.product.ProductInfoDto
-import retrofit2.Response
-import retrofit2.http.*
 
 interface ProductRepository {
     suspend fun getProductInfo(

@@ -246,7 +246,7 @@ class MainActivity : AppCompatActivity() {
                     printer.connect("TCP:" + localDatabase.getPrinterIp(), Printer.PARAM_DEFAULT)
 
                 } catch (e: Epos2Exception) {
-                    showErrorDialog(e.message ?: " connection status is ${printer.status.connection.toString()}")
+                    showErrorDialog(e.message ?: " Cannot Connect to Printer IP : ${localDatabase.getPrinterIp()}")
                 }
             }else if (printer.status.connection == Printer.TRUE){
                 Toast.makeText(this,"Printer Connect Success",Toast.LENGTH_LONG).show()

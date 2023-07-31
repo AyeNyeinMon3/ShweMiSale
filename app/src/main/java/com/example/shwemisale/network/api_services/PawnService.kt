@@ -1,10 +1,9 @@
 package com.example.shwemisale.network.api_services
 
 import com.example.shwemisale.data_layers.dto.RemainingAmountResponse
-import com.example.shwemisale.data_layers.dto.SimpleResponse
+import com.example.shwemisale.data_layers.dto.SimpleResponseWithDataString
 import com.example.shwemisale.data_layers.dto.pawn.PawnInterestRateApiResponse
 import com.example.shwemisale.data_layers.dto.pawn.PawnVoucherScanResponse
-import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
@@ -37,7 +36,7 @@ interface PawnService {
         @Part("old_stock_session_key") old_stock_session_key:RequestBody?
 
 
-    ):Response<SimpleResponse>
+    ):Response<SimpleResponseWithDataString>
 
 
     @POST("api/pawn/{voucherCode}/create-prepaid-debt")
@@ -48,7 +47,7 @@ interface PawnService {
         @Field("prepaid_debt") prepaid_debt:String,
         @Field("reduced_amount") reduced_amount:String,
         @Field("is_app_functions_allowed") is_app_functions_allowed:String?,
-        ):Response<SimpleResponse>
+        ):Response<SimpleResponseWithDataString>
 
     @POST("api/pawn/{voucherCode}/create-prepaid-interest")
     @FormUrlEncoded
@@ -59,7 +58,7 @@ interface PawnService {
         @Field("reduced_amount") reduced_amount:String,
         @Field("is_app_functions_allowed") is_app_functions_allowed:String?,
 
-        ):Response<SimpleResponse>
+        ):Response<SimpleResponseWithDataString>
 
     @POST("api/pawn/{voucherCode}/increase-debt")
     @FormUrlEncoded
@@ -70,7 +69,7 @@ interface PawnService {
         @Field("reduced_amount") reduced_amount:String,
         @Field("is_app_functions_allowed") is_app_functions_allowed:String?,
         @Field("old_stock_session_key") old_stock_session_key:String?
-    ):Response<SimpleResponse>
+    ):Response<SimpleResponseWithDataString>
 
     @POST("api/pawn/{voucherCode}/pay-interest-and-increase-debt")
     @FormUrlEncoded
@@ -81,7 +80,7 @@ interface PawnService {
         @Field("reduced_amount") reduced_amount:String,
         @Field("is_app_functions_allowed") is_app_functions_allowed:String?,
         @Field("old_stock_session_key") old_stock_session_key:String?
-    ):Response<SimpleResponse>
+    ):Response<SimpleResponseWithDataString>
 
 
     @POST("api/pawn/{voucherCode}/pay-interest")
@@ -91,7 +90,7 @@ interface PawnService {
         @Path("voucherCode") voucherCode:String,
         @Field("reduced_amount") reduced_amount:String,
         @Field("is_app_functions_allowed") is_app_functions_allowed:String?,
-        ):Response<SimpleResponse>
+        ):Response<SimpleResponseWithDataString>
 
     @POST("api/pawn/{voucherCode}/pay-interest-and-settle-debt")
     @FormUrlEncoded
@@ -101,7 +100,7 @@ interface PawnService {
         @Field("reduced_amount") reduced_amount:String,
         @Field("debt") debt:String,
         @Field("is_app_functions_allowed") is_app_functions_allowed:String?,
-        ):Response<SimpleResponse>
+        ):Response<SimpleResponseWithDataString>
 
     @JvmSuppressWildcards
     @POST("api/pawn/{voucherCode}/pay-interest-and-return-stock")
@@ -113,7 +112,7 @@ interface PawnService {
         @Field("debt") debt:String,
         @Field("old_stock_id[]") old_stock_id:List<String>,
         @Field("is_app_functions_allowed") is_app_functions_allowed:String?,
-        ):Response<SimpleResponse>
+        ):Response<SimpleResponseWithDataString>
 
     @POST("api/pawn/{voucherCode}/settle")
     @FormUrlEncoded
@@ -123,7 +122,7 @@ interface PawnService {
         @Field("reduced_amount") reduced_amount:String,
         @Field("is_app_functions_allowed") is_app_functions_allowed:String?,
 
-        ):Response<SimpleResponse>
+        ):Response<SimpleResponseWithDataString>
 
     @POST("api/pawn/{voucherCode}/sell-old-stocks")
     @FormUrlEncoded
@@ -132,8 +131,8 @@ interface PawnService {
         @Path("voucherCode") voucherCode:String,
         @Field("reduced_amount") reduced_amount:String,
         @Field("is_app_functions_allowed") is_app_functions_allowed:String?,
-        @Field("old_stock_session_key") old_stock_session_key:String?,
-        ):Response<SimpleResponse>
+        @Field("old_stock_id[]") old_stock_id:List<String>,
+        ):Response<SimpleResponseWithDataString>
 
     @POST("api/sales/make-payment")
     @FormUrlEncoded
@@ -141,7 +140,7 @@ interface PawnService {
         @Header("Authorization") token:String,
         @Field("sale_id") sale_id:String,
         @Field("paid_amount") paid_amount:String?,
-    ):Response<SimpleResponse>
+    ):Response<SimpleResponseWithDataString>
 
     @GET("api/sales/{saleCode}/remaining-amount")
     suspend fun getRemainingAmount(

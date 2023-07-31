@@ -176,7 +176,9 @@ class ReceiveNewOrderFragment : Fragment() {
                         }?.price
                         if (goldPrice != null) {
                             viewModel.goldPrice = goldPrice.toInt()
-                            viewModel.getStockFromHomeList()
+                            viewModel.updateEvalue(
+                                viewModel.goldPrice.toString(),
+                            )
                         }
 //                        binding.edtGoldPrice.setText(goldPrice.toString())
                     }
@@ -205,28 +207,13 @@ class ReceiveNewOrderFragment : Fragment() {
 
                 is Resource.Success -> {
                     loading.dismiss()
-                    viewModel.updateStockFromHome(
-                        viewModel.goldPrice.toString(),
-                        it.data.orEmpty()
-                    )
-                }
 
-                is Resource.Error -> {
-                    loading.dismiss()
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
-                }
-            }
-        }
-        viewModel.updateStockFromHomeInfoLiveData.observe(viewLifecycleOwner) {
-            when (it) {
-                is Resource.Loading -> {
-                    loading.show()
-                }
+                    var totalGoldWeight = 0.0
+                    it.data?.forEach {
+                        totalGoldWeight += (it.f_voucher_shown_gold_weight_ywae?:"0.0").toDouble()
+                    }
+                    viewModel.addTotalGoldWeightYwaeToStockFromHome(totalGoldWeight.toString())
 
-                is Resource.Success -> {
-                    loading.dismiss()
-                    Toast.makeText(requireContext(), "Old Stock's Data Updated", Toast.LENGTH_LONG)
-                        .show()
                     val totalGoldWeightKpy =
                         getKPYFromYwae(viewModel.getTotalGoldWeightYwae().toDouble())
                     binding.edtGoldFromHomeWeightK.setText(totalGoldWeightKpy[0].toInt().toString())
@@ -237,6 +224,26 @@ class ReceiveNewOrderFragment : Fragment() {
                             it
                         )
                     })
+                }
+
+                is Resource.Error -> {
+                    loading.dismiss()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+        viewModel.updateEValueLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {
+                    loading.show()
+                }
+
+                is Resource.Success -> {
+                    loading.dismiss()
+                    Toast.makeText(requireContext(), "Old Stock's Data Updated", Toast.LENGTH_LONG)
+                        .show()
+                    viewModel.getStockFromHomeList()
+
                 }
 
                 is Resource.Error -> {

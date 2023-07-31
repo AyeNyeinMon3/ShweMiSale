@@ -1,7 +1,5 @@
 package com.example.shwemisale.network.api_services
 
-import com.example.shwemi.network.dto.auth.ProfileApiResponse
-import com.example.shwemisale.data_layers.dto.SimpleResponse
 import com.example.shwemisale.data_layers.dto.customers.*
 import retrofit2.Response
 import retrofit2.http.*

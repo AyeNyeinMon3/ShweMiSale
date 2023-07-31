@@ -16,8 +16,8 @@ data class RebuyPrintDto(
 data class RebuyPrintItem(
     val name: String?,
     val gold_weight_ywae: String,
-    val b_voucher_buying_value: String,
-    val rebuy_price: String
+    val b_voucher_buying_value: String?,
+    val c_voucher_buying_price: String?
 )
 
 data class User(
@@ -31,7 +31,7 @@ fun PawnedStock.asPrintData():RebuyPrintItem{
     return RebuyPrintItem(
         name = stock_name,
         gold_weight_ywae = d_gold_weight_ywae.toString(),
-        b_voucher_buying_value = b_voucher_buying_value.toString(),
-        rebuy_price = c_voucher_buying_value
+        b_voucher_buying_value = b_voucher_buying_value,
+        c_voucher_buying_price = c_voucher_buying_price
     )
 }

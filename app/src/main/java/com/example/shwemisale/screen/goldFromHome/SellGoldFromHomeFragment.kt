@@ -29,6 +29,7 @@ import com.example.shwemisale.databinding.DialogIpAddressBinding
 import com.example.shwemisale.databinding.DialogSellTypeBinding
 import com.example.shwemisale.databinding.DialogStockCheckBinding
 import com.example.shwemisale.databinding.FragmentGoldFromHomeSellBinding
+import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.qrscan.getBarLauncher
 import com.example.shwemisale.qrscan.scanQrCode
 import com.example.shwemisale.screen.sellModule.GoldFromHomeData
@@ -48,6 +49,9 @@ import javax.inject.Singleton
 class SellGoldFromHomeFragment : Fragment(), ReceiveListener {
     @Inject
     lateinit var mPrinter: Printer
+
+    @Inject
+    lateinit var localDatabase: LocalDatabase
     private val paperLength = calculateLineLength(80)
     private val magicSpace = "          "
     override fun onDestroy() {
@@ -100,17 +104,16 @@ class SellGoldFromHomeFragment : Fragment(), ReceiveListener {
 //        binding.checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
 //            binding.btnSkip.isVisible = isChecked
 //        }
+
         loading = requireContext().getAlertDialog()
         mPrinter.setReceiveEventListener(this)
-
+        localDatabase.removeGemWeightDetailSessionKey()
         if (args.backpressType == "Global") {
             binding.layoutPayment.isVisible = false
             binding.radioGpOther.isVisible = false
             binding.btnContinue.isVisible = false
             binding.btnSkip.isVisible = false
             binding.btnDone.isVisible = true
-            binding.btnAdd.isVisible = false
-
             viewModel.getStockFromHomeList(
                 args.backpressType.startsWith("Pawn"),
                 null
@@ -128,10 +131,15 @@ class SellGoldFromHomeFragment : Fragment(), ReceiveListener {
             binding.btnContinue.isVisible = false
             binding.btnSkip.isVisible = false
             binding.btnDone.isVisible = true
-            viewModel.getStockFromHomeList(
-                args.backpressType.startsWith("Pawn"),
-                null
-            )
+            if (args.backpressType == "PawnNewCanEdit" || args.backpressType == "PawnSelect") {
+                viewModel.getStockFromHomeList(
+                    args.backpressType.startsWith("Pawn"),
+                    null
+                )
+            } else {
+                viewModel.getStockFromHomeForPawnList(args.pawnVoucherCode.orEmpty(),false)
+            }
+
         } else {
             binding.layoutPayment.isVisible = true
             binding.radioGpOther.isVisible = true
@@ -179,15 +187,16 @@ class SellGoldFromHomeFragment : Fragment(), ReceiveListener {
 
                 is Resource.Success -> {
                     loading.dismiss()
-                    requireContext().showSuccessDialog("Success") {
-                        if (args.pawnVoucherCode.isNullOrEmpty().not()) {
-                            findNavController().previousBackStackEntry?.savedStateHandle?.set(
-                                "key",
-                                viewModel.stockFromHomeInfoLiveData.value?.data.orEmpty()
-                                    .filter { it.isChecked }.map { it.id })
-                        }
-                        findNavController().popBackStack()
+
+                    if (args.backpressType == "PawnSelectNoEdit"){
+                        viewModel.getStockFromHomeForPawnList(args.pawnVoucherCode.orEmpty(),false)
+                    }else{
+                        viewModel.getStockFromHomeList(
+                            args.backpressType.startsWith("Pawn"),
+                            null
+                        )
                     }
+
 
                 }
 
@@ -216,6 +225,79 @@ class SellGoldFromHomeFragment : Fragment(), ReceiveListener {
                 is Resource.Error -> {
                     loading.dismiss()
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+
+        viewModel.pawnStockFromHomeInfoLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {
+                    loading.show()
+                }
+
+                is Resource.Success -> {
+                    loading.dismiss()
+                    adapter = GoldFromHomeRecyclerAdapter(args.backpressType, { data ->
+                        findNavController().navigate(
+                            SellGoldFromHomeFragmentDirections.actionSellGoldFromHomeFragmentToSellResellStockInfoAddedFragment(
+                                data,
+                                args.backpressType
+                            )
+                        )
+                    }, {
+                        viewModel.deleteStock(
+                            it.id.toString()
+                        )
+                    }, { id, isChecked ->
+                        viewModel.updateStockFromHome(isChecked, id)
+                    })
+                    binding.rvGoldFromHome.adapter = adapter
+                    adapter.submitList(it.data)
+                    binding.btnDone.setOnClickListener { view ->
+
+                        if (args.backpressType.startsWith("Pawn") && it.data.isNullOrEmpty()
+                                .not()
+                        ) {
+                            if (it.data.orEmpty().size == it.data?.filter { it.isChecked }
+                                    .orEmpty().size &&
+                                args.backpressType == "PawnSelectNoEdit"
+                            ) {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "You can't check all items",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            } else {
+                                var totalVoucherBuyingPriceForPawn = 0
+                                var totalPawnPriceForRemainedPawnItems = 0
+                                it.data.orEmpty().forEach {
+                                    if (it.isChecked) {
+                                        totalVoucherBuyingPriceForPawn += it.b_voucher_buying_value!!.toInt()
+                                    } else {
+                                        totalPawnPriceForRemainedPawnItems += it.calculated_for_pawn!!.toInt()
+                                    }
+                                }
+                                viewModel.saveVoucherBuyingPriceForPawn(
+                                    totalVoucherBuyingPriceForPawn.toString()
+                                )
+                                viewModel.savePawnPriceForRemainedPawnItems(
+                                    totalPawnPriceForRemainedPawnItems.toString()
+                                )
+                            }
+                        }
+                        if (args.pawnVoucherCode.isNullOrEmpty().not()) {
+                            findNavController().previousBackStackEntry?.savedStateHandle?.set(
+                                "key",
+                                it.data.orEmpty().filter { it.isChecked }.map { it.id })
+                        }
+                        findNavController().popBackStack()
+                    }
+                }
+
+                is Resource.Error -> {
+                    loading.dismiss()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+
                 }
             }
         }
@@ -249,7 +331,7 @@ class SellGoldFromHomeFragment : Fragment(), ReceiveListener {
 
                 is Resource.Success -> {
                     loading.dismiss()
-                    requireContext().showSuccessDialog("Done"){
+                    requireContext().showSuccessDialog("Done") {
                         findNavController().navigate(GeneralSellFragmentDirections.actionGlobalLogout())
                     }
 
@@ -274,7 +356,11 @@ class SellGoldFromHomeFragment : Fragment(), ReceiveListener {
 
                 is Resource.Success -> {
                     loading.dismiss()
-
+                    var productIdList = mutableListOf<String>()
+                    it.data?.map { it.productId }?.forEach {
+                        productIdList.addAll(it.orEmpty())
+                    }
+                    viewModel.checkedProductIdFromVoucher = productIdList
                     var idCount = 0
                     it.data!!.forEach {
                         if (it.id == null) it.localId =
@@ -284,20 +370,21 @@ class SellGoldFromHomeFragment : Fragment(), ReceiveListener {
                         findNavController().navigate(
                             SellGoldFromHomeFragmentDirections.actionSellGoldFromHomeFragmentToSellResellStockInfoAddedFragment(
                                 data,
-                                it.data?.toTypedArray(),
                                 args.backpressType
                             )
                         )
                     }, {
                         viewModel.deleteStock(
-                            it,
-                            args.backpressType.startsWith("Pawn"),
-                            args.backpressType
+                            it.id.toString()
                         )
+                    }, { id, isChecked ->
+                        viewModel.updateStockFromHome(isChecked, id)
                     })
                     binding.rvGoldFromHome.adapter = adapter
                     adapter.submitList(it.data)
-
+                    if (it.data.isNullOrEmpty()) {
+                        localDatabase.removeStockFromHomeSessionKey()
+                    }
                     //pawn
                     binding.btnDone.setOnClickListener { view ->
 
@@ -330,11 +417,11 @@ class SellGoldFromHomeFragment : Fragment(), ReceiveListener {
                                 viewModel.savePawnPriceForRemainedPawnItems(
                                     totalPawnPriceForRemainedPawnItems.toString()
                                 )
-                                viewModel.updateStockFromHome(it.data.orEmpty())
                             }
-                        } else {
-                            findNavController().popBackStack()
+
                         }
+                        findNavController().popBackStack()
+
                     }
 
                     var totalPawnPrice = 0
@@ -375,6 +462,8 @@ class SellGoldFromHomeFragment : Fragment(), ReceiveListener {
 
                         }, {
 
+                        }, { id, isChecked ->
+
                         })
                         binding.rvGoldFromHome.adapter = adapter
                         adapter.submitList(emptyList())
@@ -404,8 +493,42 @@ class SellGoldFromHomeFragment : Fragment(), ReceiveListener {
 
                 is Resource.Success -> {
                     loading.dismiss()
-                    viewModel.createStockFromHome(it.data.orEmpty(), false)
+                    it.data?.forEach { oldStock ->
+                        viewModel.createStockFromHome(
+                            oldStock.image?.id,
+                            oldStock.a_buying_price.orEmpty(),
+                            oldStock.b_voucher_buying_value.orEmpty(),
+                            oldStock.c_voucher_buying_price.orEmpty(),
+                            oldStock.calculated_buying_value.orEmpty(),
+                            oldStock.calculated_for_pawn.orEmpty(),
+                            oldStock.d_gold_weight_ywae.orEmpty(),
+                            oldStock.e_price_from_new_voucher.orEmpty(),
+                            oldStock.f_voucher_shown_gold_weight_ywae.orEmpty(),
+                            oldStock.gem_value.orEmpty(),
+                            oldStock.gem_weight_ywae.orEmpty(),
+                            oldStock.gold_gem_weight_ywae.orEmpty(),
+                            oldStock.gold_weight_ywae.orEmpty(),
+                            oldStock.gq_in_carat.orEmpty(),
+                            oldStock.has_general_expenses.orEmpty(),
 
+                            oldStock.impurities_weight_ywae.orEmpty(),
+                            oldStock.maintenance_cost.orEmpty(),
+                            oldStock.price_for_pawn.orEmpty(),
+                            oldStock.pt_and_clip_cost.orEmpty(),
+                            oldStock.qty.orEmpty(),
+                            oldStock.rebuy_price.orEmpty(),
+                            oldStock.size.orEmpty(),
+                            oldStock.stock_condition.orEmpty(),
+                            oldStock.stock_name.orEmpty(),
+                            oldStock.type.orEmpty(),
+                            oldStock.wastage_ywae.orEmpty(),
+                            oldStock.rebuy_price_vertical_option.orEmpty(),
+                            productIdList = oldStock.productId,
+                            isEditable = oldStock.isEditable,
+                            isChecked = oldStock.isChecked,
+                            isPawn = false
+                        )
+                    }
 
                 }
 
@@ -447,7 +570,12 @@ class SellGoldFromHomeFragment : Fragment(), ReceiveListener {
                 is Resource.Success -> {
                     loading.dismiss()
                     scannedCodesList.add(binding.edtScanVoucher.text.toString())
-                    showStockCheckDialog(it.data!!)
+                    var itemList = it.data.orEmpty().toMutableList()
+                    var productIdList = it.data?.map { it.id }.orEmpty().toMutableList()
+                    var commonIdList = productIdList.intersect(viewModel.checkedProductIdFromVoucher.toSet()).toList()
+                    productIdList.removeAll(commonIdList.toSet())
+
+                    showStockCheckDialog(itemList.filter { productIdList.contains(it.id) })
 
                 }
 
@@ -480,7 +608,16 @@ class SellGoldFromHomeFragment : Fragment(), ReceiveListener {
                 }
 
                 is Resource.Success -> {
-
+                    if (mPrinter.status.connection == Printer.FALSE) {
+                        try {
+                            mPrinter.connect("TCP:" + localDatabase.getPrinterIp(), Printer.PARAM_DEFAULT)
+                        } catch (e: Epos2Exception) {
+                            //Cannot Connect to Printer IP : ${localDatabase.getPrinterIp()}
+                            showErrorDialog(e.message ?: "Cannot Connect to Printer IP : ${localDatabase.getPrinterIp()}")
+                        }
+                    }else if (mPrinter.status.connection == Printer.TRUE){
+                        Toast.makeText(requireContext(),"Printer Connect Success",Toast.LENGTH_LONG).show()
+                    }
                     printSample(
                         it.data?.sold_at.orEmpty(),
                         it.data?.code.orEmpty(),
@@ -541,7 +678,6 @@ class SellGoldFromHomeFragment : Fragment(), ReceiveListener {
             view.findNavController()
                 .navigate(
                     SellGoldFromHomeFragmentDirections.actionSellGoldFromHomeFragmentToSellResellStockInfoAddedFragment(
-                        null,
                         null,
                         args.backpressType
                     )
@@ -695,9 +831,9 @@ class SellGoldFromHomeFragment : Fragment(), ReceiveListener {
 
             val qrCodeContent = voucherNumber // Replace with your desired content
 
-            val qrCodeWidth = 100 // Adjust the size based on your requirements
+            val qrCodeWidth = 150 // Adjust the size based on your requirements
 
-            val qrCodeHeight = 100
+            val qrCodeHeight = 150
             val qrCodeBitmap = generateQRCode(qrCodeContent, qrCodeWidth, qrCodeHeight)
             mPrinter?.addTextAlign(Printer.ALIGN_RIGHT)
             mPrinter?.addImage(
@@ -796,5 +932,17 @@ class SellGoldFromHomeFragment : Fragment(), ReceiveListener {
         }
 
     }
+    private fun showErrorDialog(message: String) {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Error")
+        builder.setMessage(message)
+        builder.setIcon(android.R.drawable.ic_dialog_alert)
 
+        builder.setPositiveButton("OK") { dialog, which ->
+            // do nothing
+        }
+
+        val dialog = builder.create()
+        dialog.show()
+    }
 }

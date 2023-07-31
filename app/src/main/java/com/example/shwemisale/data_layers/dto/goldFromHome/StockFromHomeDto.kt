@@ -14,7 +14,8 @@ data class StockFromHomeDto(
     val e_price_from_new_voucher: String?,
     val f_voucher_shown_gold_weight_ywae: String?,
     val gem_value: String?,
-    val gem_weight_details: List<GemWeightDetail>?,
+//    val gem_weight_details_session_key:String?,
+    val gem_weight_details:List<GemWeightDetail>?,
     val gem_weight_ywae: String?,
     val gold_gem_weight_ywae: String?,
     val gold_weight_ywae: String?,
@@ -36,7 +37,6 @@ data class StockFromHomeDto(
     val is_editable:String?,
     val is_checked:String?,
     val products:List<String>?
-
 )
 
 fun StockFromHomeDto.asDomain(): StockFromHomeDomain {
@@ -51,7 +51,7 @@ fun StockFromHomeDto.asDomain(): StockFromHomeDomain {
         e_price_from_new_voucher,
         f_voucher_shown_gold_weight_ywae,
         gem_value,
-        gem_weight_details?.map { it.asDomain() },
+        if (gem_weight_details.isNullOrEmpty().not()) gem_weight_details!![0].session_key else "",
         getGramFromYwae(gold_gem_weight_ywae.let { if (it.isNullOrEmpty()) 0.0 else it.toDouble() }).toString(),
         gem_weight_ywae,
         gold_gem_weight_ywae,

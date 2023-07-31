@@ -12,14 +12,17 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.shwemi.util.*
 import com.example.shwemisale.databinding.DialogExchangeOrderBinding
 import com.example.shwemisale.databinding.FragmentExchangeOrderBinding
+import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.qrscan.getBarLauncher
 import com.example.shwemisale.qrscan.scanQrCode
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ExchangeOrderFragment : Fragment() {
@@ -33,6 +36,9 @@ class ExchangeOrderFragment : Fragment() {
     private lateinit var loading: AlertDialog
     private var goldType18KId=""
 
+    @Inject
+    lateinit var localDatabase: LocalDatabase
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -45,7 +51,6 @@ class ExchangeOrderFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         loading = requireContext().getAlertDialog()
-
         barlauncer = this.getBarLauncher(requireContext()) {
             binding.edtVoucherBalance.setText(it)
             binding.edtGoldFromHomeVoucher.setText(it)
@@ -86,9 +91,19 @@ class ExchangeOrderFragment : Fragment() {
                 }
                 is Resource.Success -> {
                     loading.dismiss()
-                    viewModel.updateStockFromHome(
-                        args.goldPrice.orEmpty(),
-                        it.data.orEmpty()
+
+                    var totalGoldWeight = 0.0
+                    it.data?.forEach {
+                        totalGoldWeight += (it.f_voucher_shown_gold_weight_ywae?:"0.0").toDouble()
+                    }
+                    viewModel.addTotalGoldWeightYwaeToStockFromHome(totalGoldWeight.toString())
+
+                    view.findNavController().navigate(
+                        ExchangeOrderFragmentDirections.actionExchangeOrderFragmentToWithKPYFragment(
+                            args.scannedProducts,
+                            generateNumberFromEditText(binding.edtOldVoucherPayment).toInt(),
+                            if (binding.edtGoldFromHomeVoucher.text.isNullOrEmpty()) null else binding.edtGoldFromHomeVoucher.text.toString()
+                        )
                     )
                 }
                 is Resource.Error -> {
@@ -108,21 +123,16 @@ class ExchangeOrderFragment : Fragment() {
             }
         }
 
-        viewModel.updateStockFromHomeInfoLiveData.observe(viewLifecycleOwner) {
+        viewModel.updateEValueLiveData.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Loading -> {
                     loading.show()
                 }
                 is Resource.Success -> {
                     loading.dismiss()
+                    viewModel.getStockFromHomeList()
                     Toast.makeText(requireContext(),"Old Stock's Data Updated", Toast.LENGTH_LONG).show()
-                    view.findNavController().navigate(
-                        ExchangeOrderFragmentDirections.actionExchangeOrderFragmentToWithKPYFragment(
-                            args.scannedProducts,
-                            generateNumberFromEditText(binding.edtOldVoucherPayment).toInt(),
-                            if (binding.edtGoldFromHomeVoucher.text.isNullOrEmpty()) null else binding.edtGoldFromHomeVoucher.text.toString()
-                        )
-                    )
+
                 }
                 is Resource.Error -> {
                     loading.dismiss()
@@ -169,7 +179,19 @@ class ExchangeOrderFragment : Fragment() {
                     loading.dismiss()
                     binding.edtOldVoucherPayment.setText(it.data?.paid_amount)
                     binding.edtGoldFromHomeVoucher.setText(binding.edtVoucherBalance.text.toString())
-
+                    if (localDatabase.getStockFromHomeSessionKey().isNullOrEmpty()){
+                        findNavController().navigate(
+                            ExchangeOrderFragmentDirections.actionExchangeOrderFragmentToWithKPYFragment(
+                                args.scannedProducts,
+                                generateNumberFromEditText(binding.edtOldVoucherPayment).toInt(),
+                                if (binding.edtGoldFromHomeVoucher.text.isNullOrEmpty()) null else binding.edtGoldFromHomeVoucher.text.toString()
+                            )
+                        )
+                    }else{
+                        viewModel.updateEvalue(
+                            args.goldPrice.orEmpty(),
+                        )
+                    }
                 }
                 is Resource.Error -> {
                     loading.dismiss()
@@ -218,7 +240,20 @@ class ExchangeOrderFragment : Fragment() {
         }
         dialogExchangeOrderBinding.btnWithKPY.setOnClickListener {
             if (args.goldPrice.isNullOrEmpty().not()){
-                viewModel.getStockFromHomeList()
+                if (localDatabase.getStockFromHomeSessionKey().isNullOrEmpty()){
+                    findNavController().navigate(
+                        ExchangeOrderFragmentDirections.actionExchangeOrderFragmentToWithKPYFragment(
+                            args.scannedProducts,
+                            generateNumberFromEditText(binding.edtOldVoucherPayment).toInt(),
+                            if (binding.edtGoldFromHomeVoucher.text.isNullOrEmpty()) null else binding.edtGoldFromHomeVoucher.text.toString()
+                        )
+                    )
+                }else{
+                    viewModel.updateEvalue(
+                        args.goldPrice.orEmpty(),
+                    )
+                }
+
             }else{
                 Toast.makeText(requireContext(),"Gold Price is empty",Toast.LENGTH_LONG).show()
             }

@@ -9,6 +9,7 @@ data class ProductInfoDomain(
     val name: String,
     val jewellery_type_id: String,
     val size: String,
+    val bonus:String,
     val gold_and_gem_weight_gm: String,
     val old_gold_and_gem_weight_gm: String,
     val gem_weight_ywae: String,

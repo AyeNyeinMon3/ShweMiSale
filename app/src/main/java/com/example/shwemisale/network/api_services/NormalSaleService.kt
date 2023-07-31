@@ -1,14 +1,11 @@
 package com.example.shwemisale.network.api_services
 
-import android.se.omapi.Session
 import com.example.shwemisale.data_layers.dto.GeneralSaleApiResponse
 import com.example.shwemisale.data_layers.dto.SimpleResponse
+import com.example.shwemisale.data_layers.dto.SimpleResponseWithDataString
 import com.example.shwemisale.data_layers.dto.StockFromHomForPawnResponse
 import com.example.shwemisale.data_layers.dto.calculation.GoldPriceResponse
-import com.example.shwemisale.data_layers.dto.customers.CustomerWhistListApiResponse
 import com.example.shwemisale.data_layers.dto.generalSale.GeneralSaleListResponse
-import com.example.shwemisale.data_layers.dto.goldFromHome.GemWeightDetail
-import com.example.shwemisale.data_layers.dto.goldFromHome.Image
 import com.example.shwemisale.data_layers.dto.goldFromHome.StockFromHomeResponse
 import com.example.shwemisale.data_layers.dto.product.PureGoldListResponse
 import com.example.shwemisale.data_layers.dto.product.SessionKeyResponse
@@ -61,7 +58,7 @@ interface NormalSaleService {
         @Part("old_voucher_code") old_voucher_code: RequestBody?,
         @Part old_voucher_paid_amount: MultipartBody.Part?,
         @Part("old_stock_session_key") old_stock_session_key: RequestBody,
-        ): Response<SimpleResponse>
+        ): Response<SimpleResponseWithDataString>
 
     @GET("api/old_stocks")
     suspend fun getStockFromHomeList(
@@ -72,7 +69,8 @@ interface NormalSaleService {
     @GET("api/pawn/{pawnVoucherCode}/old-stocks")
     suspend fun getStockFromHomeForPawn(
         @Header("Authorization") token: String,
-        @Path("pawnVoucherCode") pawnVoucherCode: String
+        @Path("pawnVoucherCode") pawnVoucherCode: String,
+        @Query("is_pawned_sale")isPawnSale:String
     ): Response<StockFromHomForPawnResponse>
 
     @JvmSuppressWildcards
@@ -80,41 +78,38 @@ interface NormalSaleService {
     @POST("api/old_stocks/create")
     suspend fun createStockFromHome(
         @Header("Authorization") token: String,
-        @Part id:List<MultipartBody.Part>?,
-        @Part a_buying_price: List<MultipartBody.Part?>?,
-        @Part b_voucher_buying_value: List<MultipartBody.Part?>?,
-        @Part c_voucher_buying_price: List<MultipartBody.Part?>?,
-        @Part calculated_buying_value: List<MultipartBody.Part?>?,
-        @Part calculated_for_pawn: List<MultipartBody.Part?>?,
-        @Part d_gold_weight_ywae: List<MultipartBody.Part?>?,
-        @Part e_price_from_new_voucher: List<MultipartBody.Part?>?,
-        @Part f_voucher_shown_gold_weight_ywae: List<MultipartBody.Part?>?,
-        @Part gem_value: List<MultipartBody.Part?>?,
-        @Part gem_weight_details_qty: List<MultipartBody.Part?>?,
-        @Part gem_weight_details_gm: List<MultipartBody.Part?>?,
-        @Part gem_weight_details_ywae: List<MultipartBody.Part?>?,
-        @Part gem_weight_ywae: List<MultipartBody.Part?>?,
-        @Part gold_gem_weight_ywae: List<MultipartBody.Part?>?,
-        @Part gold_weight_ywae: List<MultipartBody.Part?>?,
-        @Part gq_in_carat: List<MultipartBody.Part?>?,
-        @Part has_general_expenses: List<MultipartBody.Part?>?,
-        @Part imageId: List<MultipartBody.Part?>?,
-        @Part imageFile: List<MultipartBody.Part?>?,
-        @Part impurities_weight_ywae: List<MultipartBody.Part?>?,
-        @Part maintenance_cost: List<MultipartBody.Part?>?,
-        @Part price_for_pawn: List<MultipartBody.Part?>?,
-        @Part pt_and_clip_cost: List<MultipartBody.Part?>?,
-        @Part qty: List<MultipartBody.Part?>?,
-        @Part rebuy_price: List<MultipartBody.Part?>?,
-        @Part size: List<MultipartBody.Part?>?,
-        @Part stock_condition: List<MultipartBody.Part?>?,
-        @Part stock_name: List<MultipartBody.Part?>?,
-        @Part type: List<MultipartBody.Part?>?,
-        @Part wastage_ywae: List<MultipartBody.Part?>?,
-        @Part rebuy_price_vertical_option: List<MultipartBody.Part?>?,
+        @Part a_buying_price: MultipartBody.Part?,
+        @Part b_voucher_buying_value: MultipartBody.Part?,
+        @Part c_voucher_buying_price: MultipartBody.Part?,
+        @Part calculated_buying_value: MultipartBody.Part?,
+        @Part calculated_for_pawn: MultipartBody.Part?,
+        @Part d_gold_weight_ywae: MultipartBody.Part?,
+        @Part e_price_from_new_voucher: MultipartBody.Part?,
+        @Part f_voucher_shown_gold_weight_ywae: MultipartBody.Part?,
+        @Part gem_value: MultipartBody.Part?,
+        @Part gem_weight_details_session_key : MultipartBody.Part?,
+        @Part gem_weight_ywae: MultipartBody.Part?,
+        @Part gold_gem_weight_ywae: MultipartBody.Part?,
+        @Part gold_weight_ywae: MultipartBody.Part?,
+        @Part gq_in_carat: MultipartBody.Part?,
+        @Part has_general_expenses: MultipartBody.Part?,
+        @Part imageFile: MultipartBody.Part?,
+        @Part imageId: MultipartBody.Part?,
+        @Part impurities_weight_ywae: MultipartBody.Part?,
+        @Part maintenance_cost: MultipartBody.Part?,
+        @Part price_for_pawn: MultipartBody.Part?,
+        @Part pt_and_clip_cost: MultipartBody.Part?,
+        @Part qty: MultipartBody.Part?,
+        @Part rebuy_price: MultipartBody.Part?,
+        @Part size: MultipartBody.Part?,
+        @Part stock_condition: MultipartBody.Part?,
+        @Part stock_name: MultipartBody.Part?,
+        @Part type: MultipartBody.Part?,
+        @Part wastage_ywae: MultipartBody.Part?,
+        @Part rebuy_price_vertical_option: MultipartBody.Part?,
         @Part productIdList: List<MultipartBody.Part?>?,
-        @Part isEditable:List<MultipartBody.Part?>?,
-        @Part isChecked:List<MultipartBody.Part?>?,
+        @Part isEditable:MultipartBody.Part?,
+        @Part isChecked:MultipartBody.Part?,
         @Part("session_key")sessionKey:RequestBody?
     ): Response<SessionKeyResponse>
 
@@ -122,45 +117,52 @@ interface NormalSaleService {
     @POST("api/old_stocks/update")
     suspend fun updateStockFromHome(
         @Header("Authorization") token: String,
-        @Part id:List<MultipartBody.Part>?,
-        @Part a_buying_price: List<MultipartBody.Part?>?,
-        @Part b_voucher_buying_value: List<MultipartBody.Part?>?,
-        @Part c_voucher_buying_price: List<MultipartBody.Part?>?,
-        @Part calculated_buying_value: List<MultipartBody.Part?>?,
-        @Part calculated_for_pawn: List<MultipartBody.Part?>?,
-        @Part d_gold_weight_ywae: List<MultipartBody.Part?>?,
-        @Part e_price_from_new_voucher: List<MultipartBody.Part?>?,
-        @Part f_voucher_shown_gold_weight_ywae: List<MultipartBody.Part?>?,
-        @Part gem_value: List<MultipartBody.Part?>?,
-        @Part gem_weight_details_qty: List<MultipartBody.Part?>?,
-        @Part gem_weight_details_gm: List<MultipartBody.Part?>?,
-        @Part gem_weight_details_ywae: List<MultipartBody.Part?>?,
-        @Part gem_weight_ywae: List<MultipartBody.Part?>?,
-        @Part gold_gem_weight_ywae: List<MultipartBody.Part?>?,
-        @Part gold_weight_ywae: List<MultipartBody.Part?>?,
-        @Part gq_in_carat: List<MultipartBody.Part?>?,
-        @Part has_general_expenses: List<MultipartBody.Part?>?,
-        @Part imageId: List<MultipartBody.Part?>?,
-        @Part imageFile: List<MultipartBody.Part?>?,
-        @Part impurities_weight_ywae: List<MultipartBody.Part?>?,
-        @Part maintenance_cost: List<MultipartBody.Part?>?,
-        @Part price_for_pawn: List<MultipartBody.Part?>?,
-        @Part pt_and_clip_cost: List<MultipartBody.Part?>?,
-        @Part qty: List<MultipartBody.Part?>?,
-        @Part rebuy_price: List<MultipartBody.Part?>?,
-        @Part size: List<MultipartBody.Part?>?,
-        @Part stock_condition: List<MultipartBody.Part?>?,
-        @Part stock_name: List<MultipartBody.Part?>?,
-        @Part type: List<MultipartBody.Part?>?,
-        @Part wastage_ywae: List<MultipartBody.Part?>?,
-        @Part rebuy_price_vertical_option: List<MultipartBody.Part?>?,
+        @Part id: MultipartBody.Part?,
+        @Part a_buying_price: MultipartBody.Part?,
+        @Part b_voucher_buying_value: MultipartBody.Part?,
+        @Part c_voucher_buying_price: MultipartBody.Part?,
+        @Part calculated_buying_value: MultipartBody.Part?,
+        @Part calculated_for_pawn: MultipartBody.Part?,
+        @Part d_gold_weight_ywae: MultipartBody.Part?,
+        @Part e_price_from_new_voucher: MultipartBody.Part?,
+        @Part f_voucher_shown_gold_weight_ywae: MultipartBody.Part?,
+        @Part gem_value: MultipartBody.Part?,
+        @Part gem_weight_details_session_key : MultipartBody.Part?,
+        @Part gem_weight_ywae: MultipartBody.Part?,
+        @Part gold_gem_weight_ywae: MultipartBody.Part?,
+        @Part gold_weight_ywae: MultipartBody.Part?,
+        @Part gq_in_carat: MultipartBody.Part?,
+        @Part has_general_expenses: MultipartBody.Part?,
+        @Part imageFile: MultipartBody.Part?,
+        @Part impurities_weight_ywae: MultipartBody.Part?,
+        @Part maintenance_cost: MultipartBody.Part?,
+        @Part price_for_pawn: MultipartBody.Part?,
+        @Part pt_and_clip_cost: MultipartBody.Part?,
+        @Part qty: MultipartBody.Part?,
+        @Part rebuy_price: MultipartBody.Part?,
+        @Part size: MultipartBody.Part?,
+        @Part stock_condition: MultipartBody.Part?,
+        @Part stock_name: MultipartBody.Part?,
+        @Part type: MultipartBody.Part?,
+        @Part wastage_ywae: MultipartBody.Part?,
+        @Part rebuy_price_vertical_option: MultipartBody.Part?,
         @Part productIdList: List<MultipartBody.Part?>?,
-        @Part isEditable: List<MultipartBody.Part?>?,
-        @Part isChecked: List<MultipartBody.Part?>?,
+        @Part isEditable: MultipartBody.Part?,
+        @Part isChecked: MultipartBody.Part?,
+    ): Response<SimpleResponse>
+    @POST("api/old_stocks/{oldStockId}/delete")
+    suspend fun deleteOldStock(
+        @Header("Authorization") token: String,
+        @Path("oldStockId")oldStockId:String
+    ):Response<SimpleResponse>
 
-        @Part("session_key")sessionKey:RequestBody?
-    ): Response<SessionKeyResponse>
-
+    @FormUrlEncoded
+    @POST("api/old_stocks/update-voucher-gold-values")
+    suspend fun updateEvalueOldStocks(
+        @Header("Authorization") token: String,
+        @Field("session_key")sessionKey: String?,
+        @Field("e_price_from_new_voucher")eValue: String?,
+    ):Response<SimpleResponse>
     @POST("api/sales/normal/store/value")
     @Multipart
     suspend fun submitWithValue(
@@ -174,7 +176,7 @@ interface NormalSaleService {
         @Part old_voucher_paid_amount: MultipartBody.Part?,
         @Part("old_stock_session_key") old_stock_session_key: RequestBody,
 
-        ): Response<SimpleResponse>
+        ): Response<SimpleResponseWithDataString>
 
 
     /** New Order Sales */
@@ -198,7 +200,7 @@ interface NormalSaleService {
         @Part("reduced_cost") reduced_cost: RequestBody,
         @Part("old_stock_session_key") old_stock_session_key: RequestBody,
         @Part oldStockSampleListId: List<MultipartBody.Part>?
-    ): Response<SimpleResponse>
+    ): Response<SimpleResponseWithDataString>
 
     @JvmSuppressWildcards
     @POST("api/sales/pure-gold/store")
@@ -213,7 +215,7 @@ interface NormalSaleService {
         @Part("old_stock_session_key") old_stock_session_key: RequestBody,
 
 
-        ): Response<SimpleResponse>
+        ): Response<SimpleResponseWithDataString>
 
     @POST("api/sales/general/store")
     @Multipart
@@ -226,7 +228,7 @@ interface NormalSaleService {
         @Part("old_stock_session_key") old_stock_session_key: RequestBody,
 
 
-        ): Response<SimpleResponse>
+        ): Response<SimpleResponseWithDataString>
 
 
     @GET("api/general-sale-items")
@@ -337,6 +339,6 @@ interface NormalSaleService {
         @Header("Authorization") token: String,
         @Field("user_id") userId: String?,
         @Field("old_stock_session_key") old_stock_session_key: String?
-    ): Response<SimpleResponse>
+    ): Response<SimpleResponseWithDataString>
 
 }

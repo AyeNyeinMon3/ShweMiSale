@@ -8,7 +8,12 @@ import com.example.shwemisale.screen.goldFromHome.getGramFromYwae
 import com.example.shwemisale.screen.goldFromHome.getYwaeFromKPY
 
 data class StockFromHomForPawnResponse(
-    val data: List<StockFromHomeForPawnDto>
+   val data:StockFromHomeForPawnData
+)
+
+data class StockFromHomeForPawnData(
+    val session_key:String,
+    val old_stocks: List<StockFromHomeForPawnDto>
 )
 
 data class StockFromHomeForPawnDto(
@@ -21,7 +26,8 @@ data class StockFromHomeForPawnDto(
     val e_price_from_new_voucher: String?,
     val f_voucher_shown_gold_weight_ywae: String?,
     val gem_value: String?,
-    val gem_weight_details: List<GemWeightDetail>?,
+//    val gem_weight_details_session_key:String?,
+    val gem_weight_details:List<GemWeightDetail>?,
     val gem_weight_ywae: String?,
     val gold_gem_weight_ywae: String?,
     val gold_weight_ywae: String?,
@@ -40,7 +46,8 @@ data class StockFromHomeForPawnDto(
     val stock_condition: String,
     val stock_name: String,
     val type: String?,
-    val wastage_ywae: String?
+    val wastage_ywae: String?,
+    val is_checked:String
 )
 fun StockFromHomeForPawnDto.asDomain(): StockFromHomeDomain {
     return StockFromHomeDomain(
@@ -54,7 +61,7 @@ fun StockFromHomeForPawnDto.asDomain(): StockFromHomeDomain {
         e_price_from_new_voucher?.toDouble()?.toInt().toString(),
         f_voucher_shown_gold_weight_ywae,
         gem_value?.toDouble()?.toInt().toString(),
-        gem_weight_details?.map { it.asDomain() },
+        if (gem_weight_details.isNullOrEmpty().not()) gem_weight_details!![0].session_key else "",
         getGramFromYwae(gold_gem_weight_ywae.let { if (it.isNullOrEmpty()) 0.0 else it.toDouble() }).toString(),
         gem_weight_ywae,
         gold_gem_weight_ywae,
@@ -76,6 +83,6 @@ fun StockFromHomeForPawnDto.asDomain(): StockFromHomeDomain {
         rebuy_price_vertical_option,
         emptyList(),
         isEditable = false,
-        isChecked = false,
+        isChecked = is_checked=="1",
     )
 }

@@ -1,6 +1,6 @@
 package com.example.shwemisale.network.api_services
 
-import com.example.shwemisale.data_layers.dto.SimpleResponse
+import com.example.shwemisale.data_layers.dto.SimpleResponseWithDataString
 import com.example.shwemisale.data_layers.dto.product.*
 import retrofit2.Response
 import retrofit2.http.*
@@ -54,5 +54,5 @@ interface ProductService {
         @Field("general_sale_item_id")general_sale_item_id:String?,
         @Field("new_clip_wt_gm")new_clip_wt_gm:String?,
         @Field("old_clip_wt_gm")old_clip_wt_gm:String?,
-        ):Response<SimpleResponse>
+        ):Response<SimpleResponseWithDataString>
 }

@@ -47,7 +47,7 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class CreatePawnFragment : Fragment(){
+class CreatePawnFragment : Fragment() {
 
     lateinit var binding: FragmentCreatePawnBinding
     private val viewModel by viewModels<CreatePawnViewModel>()
@@ -119,7 +119,9 @@ class CreatePawnFragment : Fragment(){
             if (isChecked) is_app_functions_allowed = "1" else is_app_functions_allowed = "0"
         }
         binding.tvChooseDate.setOnClickListener {
-            datePickerFrom.show(childFragmentManager, "Choose Date From")
+            if (!datePickerFrom.isAdded) {
+                datePickerFrom.show(childFragmentManager, "Choose Date From")
+            }
         }
         datePickerFrom.addOnPositiveButtonClickListener {
             val calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"))
@@ -129,7 +131,9 @@ class CreatePawnFragment : Fragment(){
         }
 
         binding.tvChooseDate2.setOnClickListener {
-            datePickerTo.show(childFragmentManager, "Choose Date To")
+            if (!datePickerTo.isAdded){
+                datePickerTo.show(childFragmentManager, "Choose Date To")
+            }
         }
         datePickerTo.addOnPositiveButtonClickListener {
             val calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"))
@@ -151,11 +155,17 @@ class CreatePawnFragment : Fragment(){
                             // TODO Auto-generated method stub
                             var interestRate = "0"
                             if (s.toString().isNotBlank() && s.toString() != "0") {
-                                if (s.toString().toLong() > generateNumberFromEditText(binding.edtHighLoanAmount).toLong()){
-                                    Toast.makeText(requireContext(),"Must be less than total loan amount",Toast.LENGTH_LONG).show()
+                                if (s.toString()
+                                        .toLong() > generateNumberFromEditText(binding.edtHighLoanAmount).toLong()
+                                ) {
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "Must be less than total loan amount",
+                                        Toast.LENGTH_LONG
+                                    ).show()
                                     binding.edtLoanAmount.text?.clear()
                                     binding.edtMonth.text?.clear()
-                                }else{
+                                } else {
                                     it.data?.forEach {
                                         if (s.toString().toInt() >= it.range_from!!.toInt()
                                             && s.toString().toInt() <= it.range_to!!.toInt()
@@ -168,7 +178,9 @@ class CreatePawnFragment : Fragment(){
                                         .toDouble() - generateNumberFromEditText(binding.edtLoanAmount).toDouble()) / ((interestRate.toDouble() / 100) * generateNumberFromEditText(
                                         binding.edtLoanAmount
                                     ).toDouble())
-                                    val actualMonth = if (month.isFinite()) month.toString().substringBefore(".").toInt() else 6
+                                    val actualMonth =
+                                        if (month.isFinite()) month.toString().substringBefore(".")
+                                            .toInt() else 6
                                     if (actualMonth > 6) {
                                         binding.edtMonth.setText("6")
                                     } else {
@@ -206,21 +218,24 @@ class CreatePawnFragment : Fragment(){
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
                 }
             }
-            viewModel.logoutLiveData.observe(viewLifecycleOwner){
-                when (it){
-                    is Resource.Loading->{
+            viewModel.logoutLiveData.observe(viewLifecycleOwner) {
+                when (it) {
+                    is Resource.Loading -> {
                         loading.show()
                     }
-                    is Resource.Success->{
+
+                    is Resource.Success -> {
                         loading.dismiss()
 //                    Toast.makeText(requireContext(),"log out successful", Toast.LENGTH_LONG).show()
                         findNavController().navigate(GeneralSellFragmentDirections.actionGlobalLogout())
                     }
-                    is Resource.Error->{
+
+                    is Resource.Error -> {
                         loading.dismiss()
                         findNavController().navigate(GeneralSellFragmentDirections.actionGlobalLogout())
 
                     }
+
                     else -> {}
                 }
             }
@@ -252,7 +267,10 @@ class CreatePawnFragment : Fragment(){
 
                     is Resource.Success -> {
                         loading.dismiss()
-                        printPdf(downloader.downloadFile(it.data.orEmpty()).orEmpty(), requireContext())
+                        printPdf(
+                            downloader.downloadFile(it.data.orEmpty()).orEmpty(),
+                            requireContext()
+                        )
                         requireContext().showSuccessDialog("Press Ok When Printing is finished!") {
                             viewModel.logout()
                         }

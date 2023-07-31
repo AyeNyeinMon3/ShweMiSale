@@ -235,8 +235,8 @@ fun combineLists(list1: List<String>, list2: List<RebuyPrintItem>): List<Pair<St
                     val goldWeightKpy = "${kpy[0].toInt()}K ${kpy[1].toInt()}P ${kpy[2]}Y"
                     Pair(list1[j], goldWeightKpy)
                 }
-                2 -> Pair(list1[j], list2[i].rebuy_price + " Kyats")
-                3 -> Pair(list1[j], list2[i].b_voucher_buying_value+" Kyats")
+                2 -> Pair(list1[j], list2[i].c_voucher_buying_price.orEmpty() + " Kyats")
+                3 -> Pair(list1[j], list2[i].b_voucher_buying_value.orEmpty()+" Kyats")
                 else->Pair("","")
             }
             combinedList.add(pair)

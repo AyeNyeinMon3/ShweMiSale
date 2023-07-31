@@ -96,37 +96,17 @@ class PayBalanceFragment:Fragment() {
                 }
                 is Resource.Success -> {
                     loading.dismiss()
-                    requireContext().showSuccessDialog("Press Ok To Download And Print!") {
-                        viewModel.getPdf(it.data.orEmpty())
-                    }
-                }
-                is Resource.Error -> {
-                    loading.dismiss()
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
-                }
-            }
-        }
-        viewModel.pdfDownloadLiveData.observe(viewLifecycleOwner) {
-            when (it) {
-                is Resource.Loading -> {
-                    loading.show()
-                }
-
-                is Resource.Success -> {
-                    loading.dismiss()
-                    printPdf(downloader.downloadFile(it.data.orEmpty()).orEmpty(), requireContext())
-                    requireContext().showSuccessDialog("Press Ok When Printing is finished!") {
+                    requireContext().showSuccessDialog(it.data.orEmpty()) {
                         viewModel.logout()
                     }
                 }
-
                 is Resource.Error -> {
-
                     loading.dismiss()
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
                 }
             }
         }
+
         viewModel.logoutLiveData.observe(viewLifecycleOwner){
             when (it){
                 is Resource.Loading->{

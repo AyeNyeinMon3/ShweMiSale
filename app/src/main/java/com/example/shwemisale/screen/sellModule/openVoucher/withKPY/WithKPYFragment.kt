@@ -231,6 +231,7 @@ class WithKPYFragment : Fragment() {
                     loading.dismiss()
                     printPdf(downloader.downloadFile(it.data.orEmpty()).orEmpty(), requireContext())
                     requireContext().showSuccessDialog("Press Ok When Printing is finished!") {
+
                         viewModel.logout()
                     }
                 }

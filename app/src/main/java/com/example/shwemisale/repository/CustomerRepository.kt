@@ -3,13 +3,9 @@ package com.example.shwemisale.repository
 import com.example.shwemi.util.Resource
 import com.example.shwemisale.data_layers.domain.customers.CustomerDataDomain
 import com.example.shwemisale.data_layers.domain.customers.CustomerWhistListDomain
-import com.example.shwemisale.data_layers.dto.SimpleResponse
-import com.example.shwemisale.data_layers.dto.customers.CustomerDataDto
 import com.example.shwemisale.data_layers.dto.customers.CustomerDataResponse
 import com.example.shwemisale.data_layers.dto.customers.ProvinceDto
 import com.example.shwemisale.data_layers.dto.customers.TownshipDto
-import retrofit2.http.Field
-import retrofit2.http.Query
 
 
 interface CustomerRepository {

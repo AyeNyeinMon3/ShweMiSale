@@ -1,10 +1,12 @@
 package com.example.shwemisale.printerHelper
 
 import android.content.Context
+import android.os.Environment
 import android.print.PrintAttributes
 import android.print.PrintManager
 import android.util.Log
 import com.example.shwemisale.R
+import java.io.File
 import java.lang.Exception
 
 fun printPdf(path: String,context: Context) {
@@ -17,7 +19,9 @@ fun printPdf(path: String,context: Context) {
                 .build()
         )
 
+
     } catch (e: Exception) {
+
         Log.e("AkpDev", e.message.orEmpty())
     }
 }

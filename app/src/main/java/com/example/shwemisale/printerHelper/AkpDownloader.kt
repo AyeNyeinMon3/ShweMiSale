@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Environment
 import androidx.annotation.RequiresApi
 import androidx.core.net.toUri
+import java.io.File
 
 
 class AkpDownloader(
@@ -19,13 +20,20 @@ class AkpDownloader(
     @SuppressLint("Range")
     @RequiresApi(Build.VERSION_CODES.M)
     override fun downloadFile(url: String): String? {
+        // Check if the file already exists in the downloads directory
+        val fileName = "shweMi.pdf"
+        val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        val file = File(downloadsDir, fileName)
+        if (file.exists()) {
+            return file.absolutePath
+        }
+
         val request = DownloadManager.Request(url.toUri())
             .setMimeType("document/pdf")
             .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
             .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI)
-            .setTitle("akp.pdf")
-            .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,"akp.pdf")
-         downloadManager.enqueue(request)
+            .setTitle("shweMi.pdf")
+            .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,"shweMi.pdf")
 
         val downloadId = downloadManager.enqueue(request)
 

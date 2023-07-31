@@ -19,7 +19,7 @@ data class StockFromHomeDomain(
     val e_price_from_new_voucher: String?,
     val f_voucher_shown_gold_weight_ywae: String?,
     val gem_value: String?,
-    val gem_weight_details: List<GemWeightDetailDomain>?,
+    val gem_weight_details_session_key:String?,
     var gold_and_gem_weight_gm:String = "",
     val gem_weight_ywae: String?,
     val gold_gem_weight_ywae: String?,
