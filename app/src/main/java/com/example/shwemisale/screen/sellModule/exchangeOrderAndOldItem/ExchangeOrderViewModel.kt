@@ -31,6 +31,7 @@ class ExchangeOrderViewModel @Inject constructor(
     private val _stockFromHomeInfoLiveData = SingleLiveEvent<Resource<List<StockFromHomeDomain>>>()
     val stockFromHomeInfoLiveData: SingleLiveEvent<Resource<List<StockFromHomeDomain>>>
         get() = _stockFromHomeInfoLiveData
+
     private val _scanVoucherLiveData = SingleLiveEvent<Resource<PaidAmountOfVoucherDomain>>()
     val scanVoucherLiveData: SingleLiveEvent<Resource<PaidAmountOfVoucherDomain>>
         get() = _scanVoucherLiveData
@@ -44,8 +45,15 @@ class ExchangeOrderViewModel @Inject constructor(
         }
     }
 
-    fun addTotalGoldWeightYwaeToStockFromHome(ywae:String){
+    fun saveTotalGoldWeightYwae(ywae: String) {
         localDatabase.saveGoldWeightYwaeForStockFromHome(ywae)
+    }
+
+    fun saveTotalPawnPrice(price: String) {
+        localDatabase.saveTotalPawnPriceForStockFromHome(price)
+    }
+    fun saveTotalBVoucherBuyingPrice(price: String) {
+        localDatabase.saveTotalCVoucherBuyingPriceForStockFromHome(price)
     }
 
 

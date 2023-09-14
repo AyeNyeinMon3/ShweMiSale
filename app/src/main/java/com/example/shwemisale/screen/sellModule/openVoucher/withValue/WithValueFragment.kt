@@ -7,10 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.satoprintertest.AkpDownloader
@@ -23,6 +25,7 @@ import com.example.shwemisale.printerHelper.printPdf
 import com.example.shwemisale.screen.goldFromHome.getKPYFromYwae
 import com.example.shwemisale.screen.goldFromHome.getKyatsFromKPY
 import com.example.shwemisale.screen.goldFromHome.getYwaeFromGram
+import com.example.shwemisale.screen.sellModule.exchangeOrderAndOldItem.ExchangeOrderFragmentDirections
 import com.example.shwemisale.screen.sellModule.generalSale.GeneralSellFragmentDirections
 import com.example.shwemisale.screen.sellModule.openVoucher.withKPY.WithKPYFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,6 +44,15 @@ class WithValueFragment : Fragment() {
     private var redeemMoney = 0
     private val downloader by lazy { AkpDownloader(requireContext()) }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requireActivity().onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                viewModel.updateEvalue("0")
+            }
+        })
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -57,6 +69,39 @@ class WithValueFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         loading = requireContext().getAlertDialog()
         bindPassedData()
+        viewModel.getStockFromHomeList()
+
+        viewModel.stockFromHomeInfoLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {
+                    loading.show()
+                }
+
+                is Resource.Success -> {
+                    loading.dismiss()
+
+                    var totalPawnPrice = 0
+                    var totalGoldWeightYwae = 0.0
+                    var totalBVoucherBuyingPrice = 0
+                    it.data.orEmpty().forEach {
+                        totalPawnPrice += it.calculated_for_pawn!!.toInt()
+                        totalGoldWeightYwae += it.f_voucher_shown_gold_weight_ywae!!.toDouble()
+                        totalBVoucherBuyingPrice += it.b_voucher_buying_value!!.toInt()
+                    }
+                    viewModel.saveTotalPawnPrice(totalPawnPrice.toString())
+                    viewModel.saveTotalGoldWeightYwae(totalGoldWeightYwae.toString())
+                    viewModel.saveTotalBVoucherBuyingPrice(totalBVoucherBuyingPrice.toString())
+
+                    binding.edtGoldFromHomeValue.setText(viewModel.getTotalCVoucherBuyingPrice())
+
+                }
+
+                is Resource.Error -> {
+                    loading.dismiss()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
         viewModel.getUserRedeemPointsLiveData.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Loading -> {
@@ -95,6 +140,24 @@ class WithValueFragment : Fragment() {
 
                     loading.dismiss()
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+        viewModel.updateEValueLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {
+                    loading.show()
+                }
+                is Resource.Success -> {
+                    loading.dismiss()
+                    findNavController().popBackStack()
+
+                }
+                is Resource.Error -> {
+                    loading.dismiss()
+                    findNavController().popBackStack()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+
                 }
             }
         }

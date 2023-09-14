@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.shwemi.util.Resource
 import com.example.shwemisale.data_layers.domain.generalSale.GeneralSaleListDomain
 import com.example.shwemisale.data_layers.dto.GeneralSaleDto
+import com.example.shwemisale.data_layers.dto.GeneralSalePrintDto
 import com.example.shwemisale.data_layers.dto.calculation.GoldTypePriceDto
 import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.repositoryImpl.AuthRepoImpl
@@ -63,6 +64,18 @@ class GeneralSaleViewModel @Inject constructor(
             _pdfDownloadLiveData.value=printingRepoImpl.getSalePrint(saleId)
         }
     }
+
+    private val _generalsaleSlipPrintLiveData = SingleLiveEvent<Resource<GeneralSalePrintDto>>()
+    val generalsaleSlipPrintLiveData: SingleLiveEvent<Resource<GeneralSalePrintDto>>
+        get() = _generalsaleSlipPrintLiveData
+
+    fun getGeneralSalePrintDto(generalSaleID:String){
+        viewModelScope.launch {
+            _generalsaleSlipPrintLiveData.value = Resource.Loading()
+            _generalsaleSlipPrintLiveData.value=printingRepoImpl.getGeneralSalePrint(generalSaleID)
+        }
+    }
+
     fun getGoldTypePrice() {
         _goldTypePriceLiveData.value = Resource.Loading()
         viewModelScope.launch {
@@ -295,6 +308,6 @@ class GeneralSaleViewModel @Inject constructor(
         }
     }
     fun getTotalCVoucherBuyingPrice(): String {
-        return localDatabase.getTotalCVoucherBuyingPriceForStockFromHome().orEmpty()
+        return localDatabase.getTotalBVoucherBuyingPriceForStockFromHome().orEmpty()
     }
 }

@@ -21,12 +21,46 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+//    flavorDimensions "version"
+//    productFlavors {
+//        stagingPhaseOne{
+//            dimension "version"
+//            buildConfigField("String", "BASE_URL", "https://stg1admin.shwemigoldshop.com/")
+//            applicationIdSuffix ".pone"
+//        }
+//        stagingPhaseTwo{
+//            dimension "version"
+//            buildConfigField("String", "BASE_URL", "\"${manifestPlaceholders['https://stg2inventory.shwemigoldshop.com/']}\"")
+//            applicationIdSuffix ".ptwo"
+//
+//        }
+//
+//    }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//            buildConfigField "String", "BASE_URL", "\"https://stg1sales.shwemigoldshop.com/\""
+//            buildConfigField("String", "BASE_URL", "\"https://stg1sales.shwemigoldshop.com/\"")
         }
+//        stagingPhaseOne {
+//            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//            buildConfigField "String", "BASE_URL", "\"https://stg1sales.shwemigoldshop.com/\""
+//            applicationIdSuffix ".pone"
+//            versionNameSuffix "-pone"
+//
+//        }
+//        stagingPhaseTwo {
+//            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//            buildConfigField "String", "BASE_URL", "\"https://stg2sales.shwemigoldshop.com/\""
+//            applicationIdSuffix ".ptwo"
+//            versionNameSuffix "-ptwo"
+//
+//        }
+
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

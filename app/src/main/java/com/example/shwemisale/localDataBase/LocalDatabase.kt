@@ -15,7 +15,7 @@ private const val STOCK_FROM_HOME_SESSION_KEY="stock-from-home-session_key"
 private const val PAWN_STOCK_FROM_HOME_SESSION_KEY="pawn-stock-from-home-session_key"
 private const val TOTAL_PAWN_PRICE="total-pawn-price"
 private const val TOTAL_GOLD_WEIGHT_YWAE="total-gold-weight-ywae"
-private const val TOTAL_C_VOUCHER_BUYING_PRICE="total-c-voucher-buying-price"
+private const val TOTAL_B_VOUCHER_BUYING_PRICE="total-b-voucher-buying-price"
 private const val TOTAL_C_VOUCHER_BUYING_PRICE_FOR_PAWN="total-c-voucher-buying-price-for-pawn"
 private const val TOTAL_PAWN_PRICE_FOR_REMAINED_PAWN_ITEMS="total-pawn-price-price-for-pawn-remained-items"
 private const val PRINTER_IP="printer-ip-address"
@@ -148,17 +148,17 @@ class LocalDatabase @Inject constructor(@ApplicationContext private val context:
     fun removeTotalVoucherBuyingPriceForPawn(){
         sharedPref.edit { remove(TOTAL_C_VOUCHER_BUYING_PRICE_FOR_PAWN) }
     }
-    fun getTotalCVoucherBuyingPriceForStockFromHome():String{
-        val price =  sharedPref.getString(TOTAL_C_VOUCHER_BUYING_PRICE, "0")
+    fun getTotalBVoucherBuyingPriceForStockFromHome():String{
+        val price =  sharedPref.getString(TOTAL_B_VOUCHER_BUYING_PRICE, "0")
         return "$price"
     }
 
     fun saveTotalCVoucherBuyingPriceForStockFromHome(price:String){
-        sharedPref.edit{putString(TOTAL_C_VOUCHER_BUYING_PRICE,price)}
+        sharedPref.edit{putString(TOTAL_B_VOUCHER_BUYING_PRICE,price)}
     }
 
     fun removeTotalCVoucherBuyingPriceForStockFromHome(){
-        sharedPref.edit { remove(TOTAL_C_VOUCHER_BUYING_PRICE) }
+        sharedPref.edit { remove(TOTAL_B_VOUCHER_BUYING_PRICE) }
     }
 
     fun getPawnOldStockSessionKey():String?{

@@ -14,21 +14,24 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.epson.epos2.Epos2Exception
+import com.epson.epos2.printer.Printer
 import com.example.satoprintertest.AkpDownloader
 import com.example.shwemi.util.*
 import com.example.shwemisale.R
 import com.example.shwemisale.data_layers.domain.generalSale.GeneralSaleListDomain
+import com.example.shwemisale.data_layers.dto.GeneralSalePrintItem
+import com.example.shwemisale.data_layers.dto.printing.RebuyPrintItem
 import com.example.shwemisale.databinding.DialogGeneralSellAddProductBinding
 import com.example.shwemisale.databinding.FragmentGeneralSellBinding
+import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.printerHelper.printPdf
 import com.example.shwemisale.screen.goldFromHome.getKPYFromYwae
-import com.example.shwemisale.screen.goldFromHome.getYwaeFromGram
 import com.example.shwemisale.screen.goldFromHome.getYwaeFromKPY
-import com.example.shwemisale.screen.sellModule.goldBlockSale.AkoukSellRecyclerAdapter
 import com.example.shwemisale.screen.sellModule.openVoucher.withKPY.WithKPYFragmentDirections
-import com.example.shwemisale.screen.sellModule.sellStart.SellStartFragmentDirections
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class GeneralSellFragment : Fragment() {
@@ -41,6 +44,13 @@ class GeneralSellFragment : Fragment() {
     var generalSaleItemId = ""
     private val downloader by lazy { AkpDownloader(requireContext()) }
 
+    @Inject
+    lateinit var mPrinter: Printer
+
+    @Inject
+    lateinit var localDatabase: LocalDatabase
+    private val paperLength = calculateLineLength(80)
+    private val magicSpace = "          "
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -105,21 +115,24 @@ class GeneralSellFragment : Fragment() {
             }
         }
 
-        viewModel.logoutLiveData.observe(viewLifecycleOwner){
-            when (it){
-                is Resource.Loading->{
+        viewModel.logoutLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {
                     loading.show()
                 }
-                is Resource.Success->{
+
+                is Resource.Success -> {
                     loading.dismiss()
 //                    Toast.makeText(requireContext(),"log out successful", Toast.LENGTH_LONG).show()
                     findNavController().navigate(GeneralSellFragmentDirections.actionGlobalLogout())
                 }
-                is Resource.Error->{
+
+                is Resource.Error -> {
                     loading.dismiss()
                     findNavController().navigate(GeneralSellFragmentDirections.actionGlobalLogout())
 
                 }
+
                 else -> {}
             }
         }
@@ -210,9 +223,15 @@ class GeneralSellFragment : Fragment() {
 
                 is Resource.Success -> {
                     loading.dismiss()
-                    requireContext().showSuccessDialog("Press Ok To Download And Print!") {
-                        viewModel.getPdf(it.data.orEmpty())
-                    }
+                    requireContext().showGeneralSalePrintDialog(("Choose How To Print"),
+                        {
+                            //On Slip Print
+                            viewModel.getGeneralSalePrintDto(it.data.orEmpty())
+                        },
+                        {
+                            //On Pdf Print
+                            viewModel.getPdf(it.data.orEmpty())
+                        })
                 }
 
                 is Resource.Error -> {
@@ -233,6 +252,61 @@ class GeneralSellFragment : Fragment() {
                     requireContext().showSuccessDialog("Press Ok When Printing is finished!") {
                         viewModel.logout()
                     }
+                }
+
+                is Resource.Error -> {
+
+                    loading.dismiss()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+
+        viewModel.generalsaleSlipPrintLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {
+                    loading.show()
+                }
+
+                is Resource.Success -> {
+                    loading.dismiss()
+                    if (mPrinter.status.connection == Printer.FALSE) {
+                        try {
+                            mPrinter.connect(
+                                "TCP:" + localDatabase.getPrinterIp(),
+                                Printer.PARAM_DEFAULT
+                            )
+                        } catch (e: Epos2Exception) {
+                            //Cannot Connect to Printer IP : ${localDatabase.getPrinterIp()}
+                            showErrorDialog(
+                                e.message
+                                    ?: "Cannot Connect to Printer IP : ${localDatabase.getPrinterIp()}"
+                            )
+                        }
+                    } else if (mPrinter.status.connection == Printer.TRUE) {
+                        Toast.makeText(
+                            requireContext(),
+                            "Printer Connect Success",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                    val netAmount = (it.data?.total_cost?.toInt() ?: 0) - (it.data?.reduced_cost
+                        ?: 0) - (it.data?.stocks_from_home_cost ?: 0)
+                    printSample(
+                        it.data?.sold_at.orEmpty(),
+                        it.data?.code.orEmpty(),
+                        it.data?.user?.address.orEmpty(),
+                        it.data?.salesperson.orEmpty(),
+                        it.data?.user?.name.orEmpty(),
+                        (it.data?.total_cost ?: 0).toString(),
+                        (it.data?.reduced_cost ?: 0).toString(),
+                        (it.data?.stocks_from_home_cost ?: 0).toString(),
+                        (it.data?.paid_amount ?: 0).toString(),
+                        netAmount.toString(),
+                        (it.data?.remaining_amount ?: 0).toString(),
+                        it.data?.items.orEmpty()
+
+                    )
                 }
 
                 is Resource.Error -> {
@@ -264,7 +338,7 @@ class GeneralSellFragment : Fragment() {
                     var idCount = 0
                     it.data!!.forEach {
                         it.id = idCount++
-                        totalCost += (it.maintenance_cost.toInt() + (viewModel.goldPrice.toInt() * (((it.gold_weight_gm.toDouble()/16.6) + (it.wastage_ywae.toDouble()) / 128)))).toInt()
+                        totalCost += (it.maintenance_cost.toInt() + (viewModel.goldPrice.toInt() * (((it.gold_weight_gm.toDouble() / 16.6) + (it.wastage_ywae.toDouble()) / 128)))).toInt()
                     }
                     adapter.submitList(it.data)
 
@@ -411,4 +485,192 @@ class GeneralSellFragment : Fragment() {
 
     }
 
+    private fun printSample(
+        date: String,
+        voucherNumber: String,
+        address: String,
+        salesPerson: String,
+        customerName: String,
+        totalPrice: String,
+        reducedAmount: String,
+        oldStockAmount: String,
+        paidAmount: String,
+        netAmount: String,
+        remainingAmount: String,
+        generalSalePrintItemList: List<GeneralSalePrintItem>
+    ) {
+        try {
+            // Start the print job
+            mPrinter.beginTransaction()
+            val lineLength = paperLength
+            var numSpaces = 0
+            var spaces = ""
+
+            mPrinter.addText("----------------------------------------------\n")
+            mPrinter.addTextAlign(Printer.ALIGN_CENTER)
+            mPrinter.addText("General Sale Voucher\n")
+            mPrinter.addText("----------------------------------------------\n")
+
+
+            // Print an image
+            mPrinter.addTextAlign(Printer.ALIGN_LEFT)
+            mPrinter.addText("Date")
+
+            numSpaces = lineLength - date.length - "Date".length + magicSpace.length
+            spaces = " ".repeat(numSpaces)
+            mPrinter.addText("$spaces$date\n")
+
+            mPrinter.addText("Voucher Number")
+
+            numSpaces =
+                lineLength - voucherNumber.length - "Voucher Number".length + magicSpace.length
+            spaces = " ".repeat(numSpaces)
+            mPrinter.addText("$spaces$voucherNumber\n")
+
+
+            val qrCodeContent = voucherNumber // Replace with your desired content
+
+            val qrCodeWidth = 150 // Adjust the size based on your requirements
+
+            val qrCodeHeight = 150
+            val qrCodeBitmap = generateQRCode(qrCodeContent, qrCodeWidth, qrCodeHeight)
+            mPrinter.addTextAlign(Printer.ALIGN_RIGHT)
+            mPrinter.addImage(
+                qrCodeBitmap,
+                0,
+                0,
+                qrCodeWidth,
+                qrCodeHeight,
+                Printer.PARAM_DEFAULT,
+                Printer.PARAM_DEFAULT,
+                Printer.PARAM_DEFAULT,
+                Printer.PARAM_DEFAULT.toDouble(),
+                Printer.PARAM_DEFAULT
+            );
+
+            mPrinter.addText("\n")
+            mPrinter.addTextAlign(Printer.ALIGN_LEFT)
+            mPrinter.addText("Customer Name")
+
+            numSpaces =
+                lineLength - customerName.length - "Customer Name".length + magicSpace.length
+            spaces = " ".repeat(numSpaces)
+            mPrinter.addText("$spaces$customerName\n")
+
+            mPrinter.addText("Address")
+            numSpaces = lineLength - address.length - "Address".length + magicSpace.length
+            spaces = " ".repeat(numSpaces)
+            mPrinter.addText("$spaces$address\n")
+            mPrinter.addText("------------------------------------------\n")
+
+
+            val columnWidths = listOf(10, 10, 10, 10)
+            printTableRowWithFixPosition(generalSalePrintItemList, columnWidths, mPrinter)
+
+
+            mPrinter.addText("\n")
+            mPrinter.addText("Total Price")
+            numSpaces =
+                lineLength - totalPrice.length - "Total Price Kyats".length + magicSpace.length
+            spaces = " ".repeat(numSpaces)
+            mPrinter.addText("$spaces$totalPrice Kyats\n")
+            mPrinter.addText("----------------------------------------------\n")
+
+            mPrinter.addText("\n")
+            mPrinter.addText("Reduced Amount")
+            numSpaces =
+                lineLength - reducedAmount.length - "Reduced Amount Kyats".length + magicSpace.length
+            spaces = " ".repeat(numSpaces)
+            mPrinter.addText("$spaces$reducedAmount Kyats\n")
+
+            mPrinter.addText("\n")
+            mPrinter.addText("OldStock Amount")
+            numSpaces =
+                lineLength - oldStockAmount.length - "OldStock Amount Kyats".length + magicSpace.length
+            spaces = " ".repeat(numSpaces)
+            mPrinter.addText("$spaces$oldStockAmount Kyats\n")
+            mPrinter.addText("----------------------------------------------\n")
+
+            mPrinter.addText("\n")
+            mPrinter.addText("Net Amount")
+            numSpaces = lineLength - netAmount.length - "Net Amount Kyats".length + magicSpace.length
+            spaces = " ".repeat(numSpaces)
+            mPrinter.addText("$spaces$netAmount Kyats\n")
+
+            mPrinter.addText("\n")
+            mPrinter.addText("Customer Given Amount")
+            numSpaces =
+                lineLength - paidAmount.length - "Customer Given Amount Kyats".length + magicSpace.length
+            spaces = " ".repeat(numSpaces)
+            mPrinter.addText("$spaces$paidAmount Kyats\n")
+            mPrinter.addText("----------------------------------------------\n")
+
+            mPrinter.addText("\n")
+            mPrinter.addText("Remaining Amount")
+            numSpaces =
+                lineLength - remainingAmount.length - "Remaining Amount Kyats".length + magicSpace.length
+            spaces = " ".repeat(numSpaces)
+            mPrinter.addText("$spaces$remainingAmount Kyats\n")
+
+
+            mPrinter.addTextAlign(Printer.ALIGN_RIGHT)
+            mPrinter.addText("SalePerson")
+            numSpaces = lineLength - salesPerson.length - "SalePerson".length + magicSpace.length
+            spaces = " ".repeat(numSpaces)
+            mPrinter.addText("$spaces$salesPerson\n")
+            mPrinter.addFeedLine(9)
+            mPrinter.addCut(Printer.CUT_FEED)
+            // End the print
+            mPrinter.sendData(Printer.PARAM_DEFAULT)
+
+        } catch (e: Epos2Exception) {
+            e.printStackTrace()
+        } finally {
+            try {
+                // End the transaction
+                mPrinter.endTransaction()
+                viewModel.logout()
+            } catch (e: Epos2Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun printTableRowWithFixPosition(
+        columns: List<GeneralSalePrintItem>,
+        columnWidths: List<Int>,
+        printer: Printer
+    ) {
+        val headerList = listOf("Item/Service", "Qty", "Price")
+
+        val combineList = combineListsGeneralSalePrint(headerList, columns)
+        for (item in combineList) {
+            mPrinter.addTextAlign(Printer.ALIGN_LEFT)
+            mPrinter.addText(item.first + magicSpace)
+
+
+            val numSpaces = paperLength - item.second.length - item.first.length
+            val spaces = " ".repeat(numSpaces)
+            mPrinter.addText("$spaces${item.second}")
+            mPrinter.addText("\n")
+            if (item.first == "Price") {
+                mPrinter.addText("----------------------------------------------\n")
+            }
+        }
+
+    }
+
+    private fun showErrorDialog(message: String) {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Error")
+        builder.setMessage(message)
+        builder.setIcon(android.R.drawable.ic_dialog_alert)
+
+        builder.setPositiveButton("OK") { dialog, which ->
+            // do nothing
+        }
+
+        val dialog = builder.create()
+        dialog.show()
+    }
 }

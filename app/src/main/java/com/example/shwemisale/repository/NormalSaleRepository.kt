@@ -137,7 +137,8 @@ interface NormalSaleRepository {
         redeem_point: RequestBody?,
         old_voucher_paid_amount: MultipartBody.Part?,
         old_voucher_code:RequestBody?,
-        old_stock_session_key: RequestBody,
+        old_stock_session_key: RequestBody?,
+        old_stock_calc_type: RequestBody,
 
         ): Resource<String>
 
@@ -171,7 +172,8 @@ interface NormalSaleRepository {
         user_id: String,
         paid_amount: String,
         reduced_cost: String,
-        old_stock_session_key: RequestBody,
+        old_stock_session_key: RequestBody?,
+        old_stock_calc_type: RequestBody,
         oldStockSampleListId: List<MultipartBody.Part>?
     ): Resource<String>
 
@@ -263,4 +265,5 @@ interface NormalSaleRepository {
     ):Resource<String>
 
     suspend fun buyOldStock():Resource<String>
+
 }

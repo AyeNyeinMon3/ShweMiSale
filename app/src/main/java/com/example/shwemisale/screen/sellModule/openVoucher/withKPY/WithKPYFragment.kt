@@ -13,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -21,6 +22,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.satoprintertest.AkpDownloader
@@ -33,6 +35,7 @@ import com.example.shwemisale.screen.goldFromHome.getKPYFromYwae
 import com.example.shwemisale.screen.goldFromHome.getKyatsFromKPY
 import com.example.shwemisale.screen.goldFromHome.getYwaeFromGram
 import com.example.shwemisale.screen.goldFromHome.getYwaeFromKPY
+import com.example.shwemisale.screen.sellModule.exchangeOrderAndOldItem.ExchangeOrderFragmentDirections
 import com.example.shwemisale.screen.sellModule.generalSale.GeneralSellFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -68,6 +71,11 @@ class WithKPYFragment : Fragment() {
                 //
             }
         }
+        requireActivity().onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                viewModel.updateEvalue("0")
+            }
+        })
     }
 
     override fun onCreateView(
@@ -138,6 +146,24 @@ class WithKPYFragment : Fragment() {
                 else -> {}
             }
         }
+        viewModel.updateEValueLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {
+                    loading.show()
+                }
+                is Resource.Success -> {
+                    loading.dismiss()
+                    findNavController().popBackStack()
+
+                }
+                is Resource.Error -> {
+                    loading.dismiss()
+                    findNavController().popBackStack()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+
+                }
+            }
+        }
         viewModel.getUserRedeemPointsLiveData.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Loading -> {
@@ -180,26 +206,6 @@ class WithKPYFragment : Fragment() {
             }
         }
 
-        viewModel.submitWithValueLiveData.observe(viewLifecycleOwner) {
-            when (it) {
-                is Resource.Loading -> {
-                    loading.show()
-                }
-
-                is Resource.Success -> {
-                    loading.dismiss()
-                    requireContext().showSuccessDialog("Press Ok To Download And Print!") {
-                        viewModel.getPdf(it.data.orEmpty())
-                    }
-                }
-
-                is Resource.Error -> {
-
-                    loading.dismiss()
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
-                }
-            }
-        }
 
         viewModel.submitWithKPYLiveData.observe(viewLifecycleOwner) {
             when (it) {
@@ -398,9 +404,10 @@ class WithKPYFragment : Fragment() {
                         "old_voucher_paid_amount",
                         args.oldVoucherPaidAmount.toString()
                     ),
+                    "with_kpy"
                 )
             } else {
-                viewModel.submitWithValue(
+                viewModel.submitWithKPY(
                     productIdList,
                     viewModel.getCustomerId(),
                     paid_amount,
@@ -410,7 +417,8 @@ class WithKPYFragment : Fragment() {
                     MultipartBody.Part.createFormData(
                         "old_voucher_paid_amount",
                         args.oldVoucherPaidAmount.toString()
-                    )
+                    ),
+                    "with_value"
                 )
             }
 

@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.shwemisale.R
+import com.example.shwemisale.data_layers.dto.GeneralSalePrintItem
 import com.example.shwemisale.data_layers.dto.printing.RebuyPrintItem
 import com.example.shwemisale.screen.goldFromHome.getKPYFromYwae
 import com.github.chrisbanes.photoview.PhotoView
@@ -237,6 +238,29 @@ fun combineLists(list1: List<String>, list2: List<RebuyPrintItem>): List<Pair<St
                 }
                 2 -> Pair(list1[j], list2[i].c_voucher_buying_price.orEmpty() + " Kyats")
                 3 -> Pair(list1[j], list2[i].b_voucher_buying_value.orEmpty()+" Kyats")
+                else->Pair("","")
+            }
+            combinedList.add(pair)
+        }
+
+    }
+
+    return combinedList
+}
+
+fun combineListsGeneralSalePrint(list1: List<String>, list2: List<GeneralSalePrintItem>): List<Pair<String, String>> {
+
+    val combinedList = mutableListOf<Pair<String, String>>()
+
+    for (i in list2.indices) {
+        for (j in list1.indices){
+            val pair = when (j) {
+                0 -> Pair(list1[j], list2[i].name.orEmpty())
+                1 -> {
+
+                    Pair(list1[j], (list2[i].qty?:0).toString())
+                }
+                2 -> Pair(list1[j], (list2[i].cost?:0).toString() + " Kyats")
                 else->Pair("","")
             }
             combinedList.add(pair)

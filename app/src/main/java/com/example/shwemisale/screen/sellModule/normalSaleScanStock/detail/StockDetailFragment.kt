@@ -45,10 +45,16 @@ class StockDetailFragment : Fragment() {
 
         viewModel.getProductSizeAndReason(args.productInfo.id)
 //        for goldPrice
-        if(args.productInfo.order_sale_gold_price.isNullOrEmpty() || args.productInfo.order_sale_gold_price == "0"){
+        if (args.productInfo.order_sale_gold_price.isNullOrEmpty() || args.productInfo.order_sale_gold_price == "0") {
             viewModel.getGoldTypePrice(args.productInfo.gold_type_id)
-        }else{
-            stockGoldPrice = args.productInfo.order_sale_gold_price!!.toInt()
+        } else {
+            if (args.productInfo.edited_gold_price.isNullOrEmpty()) {
+                stockGoldPrice = args.productInfo.order_sale_gold_price!!.toInt()
+                binding.edtGoldPrice.setText(stockGoldPrice.toString())
+            } else {
+                stockGoldPrice = args.productInfo.edited_gold_price!!.toInt()
+                binding.edtGoldPrice.setText(stockGoldPrice.toString())
+            }
         }
         binding.edtGoldAndGemWeight.setText(args.productInfo.old_gold_and_gem_weight_gm)
         val gemWeightKpy =
@@ -64,6 +70,7 @@ class StockDetailFragment : Fragment() {
                 is Resource.Loading -> {
                     loading.show()
                 }
+
                 is Resource.Success -> {
                     loading.dismiss()
                     val reasonList = it.data!!.reasons.map {
@@ -82,10 +89,10 @@ class StockDetailFragment : Fragment() {
                             binding.edtOldJade.isEnabled = selectedItem.is_clip_change == "1"
                             binding.edtNewJade.isEnabled = selectedItem.is_clip_change == "1"
                             binding.edtNewGoldAndGemWeight.setText(args.productInfo.gold_and_gem_weight_gm)
-                            if (selectedItem.is_clip_change=="1"){
+                            if (selectedItem.is_clip_change == "1") {
                                 binding.edtNewJade.setText(args.productInfo.new_clip_wt_gm)
                                 binding.edtOldJade.setText(args.productInfo.old_clip_wt_gm)
-                            }else{
+                            } else {
                                 binding.edtOldJade.text?.clear()
                                 binding.edtNewJade.text?.clear()
                             }
@@ -108,10 +115,10 @@ class StockDetailFragment : Fragment() {
                     var passedReason = it.data!!.reasons.find {
                         it.id == args.productInfo.edit_reason_id
                     }
-                    if (passedReason!=null){
+                    if (passedReason != null) {
                         binding.actReason.setText(passedReason?.reason.orEmpty(), false)
-                    }else{
-                        binding.actReason.setText("none",false)
+                    } else {
+                        binding.actReason.setText("none", false)
                     }
 
                     binding.actReason.setOnClickListener {
@@ -146,6 +153,7 @@ class StockDetailFragment : Fragment() {
                     }
 
                 }
+
                 is Resource.Error -> {
                     loading.dismiss()
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
@@ -157,16 +165,21 @@ class StockDetailFragment : Fragment() {
                 is Resource.Loading -> {
                     loading.show()
                 }
+
                 is Resource.Success -> {
                     loading.dismiss()
-                    if (it.data?.get(0)?.name.orEmpty() == "WG") {
-                        stockGoldPrice =
+                    stockGoldPrice = if (args.productInfo.edited_gold_price.isNullOrEmpty()) {
+                        if (it.data?.get(0)?.name.orEmpty() == "WG") {
                             (it.data?.get(0)?.price.let { if (it.isNullOrEmpty()) 0 else it.toInt() } * 16.6).toInt()
-                    } else {
-                        stockGoldPrice =
+                        } else {
                             it.data?.get(0)?.price.let { if (it.isNullOrEmpty()) 0 else it.toInt() }
+                        }
+                    } else {
+                        args.productInfo.edited_gold_price!!.toInt()
                     }
+                    binding.edtGoldPrice.setText(stockGoldPrice.toString())
                 }
+
                 is Resource.Error -> {
                     loading.dismiss()
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
@@ -179,6 +192,7 @@ class StockDetailFragment : Fragment() {
                 is Resource.Loading -> {
                     loading.show()
                 }
+
                 is Resource.Success -> {
                     loading.dismiss()
                     requireContext().showSuccessDialog(it.data!!) {
@@ -186,6 +200,7 @@ class StockDetailFragment : Fragment() {
                         findNavController().popBackStack()
                     }
                 }
+
                 is Resource.Error -> {
                     loading.dismiss()
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
@@ -239,7 +254,7 @@ class StockDetailFragment : Fragment() {
             )
 
 
-            val goldPrice = (goldWeightYwae / 128 + wastageKyat) * stockGoldPrice
+            val goldPrice = (goldWeightYwae / 128 + wastageKyat) * generateNumberFromEditText(binding.edtGoldPrice).toInt()
             //goldPrice =(goldWeightKyat+wastageKyat)*stockGoldPrice
             //stock value = goldPrice + maintainence_cost+ptclip+diamondGemValue-promotionPay
             val stockValue =
@@ -265,15 +280,15 @@ class StockDetailFragment : Fragment() {
             binding.edtWeightDifferenceP.setText(weightDifferencekpy[1].toInt().toString())
             binding.edtWeightDifferenceY.setText(String.format("%.2f", weightDifferencekpy[2]))
 
-            val goldWeightGm = if (binding.edtNewGoldAndGemWeight.text.isNullOrEmpty()){
-                (args.productInfo.gold_weight_ywae.toDouble()/128)*16.6
-            }else{
+            val goldWeightGm = if (binding.edtNewGoldAndGemWeight.text.isNullOrEmpty()) {
+                (args.productInfo.gold_weight_ywae.toDouble() / 128) * 16.6
+            } else {
                 generateNumberFromEditText(binding.edtNewGoldAndGemWeight).toDouble()
             }
 
             if (args.productInfo.jewellery_type_id == "4" || args.productInfo.jewellery_type_id == "16") {
                 val lengthDifference =
-                   ( weightDifference * 16.6 / goldWeightGm)  * generateNumberFromEditText(
+                    (weightDifference * 16.6 / goldWeightGm) * generateNumberFromEditText(
                         binding.actStockSize
                     ).toDouble()
                 binding.edtLengthDifference.setText(lengthDifference.toString())
@@ -311,7 +326,13 @@ class StockDetailFragment : Fragment() {
                     "GemWeight Must be less than Gold plus Gem Weight",
                     Toast.LENGTH_LONG
                 ).show()
-            }else{
+            } else {
+                val edited_gold_price =
+                    if (stockGoldPrice != generateNumberFromEditText(binding.edtGoldPrice).toInt()) {
+                        generateNumberFromEditText(binding.edtGoldPrice)
+                    } else {
+                        null
+                    }
                 viewModel.updateProductInfo(
                     args.productInfo.id,
                     if (!binding.edtNewGoldAndGemWeight.text.isNullOrEmpty()) {
@@ -335,10 +356,44 @@ class StockDetailFragment : Fragment() {
                     generateNumberFromEditText(binding.edtFee),
                     selectedGeneralSaleId,
                     generateNumberFromEditText(binding.edtNewJade),
-                    generateNumberFromEditText(binding.edtOldJade)
+                    generateNumberFromEditText(binding.edtOldJade),
+                    edited_gold_price
                 )
             }
 
+        }
+
+        binding.btnCalculateWastageWithGoldPrice.setOnClickListener {
+            //diff price= orig price- change price= 100000
+            //
+           // diff wastage= (gold wt+ orig wastage) * diff price/orig price= 100000/2000000= 0K 0P 6.4Y            //
+            //new wastage= orig wastage+ diff wastage = (0K 1P 0Y)+ (0K 0P 6.4Y)= 0K 1P 6.4Y
+            val goldWeightYwae = if (binding.edtNewGoldAndGemWeight.isEnabled) {
+                getYwaeFromGram(generateNumberFromEditText(binding.edtNewGoldAndGemWeight).toDouble()) - getYwaeFromKPY(
+                    generateNumberFromEditText(binding.edtGemWeightK).toInt(),
+                    generateNumberFromEditText(binding.edtGemWeightP).toInt(),
+                    generateNumberFromEditText(binding.edtGemWeightY).toDouble()
+                )
+            } else {
+                getYwaeFromGram(generateNumberFromEditText(binding.edtGoldAndGemWeight).toDouble()) - getYwaeFromKPY(
+                    generateNumberFromEditText(binding.edtGemWeightK).toInt(),
+                    generateNumberFromEditText(binding.edtGemWeightP).toInt(),
+                    generateNumberFromEditText(binding.edtGemWeightY).toDouble()
+                )
+            }
+
+
+
+            val diffPrice =
+                stockGoldPrice.toDouble() - generateNumberFromEditText(binding.edtGoldPrice).toDouble()
+
+            val diffWastage =(goldWeightYwae + args.productInfo.wastage_weight_ywae.toDouble() )*diffPrice/ generateNumberFromEditText(binding.edtGoldPrice).toDouble()
+            val newWastage = args.productInfo.wastage_weight_ywae.toDouble() + diffWastage
+
+            val wastagekpy = getKPYFromYwae(newWastage)
+            binding.edtUnderCountK.setText(wastagekpy[0].toInt().toString())
+            binding.edtUnderCountP.setText(wastagekpy[1].toInt().toString())
+            binding.edtUnderCountY.setText(String.format("%.2f", wastagekpy[2]))
         }
     }
 

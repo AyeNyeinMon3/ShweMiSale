@@ -301,6 +301,6 @@ class AkoukSellViewModel @Inject constructor(
     }
 
     fun getTotalCVoucherBuyingPrice(): String {
-        return localDatabase.getTotalCVoucherBuyingPriceForStockFromHome().orEmpty()
+        return localDatabase.getTotalBVoucherBuyingPriceForStockFromHome().orEmpty()
     }
 }

@@ -2,22 +2,19 @@ package com.example.shwemisale.screen.sellModule.openVoucher.withValue
 
 import androidx.lifecycle.*
 import com.example.shwemi.util.Resource
+import com.example.shwemisale.data_layers.domain.goldFromHome.StockFromHomeDomain
 import com.example.shwemisale.data_layers.dto.calculation.GoldPriceDto
-import com.example.shwemisale.data_layers.ui_models.goldFromHome.StockFromHomeInfoUiModel
 import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.repositoryImpl.AuthRepoImpl
 import com.example.shwemisale.repositoryImpl.GoldFromHomeRepositoryImpl
 import com.example.shwemisale.repositoryImpl.NormalSaleRepositoryImpl
 import com.example.shwemisale.repositoryImpl.PrintingRepoImpl
 import com.example.shwemisale.room_database.AppDatabase
-import com.example.shwemisale.room_database.entity.StockFromHomeFinalInfo
-import com.example.shwemisale.room_database.entity.asUiModel
 import com.example.shwemisale.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import javax.inject.Inject
 
@@ -30,6 +27,10 @@ class WithValueViewModel @Inject constructor(
     private val printingRepoImpl: PrintingRepoImpl,
     private val localDatabase: LocalDatabase
 ) : ViewModel() {
+    private val _stockFromHomeInfoLiveData = SingleLiveEvent<Resource<List<StockFromHomeDomain>>>()
+    val stockFromHomeInfoLiveData: SingleLiveEvent<Resource<List<StockFromHomeDomain>>>
+        get() = _stockFromHomeInfoLiveData
+
     private val _pdfDownloadLiveData = SingleLiveEvent<Resource<String>>()
     val pdfDownloadLiveData: SingleLiveEvent<Resource<String>>
         get() = _pdfDownloadLiveData
@@ -91,8 +92,18 @@ class WithValueViewModel @Inject constructor(
             _getGoldPriceLiveData.value = normalSaleRepositoryImpl.getGoldPrices(productIdList)
         }
     }
+    fun saveTotalGoldWeightYwae(ywae: String) {
+        localDatabase.saveGoldWeightYwaeForStockFromHome(ywae)
+    }
+
+    fun saveTotalPawnPrice(price: String) {
+        localDatabase.saveTotalPawnPriceForStockFromHome(price)
+    }
+    fun saveTotalBVoucherBuyingPrice(price: String) {
+        localDatabase.saveTotalCVoucherBuyingPriceForStockFromHome(price)
+    }
     fun getTotalCVoucherBuyingPrice():String{
-        return localDatabase.getTotalCVoucherBuyingPriceForStockFromHome().orEmpty()
+        return localDatabase.getTotalBVoucherBuyingPriceForStockFromHome().orEmpty()
     }
     fun getTotalGoldWeightYwae():String{
         return localDatabase.getGoldWeightYwaeForStockFromHome().orEmpty()
@@ -121,6 +132,28 @@ class WithValueViewModel @Inject constructor(
             _getRedeemMoneyLiveData.value = normalSaleRepositoryImpl.getRedeemMoney(
                 redeemAmount
             )
+        }
+    }
+    private val _updateEValueLiveData = SingleLiveEvent<Resource<String>>()
+    val updateEValueLiveData: SingleLiveEvent<Resource<String>>
+        get() = _updateEValueLiveData
+
+    fun updateEvalue(
+        eValue:String
+    ){
+        viewModelScope.launch {
+            _updateEValueLiveData.value = Resource.Loading()
+            _updateEValueLiveData.value = normalSaleRepositoryImpl.updateEValue(eValue,localDatabase.getStockFromHomeSessionKey())
+        }
+    }
+
+    fun getStockFromHomeList() {
+        _stockFromHomeInfoLiveData.value = Resource.Loading()
+        viewModelScope.launch {
+            _stockFromHomeInfoLiveData.value =
+                normalSaleRepositoryImpl.getStockFromHomeList(
+                    localDatabase.getStockFromHomeSessionKey().orEmpty()
+                )
         }
     }
     init {

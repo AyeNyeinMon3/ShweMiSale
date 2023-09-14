@@ -54,5 +54,6 @@ interface ProductService {
         @Field("general_sale_item_id")general_sale_item_id:String?,
         @Field("new_clip_wt_gm")new_clip_wt_gm:String?,
         @Field("old_clip_wt_gm")old_clip_wt_gm:String?,
+        @Field("edited_gold_price")edited_gold_price:String?,
         ):Response<SimpleResponseWithDataString>
 }

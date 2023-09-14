@@ -57,7 +57,8 @@ interface NormalSaleService {
         @Part("redeem_point") redeem_point: RequestBody?,
         @Part("old_voucher_code") old_voucher_code: RequestBody?,
         @Part old_voucher_paid_amount: MultipartBody.Part?,
-        @Part("old_stock_session_key") old_stock_session_key: RequestBody,
+        @Part("old_stock_session_key") old_stock_session_key: RequestBody?,
+        @Part("old_stock_calc_type") old_stock_calc_type: RequestBody,
         ): Response<SimpleResponseWithDataString>
 
     @GET("api/old_stocks")
@@ -198,7 +199,8 @@ interface NormalSaleService {
         @Part("user_id") user_id: RequestBody,
         @Part("paid_amount") paid_amount: RequestBody,
         @Part("reduced_cost") reduced_cost: RequestBody,
-        @Part("old_stock_session_key") old_stock_session_key: RequestBody,
+        @Part("old_stock_session_key") old_stock_session_key: RequestBody?,
+        @Part("old_stock_calc_type") old_stock_calc_type: RequestBody,
         @Part oldStockSampleListId: List<MultipartBody.Part>?
     ): Response<SimpleResponseWithDataString>
 

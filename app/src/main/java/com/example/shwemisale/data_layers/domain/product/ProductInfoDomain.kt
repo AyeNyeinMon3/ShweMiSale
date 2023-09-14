@@ -27,6 +27,7 @@ data class ProductInfoDomain(
     var is_order_sale: String?,
     var order_sale_gold_price: String?,
     var order_sale_code: String?,
+    val edited_gold_price:String?,
     val image: String
 )
 
@@ -55,6 +56,7 @@ fun ProductInfoDomain.asUiModel(): ProductInfoUiModel {
         is_order_sale,
         order_sale_gold_price,
         order_sale_code,
+        edited_gold_price,
         image
     )
 }

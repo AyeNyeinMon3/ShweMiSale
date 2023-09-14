@@ -383,10 +383,9 @@ class SellResellStockInfoAddedFragment : Fragment() {
                 binding.edtPaymentFromShop.text.isNullOrEmpty() ||
                 binding.edtPriceB.text.isNullOrEmpty() ||
                 (viewModel.selectedImagePath.isNullOrEmpty() && args.stockFromHomeInfo?.image?.id.isNullOrEmpty()) ||
-
                 (!binding.radioBtnOutsideStock.isChecked && binding.radioBtnBrandedStock.isChecked.not())
             ) {
-                Toast.makeText(requireContext(), "Please Enter Required Values", Toast.LENGTH_LONG)
+                Toast.makeText(requireContext(), "Please Enter Valid Values", Toast.LENGTH_LONG)
                     .show()
             } else {
                 val imageFile = viewModel.selectedImagePath?.let { compressImage(it) }

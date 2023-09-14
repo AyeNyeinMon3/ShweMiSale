@@ -385,26 +385,52 @@ class ReceiveNewOrderFragment : Fragment() {
 //            if(generateNumberFromEditText(binding.edtDeposit).toDouble()>poloValue){
 //                Toast.makeText(requireContext(),"ပေးသွင်းငွေသည် ပိုလိုတန်ဖိုးထက် မကြီးရန်",Toast.LENGTH_LONG).show()
 //            }else{
-                viewModel.submit(
-                    binding.edtOrderItem.text.toString(),
-                    selectedGoldType,
-                    viewModel.goldPrice.toString(),
-                    orderedGoldWeightYwae.toString(),
-                    getYwaeFromKPY(
-                        generateNumberFromEditText(binding.edtSingleEstimatedWastageK).toInt(),
-                        generateNumberFromEditText(binding.edtSingleEstimatedWastageP).toInt(),
-                        generateNumberFromEditText(binding.edtSingleEstimatedWastageY).toDouble(),
-                    ).toString(),
-                    generateNumberFromEditText(binding.edtQuantity),
-                    generateNumberFromEditText(binding.edtGemValue),
-                    generateNumberFromEditText(binding.edtFee),
-                    binding.tvOrderDate.text.toString(),
-                    binding.edtNote.text.toString(),
-                    viewModel.getCustomerId(),
-                    paid_amount,
-                    "0",
-                    oldStockSampleListId = sampleIdMultiPartList
-                )
+                if(binding.radioBtnWithKpy.isChecked){
+                    viewModel.submit(
+                        binding.edtOrderItem.text.toString(),
+                        selectedGoldType,
+                        viewModel.goldPrice.toString(),
+                        orderedGoldWeightYwae.toString(),
+                        getYwaeFromKPY(
+                            generateNumberFromEditText(binding.edtSingleEstimatedWastageK).toInt(),
+                            generateNumberFromEditText(binding.edtSingleEstimatedWastageP).toInt(),
+                            generateNumberFromEditText(binding.edtSingleEstimatedWastageY).toDouble(),
+                        ).toString(),
+                        generateNumberFromEditText(binding.edtQuantity),
+                        generateNumberFromEditText(binding.edtGemValue),
+                        generateNumberFromEditText(binding.edtFee),
+                        binding.tvOrderDate.text.toString(),
+                        binding.edtNote.text.toString(),
+                        viewModel.getCustomerId(),
+                        paid_amount,
+                        "0",
+                        oldStockSampleListId = sampleIdMultiPartList,
+                        old_stock_calc_type = "with_kpy"
+                    )
+                }else{
+                    viewModel.submit(
+                        binding.edtOrderItem.text.toString(),
+                        selectedGoldType,
+                        viewModel.goldPrice.toString(),
+                        orderedGoldWeightYwae.toString(),
+                        getYwaeFromKPY(
+                            generateNumberFromEditText(binding.edtSingleEstimatedWastageK).toInt(),
+                            generateNumberFromEditText(binding.edtSingleEstimatedWastageP).toInt(),
+                            generateNumberFromEditText(binding.edtSingleEstimatedWastageY).toDouble(),
+                        ).toString(),
+                        generateNumberFromEditText(binding.edtQuantity),
+                        generateNumberFromEditText(binding.edtGemValue),
+                        generateNumberFromEditText(binding.edtFee),
+                        binding.tvOrderDate.text.toString(),
+                        binding.edtNote.text.toString(),
+                        viewModel.getCustomerId(),
+                        paid_amount,
+                        "0",
+                        oldStockSampleListId = sampleIdMultiPartList,
+                        old_stock_calc_type = "with_value"
+                    )
+                }
+
             }else{
                 Toast.makeText(requireContext(),"Qty must be larger than zero",Toast.LENGTH_LONG).show()
             }

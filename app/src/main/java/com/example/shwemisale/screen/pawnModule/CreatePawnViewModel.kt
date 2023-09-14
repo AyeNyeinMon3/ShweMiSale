@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shwemi.util.Resource
 import com.example.shwemisale.data_layers.dto.pawn.PawnInterestRateDto
-import com.example.shwemisale.data_layers.dto.printing.PawnCreatePrintDto
 import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.repositoryImpl.AuthRepoImpl
 import com.example.shwemisale.repositoryImpl.PawnRepositoryImpl
@@ -15,7 +14,6 @@ import com.example.shwemisale.room_database.AppDatabase
 import com.example.shwemisale.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import okhttp3.MultipartBody
 import javax.inject.Inject
 
 @HiltViewModel
@@ -89,7 +87,7 @@ class CreatePawnViewModel @Inject constructor(
     }
 
     fun openVoucherPrice():String{
-        return localDatabase.getTotalCVoucherBuyingPriceForStockFromHome().orEmpty()
+        return localDatabase.getTotalBVoucherBuyingPriceForStockFromHome().orEmpty()
     }
 
 

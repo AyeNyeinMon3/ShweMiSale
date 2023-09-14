@@ -3,19 +3,14 @@ package com.example.shwemisale.screen.sellModule.recieveNewOrder
 import androidx.lifecycle.*
 import com.example.shwemi.util.Resource
 import com.example.shwemisale.data_layers.domain.goldFromHome.StockFromHomeDomain
-import com.example.shwemisale.data_layers.domain.product.ProductInfoDomain
 import com.example.shwemisale.data_layers.domain.sample.SampleDomain
 import com.example.shwemisale.data_layers.dto.calculation.GoldTypePriceDto
-import com.example.shwemisale.data_layers.ui_models.goldFromHome.StockFromHomeInfoUiModel
 import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.repositoryImpl.AuthRepoImpl
 import com.example.shwemisale.repositoryImpl.GoldFromHomeRepositoryImpl
 import com.example.shwemisale.repositoryImpl.NormalSaleRepositoryImpl
 import com.example.shwemisale.repositoryImpl.PrintingRepoImpl
 import com.example.shwemisale.room_database.AppDatabase
-import com.example.shwemisale.room_database.entity.StockFromHomeFinalInfo
-import com.example.shwemisale.room_database.entity.asEntity
-import com.example.shwemisale.room_database.entity.asUiModel
 import com.example.shwemisale.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -100,6 +95,7 @@ class ReceiveNewOrderViewModel @Inject constructor(
         user_id: String,
         paid_amount: String,
         reduced_cost: String,
+        old_stock_calc_type: String,
         oldStockSampleListId: List<MultipartBody.Part>?
 
     ) {
@@ -119,7 +115,8 @@ class ReceiveNewOrderViewModel @Inject constructor(
                 user_id,
                 paid_amount,
                 reduced_cost,
-                localDatabase.getStockFromHomeSessionKey().orEmpty().toRequestBody("multipart/form-data".toMediaTypeOrNull()),
+                localDatabase.getStockFromHomeSessionKey()?.toRequestBody("multipart/form-data".toMediaTypeOrNull()),
+                old_stock_calc_type.toRequestBody("multipart/form-data".toMediaTypeOrNull()),
                 oldStockSampleListId
             )
         }
@@ -149,7 +146,7 @@ class ReceiveNewOrderViewModel @Inject constructor(
         }
     }
     fun getTotalCVoucherBuyingPrice():String{
-        return localDatabase.getTotalCVoucherBuyingPriceForStockFromHome().orEmpty()
+        return localDatabase.getTotalBVoucherBuyingPriceForStockFromHome().orEmpty()
     }
     fun getTotalGoldWeightYwae():String{
         return localDatabase.getGoldWeightYwaeForStockFromHome()?:"0"

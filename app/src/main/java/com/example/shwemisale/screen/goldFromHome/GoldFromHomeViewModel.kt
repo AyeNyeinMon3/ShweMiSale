@@ -3,13 +3,9 @@ package com.example.shwemisale.screen.goldFromHome
 import androidx.lifecycle.*
 import com.example.shwemi.util.Resource
 import com.example.shwemisale.data_layers.domain.goldFromHome.StockFromHomeDomain
-import com.example.shwemisale.data_layers.domain.goldFromHome.StockWeightByVoucherDomain
 import com.example.shwemisale.data_layers.domain.goldFromHome.asUiModel
 import com.example.shwemisale.data_layers.dto.calculation.GoldTypePriceDto
-import com.example.shwemisale.data_layers.dto.goldFromHome.GemWeightDetail
 import com.example.shwemisale.data_layers.dto.printing.RebuyPrintDto
-import com.example.shwemisale.data_layers.dto.printing.RebuyPrintResponse
-import com.example.shwemisale.data_layers.ui_models.goldFromHome.StockFromHomeInfoUiModel
 import com.example.shwemisale.data_layers.ui_models.goldFromHome.StockWeightByVoucherUiModel
 import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.repositoryImpl.AuthRepoImpl
@@ -18,17 +14,10 @@ import com.example.shwemisale.repositoryImpl.NormalSaleRepositoryImpl
 import com.example.shwemisale.repositoryImpl.PrintingRepoImpl
 import com.example.shwemisale.room_database.AppDatabase
 import com.example.shwemisale.room_database.entity.StockFromHomeFinalInfo
-import com.example.shwemisale.room_database.entity.asEntity
-import com.example.shwemisale.room_database.entity.asUiModel
 import com.example.shwemisale.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
-import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
@@ -60,7 +49,7 @@ class GoldFromHomeViewModel @Inject constructor(
     fun savePawnPriceForRemainedPawnItems(price: String) {
         localDatabase.saveRemainedPawnItemsPrice(price)
     }
-    fun saveTotalCVoucherBuyingPrice(price: String) {
+    fun saveTotalBVoucherBuyingPrice(price: String) {
         localDatabase.saveTotalCVoucherBuyingPriceForStockFromHome(price)
     }
 

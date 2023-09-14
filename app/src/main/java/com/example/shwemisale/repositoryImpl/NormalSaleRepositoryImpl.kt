@@ -533,8 +533,8 @@ class NormalSaleRepositoryImpl @Inject constructor(
         redeem_point: RequestBody?,
         old_voucher_paid_amount: MultipartBody.Part?,
         old_voucher_code: RequestBody?,
-        old_stock_session_key: RequestBody,
-
+        old_stock_session_key: RequestBody?,
+        old_stock_calc_type: RequestBody,
         ): Resource<String> {
         return try {
             val response = normalSaleService.submitWithKPY(
@@ -546,7 +546,8 @@ class NormalSaleRepositoryImpl @Inject constructor(
                 redeem_point,
                 old_voucher_code,
                 old_voucher_paid_amount,
-                old_stock_session_key
+                old_stock_session_key,
+                old_stock_calc_type
             )
 
             if (response.isSuccessful && response.body() != null) {
@@ -639,7 +640,8 @@ class NormalSaleRepositoryImpl @Inject constructor(
         user_id: String,
         paid_amount: String,
         reduced_cost: String,
-        old_stock_session_key: RequestBody,
+        old_stock_session_key: RequestBody?,
+        old_stock_calc_type: RequestBody,
         oldStockSampleListId: List<MultipartBody.Part>?
     ): Resource<String> {
         return try {
@@ -659,6 +661,7 @@ class NormalSaleRepositoryImpl @Inject constructor(
                 paid_amount.toRequestBody("multipart/form-data".toMediaTypeOrNull()),
                 reduced_cost.toRequestBody("multipart/form-data".toMediaTypeOrNull()),
                 old_stock_session_key,
+                old_stock_calc_type,
                 oldStockSampleListId
             )
 

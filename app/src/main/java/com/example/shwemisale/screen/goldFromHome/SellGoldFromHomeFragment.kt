@@ -12,38 +12,30 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.epson.epos2.Epos2CallbackCode
 import com.epson.epos2.Epos2Exception
 import com.epson.epos2.printer.Printer
 import com.epson.epos2.printer.PrinterStatusInfo
 import com.epson.epos2.printer.ReceiveListener
 import com.example.shwemi.util.*
-import com.example.shwemisale.R
-import com.example.shwemisale.data_layers.domain.goldFromHome.asUiModel
 import com.example.shwemisale.data_layers.dto.printing.RebuyPrintItem
 import com.example.shwemisale.data_layers.ui_models.goldFromHome.StockWeightByVoucherUiModel
 import com.example.shwemisale.databinding.DialogChangeFeatureBinding
-import com.example.shwemisale.databinding.DialogIpAddressBinding
 import com.example.shwemisale.databinding.DialogSellTypeBinding
 import com.example.shwemisale.databinding.DialogStockCheckBinding
 import com.example.shwemisale.databinding.FragmentGoldFromHomeSellBinding
 import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.qrscan.getBarLauncher
 import com.example.shwemisale.qrscan.scanQrCode
-import com.example.shwemisale.screen.sellModule.GoldFromHomeData
 import com.example.shwemisale.screen.sellModule.GoldFromHomeRecyclerAdapter
 import com.example.shwemisale.screen.sellModule.StockCheckRecyclerAdapter
 import com.example.shwemisale.screen.sellModule.generalSale.GeneralSellFragmentDirections
-import com.example.shwemisale.screen.sellModule.sellStart.SellStartViewModel
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneOffset
 import javax.inject.Inject
-import javax.inject.Singleton
 
 @AndroidEntryPoint
 class SellGoldFromHomeFragment : Fragment(), ReceiveListener {
@@ -435,7 +427,7 @@ class SellGoldFromHomeFragment : Fragment(), ReceiveListener {
                     }
                     viewModel.saveTotalPawnPrice(totalPawnPrice.toString())
                     viewModel.saveTotalGoldWeightYwae(totalGoldWeightYwae.toString())
-                    viewModel.saveTotalCVoucherBuyingPrice(totalBVoucherBuyingPrice.toString())
+                    viewModel.saveTotalBVoucherBuyingPrice(totalBVoucherBuyingPrice.toString())
 
                     binding.edtCalculateTotalPawnPrice.setText(totalPawnPrice.toString())
                     binding.edtVoucherPurchasePayment.setText(totalBVoucherBuyingPrice.toString())

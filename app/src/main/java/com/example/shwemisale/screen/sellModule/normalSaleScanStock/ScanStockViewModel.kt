@@ -91,6 +91,7 @@ class ScanStockViewModel @Inject constructor(
         general_sale_item_id: String?,
         new_clip_wt_gm: String?,
         old_clip_wt_gm:String?,
+        edited_gold_price:String?
     ) {
         productInfoList.find { it.id == productId }?.gold_and_gem_weight_gm
 
@@ -109,7 +110,8 @@ class ScanStockViewModel @Inject constructor(
                 maintenance_cost,
                 general_sale_item_id,
                 new_clip_wt_gm,
-                old_clip_wt_gm
+                old_clip_wt_gm,
+                edited_gold_price
             )
         }
     }

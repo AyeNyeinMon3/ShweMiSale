@@ -1,5 +1,6 @@
 package com.example.shwemisale.network.api_services
 
+import com.example.shwemisale.data_layers.dto.GeneralSalePrintResponse
 import com.example.shwemisale.data_layers.dto.SimpleResponseWithDataString
 import com.example.shwemisale.data_layers.dto.printing.PawnCreatePrintResponse
 import com.example.shwemisale.data_layers.dto.printing.RebuyPrintResponse
@@ -20,6 +21,12 @@ interface PrintingService {
         @Header("Authorization") token: String,
         @Path("pawnItemSaleId") pawnItemSaleId: String
     ): Response<PawnCreatePrintResponse>
+
+    @GET("api/sales/{genrealSaleId}/print")
+    suspend fun getGeneralSalePrint(
+        @Header("Authorization") token: String,
+        @Path("genrealSaleId") genrealSaleId: String
+    ): Response<GeneralSalePrintResponse>
 
     @GET("api/sales/{saleId}/voucher-download")
     suspend fun getSalePrint(

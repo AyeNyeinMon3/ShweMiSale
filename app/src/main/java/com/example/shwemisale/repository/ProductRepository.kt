@@ -40,6 +40,7 @@ interface ProductRepository {
         general_sale_item_id:String?,
         new_clip_wt_gm:String?,
         old_clip_wt_gm:String?,
+        edited_gold_price:String?,
     ): Resource<String>
 
     suspend fun getGoldType(goldTypeId:String):Resource<List<GoldTypePriceDto>>

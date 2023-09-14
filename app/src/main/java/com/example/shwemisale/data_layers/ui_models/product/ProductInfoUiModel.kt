@@ -28,6 +28,7 @@ data class ProductInfoUiModel(
     var is_order_sale: String?,
     var order_sale_gold_price: String?,
     var order_sale_code: String?,
+    val edited_gold_price:String?,
     val image: String
 ) : Parcelable
 

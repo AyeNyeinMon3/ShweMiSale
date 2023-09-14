@@ -129,9 +129,10 @@ class ScanStockFragment : Fragment() {
                 is Resource.Success -> {
                     loading.dismiss()
                     snackBar?.dismiss()
+                    val bonus = if (it.data?.bonus.isNullOrEmpty()) "0" else it.data!!.bonus
                     snackBar = Snackbar.make(
                         binding.root,
-                        "${it.data?.code}'s Bonus : ${it.data?.bonus?:"0"}",
+                        "${it.data?.code}'s BS : $bonus",
                         Snackbar.LENGTH_LONG
                     )
                     snackBar?.show()

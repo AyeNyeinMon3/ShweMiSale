@@ -221,7 +221,8 @@ class ProductRepoImpl @Inject constructor(
         maintenance_cost: String?,
         general_sale_item_id: String?,
         new_clip_wt_gm: String?,
-        old_clip_wt_gm: String?
+        old_clip_wt_gm: String?,
+        edited_gold_price: String?
     ): Resource<String> {
         return try {
             val response = productService.updateProductInfo(
@@ -238,7 +239,8 @@ class ProductRepoImpl @Inject constructor(
                 maintenance_cost,
                 general_sale_item_id,
                 new_clip_wt_gm,
-                old_clip_wt_gm
+                old_clip_wt_gm,
+                edited_gold_price
             )
 
             if (response.isSuccessful && response.body() != null) {

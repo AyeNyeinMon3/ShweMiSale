@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.shwemisale.R
 import com.example.shwemisale.databinding.CustomChipItemBinding
+import com.example.shwemisale.databinding.GeneralSalePrintOptionDialogBinding
 import com.example.shwemisale.databinding.LoadingDialogBinding
 import com.example.shwemisale.databinding.ShwemiSuccessDialogBinding
 
@@ -56,6 +57,27 @@ fun Context.showSuccessDialog( message: String, onClick: () -> Unit) {
     alertDialogBinding.btnOk.setOnClickListener {
         alertDialog.dismiss()
         onClick()
+    }
+    alertDialog.show()
+}
+
+fun Context.showGeneralSalePrintDialog( message: String, onSlipPrint: () -> Unit , onPdfPrint:()->Unit) {
+    val builder = MaterialAlertDialogBuilder(this)
+    val inflater: LayoutInflater = LayoutInflater.from(builder.context)
+    val alertDialogBinding = GeneralSalePrintOptionDialogBinding.inflate(
+        inflater, ConstraintLayout(builder.context), false
+    )
+    builder.setView(alertDialogBinding.root)
+    val alertDialog = builder.create()
+    alertDialog.setCancelable(false)
+    alertDialogBinding.tvMessage.text = message
+    alertDialogBinding.btnSlipPrint.setOnClickListener {
+        alertDialog.dismiss()
+        onSlipPrint()
+    }
+    alertDialogBinding.btnPdfPrint.setOnClickListener {
+        alertDialog.dismiss()
+        onPdfPrint()
     }
     alertDialog.show()
 }

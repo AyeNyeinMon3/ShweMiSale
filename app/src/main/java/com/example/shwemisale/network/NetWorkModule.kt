@@ -23,6 +23,8 @@ import retrofit2.create
 import javax.inject.Singleton
 
 const val BASE_URL = "https://sales.shwemigoldshop.com/"
+const val BASE_URL_STG_I = "https://stg1sales.shwemigoldshop.com/"
+const val BASE_URL_STG_II = "https://stg2sales.shwemigoldshop.com/"
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -35,7 +37,7 @@ class NetworkModule {
             .build()
         return Retrofit.Builder()
             .addConverterFactory(MoshiConverterFactory.create(moshi))
-            .baseUrl(BASE_URL)
+            .baseUrl(BASE_URL_STG_I)
             .client(okHttpClient)
             .build()
     }

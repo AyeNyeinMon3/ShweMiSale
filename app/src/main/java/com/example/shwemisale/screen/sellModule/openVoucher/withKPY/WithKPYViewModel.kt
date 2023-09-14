@@ -3,23 +3,18 @@ package com.example.shwemisale.screen.sellModule.openVoucher.withKPY
 import androidx.lifecycle.*
 import com.example.shwemi.util.Resource
 import com.example.shwemisale.data_layers.dto.calculation.GoldPriceDto
-import com.example.shwemisale.data_layers.ui_models.goldFromHome.StockFromHomeInfoUiModel
-import com.example.shwemisale.data_layers.ui_models.goldFromHome.StockWeightByVoucherUiModel
 import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.repositoryImpl.AuthRepoImpl
 import com.example.shwemisale.repositoryImpl.GoldFromHomeRepositoryImpl
 import com.example.shwemisale.repositoryImpl.NormalSaleRepositoryImpl
 import com.example.shwemisale.repositoryImpl.PrintingRepoImpl
 import com.example.shwemisale.room_database.AppDatabase
-import com.example.shwemisale.room_database.entity.StockFromHomeFinalInfo
-import com.example.shwemisale.room_database.entity.asUiModel
 import com.example.shwemisale.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import retrofit2.http.Part
 import javax.inject.Inject
 
 @HiltViewModel
@@ -33,9 +28,6 @@ class WithKPYViewModel @Inject constructor(
 ) : ViewModel() {
     var goldPrice = ""
 
-    private val _submitWithValueLiveData = SingleLiveEvent<Resource<String>>()
-    val submitWithValueLiveData: SingleLiveEvent<Resource<String>>
-        get() = _submitWithValueLiveData
 
     private val _pdfDownloadLiveData = SingleLiveEvent<Resource<String>>()
     val pdfDownloadLiveData: SingleLiveEvent<Resource<String>>
@@ -45,30 +37,6 @@ class WithKPYViewModel @Inject constructor(
         viewModelScope.launch {
             _pdfDownloadLiveData.value = Resource.Loading()
             _pdfDownloadLiveData.value=printingRepoImpl.getSalePrint(saleId)
-        }
-    }
-    fun submitWithValue(
-        productIdList: List<MultipartBody.Part>?,
-        user_id: String?,
-        paid_amount: String?,
-        reduced_cost: String?,
-        redeem_point: String?,
-        old_voucher_code:String?,
-        old_voucher_paid_amount: MultipartBody.Part?,
-
-        ) {
-        viewModelScope.launch {
-            _submitWithValueLiveData.value = Resource.Loading()
-            _submitWithValueLiveData.value = normalSaleRepositoryImpl.submitWithValue(
-                productIdList,
-                user_id?.toRequestBody("multipart/form-data".toMediaTypeOrNull()),
-                paid_amount?.toRequestBody("multipart/form-data".toMediaTypeOrNull()),
-                reduced_cost?.toRequestBody("multipart/form-data".toMediaTypeOrNull()),
-                redeem_point?.toRequestBody("multipart/form-data".toMediaTypeOrNull()),
-                old_voucher_paid_amount,
-                old_voucher_code?.toRequestBody("multipart/form-data".toMediaTypeOrNull()),
-                localDatabase.getStockFromHomeSessionKey().orEmpty().toRequestBody("multipart/form-data".toMediaTypeOrNull())
-            )
         }
     }
 
@@ -108,6 +76,7 @@ class WithKPYViewModel @Inject constructor(
         redeem_point: String?,
         old_voucher_code:String?,
         old_voucher_paid_amount: MultipartBody.Part?,
+        old_stock_calc_type: String,
     ) {
         viewModelScope.launch {
             _submitWithKPYLiveData.value = Resource.Loading()
@@ -119,12 +88,13 @@ class WithKPYViewModel @Inject constructor(
                 redeem_point?.toRequestBody("multipart/form-data".toMediaTypeOrNull()),
                 old_voucher_paid_amount,
                 old_voucher_code?.toRequestBody("multipart/form-data".toMediaTypeOrNull()),
-                localDatabase.getStockFromHomeSessionKey().orEmpty().toRequestBody("multipart/form-data".toMediaTypeOrNull())
+                localDatabase.getStockFromHomeSessionKey()?.toRequestBody("multipart/form-data".toMediaTypeOrNull()),
+                old_stock_calc_type.toRequestBody("multipart/form-data".toMediaTypeOrNull())
             )
         }
     }
     fun getTotalCVoucherBuyingPrice():String{
-        return localDatabase.getTotalCVoucherBuyingPriceForStockFromHome().orEmpty()
+        return localDatabase.getTotalBVoucherBuyingPriceForStockFromHome().orEmpty()
     }
     fun getTotalGoldWeightYwae():String{
         return localDatabase.getGoldWeightYwaeForStockFromHome().orEmpty()
@@ -155,6 +125,18 @@ class WithKPYViewModel @Inject constructor(
             _getRedeemMoneyLiveData.value = normalSaleRepositoryImpl.getRedeemMoney(
                 redeemAmount
             )
+        }
+    }
+    private val _updateEValueLiveData = SingleLiveEvent<Resource<String>>()
+    val updateEValueLiveData: SingleLiveEvent<Resource<String>>
+        get() = _updateEValueLiveData
+
+    fun updateEvalue(
+        eValue:String
+    ){
+        viewModelScope.launch {
+            _updateEValueLiveData.value = Resource.Loading()
+            _updateEValueLiveData.value = normalSaleRepositoryImpl.updateEValue(eValue,localDatabase.getStockFromHomeSessionKey())
         }
     }
     init {
