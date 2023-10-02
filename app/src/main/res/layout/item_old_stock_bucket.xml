@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="16dp"
+    app:strokeWidth="1dp"
+    app:cardElevation="0dp"
+    app:strokeColor="@color/grey_line"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_old_stock"
+            android:layout_width="220dp"
+            android:layout_height="220dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:scaleType="centerCrop"
+            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+        <TextView
+            android:id="@+id/tv_old_stock_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            tools:text="ဆွဲကြိုး (1), ကျောက်နားကပ် (2), ဟန်းချိန်း 3"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+            android:textColor="@color/grey_off_black"
+            app:layout_constraintEnd_toEndOf="@+id/iv_old_stock"
+            app:layout_constraintStart_toStartOf="@id/iv_old_stock"
+            app:layout_constraintTop_toBottomOf="@id/iv_old_stock" />
+        <TextView
+            android:id="@+id/tv_old_stock_weight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            tools:text="3.36gm"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+            android:textColor="@color/grey_ash_dark"
+            app:layout_constraintEnd_toEndOf="@id/tv_old_stock_name"
+            app:layout_constraintStart_toStartOf="@id/tv_old_stock_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_old_stock_name" />
+
+        <TextView
+            android:id="@+id/tv_data_filled_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/background_data_filled_state"
+            android:text="Data filled"
+            android:textStyle="bold"
+            android:visibility="gone"
+            android:padding="4dp"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+            android:textColor="@color/green_700"
+            app:layout_constraintStart_toStartOf="@id/tv_old_stock_weight"
+            app:layout_constraintTop_toBottomOf="@id/tv_old_stock_weight" />
+        <TextView
+            android:id="@+id/tv_data_empty_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/background_data_empty_state"
+            android:text="Data empty"
+            android:textStyle="bold"
+            android:padding="4dp"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+            android:textColor="@color/grey_ash_dark"
+            app:layout_constraintStart_toStartOf="@id/tv_old_stock_weight"
+            app:layout_constraintTop_toBottomOf="@id/tv_old_stock_weight" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_view_detail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:backgroundTint="@color/white"
+            app:strokeColor="@color/grey_body"
+            app:cornerRadius="8dp"
+            app:strokeWidth="1dp"
+            android:textColor="@color/grey_body"
+            android:text="View details"
+            android:textAllCaps="false"
+            app:layout_constraintEnd_toEndOf="@+id/iv_old_stock"
+            app:layout_constraintStart_toStartOf="@+id/tv_data_empty_state"
+            app:layout_constraintTop_toBottomOf="@+id/tv_data_empty_state" />
+        <TextView
+            android:id="@+id/tv_remove"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="Remove"
+            android:textAlignment="center"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+            android:textColor="@color/grey_line"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/btn_view_detail"
+            app:layout_constraintStart_toStartOf="@id/btn_view_detail"
+            app:layout_constraintTop_toBottomOf="@id/btn_view_detail" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
