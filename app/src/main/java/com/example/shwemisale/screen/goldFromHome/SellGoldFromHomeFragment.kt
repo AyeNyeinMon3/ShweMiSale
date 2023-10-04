@@ -667,13 +667,14 @@ class SellGoldFromHomeFragment : Fragment(), ReceiveListener {
 
 
         binding.btnAdd.setOnClickListener {
-            view.findNavController()
-                .navigate(
-                    SellGoldFromHomeFragmentDirections.actionSellGoldFromHomeFragmentToSellResellStockInfoAddedFragment(
-                        null,
-                        args.backpressType
-                    )
-                )
+//            view.findNavController()
+//                .navigate(
+//                    SellGoldFromHomeFragmentDirections.actionSellGoldFromHomeFragmentToSellResellStockInfoAddedFragment(
+//                        null,
+//                        args.backpressType
+//                    )
+//                )
+            findNavController().navigate(SellGoldFromHomeFragmentDirections.actionSellGoldFromHomeFragmentToOldStockBucketListFragment())
         }
     }
 

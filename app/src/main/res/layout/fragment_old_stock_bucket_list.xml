@@ -7,10 +7,11 @@
 <include
     android:id="@+id/include_old_stock_no_item_state"
     layout="@layout/include_old_stock_no_item_state"
-    android:visibility="gone"
     />
     <include
         android:id="@+id/include_old_stock_with_items"
         layout="@layout/include_old_stock_with_items"
+        android:visibility="gone"
+
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

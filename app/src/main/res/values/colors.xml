@@ -15,4 +15,24 @@
 
     <color name="base_pink">#CC535F</color>
     <color name="base_low_pink">#FFF5F5</color>
+
+    <color name="grey_body">#616E7C</color>
+    <color name="grey_line">#CBD2D9</color>
+    <color name="grey_input">#E4E7EB</color>
+    <color name="grey_ash">#52606D</color>
+    <color name="grey_ash_dark">#3E4C59</color>
+    <color name="grey_label">#7B8794</color>
+    <color name="grey_black">#323F4B</color>
+    <color name="grey_placeholder">#9AA5B1</color>
+    <color name="grey_off_black">#1F2933</color>
+
+    <color name="green_50">#F1F6F0</color>
+    <color name="green_700">#507749</color>
+
+    <color name="textColor">#1F2933</color>
+    <color name="lineColor">#CBD2D9</color>
+    <color name="inputTextColor">#616E7C</color>
+    <color name="hintTextColor">#9AA5B1</color>
+    <color name="secondaryTextColor">#3E4C59</color>
+
 </resources>

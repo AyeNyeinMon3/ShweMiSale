@@ -8,4 +8,7 @@
     <string name="nav_close">Close</string>
     <string name="loading">Loading Pdf</string>
     <string name="please_wait">Please wait Pdf</string>
+    <string name="choose_from_gallery">Choose from gallery</string>
+    <string name="lbl_learn_more"><u>Learn more</u></string>
+
 </resources>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_constraint_general_expense">
+    <TextView
+        android:id="@+id/tv_lbl_general_expense"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:text="အထွေထွေစားရိတ်"
+        android:textColor="@color/textColor"
+        android:textSize="19sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Switch
+        android:id="@+id/switch_general_expense"
+        android:layout_width="52dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_lbl_general_expense"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_lbl_general_expense"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+   <include
+       android:layout_width="match_parent"
+       android:layout_height="0dp"
+        android:visibility="gone"
+       android:id="@+id/expanded_general_expense"
+       layout="@layout/include_general_expense_expanded_state"
+       app:layout_constraintTop_toBottomOf="@id/tv_lbl_general_expense"
+/>
+</androidx.constraintlayout.widget.ConstraintLayout>

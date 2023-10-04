@@ -84,6 +84,12 @@
             android:name="pawnVoucherCode"
             app:argType="string"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_sellGoldFromHomeFragment_to_oldStockBucketListFragment"
+            app:destination="@id/oldStockBucketListFragment" />
+        <action
+            android:id="@+id/action_sellGoldFromHomeFragment_to_oldStockDetailFragment"
+            app:destination="@id/oldStockDetailFragment" />
 
     </fragment>
     <fragment
@@ -212,5 +218,24 @@
         android:id="@+id/pdfTestFragment"
         android:name="com.example.shwemisale.screen.PdfTestFragment"
         android:label="PdfTestFragment" />
+    <fragment
+        android:id="@+id/oldStockBucketListFragment"
+        android:name="com.example.shwemisale.screen.goldFromHome.bucket.OldStockBucketListFragment"
+        android:label="OldStockBucketListFragment" >
+        <action
+            android:id="@+id/action_oldStockBucketListFragment_to_addOldStockToBucketFragment"
+            app:destination="@id/addOldStockToBucketFragment" />
+        <action
+            android:id="@+id/action_oldStockBucketListFragment_to_oldStockDetailFragment"
+            app:destination="@id/oldStockDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addOldStockToBucketFragment"
+        android:name="com.example.shwemisale.screen.goldFromHome.bucket.addOldStockToBucket.AddOldStockToBucketFragment"
+        android:label="AddOldStockToBucketFragment" />
+    <fragment
+        android:id="@+id/oldStockDetailFragment"
+        android:name="com.example.shwemisale.screen.oldStockDetail.OldStockDetailFragment"
+        android:label="OldStockDetailFragment" />
 
 </navigation>
