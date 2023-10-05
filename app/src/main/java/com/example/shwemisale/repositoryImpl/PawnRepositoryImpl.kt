@@ -19,10 +19,13 @@ class PawnRepositoryImpl @Inject constructor(
     private val localDatabase: LocalDatabase,
     private val pawnService: PawnService
 ) : PawnRepository {
-    override suspend fun getPawnInterestRate(): Resource<List<PawnInterestRateDto>> {
+    override suspend fun getPawnInterestRate(amount:String): Resource<PawnInterestRateDto> {
         return try {
             val response = pawnService.getPawnInterestRate(
                 localDatabase.getAccessToken().orEmpty(),
+                localDatabase.getAccessCustomerId().orEmpty(),
+                amount
+
             )
 
             if (response.isSuccessful && response.body() != null) {

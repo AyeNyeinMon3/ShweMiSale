@@ -37,7 +37,7 @@ class NetworkModule {
             .build()
         return Retrofit.Builder()
             .addConverterFactory(MoshiConverterFactory.create(moshi))
-            .baseUrl(BASE_URL_STG_I)
+            .baseUrl(BASE_URL_STG_II)
             .client(okHttpClient)
             .build()
     }

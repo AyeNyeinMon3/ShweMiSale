@@ -113,6 +113,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textInputLayout_interest_percent" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_get_interest_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/right"
+            app:iconGravity="textStart"
+            app:layout_constraintStart_toEndOf="@id/textInputLayout_interest_percent"
+            app:layout_constraintTop_toTopOf="@id/textInputLayout_interest_percent"
+            app:layout_constraintBottom_toBottomOf="@id/textInputLayout_interest_percent"
+            android:layout_marginStart="8dp"/>
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout_interest_percent"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"

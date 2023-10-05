@@ -10,9 +10,11 @@ import retrofit2.http.*
 
 interface PawnService {
 
-    @GET("api/pawn/interest-rates")
+    @GET("api/pawn/interest-rate")
     suspend fun getPawnInterestRate(
         @Header("Authorization") token:String,
+        @Query("user_id")userId:String,
+        @Query("amount")amount:String
         ):Response<PawnInterestRateApiResponse>
 
     @GET("api/pawn/{voucherCode}/scan")
