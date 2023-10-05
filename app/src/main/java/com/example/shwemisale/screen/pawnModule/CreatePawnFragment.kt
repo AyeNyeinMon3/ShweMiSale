@@ -164,6 +164,7 @@ class CreatePawnFragment : Fragment() {
                     } else {
                         binding.edtMonth.setText(actualMonth.toString())
                     }
+                    binding.edtInterestPercent.setText(it.data?.rate.orEmpty())
 
 //                    binding.edtLoanAmount.addTextChangedListener(object : TextWatcher {
 //                        override fun afterTextChanged(s: Editable) {
