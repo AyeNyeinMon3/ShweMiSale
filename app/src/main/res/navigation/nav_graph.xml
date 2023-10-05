@@ -203,6 +203,14 @@
             android:name="backPressType"
             app:argType="string"
             app:nullable="true" />
+        <argument
+            android:name="goldAndGemWeightGm"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="goldAndGemWeightYwae"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 
     <fragment
@@ -236,6 +244,21 @@
     <fragment
         android:id="@+id/oldStockDetailFragment"
         android:name="com.example.shwemisale.screen.oldStockDetail.OldStockDetailFragment"
-        android:label="OldStockDetailFragment" />
+        android:label="OldStockDetailFragment" >
+        <argument
+            android:name="stockfromhomeinfo"
+            app:argType="com.example.shwemisale.data_layers.domain.goldFromHome.StockFromHomeDomain"
+            app:nullable="true" />
+        <argument
+            android:name="backpresstype"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="goldAndGemWeightGm"
+            app:argType="string" />
+        <argument
+            android:name="goldAndGemWeightYwae"
+            app:argType="string" />
+    </fragment>
 
 </navigation>

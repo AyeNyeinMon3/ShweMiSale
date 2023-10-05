@@ -24,7 +24,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -32,9 +31,6 @@ import androidx.navigation.fragment.navArgs
 import com.example.shwemi.util.*
 import com.example.shwemisale.R
 import com.example.shwemisale.data_layers.domain.goldFromHome.StockFromHomeDomain
-import com.example.shwemisale.data_layers.domain.product.GemWeightDetailDomain
-import com.example.shwemisale.data_layers.dto.goldFromHome.GemWeightDetail
-import com.example.shwemisale.data_layers.dto.goldFromHome.Image
 import com.example.shwemisale.databinding.DialogGemWeightBinding
 import com.example.shwemisale.databinding.DialogMinusPercentageBinding
 import com.example.shwemisale.databinding.DialogResellStockInfoBinding
@@ -44,10 +40,6 @@ import com.example.shwemisale.screen.goldFromHome.*
 import com.example.shwemisale.screen.sellModule.ResellStockRecyclerAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import java.io.File
 import javax.inject.Inject
 
 @AndroidEntryPoint

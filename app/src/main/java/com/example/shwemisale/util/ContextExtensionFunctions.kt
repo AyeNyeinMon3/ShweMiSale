@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.shwemisale.R
 import com.example.shwemisale.databinding.CustomChipItemBinding
+import com.example.shwemisale.databinding.DialogUploadImageBinding
 import com.example.shwemisale.databinding.GeneralSalePrintOptionDialogBinding
 import com.example.shwemisale.databinding.LoadingDialogBinding
 import com.example.shwemisale.databinding.ShwemiSuccessDialogBinding
@@ -60,7 +61,30 @@ fun Context.showSuccessDialog( message: String, onClick: () -> Unit) {
     }
     alertDialog.show()
 }
+fun Context.showUploadImageDialog( onGalleryClick:()->Unit, onCameraClick: () -> Unit) {
+    val builder = MaterialAlertDialogBuilder(this)
+    val inflater: LayoutInflater = LayoutInflater.from(builder.context)
+    val alertDialogBinding = DialogUploadImageBinding.inflate(
+        inflater, ConstraintLayout(builder.context), false
+    )
+    builder.setView(alertDialogBinding.root)
+    val alertDialog = builder.create()
+    alertDialog.setCancelable(false)
+    alertDialogBinding.ivCross.setOnClickListener {
+        alertDialog.dismiss()
+    }
+    alertDialogBinding.mcvChooseFromGallery.setOnClickListener {
+        onGalleryClick()
+        alertDialog.dismiss()
 
+    }
+    alertDialogBinding.mcvTakePhoto.setOnClickListener {
+        onCameraClick()
+        alertDialog.dismiss()
+    }
+
+    alertDialog.show()
+}
 fun Context.showGeneralSalePrintDialog( message: String, onSlipPrint: () -> Unit , onPdfPrint:()->Unit) {
     val builder = MaterialAlertDialogBuilder(this)
     val inflater: LayoutInflater = LayoutInflater.from(builder.context)

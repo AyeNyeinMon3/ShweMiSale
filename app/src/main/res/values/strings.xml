@@ -10,5 +10,6 @@
     <string name="please_wait">Please wait Pdf</string>
     <string name="choose_from_gallery">Choose from gallery</string>
     <string name="lbl_learn_more"><u>Learn more</u></string>
+    <string name="remove_current_photo">Remove current photo</string>
 
 </resources>

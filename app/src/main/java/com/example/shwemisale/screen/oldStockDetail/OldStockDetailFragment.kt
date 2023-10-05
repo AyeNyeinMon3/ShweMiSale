@@ -1,16 +1,23 @@
 package com.example.shwemisale.screen.oldStockDetail
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import com.example.shwemisale.databinding.FragmentOldStockDetailBinding
+import com.example.shwemisale.screen.goldFromHome.getKPYFromYwae
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class OldStockDetailFragment:Fragment() {
     private lateinit var binding: FragmentOldStockDetailBinding
-
+    private val viewModel by viewModels<OldStockDetailViewModel>()
+    private val args by navArgs<OldStockDetailFragmentArgs>()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -23,6 +30,27 @@ class OldStockDetailFragment:Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        uiDeployment()
+        bindForDetail()
+    }
+
+    @SuppressLint("SetTextI18n")
+    fun bindForDetail(){
+         binding.includeAmountList.includeGoldAndGemWeightGm.tvGoldAndGemWeightGm.text = args.goldAndGemWeightGm
+        binding.includeAmountList.includeGoldAndGemWeightGm.edtGoldAndGemWeightGm.setText(args.goldAndGemWeightGm)
+        val kpy = getKPYFromYwae(args.goldAndGemWeightYwae.toDouble())
+         binding.includeAmountList.includeGoldAndGemWeightKpy.tvGoldAndGemWeightK.text ="${kpy[0]} K"
+         binding.includeAmountList.includeGoldAndGemWeightKpy.tvGoldAndGemWeightP.text = "${kpy[1]} P"
+         binding.includeAmountList.includeGoldAndGemWeightKpy.tvGoldAndGemWeightY.text = "${kpy[2]} Y"
+
+        binding.includeAmountList.includeGoldAndGemWeightKpy.edtGoldAndWeightK.setText(kpy[0].toString())
+        binding.includeAmountList.includeGoldAndGemWeightKpy.edtGoldAndGemWeightP.setText(kpy[1].toString())
+        binding.includeAmountList.includeGoldAndGemWeightKpy.edtGoldAndGemWeightY.setText(kpy[2].toString())
+
+        binding.tvOldstockName.text = args.stockfromhomeinfo?.stock_name.orEmpty()
+
+    }
+    fun uiDeployment(){
         val  include = binding.includeAmountList.includeGoldAndGemWeightGm
         val startList = listOf(include.btnCancelGoldAndGemWeightGm,include.textInputLayoutGoldAndGemWeightGm,include.btnAddGoldAndGemWeightGm,
             include.view,include.view2)

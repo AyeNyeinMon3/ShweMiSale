@@ -5,7 +5,6 @@
     <include
         android:id="@+id/include_old_stock_add_item_photo"
         layout="@layout/include_old_stock_add_item_photo"
-        android:visibility="gone"
         />
 
 
