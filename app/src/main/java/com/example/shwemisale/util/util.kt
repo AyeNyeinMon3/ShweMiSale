@@ -13,6 +13,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.EditText
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.FragmentActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -141,9 +143,19 @@ fun isNumeric(input: String): Boolean {
 }
 
 fun hideKeyboard(activity: FragmentActivity?, view: View) {
-    val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    imm.hideSoftInputFromWindow(view.windowToken, 0)
+//    val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+//    imm.hideSoftInputFromWindow(view.windowToken, 0)
+
+    val insetsController = ViewCompat.getWindowInsetsController(view)
+    insetsController?.hide(WindowInsetsCompat.Type.ime())
 }
+
+fun showKeyBoard(view: View){
+    val insetsController = ViewCompat.getWindowInsetsController(view)
+    insetsController?.show(WindowInsetsCompat.Type.ime())
+}
+
+
 
 fun getRoundDownForPrice(price: Int): Int {
     val lastTwoDigits = price % 50

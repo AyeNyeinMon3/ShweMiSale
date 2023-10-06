@@ -5,31 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.google.android.material.textfield.TextInputLayout
+    <TextView
         android:id="@+id/tv_stock"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        app:boxStrokeWidth="0dp"
-        app:errorEnabled="false"
-        app:hintEnabled="false"
+        android:text="နားကပ်တစ်ဖက်"
+        android:textColor="@color/inputTextColor"
+        android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="@+id/btn_minus"
-        app:layout_constraintEnd_toStartOf="@+id/btn_minus"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btn_minus">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edt_stock_name"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:inputType="text"
-            android:textColor="@color/inputTextColor"
-            android:textSize="13sp"
-            tools:text="နားကပ်တစ်ဖက်" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-
+        app:layout_constraintTop_toTopOf="@+id/btn_minus" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_minus"
@@ -106,7 +92,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/tv_stock"
         app:layout_constraintStart_toEndOf="@+id/tv_stock"
         app:layout_constraintTop_toTopOf="@+id/tv_stock"

@@ -93,6 +93,16 @@
         layout="@layout/include_purchase_gold_weight1"
         app:layout_constraintTop_toBottomOf="@id/include_voucher_open_price"/>
 
+    <androidx.constraintlayout.widget.Group
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="include_gold_and_gem_weight_gm,include_gold_and_gem_weight_kpy,
+        include_gem_weight,include_gee_weight,include_item_type"/>
+
+    <androidx.constraintlayout.widget.Group
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids=""/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

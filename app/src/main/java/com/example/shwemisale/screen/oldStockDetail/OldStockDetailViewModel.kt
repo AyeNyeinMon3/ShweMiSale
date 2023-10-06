@@ -3,9 +3,11 @@ package com.example.shwemisale.screen.oldStockDetail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.viewModelScope
 import com.example.shwemi.util.Resource
 import com.example.shwemisale.data_layers.domain.goldFromHome.RebuyItemDto
+import com.example.shwemisale.data_layers.domain.goldFromHome.RebuyItemWithSize
 import com.example.shwemisale.data_layers.domain.product.GemWeightDetailDomain
 import com.example.shwemisale.data_layers.dto.calculation.GoldTypePriceDto
 import com.example.shwemisale.data_layers.dto.goldFromHome.RebuyPriceDto
@@ -42,45 +44,148 @@ class OldStockDetailViewModel @Inject constructor(
     var `goldPrice18K` = "0"
     var pawnDiffValue = "0"
 
-    fun qtyIncrease(id: String) {
-        val currentState = _rebuyItemeLiveData.value as? Resource.Success<List<RebuyItemDto>>
-        _rebuyItemeLiveData.value = Resource.Success(
-            currentState?.data?.map {
-                if (it.id == id) {
-                    it.copy(qty = it.qty + 1)
-                } else {
-                    it
-                }
-            })
+    fun getChoosenStockTypeAndTotalQty(size: String){
+        val currentState = _rebuyItemeLiveData.value as? Resource.Success<RebuyItemWithSize>
+
+        if(size == "small"){
+
+            rebuyItemList = currentState?.data?.smallSizeItems?.filter { it.qty > 0 }.orEmpty()
+            var totalqty = 0
+            var name = ""
+            rebuyItemList.forEach {
+                totalqty += it.qty
+                name += it.name + ":" + it.qty.toString() + ","
+            }
+            nameTag = name.dropLast(1)
+            totalQty = totalqty
+        }else{
+            rebuyItemList = currentState?.data?.largeSizeItems?.filter { it.qty > 0 }.orEmpty()
+
+            var totalqty = 0
+            var name = ""
+            rebuyItemList.forEach {
+                totalqty += it.qty
+                name += it.name + ":" + it.qty.toString() + ","
+            }
+            nameTag = name.dropLast(1)
+            val resultName = name.dropLast(1)
+            totalQty = totalqty
+        }
+
     }
 
-    fun qtyDecrease(id: String) {
-        val currentState = _rebuyItemeLiveData.value as? Resource.Success<List<RebuyItemDto>>
+    fun qtyIncrease(id: String, size: String) {
+        val currentState = _rebuyItemeLiveData.value as? Resource.Success<RebuyItemWithSize>
         _rebuyItemeLiveData.value = Resource.Success(
-            currentState?.data?.map {
-                if (it.id == id) {
-                    it.copy(qty = it.qty - 1)
-                } else {
-                    it
-                }
-            })
-    }
-
-
-    fun onNameChanged(id: String, text: String) {
-        val currentState = _rebuyItemeLiveData.value as? Resource.Success<List<RebuyItemDto>>
-        _rebuyItemeLiveData.value = Resource.Success(
-            currentState?.data?.map {
-                if (it.id == id) {
-                    it.copy(name = text)
-                } else {
-                    it
-                }
+            if (size == "small") {
+                currentState?.data?.copy(
+                    smallSizeItems = increaseQty(currentState.data.smallSizeItems, id)
+                )
+            } else {
+                currentState?.data?.copy(
+                    largeSizeItems = increaseQty(currentState.data.largeSizeItems, id)
+                )
             }
         )
-
-
     }
+
+    private fun increaseQty(list: List<RebuyItemDto>?, id: String): List<RebuyItemDto> {
+        return list?.map {
+            if (it.id == id) {
+                it.copy(qty = it.qty + 1)
+            } else {
+                it
+            }
+        }.orEmpty()
+    }
+
+    private fun decreaseQty(list: List<RebuyItemDto>?, id: String): List<RebuyItemDto> {
+        return list?.map {
+            if (it.id == id) {
+                it.copy(qty = it.qty - 1)
+            } else {
+                it
+            }
+        }.orEmpty()
+    }
+
+    private fun changeName(
+        list: List<RebuyItemDto>?,
+        id: String,
+        text: String
+    ): List<RebuyItemDto> {
+        return list?.map {
+            if (it.id == id) {
+                it.copy(name = text)
+            } else {
+                it
+            }
+        }.orEmpty()
+    }
+
+    fun qtyDecrease(id: String, size: String) {
+        val currentState = _rebuyItemeLiveData.value as? Resource.Success<RebuyItemWithSize>
+        _rebuyItemeLiveData.value = Resource.Success(
+            if (size == "small") {
+                currentState?.data?.copy(
+                    smallSizeItems = decreaseQty(currentState.data.smallSizeItems, id)
+                )
+            } else {
+                currentState?.data?.copy(
+                    largeSizeItems = decreaseQty(currentState.data.largeSizeItems, id)
+                )
+            }
+        )
+    }
+
+
+    fun onNameChanged(id: String, text: String, size: String) {
+        val currentState = _rebuyItemeLiveData.value as? Resource.Success<RebuyItemWithSize>
+        val isTheSameName = if (size == "small") {
+            currentState?.data?.smallSizeItems
+        } else {
+            currentState?.data?.largeSizeItems
+        }?.find { it.id == id }?.name == text
+
+        if (!isTheSameName){
+            _rebuyItemeLiveData.value = Resource.Success(
+                if (size == "small") {
+                    currentState?.data?.copy(
+                        smallSizeItems = changeName(currentState.data.smallSizeItems, id, text)
+                    )
+                } else {
+                    currentState?.data?.copy(
+                        largeSizeItems = changeName(currentState.data.largeSizeItems, id, text)
+                    )
+                }
+            )
+        }
+    }
+
+    fun changeToEditView(id:String,size: String,isEditable: Boolean){
+        val currentState = _rebuyItemeLiveData.value as? Resource.Success<RebuyItemWithSize>
+        _rebuyItemeLiveData.value = Resource.Success(
+            if (size == "small") {
+                currentState?.data?.copy(
+                    smallSizeItems = changeEditView(currentState.data.smallSizeItems, id,isEditable)
+                )
+            } else {
+                currentState?.data?.copy(
+                    largeSizeItems = changeEditView(currentState.data.largeSizeItems, id,isEditable)
+                )
+            }
+        )
+    }
+    private fun changeEditView(list: List<RebuyItemDto>?, id: String,isEditable: Boolean): List<RebuyItemDto> {
+        return list?.map {
+            if (it.id == id) {
+                it.copy(isEditing = isEditable)
+            } else {
+                it
+            }
+        }.orEmpty()
+    }
+
 
 
     private val _rebuyPriceLiveData = MutableLiveData<Resource<RebuyPriceDto>>()
@@ -94,14 +199,40 @@ class OldStockDetailViewModel @Inject constructor(
         }
     }
 
-    private val _rebuyItemeLiveData = MutableLiveData<Resource<List<RebuyItemDto>>>()
-    val rebuyItemeLiveData: LiveData<Resource<List<RebuyItemDto>>>
-        get() = _rebuyItemeLiveData
+    private val _rebuyItemeLiveData = MutableLiveData<Resource<RebuyItemWithSize>>()
+    val rebuyItemeLiveData: LiveData<Resource<RebuyItemWithSize>>
+        get() = _rebuyItemeLiveData.distinctUntilChanged()
 
     fun getRebuyItem(size: String) {
-        _rebuyItemeLiveData.value = Resource.Loading()
         viewModelScope.launch {
-            _rebuyItemeLiveData.value = goldFromHomeRepositoryImpl.getRebuyItem(size)
+            val result = goldFromHomeRepositoryImpl.getRebuyItem(size)
+            val currentState = _rebuyItemeLiveData.value as? Resource.Success<RebuyItemWithSize>
+            _rebuyItemeLiveData.value = when (result) {
+                is Resource.Success -> {
+                    if (size == "small") {
+                        val currentSmallItems = currentState?.data?.smallSizeItems
+                        val isModified =
+                            if (currentSmallItems.isNullOrEmpty()) false else currentSmallItems != result.data.orEmpty()
+                        RebuyItemWithSize(
+                            smallSizeItems = if (isModified) currentSmallItems.orEmpty() else result.data.orEmpty(),
+                            largeSizeItems = currentState?.data?.largeSizeItems ?: emptyList()
+                        )
+                    } else {
+                        val currentLargeItems = currentState?.data?.largeSizeItems
+                        val isModified =
+                            if (currentLargeItems.isNullOrEmpty()) false else currentLargeItems != result.data.orEmpty()
+                        RebuyItemWithSize(
+                            largeSizeItems = if (isModified) currentLargeItems.orEmpty() else result.data.orEmpty(),
+                            smallSizeItems = currentState?.data?.smallSizeItems ?: emptyList()
+                        )
+                    }.let { Resource.Success(it) }
+                }
+
+                is Resource.Error -> Resource.Error(result.message)
+                is Resource.Loading -> Resource.Loading()
+
+            }
+
         }
     }
 

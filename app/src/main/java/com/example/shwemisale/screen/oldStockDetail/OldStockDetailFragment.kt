@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -22,15 +23,17 @@ import com.example.shwemisale.databinding.DialogAddStockTypeBinding
 import com.example.shwemisale.databinding.DialogUploadImageBinding
 import com.example.shwemisale.databinding.FragmentOldStockDetailBinding
 import com.example.shwemisale.screen.goldFromHome.getKPYFromYwae
+import com.example.shwemisale.screen.goldFromHome.getYwaeFromGram
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class OldStockDetailFragment : Fragment() {
+class OldStockDetailFragment : Fragment(),ChooseStockTypeListener {
     private lateinit var binding: FragmentOldStockDetailBinding
     private val viewModel by viewModels<OldStockDetailViewModel>()
     private val args by navArgs<OldStockDetailFragmentArgs>()
     private lateinit var loading: AlertDialog
+    private lateinit var chooseSTockTypeDialogFragment: ChooseStockTypeDialogFragment
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,92 +49,31 @@ class OldStockDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         loading = requireContext().getAlertDialog()
         uiDeployment()
-        bindForDetail()
+        bindForGoldAndGemWeight()
         chooseStockNameFeature()
     }
 
     fun chooseStockNameFeature(){
         binding.btnAddStockType.setOnClickListener {
-            showStockNames {
-                viewModel.rebuyItemList =
-                    viewModel.rebuyItemeLiveData.value!!.data!!.filter { it.qty > 0 }
-                var totalqty = 0
-                var name = ""
-                viewModel.rebuyItemList.forEach {
-                    totalqty += it.qty
-                    name += it.name + ":" + it.qty.toString() + ","
-                }
-                viewModel.nameTag = name.dropLast(1)
-                binding.tvOldstockName.text = name.dropLast(1)
-                viewModel.totalQty = totalqty
-            }
+            chooseSTockTypeDialogFragment = ChooseStockTypeDialogFragment()
+            chooseSTockTypeDialogFragment.setonChooseStockTypeListener(this)
+            chooseSTockTypeDialogFragment.show(
+                childFragmentManager,
+                "ChooseStockTypeDialog"
+            )
         }
     }
-    fun showStockNames(onClick: () -> Unit) {
-        val builder = MaterialAlertDialogBuilder(requireContext())
-        val inflater: LayoutInflater = LayoutInflater.from(builder.context)
-        val alertDialogBinding = DialogAddStockTypeBinding.inflate(
-            inflater, ConstraintLayout(builder.context), false
-        )
-        builder.setView(alertDialogBinding.root)
-        val alertDialog = builder.create()
-        alertDialog.window?.setLayout(
-            WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.MATCH_PARENT
-        )
-
-        alertDialog.setCancelable(false)
-        alertDialogBinding.ivCancel.setOnClickListener {
-            alertDialog.dismiss()
-        }
-        alertDialogBinding.btnAdd.setOnClickListener {
-            onClick()
-            alertDialog.dismiss()
-        }
-//        val rebuyItemRecyclerAdapter = RebuyItemsRecyclerAdapter(viewModel)
-//        alertDialogBinding.rvStock.adapter = rebuyItemRecyclerAdapter
-        viewModel.getRebuyItem("small")
 
 
-        alertDialogBinding.radioGpChooseSize.setOnCheckedChangeListener { radioGroup, checkedId ->
-            if (checkedId == alertDialogBinding.rBtnSmall.id) {
-                viewModel.getRebuyItem("small")
-                viewModel.size = "small"
-
-            } else {
-                viewModel.getRebuyItem("large")
-                viewModel.size = "large"
-
-            }
-        }
-        viewModel.rebuyItemeLiveData.observe(viewLifecycleOwner) {
-            when (it) {
-                is Resource.Loading -> {
-                    loading.show()
-                }
-
-                is Resource.Success -> {
-                    loading.dismiss()
-//                    rebuyItemRecyclerAdapter.submitList(it.data)
-
-                }
-
-                is Resource.Error -> {
-                    loading.dismiss()
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
-                }
-            }
-        }
-
-        alertDialog.show()
-    }
 
     @SuppressLint("SetTextI18n")
-    fun bindForDetail() {
-        binding.includeAmountList.includeGoldAndGemWeightGm.tvGoldAndGemWeightGm.text =
-            args.goldAndGemWeightGm
+    fun bindForGoldAndGemWeight() {
+        binding.includeAmountList.includeGoldAndGemWeightGm.tvGoldAndGemWeightGm.text = if (args.goldAndGemWeightGm.isEmpty())
+            args.goldAndGemWeightGm else getYwaeFromGram(args.goldAndGemWeightYwae.toDouble()).toString()
         binding.includeAmountList.includeGoldAndGemWeightGm.edtGoldAndGemWeightGm.setText(args.goldAndGemWeightGm)
-        val kpy = getKPYFromYwae(args.goldAndGemWeightYwae.toDouble())
+        val kpy = if (args.goldAndGemWeightYwae.isNotEmpty()) getKPYFromYwae(args.goldAndGemWeightYwae.toDouble()) else getKPYFromYwae(
+            getYwaeFromGram(args.goldAndGemWeightGm.toDouble())
+        )
         binding.includeAmountList.includeGoldAndGemWeightKpy.tvGoldAndGemWeightK.text =
             "${kpy[0]} K"
         binding.includeAmountList.includeGoldAndGemWeightKpy.tvGoldAndGemWeightP.text =
@@ -733,5 +675,10 @@ class OldStockDetailFragment : Fragment() {
             view.first.isEnabled = true
             view.second.alpha = 1F
         }
+    }
+
+    override fun selectedName(name: String, totalQty: Int) {
+        chooseSTockTypeDialogFragment.dismiss()
+        binding.tvOldstockName.text = name
     }
 }
