@@ -50,7 +50,8 @@ class AddOldStockToBucketFragment : Fragment(), RemoveImageSelectionListener {
     private lateinit var launchChooseImage: ActivityResultLauncher<Intent>
     private lateinit var removeImageBottomSheetFragment: RemoveImageBottomSheetFragment
 
-    private lateinit var storagePermissionLauncher: ActivityResultLauncher<String>
+//    private lateinit var storagePermissionLauncher: ActivityResultLauncher<String>
+    private lateinit var cameraPermissionLauncher: ActivityResultLauncher<String>
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -63,7 +64,22 @@ class AddOldStockToBucketFragment : Fragment(), RemoveImageSelectionListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        storagePermissionLauncher = registerForActivityResult(
+//        storagePermissionLauncher = registerForActivityResult(
+//            ActivityResultContracts.RequestPermission()
+//        ) { isGranted ->
+//            if (isGranted) {
+//                requireContext().showUploadImageDialog(
+//                    //onGalleryClick
+//                    {
+//                        chooseImage()
+//                    },
+//                    //onCameraClick
+//                    {
+//                        dispatchTakePictureIntent()
+//                    })
+//            }
+//        }
+        cameraPermissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestPermission()
         ) { isGranted ->
             if (isGranted) {
@@ -183,12 +199,13 @@ class AddOldStockToBucketFragment : Fragment(), RemoveImageSelectionListener {
     }
 
     private fun requestStoragePermission() {
-        storagePermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+//        storagePermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+        cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
     }
 
     private fun isExternalStoragePermissionGranted(): Boolean {
-        return ContextCompat.checkSelfPermission(
-            requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE
+        return  ContextCompat.checkSelfPermission(
+            requireContext(), Manifest.permission.CAMERA
         ) == PackageManager.PERMISSION_GRANTED
     }
 

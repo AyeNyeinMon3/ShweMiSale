@@ -42,6 +42,46 @@ class OldStockDetailViewModel @Inject constructor(
     var `goldPrice18K` = "0"
     var pawnDiffValue = "0"
 
+    fun qtyIncrease(id: String) {
+        val currentState = _rebuyItemeLiveData.value as? Resource.Success<List<RebuyItemDto>>
+        _rebuyItemeLiveData.value = Resource.Success(
+            currentState?.data?.map {
+                if (it.id == id) {
+                    it.copy(qty = it.qty + 1)
+                } else {
+                    it
+                }
+            })
+    }
+
+    fun qtyDecrease(id: String) {
+        val currentState = _rebuyItemeLiveData.value as? Resource.Success<List<RebuyItemDto>>
+        _rebuyItemeLiveData.value = Resource.Success(
+            currentState?.data?.map {
+                if (it.id == id) {
+                    it.copy(qty = it.qty - 1)
+                } else {
+                    it
+                }
+            })
+    }
+
+
+    fun onNameChanged(id: String, text: String) {
+        val currentState = _rebuyItemeLiveData.value as? Resource.Success<List<RebuyItemDto>>
+        _rebuyItemeLiveData.value = Resource.Success(
+            currentState?.data?.map {
+                if (it.id == id) {
+                    it.copy(name = text)
+                } else {
+                    it
+                }
+            }
+        )
+
+
+    }
+
 
     private val _rebuyPriceLiveData = MutableLiveData<Resource<RebuyPriceDto>>()
     val rebuyPriceLiveData: LiveData<Resource<RebuyPriceDto>>
@@ -89,7 +129,7 @@ class OldStockDetailViewModel @Inject constructor(
 
     fun createStockFromHome(
         imageFile: RequestBody?,
-        imageId:String?,
+        imageId: String?,
         a_buying_price: String,
         b_voucher_buying_value: String,
         c_voucher_buying_price: String,
@@ -128,48 +168,68 @@ class OldStockDetailViewModel @Inject constructor(
                 localDatabase.getStockFromHomeSessionKey()
             }
             val a_buying_price = MultipartBody.Part.createFormData("a_buying_price", a_buying_price)
-            val imageId =imageId?.let {MultipartBody.Part.createFormData("image[id]", it)  }
+            val imageId = imageId?.let { MultipartBody.Part.createFormData("image[id]", it) }
             val b_voucher_buying_value =
                 MultipartBody.Part.createFormData("b_voucher_buying_value", b_voucher_buying_value)
             val c_voucher_buying_price =
                 MultipartBody.Part.createFormData("c_voucher_buying_price", c_voucher_buying_price)
             val calculated_buying_value =
-                MultipartBody.Part.createFormData("calculated_buying_value", calculated_buying_value)
+                MultipartBody.Part.createFormData(
+                    "calculated_buying_value",
+                    calculated_buying_value
+                )
             val calculated_for_pawn =
                 MultipartBody.Part.createFormData("calculated_for_pawn", calculated_for_pawn)
-            val d_gold_weight_ywae = MultipartBody.Part.createFormData("d_gold_weight_ywae", d_gold_weight_ywae)
+            val d_gold_weight_ywae =
+                MultipartBody.Part.createFormData("d_gold_weight_ywae", d_gold_weight_ywae)
             val e_price_from_new_voucher =
-                MultipartBody.Part.createFormData("e_price_from_new_voucher", e_price_from_new_voucher)
+                MultipartBody.Part.createFormData(
+                    "e_price_from_new_voucher",
+                    e_price_from_new_voucher
+                )
             val f_voucher_shown_gold_weight_ywae =
-                MultipartBody.Part.createFormData("f_voucher_shown_gold_weight_ywae", f_voucher_shown_gold_weight_ywae)
+                MultipartBody.Part.createFormData(
+                    "f_voucher_shown_gold_weight_ywae",
+                    f_voucher_shown_gold_weight_ywae
+                )
             val gem_value = MultipartBody.Part.createFormData("gem_value", gem_value)
 
-            val gem_weight_ywae = MultipartBody.Part.createFormData("gem_weight_ywae", gem_weight_ywae)
+            val gem_weight_ywae =
+                MultipartBody.Part.createFormData("gem_weight_ywae", gem_weight_ywae)
             val gold_gem_weight_ywae =
                 MultipartBody.Part.createFormData("gold_gem_weight_ywae", gold_gem_weight_ywae)
-            val gold_weight_ywae = MultipartBody.Part.createFormData("gold_weight_ywae", gold_weight_ywae)
+            val gold_weight_ywae =
+                MultipartBody.Part.createFormData("gold_weight_ywae", gold_weight_ywae)
             val gq_in_carat = MultipartBody.Part.createFormData("gq_in_carat", gq_in_carat)
             val has_general_expenses =
                 MultipartBody.Part.createFormData("has_general_expenses", has_general_expenses)
-            val image = if (imageFile != null){
-                MultipartBody.Part.createFormData("image[file]",
+            val image = if (imageFile != null) {
+                MultipartBody.Part.createFormData(
+                    "image[file]",
                     File(selectedImagePath).name,
-                    imageFile)
-            }else null
+                    imageFile
+                )
+            } else null
             val impurities_weight_ywae =
                 MultipartBody.Part.createFormData("impurities_weight_ywae", impurities_weight_ywae)
-            val maintenance_cost = MultipartBody.Part.createFormData("maintenance_cost", maintenance_cost)
+            val maintenance_cost =
+                MultipartBody.Part.createFormData("maintenance_cost", maintenance_cost)
             val price_for_pawn = MultipartBody.Part.createFormData("price_for_pawn", price_for_pawn)
-            val pt_and_clip_cost = MultipartBody.Part.createFormData("pt_and_clip_cost", pt_and_clip_cost)
+            val pt_and_clip_cost =
+                MultipartBody.Part.createFormData("pt_and_clip_cost", pt_and_clip_cost)
             val qty = MultipartBody.Part.createFormData("qty", qty)
             val rebuy_price = MultipartBody.Part.createFormData("rebuy_price", rebuy_price)
             val size = MultipartBody.Part.createFormData("size", size)
-            val stock_condition = MultipartBody.Part.createFormData("stock_condition", stock_condition)
+            val stock_condition =
+                MultipartBody.Part.createFormData("stock_condition", stock_condition)
             val stock_name = MultipartBody.Part.createFormData("stock_name", stock_name)
             val type = MultipartBody.Part.createFormData("type", type)
             val wastage_ywae = MultipartBody.Part.createFormData("wastage_ywae", wastage_ywae)
             val rebuy_price_vertical_option =
-                MultipartBody.Part.createFormData("rebuy_price_vertical_option", rebuy_price_vertical_option)
+                MultipartBody.Part.createFormData(
+                    "rebuy_price_vertical_option",
+                    rebuy_price_vertical_option
+                )
             val productIdListMultipartBody = mutableListOf<MultipartBody.Part>()
             productIdList?.forEach {
                 productIdListMultipartBody.add(
@@ -179,8 +239,10 @@ class OldStockDetailViewModel @Inject constructor(
                     )
                 )
             }
-            val isEditableMultiPart = MultipartBody.Part.createFormData("is_editable", if (isEditable)"1" else "0")
-            val isCheckedMultiPart = MultipartBody.Part.createFormData("is_checked", if (isChecked)"1" else "0")
+            val isEditableMultiPart =
+                MultipartBody.Part.createFormData("is_editable", if (isEditable) "1" else "0")
+            val isCheckedMultiPart =
+                MultipartBody.Part.createFormData("is_checked", if (isChecked) "1" else "0")
 
             _createStockFromHomeInfoLiveData.value = Resource.Loading()
             _createStockFromHomeInfoLiveData.value =
@@ -237,7 +299,7 @@ class OldStockDetailViewModel @Inject constructor(
         get() = _updateStockFromHomeInfoLiveData
 
     fun updateStockFromHome(
-        id:String,
+        id: String,
         a_buying_price: String,
         b_voucher_buying_value: String,
         c_voucher_buying_price: String,
@@ -284,42 +346,62 @@ class OldStockDetailViewModel @Inject constructor(
             val c_voucher_buying_price =
                 MultipartBody.Part.createFormData("c_voucher_buying_price", c_voucher_buying_price)
             val calculated_buying_value =
-                MultipartBody.Part.createFormData("calculated_buying_value", calculated_buying_value)
+                MultipartBody.Part.createFormData(
+                    "calculated_buying_value",
+                    calculated_buying_value
+                )
             val calculated_for_pawn =
                 MultipartBody.Part.createFormData("calculated_for_pawn", calculated_for_pawn)
-            val d_gold_weight_ywae = MultipartBody.Part.createFormData("d_gold_weight_ywae", d_gold_weight_ywae)
+            val d_gold_weight_ywae =
+                MultipartBody.Part.createFormData("d_gold_weight_ywae", d_gold_weight_ywae)
             val e_price_from_new_voucher =
-                MultipartBody.Part.createFormData("e_price_from_new_voucher", e_price_from_new_voucher)
+                MultipartBody.Part.createFormData(
+                    "e_price_from_new_voucher",
+                    e_price_from_new_voucher
+                )
             val f_voucher_shown_gold_weight_ywae =
-                MultipartBody.Part.createFormData("f_voucher_shown_gold_weight_ywae", f_voucher_shown_gold_weight_ywae)
+                MultipartBody.Part.createFormData(
+                    "f_voucher_shown_gold_weight_ywae",
+                    f_voucher_shown_gold_weight_ywae
+                )
             val gem_value = MultipartBody.Part.createFormData("gem_value", gem_value)
 
-            val gem_weight_ywae = MultipartBody.Part.createFormData("gem_weight_ywae", gem_weight_ywae)
+            val gem_weight_ywae =
+                MultipartBody.Part.createFormData("gem_weight_ywae", gem_weight_ywae)
             val gold_gem_weight_ywae =
                 MultipartBody.Part.createFormData("gold_gem_weight_ywae", gold_gem_weight_ywae)
-            val gold_weight_ywae = MultipartBody.Part.createFormData("gold_weight_ywae", gold_weight_ywae)
+            val gold_weight_ywae =
+                MultipartBody.Part.createFormData("gold_weight_ywae", gold_weight_ywae)
             val gq_in_carat = MultipartBody.Part.createFormData("gq_in_carat", gq_in_carat)
             val has_general_expenses =
                 MultipartBody.Part.createFormData("has_general_expenses", has_general_expenses)
-            val image =if (imageFile != null){
-                MultipartBody.Part.createFormData("image[file]",
+            val image = if (imageFile != null) {
+                MultipartBody.Part.createFormData(
+                    "image[file]",
                     File(selectedImagePath).name,
-                    imageFile)
-            }else null
+                    imageFile
+                )
+            } else null
             val impurities_weight_ywae =
                 MultipartBody.Part.createFormData("impurities_weight_ywae", impurities_weight_ywae)
-            val maintenance_cost = MultipartBody.Part.createFormData("maintenance_cost", maintenance_cost)
+            val maintenance_cost =
+                MultipartBody.Part.createFormData("maintenance_cost", maintenance_cost)
             val price_for_pawn = MultipartBody.Part.createFormData("price_for_pawn", price_for_pawn)
-            val pt_and_clip_cost = MultipartBody.Part.createFormData("pt_and_clip_cost", pt_and_clip_cost)
+            val pt_and_clip_cost =
+                MultipartBody.Part.createFormData("pt_and_clip_cost", pt_and_clip_cost)
             val qty = MultipartBody.Part.createFormData("qty", qty)
             val rebuy_price = MultipartBody.Part.createFormData("rebuy_price", rebuy_price)
             val size = MultipartBody.Part.createFormData("size", size)
-            val stock_condition = MultipartBody.Part.createFormData("stock_condition", stock_condition)
+            val stock_condition =
+                MultipartBody.Part.createFormData("stock_condition", stock_condition)
             val stock_name = MultipartBody.Part.createFormData("stock_name", stock_name)
             val type = MultipartBody.Part.createFormData("type", type)
             val wastage_ywae = MultipartBody.Part.createFormData("wastage_ywae", wastage_ywae)
             val rebuy_price_vertical_option =
-                MultipartBody.Part.createFormData("rebuy_price_vertical_option", rebuy_price_vertical_option)
+                MultipartBody.Part.createFormData(
+                    "rebuy_price_vertical_option",
+                    rebuy_price_vertical_option
+                )
             val productIdListMultipartBody = mutableListOf<MultipartBody.Part>()
             productIdList?.forEach {
                 productIdListMultipartBody.add(
@@ -329,13 +411,15 @@ class OldStockDetailViewModel @Inject constructor(
                     )
                 )
             }
-            val isEditableMultiPart = MultipartBody.Part.createFormData("is_editable", if (isEditable)"1" else "0")
-            val isCheckedMultiPart = MultipartBody.Part.createFormData("is_checked", if (isChecked)"1" else "0")
+            val isEditableMultiPart =
+                MultipartBody.Part.createFormData("is_editable", if (isEditable) "1" else "0")
+            val isCheckedMultiPart =
+                MultipartBody.Part.createFormData("is_checked", if (isChecked) "1" else "0")
 
             _updateStockFromHomeInfoLiveData.value = Resource.Loading()
             _updateStockFromHomeInfoLiveData.value =
                 normalSaleRepositoryImpl.updateStockFromHomeList(
-                    id =id ,
+                    id = id,
                     a_buying_price = a_buying_price,
                     b_voucher_buying_value = b_voucher_buying_value,
                     c_voucher_buying_price = c_voucher_buying_price,
@@ -414,8 +498,9 @@ class OldStockDetailViewModel @Inject constructor(
         SingleLiveEvent<Resource<String>>()
     val updateGemWeightDetailLiveData: SingleLiveEvent<Resource<String>>
         get() = _updateGemWeightDetailLiveData
+
     fun updateGemWeightDetaiil(
-        id:String,
+        id: String,
         qty: String,
         weightGmPerUnit: String,
         weightYwaePerUnit: String
@@ -435,8 +520,9 @@ class OldStockDetailViewModel @Inject constructor(
         SingleLiveEvent<Resource<String>>()
     val deleteGemWeightDetailLiveData: SingleLiveEvent<Resource<String>>
         get() = _deleteGemWeightDetailLiveData
+
     fun deleteGemWeightDetaiil(
-        id:String
+        id: String
     ) {
         viewModelScope.launch {
             _deleteGemWeightDetailLiveData.value = Resource.Loading()

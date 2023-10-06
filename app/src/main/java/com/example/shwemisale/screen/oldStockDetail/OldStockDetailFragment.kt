@@ -1,23 +1,37 @@
 package com.example.shwemisale.screen.oldStockDetail
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import com.example.shwemi.util.Resource
+import com.example.shwemi.util.getAlertDialog
+import com.example.shwemisale.data_layers.domain.goldFromHome.RebuyItemDto
+import com.example.shwemisale.databinding.DialogAddStockTypeBinding
+import com.example.shwemisale.databinding.DialogUploadImageBinding
 import com.example.shwemisale.databinding.FragmentOldStockDetailBinding
 import com.example.shwemisale.screen.goldFromHome.getKPYFromYwae
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class OldStockDetailFragment:Fragment() {
+class OldStockDetailFragment : Fragment() {
     private lateinit var binding: FragmentOldStockDetailBinding
     private val viewModel by viewModels<OldStockDetailViewModel>()
     private val args by navArgs<OldStockDetailFragmentArgs>()
+    private lateinit var loading: AlertDialog
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -30,18 +44,100 @@ class OldStockDetailFragment:Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        loading = requireContext().getAlertDialog()
         uiDeployment()
         bindForDetail()
+        chooseStockNameFeature()
+    }
+
+    fun chooseStockNameFeature(){
+        binding.btnAddStockType.setOnClickListener {
+            showStockNames {
+                viewModel.rebuyItemList =
+                    viewModel.rebuyItemeLiveData.value!!.data!!.filter { it.qty > 0 }
+                var totalqty = 0
+                var name = ""
+                viewModel.rebuyItemList.forEach {
+                    totalqty += it.qty
+                    name += it.name + ":" + it.qty.toString() + ","
+                }
+                viewModel.nameTag = name.dropLast(1)
+                binding.tvOldstockName.text = name.dropLast(1)
+                viewModel.totalQty = totalqty
+            }
+        }
+    }
+    fun showStockNames(onClick: () -> Unit) {
+        val builder = MaterialAlertDialogBuilder(requireContext())
+        val inflater: LayoutInflater = LayoutInflater.from(builder.context)
+        val alertDialogBinding = DialogAddStockTypeBinding.inflate(
+            inflater, ConstraintLayout(builder.context), false
+        )
+        builder.setView(alertDialogBinding.root)
+        val alertDialog = builder.create()
+        alertDialog.window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        )
+
+        alertDialog.setCancelable(false)
+        alertDialogBinding.ivCancel.setOnClickListener {
+            alertDialog.dismiss()
+        }
+        alertDialogBinding.btnAdd.setOnClickListener {
+            onClick()
+            alertDialog.dismiss()
+        }
+//        val rebuyItemRecyclerAdapter = RebuyItemsRecyclerAdapter(viewModel)
+//        alertDialogBinding.rvStock.adapter = rebuyItemRecyclerAdapter
+        viewModel.getRebuyItem("small")
+
+
+        alertDialogBinding.radioGpChooseSize.setOnCheckedChangeListener { radioGroup, checkedId ->
+            if (checkedId == alertDialogBinding.rBtnSmall.id) {
+                viewModel.getRebuyItem("small")
+                viewModel.size = "small"
+
+            } else {
+                viewModel.getRebuyItem("large")
+                viewModel.size = "large"
+
+            }
+        }
+        viewModel.rebuyItemeLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {
+                    loading.show()
+                }
+
+                is Resource.Success -> {
+                    loading.dismiss()
+//                    rebuyItemRecyclerAdapter.submitList(it.data)
+
+                }
+
+                is Resource.Error -> {
+                    loading.dismiss()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+
+        alertDialog.show()
     }
 
     @SuppressLint("SetTextI18n")
-    fun bindForDetail(){
-         binding.includeAmountList.includeGoldAndGemWeightGm.tvGoldAndGemWeightGm.text = args.goldAndGemWeightGm
+    fun bindForDetail() {
+        binding.includeAmountList.includeGoldAndGemWeightGm.tvGoldAndGemWeightGm.text =
+            args.goldAndGemWeightGm
         binding.includeAmountList.includeGoldAndGemWeightGm.edtGoldAndGemWeightGm.setText(args.goldAndGemWeightGm)
         val kpy = getKPYFromYwae(args.goldAndGemWeightYwae.toDouble())
-         binding.includeAmountList.includeGoldAndGemWeightKpy.tvGoldAndGemWeightK.text ="${kpy[0]} K"
-         binding.includeAmountList.includeGoldAndGemWeightKpy.tvGoldAndGemWeightP.text = "${kpy[1]} P"
-         binding.includeAmountList.includeGoldAndGemWeightKpy.tvGoldAndGemWeightY.text = "${kpy[2]} Y"
+        binding.includeAmountList.includeGoldAndGemWeightKpy.tvGoldAndGemWeightK.text =
+            "${kpy[0]} K"
+        binding.includeAmountList.includeGoldAndGemWeightKpy.tvGoldAndGemWeightP.text =
+            "${kpy[1]} P"
+        binding.includeAmountList.includeGoldAndGemWeightKpy.tvGoldAndGemWeightY.text =
+            "${kpy[2]} Y"
 
         binding.includeAmountList.includeGoldAndGemWeightKpy.edtGoldAndWeightK.setText(kpy[0].toString())
         binding.includeAmountList.includeGoldAndGemWeightKpy.edtGoldAndGemWeightP.setText(kpy[1].toString())
@@ -50,19 +146,26 @@ class OldStockDetailFragment:Fragment() {
         binding.tvOldstockName.text = args.stockfromhomeinfo?.stock_name.orEmpty()
 
     }
-    fun uiDeployment(){
-        val  include = binding.includeAmountList.includeGoldAndGemWeightGm
-        val startList = listOf(include.btnCancelGoldAndGemWeightGm,include.textInputLayoutGoldAndGemWeightGm,include.btnAddGoldAndGemWeightGm,
-            include.view,include.view2)
-        val endList = listOf(include.btnEdtGoldAndGemWeightGm,include.tvGoldAndGemWeightGm)
+
+    fun uiDeployment() {
+        val include = binding.includeAmountList.includeGoldAndGemWeightGm
+        val startList = listOf(
+            include.btnCancelGoldAndGemWeightGm,
+            include.textInputLayoutGoldAndGemWeightGm,
+            include.btnAddGoldAndGemWeightGm,
+            include.view,
+            include.view2
+        )
+        val endList = listOf(include.btnEdtGoldAndGemWeightGm, include.tvGoldAndGemWeightGm)
         startList.forEach {
             it.isVisible = false
         }
         binding.includeAmountList.includeGeneralExpense.switchGeneralExpense.setOnCheckedChangeListener { button, isChecked ->
-            binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.root.isVisible = isChecked
-            if (isChecked){
+            binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.root.isVisible =
+                isChecked
+            if (isChecked) {
                 blurView(binding.includeAmountList.includeGeneralExpense.switchGeneralExpense)
-            }else{
+            } else {
                 unBlurView()
             }
         }
@@ -86,9 +189,21 @@ class OldStockDetailFragment:Fragment() {
         }
 
         val includeGoldAndGemKPY = binding.includeAmountList.includeGoldAndGemWeightKpy
-        val goldAndGemKPYStart = listOf(includeGoldAndGemKPY.btnCancelGoldAndGemWeightKPY,includeGoldAndGemKPY.textInputLayoutGoldAndGemWeightK,includeGoldAndGemKPY.textInputLayoutGoldAndGemWeightP,includeGoldAndGemKPY.textInputLayoutGoldAndGemWeightY,
-            includeGoldAndGemKPY.btnAddGoldAndGemWeight,includeGoldAndGemKPY.view,includeGoldAndGemKPY.view2)
-        val goldAndGemKPYEnd = listOf(includeGoldAndGemKPY.btnEditGoldAndGemWeightKPY,includeGoldAndGemKPY.tvGoldAndGemWeightK,includeGoldAndGemKPY.tvGoldAndGemWeightP,includeGoldAndGemKPY.tvGoldAndGemWeightY)
+        val goldAndGemKPYStart = listOf(
+            includeGoldAndGemKPY.btnCancelGoldAndGemWeightKPY,
+            includeGoldAndGemKPY.textInputLayoutGoldAndGemWeightK,
+            includeGoldAndGemKPY.textInputLayoutGoldAndGemWeightP,
+            includeGoldAndGemKPY.textInputLayoutGoldAndGemWeightY,
+            includeGoldAndGemKPY.btnAddGoldAndGemWeight,
+            includeGoldAndGemKPY.view,
+            includeGoldAndGemKPY.view2
+        )
+        val goldAndGemKPYEnd = listOf(
+            includeGoldAndGemKPY.btnEditGoldAndGemWeightKPY,
+            includeGoldAndGemKPY.tvGoldAndGemWeightK,
+            includeGoldAndGemKPY.tvGoldAndGemWeightP,
+            includeGoldAndGemKPY.tvGoldAndGemWeightY
+        )
 
         goldAndGemKPYStart.forEach {
             it.isVisible = false
@@ -185,7 +300,7 @@ class OldStockDetailFragment:Fragment() {
             blurView(includeGemWeight.btnEditGemWeightKPY)
         }
 
-        includeGemWeight.rBtnAddFromServer.setOnClickListener{
+        includeGemWeight.rBtnAddFromServer.setOnClickListener {
             gemWeightStart.forEach {
                 it.isVisible = true
             }
@@ -498,48 +613,121 @@ class OldStockDetailFragment:Fragment() {
         }
     }
 
-    private fun blurView(view : View){
+    private fun blurView(view: View) {
 
         val myList = listOf(
-            Pair(binding.includeAmountList.includeGoldAndGemWeightGm.btnEdtGoldAndGemWeightGm,binding.includeAmountList.includeGoldAndGemWeightGm.root),
-            Pair(binding.includeAmountList.includeGoldAndGemWeightKpy.btnEditGoldAndGemWeightKPY,binding.includeAmountList.includeGoldAndGemWeightKpy.root),
-            Pair(binding.includeAmountList.includeGemWeight.btnEditGemWeightKPY, binding.includeAmountList.includeGemWeight.root),
-            Pair(binding.includeAmountList.includeGeeWeight.btnEditGeeWeightKPY, binding.includeAmountList.includeGeeWeight.root),
-            Pair(binding.includeAmountList.includeItemType.rBtnGood, binding.includeAmountList.includeItemType.root),
-            Pair(binding.includeAmountList.includeGoldQ.btnEditGoldQ, binding.includeAmountList.includeGoldQ.root),
-            Pair(binding.includeAmountList.includeGeneralExpense.switchGeneralExpense,binding.includeAmountList.includeGeneralExpense.root),
-            Pair(binding.includeAmountList.includePurchasePrice.btnEditPurchasePrice,binding.includeAmountList.includePurchasePrice.root),
-            Pair(binding.includeAmountList.includeMortgagePrice.btnEditMortgagePrice,binding.includeAmountList.includeMortgagePrice.root),
-            Pair(binding.includeAmountList.includeVoucherOpenPay.btnEditVoucherOpenPay,binding.includeAmountList.includeVoucherOpenPay.root),
-            Pair(binding.includeAmountList.includeVoucherOpenPrice.btnEditVoucherOpenPrice,binding.includeAmountList.includeVoucherOpenPrice.root),
-            Pair(binding.includeAmountList.includePurchaseGoldWeight.btnEditPurchaseGoldWeight,binding.includeAmountList.includePurchaseGoldWeight.root)
+            Pair(
+                binding.includeAmountList.includeGoldAndGemWeightGm.btnEdtGoldAndGemWeightGm,
+                binding.includeAmountList.includeGoldAndGemWeightGm.root
+            ),
+            Pair(
+                binding.includeAmountList.includeGoldAndGemWeightKpy.btnEditGoldAndGemWeightKPY,
+                binding.includeAmountList.includeGoldAndGemWeightKpy.root
+            ),
+            Pair(
+                binding.includeAmountList.includeGemWeight.btnEditGemWeightKPY,
+                binding.includeAmountList.includeGemWeight.root
+            ),
+            Pair(
+                binding.includeAmountList.includeGeeWeight.btnEditGeeWeightKPY,
+                binding.includeAmountList.includeGeeWeight.root
+            ),
+            Pair(
+                binding.includeAmountList.includeItemType.rBtnGood,
+                binding.includeAmountList.includeItemType.root
+            ),
+            Pair(
+                binding.includeAmountList.includeGoldQ.btnEditGoldQ,
+                binding.includeAmountList.includeGoldQ.root
+            ),
+            Pair(
+                binding.includeAmountList.includeGeneralExpense.switchGeneralExpense,
+                binding.includeAmountList.includeGeneralExpense.root
+            ),
+            Pair(
+                binding.includeAmountList.includePurchasePrice.btnEditPurchasePrice,
+                binding.includeAmountList.includePurchasePrice.root
+            ),
+            Pair(
+                binding.includeAmountList.includeMortgagePrice.btnEditMortgagePrice,
+                binding.includeAmountList.includeMortgagePrice.root
+            ),
+            Pair(
+                binding.includeAmountList.includeVoucherOpenPay.btnEditVoucherOpenPay,
+                binding.includeAmountList.includeVoucherOpenPay.root
+            ),
+            Pair(
+                binding.includeAmountList.includeVoucherOpenPrice.btnEditVoucherOpenPrice,
+                binding.includeAmountList.includeVoucherOpenPrice.root
+            ),
+            Pair(
+                binding.includeAmountList.includePurchaseGoldWeight.btnEditPurchaseGoldWeight,
+                binding.includeAmountList.includePurchaseGoldWeight.root
+            )
         )
 
         myList.forEach {
-            if(it.first.id == view.id){
+            if (it.first.id == view.id) {
                 it.first.isEnabled = true
                 it.second.alpha = 1F
 
-            }else{
+            } else {
                 it.first.isEnabled = false
                 it.second.alpha = 0.3F
             }
         }
     }
-    private fun unBlurView(){
+
+    private fun unBlurView() {
         val myList = listOf(
-            Pair(binding.includeAmountList.includeGoldAndGemWeightGm.btnEdtGoldAndGemWeightGm,binding.includeAmountList.includeGoldAndGemWeightGm.root),
-            Pair(binding.includeAmountList.includeGoldAndGemWeightKpy.btnEditGoldAndGemWeightKPY,binding.includeAmountList.includeGoldAndGemWeightKpy.root),
-            Pair(binding.includeAmountList.includeGemWeight.btnEditGemWeightKPY, binding.includeAmountList.includeGemWeight.root),
-            Pair(binding.includeAmountList.includeGeeWeight.btnEditGeeWeightKPY, binding.includeAmountList.includeGeeWeight.root),
-            Pair(binding.includeAmountList.includeItemType.rBtnGood, binding.includeAmountList.includeItemType.root),
-            Pair(binding.includeAmountList.includeGoldQ.btnEditGoldQ, binding.includeAmountList.includeGoldQ.root),
-            Pair(binding.includeAmountList.includeGeneralExpense.switchGeneralExpense,binding.includeAmountList.includeGeneralExpense.root),
-            Pair(binding.includeAmountList.includePurchasePrice.btnEditPurchasePrice,binding.includeAmountList.includePurchasePrice.root),
-            Pair(binding.includeAmountList.includeMortgagePrice.btnEditMortgagePrice,binding.includeAmountList.includeMortgagePrice.root),
-            Pair(binding.includeAmountList.includeVoucherOpenPay.btnEditVoucherOpenPay,binding.includeAmountList.includeVoucherOpenPay.root),
-            Pair(binding.includeAmountList.includeVoucherOpenPrice.btnEditVoucherOpenPrice,binding.includeAmountList.includeVoucherOpenPrice.root),
-            Pair(binding.includeAmountList.includePurchaseGoldWeight.btnEditPurchaseGoldWeight,binding.includeAmountList.includePurchaseGoldWeight.root)
+            Pair(
+                binding.includeAmountList.includeGoldAndGemWeightGm.btnEdtGoldAndGemWeightGm,
+                binding.includeAmountList.includeGoldAndGemWeightGm.root
+            ),
+            Pair(
+                binding.includeAmountList.includeGoldAndGemWeightKpy.btnEditGoldAndGemWeightKPY,
+                binding.includeAmountList.includeGoldAndGemWeightKpy.root
+            ),
+            Pair(
+                binding.includeAmountList.includeGemWeight.btnEditGemWeightKPY,
+                binding.includeAmountList.includeGemWeight.root
+            ),
+            Pair(
+                binding.includeAmountList.includeGeeWeight.btnEditGeeWeightKPY,
+                binding.includeAmountList.includeGeeWeight.root
+            ),
+            Pair(
+                binding.includeAmountList.includeItemType.rBtnGood,
+                binding.includeAmountList.includeItemType.root
+            ),
+            Pair(
+                binding.includeAmountList.includeGoldQ.btnEditGoldQ,
+                binding.includeAmountList.includeGoldQ.root
+            ),
+            Pair(
+                binding.includeAmountList.includeGeneralExpense.switchGeneralExpense,
+                binding.includeAmountList.includeGeneralExpense.root
+            ),
+            Pair(
+                binding.includeAmountList.includePurchasePrice.btnEditPurchasePrice,
+                binding.includeAmountList.includePurchasePrice.root
+            ),
+            Pair(
+                binding.includeAmountList.includeMortgagePrice.btnEditMortgagePrice,
+                binding.includeAmountList.includeMortgagePrice.root
+            ),
+            Pair(
+                binding.includeAmountList.includeVoucherOpenPay.btnEditVoucherOpenPay,
+                binding.includeAmountList.includeVoucherOpenPay.root
+            ),
+            Pair(
+                binding.includeAmountList.includeVoucherOpenPrice.btnEditVoucherOpenPrice,
+                binding.includeAmountList.includeVoucherOpenPrice.root
+            ),
+            Pair(
+                binding.includeAmountList.includePurchaseGoldWeight.btnEditPurchaseGoldWeight,
+                binding.includeAmountList.includePurchaseGoldWeight.root
+            )
         )
         myList.forEach { view ->
             view.first.isEnabled = true

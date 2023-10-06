@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/sellStartFragment">
+    app:startDestination="@id/sampleFragment">
 
     <fragment
         android:id="@+id/loginFragment"
@@ -203,14 +203,6 @@
             android:name="backPressType"
             app:argType="string"
             app:nullable="true" />
-        <argument
-            android:name="goldAndGemWeightGm"
-            app:argType="string"
-            app:nullable="true" />
-        <argument
-            android:name="goldAndGemWeightYwae"
-            app:argType="string"
-            app:nullable="true" />
     </fragment>
 
     <fragment
@@ -260,5 +252,9 @@
             android:name="goldAndGemWeightYwae"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/sampleFragment"
+        android:name="com.example.shwemisale.screen.oldStockDetail.SampleFragment"
+        android:label="SampleFragment" />
 
 </navigation>

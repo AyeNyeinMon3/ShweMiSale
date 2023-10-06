@@ -217,7 +217,6 @@ class MainActivity : AppCompatActivity() {
 //        } else {
         storagePermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
-//        }
     }
 
     private fun isExternalStoragePermissionGranted(): Boolean {

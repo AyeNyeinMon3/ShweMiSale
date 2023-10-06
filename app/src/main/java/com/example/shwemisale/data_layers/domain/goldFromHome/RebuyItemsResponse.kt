@@ -7,5 +7,7 @@ data class RebuyItemDto(
     val id:String,
     val name:String,
     val size:String,
-    var qty:Int = 0
-)
+    val qty:Int
+){
+    val isMinusEnable = qty>0
+}
