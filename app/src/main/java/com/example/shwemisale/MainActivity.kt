@@ -2,12 +2,14 @@ package com.example.shwemisale
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
-import android.widget.Button
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -20,31 +22,25 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.setupWithNavController
 import com.epson.epos2.Epos2Exception
 import com.epson.epos2.printer.Printer
 import com.example.shwemi.util.Resource
 import com.example.shwemi.util.getAlertDialog
-import com.example.shwemi.util.showSuccessDialog
 import com.example.shwemisale.databinding.ActivityMainBinding
 import com.example.shwemisale.databinding.DialogIpAddressBinding
-import com.example.shwemisale.databinding.ShwemiSuccessDialogBinding
 import com.example.shwemisale.localDataBase.LocalDatabase
-import com.example.shwemisale.room_database.AppDatabase
 import com.example.shwemisale.screen.sellModule.sellStart.SellStartFragmentDirections
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -209,7 +205,22 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         deleteDatabase("AppDatabase")
     }
-
+    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        if (event.action == MotionEvent.ACTION_DOWN) {
+            val v = currentFocus
+            if (v is EditText) {
+                val outRect = Rect()
+                v.getGlobalVisibleRect(outRect)
+                if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
+                    v.clearFocus()
+                    v.isCursorVisible = false
+                    val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0)
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event)
+    }
 
     private fun requestStoragePermission() {
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

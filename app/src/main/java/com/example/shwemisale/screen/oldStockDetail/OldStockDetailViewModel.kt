@@ -44,10 +44,14 @@ class OldStockDetailViewModel @Inject constructor(
     var `goldPrice18K` = "0"
     var pawnDiffValue = "0"
 
-    fun getChoosenStockTypeAndTotalQty(size: String){
+    var goldAndGemWeightGm = 0.0
+    var goldAndGemWeightYwae = 0.0
+    var gemWeightYwae = 0.0
+
+    fun getChoosenStockTypeAndTotalQty(size: String) {
         val currentState = _rebuyItemeLiveData.value as? Resource.Success<RebuyItemWithSize>
 
-        if(size == "small"){
+        if (size == "small") {
 
             rebuyItemList = currentState?.data?.smallSizeItems?.filter { it.qty > 0 }.orEmpty()
             var totalqty = 0
@@ -58,7 +62,7 @@ class OldStockDetailViewModel @Inject constructor(
             }
             nameTag = name.dropLast(1)
             totalQty = totalqty
-        }else{
+        } else {
             rebuyItemList = currentState?.data?.largeSizeItems?.filter { it.qty > 0 }.orEmpty()
 
             var totalqty = 0
@@ -116,7 +120,7 @@ class OldStockDetailViewModel @Inject constructor(
     ): List<RebuyItemDto> {
         return list?.map {
             if (it.id == id) {
-                it.copy(name = text)
+                it.copy(name = text, hasNameModified = true)
             } else {
                 it
             }
@@ -147,7 +151,7 @@ class OldStockDetailViewModel @Inject constructor(
             currentState?.data?.largeSizeItems
         }?.find { it.id == id }?.name == text
 
-        if (!isTheSameName){
+        if (!isTheSameName) {
             _rebuyItemeLiveData.value = Resource.Success(
                 if (size == "small") {
                     currentState?.data?.copy(
@@ -162,30 +166,42 @@ class OldStockDetailViewModel @Inject constructor(
         }
     }
 
-    fun changeToEditView(id:String,size: String,isEditable: Boolean){
+    fun changeToEditView(id: String, size: String, isEditable: Boolean) {
         val currentState = _rebuyItemeLiveData.value as? Resource.Success<RebuyItemWithSize>
         _rebuyItemeLiveData.value = Resource.Success(
             if (size == "small") {
                 currentState?.data?.copy(
-                    smallSizeItems = changeEditView(currentState.data.smallSizeItems, id,isEditable)
+                    smallSizeItems = changeEditView(
+                        currentState.data.smallSizeItems,
+                        id,
+                        isEditable
+                    )
                 )
             } else {
                 currentState?.data?.copy(
-                    largeSizeItems = changeEditView(currentState.data.largeSizeItems, id,isEditable)
+                    largeSizeItems = changeEditView(
+                        currentState.data.largeSizeItems,
+                        id,
+                        isEditable
+                    )
                 )
             }
         )
     }
-    private fun changeEditView(list: List<RebuyItemDto>?, id: String,isEditable: Boolean): List<RebuyItemDto> {
+
+    private fun changeEditView(
+        list: List<RebuyItemDto>?,
+        id: String,
+        isEditing: Boolean
+    ): List<RebuyItemDto> {
         return list?.map {
             if (it.id == id) {
-                it.copy(isEditing = isEditable)
+                it.copy(isEditing = isEditing, canEdit = true)
             } else {
-                it
+                it.copy(canEdit = !isEditing)
             }
         }.orEmpty()
     }
-
 
 
     private val _rebuyPriceLiveData = MutableLiveData<Resource<RebuyPriceDto>>()
@@ -211,18 +227,14 @@ class OldStockDetailViewModel @Inject constructor(
                 is Resource.Success -> {
                     if (size == "small") {
                         val currentSmallItems = currentState?.data?.smallSizeItems
-                        val isModified =
-                            if (currentSmallItems.isNullOrEmpty()) false else currentSmallItems != result.data.orEmpty()
                         RebuyItemWithSize(
-                            smallSizeItems = if (isModified) currentSmallItems.orEmpty() else result.data.orEmpty(),
+                            smallSizeItems = getUpdatedData(currentSmallItems, result.data),
                             largeSizeItems = currentState?.data?.largeSizeItems ?: emptyList()
                         )
                     } else {
                         val currentLargeItems = currentState?.data?.largeSizeItems
-                        val isModified =
-                            if (currentLargeItems.isNullOrEmpty()) false else currentLargeItems != result.data.orEmpty()
                         RebuyItemWithSize(
-                            largeSizeItems = if (isModified) currentLargeItems.orEmpty() else result.data.orEmpty(),
+                            largeSizeItems = getUpdatedData(currentLargeItems, result.data),
                             smallSizeItems = currentState?.data?.smallSizeItems ?: emptyList()
                         )
                     }.let { Resource.Success(it) }
@@ -234,6 +246,24 @@ class OldStockDetailViewModel @Inject constructor(
             }
 
         }
+    }
+
+    fun getUpdatedData(
+        currentItems: List<RebuyItemDto>?,
+        newItems: List<RebuyItemDto>?
+    ): List<RebuyItemDto> {
+        return newItems?.map { newItem ->
+            val oldItem = currentItems?.find { it.id == newItem.id }
+            oldItem?.copy(
+                name = if (oldItem.hasNameModified) {
+                    oldItem.name
+                } else {
+                    newItem.name
+                },
+                canEdit = true
+            ) ?: newItem.copy(canEdit = true)
+
+        }.orEmpty()
     }
 
     private val _goldTypePriceLiveData = MutableLiveData<Resource<List<GoldTypePriceDto>>>()
@@ -596,8 +626,121 @@ class OldStockDetailViewModel @Inject constructor(
     val getGemWeightDetailLiveData: LiveData<Resource<List<GemWeightDetailDomain>>>
         get() = _getGemWeightDetailLiveData
 
+    fun onChangeGemQty(id: String, qty: Int) {
+        val currentState =
+            _getGemWeightDetailLiveData.value as? Resource.Success<List<GemWeightDetailDomain>>
+        val isTheSameQty = currentState?.data?.find { it.id == id }?.gem_qty == qty
+        if (!isTheSameQty){
+            _getGemWeightDetailLiveData.value = Resource.Success(changeGemQty(id,qty,currentState?.data.orEmpty()))
+        }
+    }
+
+    fun changeGemQty(id:String,qty: Int,list:List<GemWeightDetailDomain>):List<GemWeightDetailDomain>{
+        return list.map {
+            if (it.id == id) {
+                it.copy(gem_qty = qty)
+            } else {
+                it
+            }
+        }
+    }
+    fun onChangeGemWeightGm(id: String, weightGm: Double) {
+        val currentState =
+            _getGemWeightDetailLiveData.value as? Resource.Success<List<GemWeightDetailDomain>>
+        val isTheSameWeightGm = currentState?.data?.find { it.id == id }?.gem_weight_gm_per_unit == weightGm
+        if (!isTheSameWeightGm){
+            _getGemWeightDetailLiveData.value = Resource.Success(changeGemWeightGm(id,weightGm,currentState?.data.orEmpty()))
+        }
+    }
+
+    fun changeGemWeightGm(id:String,weightGm: Double,list:List<GemWeightDetailDomain>):List<GemWeightDetailDomain>{
+        return list.map {
+            if (it.id == id) {
+                it.copy(gem_weight_gm_per_unit = weightGm)
+            } else {
+                it
+            }
+        }
+    }
+    fun onChangeTotalGemWeight(id: String,qty:Int, gemWeightYwaePerUnit: Double) {
+        val currentState =
+            _getGemWeightDetailLiveData.value as? Resource.Success<List<GemWeightDetailDomain>>
+        val totalGemWeight = qty*gemWeightYwaePerUnit
+        val isTheSameTotalGemWeight = currentState?.data?.find { it.id == id }?.totalWeightYwae == totalGemWeight
+        if (!isTheSameTotalGemWeight){
+            _getGemWeightDetailLiveData.value = Resource.Success(changeTotalGemWeight(id,totalGemWeight,currentState?.data.orEmpty()))
+        }
+    }
+
+    fun getTotalCalculatedGemWeightYwae():Double{
+        val currentState =
+            _getGemWeightDetailLiveData.value as? Resource.Success<List<GemWeightDetailDomain>>
+        var totalWeight = 0.0
+        currentState?.data?.forEach {
+            totalWeight += it.totalWeightYwae
+        }
+        return totalWeight
+    }
+    fun changeTotalGemWeight(id:String,totalGemWeight: Double,list:List<GemWeightDetailDomain>):List<GemWeightDetailDomain>{
+        return list.map {
+            if (it.id == id) {
+                it.copy(totalWeightYwae = totalGemWeight)
+            } else {
+                it
+            }
+        }
+    }
+
+    fun onChangeGemWeightDetailKpy(id: String, ywae: Double) {
+        val currentState =
+            _getGemWeightDetailLiveData.value as? Resource.Success<List<GemWeightDetailDomain>>
+        val isTheSameKpy =
+            currentState?.data?.find { it.id == id }?.gem_weight_ywae_per_unit == ywae
+        if (!isTheSameKpy){
+            _getGemWeightDetailLiveData.value = Resource.Success(changeGemWeightDetailKpy(id,ywae,currentState?.data.orEmpty()))
+        }
+    }
+
+    fun changeGemWeightDetailKpy(id: String, ywae: Double,list:List<GemWeightDetailDomain>):List<GemWeightDetailDomain>{
+        return list.map {
+            if (it.id == id) {
+                it.copy(gem_weight_ywae_per_unit = ywae)
+            } else {
+                it
+            }
+        }
+    }
+
     fun getGemWeightDetaiil() {
         viewModelScope.launch {
+//            _getGemWeightDetailLiveData.value = Resource.Success(
+//                listOf(
+//                    GemWeightDetailDomain(
+//                        "1",
+//                        0,
+//                        0.0,
+//                        0.0,
+//                        0.0,
+//                        null
+//                    ),
+//                    GemWeightDetailDomain(
+//                        "2",
+//                        0,
+//                        0.0,
+//                        0.0,
+//                        0.0,
+//                        null
+//                    ),
+//                    GemWeightDetailDomain(
+//                        "3",
+//                        0,
+//                        0.0,
+//                        0.0,
+//                        0.0,
+//                        null
+//                    )
+//                )
+//            )
             _getGemWeightDetailLiveData.value = Resource.Loading()
             _getGemWeightDetailLiveData.value = goldFromHomeRepositoryImpl.getGemWeightDetail(
                 localDatabase.getGemWeightDetailSessionKey().orEmpty()

@@ -5,13 +5,12 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class GemWeightDetailDomain(
-    var id:String,
-    var gem_qty: String,
-    var gem_weight_gm_per_unit: String,
-    var gem_weight_ywae_per_unit: String,
-    var totalWeightYwae:String = "0.0",
-    var weightForOneK:String = "0",
-    var weightForOneP:String = "0",
-    var weightForOneY:String = "0.0",
-    val sessionKey:String
-): Parcelable
+    val id:String,
+    val gem_qty: Int,
+    val gem_weight_gm_per_unit: Double,
+    val gem_weight_ywae_per_unit: Double,
+    val totalWeightYwae:Double,
+    val sessionKey:String?
+): Parcelable{
+    val isCalculatable = gem_qty>0
+}

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:minWidth="300dp">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_kyat"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="85dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:errorEnabled="false"
+        app:hintAnimationEnabled="false"
+        app:hintEnabled="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/til_pae"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:suffixText="K"
+        app:suffixTextColor="@color/grey_placeholder">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_kyat"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/grey_black"
+            android:textSize="14sp"
+            android:textStyle="normal"
+            android:inputType="number"
+            tools:text="0" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_pae"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="85dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:errorEnabled="false"
+        app:hintAnimationEnabled="false"
+        app:hintEnabled="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/til_ywae"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/til_kyat"
+        app:layout_constraintTop_toTopOf="parent"
+        app:suffixText="P"
+        app:suffixTextColor="@color/grey_placeholder">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_pae"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/grey_black"
+            android:textSize="14sp"
+            tools:text="0"
+            android:inputType="number"
+            android:textStyle="normal" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_ywae"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="85dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:errorEnabled="false"
+        app:hintAnimationEnabled="false"
+        app:hintEnabled="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/til_pae"
+        app:layout_constraintTop_toTopOf="parent"
+        app:suffixText="Y"
+        app:suffixTextColor="@color/grey_placeholder">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_ywae"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:text="0"
+            android:inputType="numberDecimal"
+            android:textColor="@color/grey_black"
+            android:textSize="14sp"
+            android:textStyle="normal" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

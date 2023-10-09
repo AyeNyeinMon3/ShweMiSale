@@ -16,9 +16,10 @@ import com.example.shwemisale.databinding.FragmentOldStockDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SampleFragment:Fragment() {
+class SampleFragment:Fragment(),ChooseStockTypeListener {
     private lateinit var binding:DialogAddStockTypeBinding
     private val viewModel by viewModels<OldStockDetailViewModel>()
+    private lateinit var chooseSTockTypeDialogFragment: ChooseStockTypeDialogFragment
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,6 +33,7 @@ class SampleFragment:Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val rebuyItemRecyclerAdapter = RebuyItemsRecyclerAdapter({id,text,size->
             viewModel.onNameChanged(id, text,size)
         },{id,size->
@@ -82,6 +84,19 @@ class SampleFragment:Fragment() {
                 }
             }
         }
+        binding.btnAdd.setOnClickListener {
+            chooseSTockTypeDialogFragment = ChooseStockTypeDialogFragment()
+            chooseSTockTypeDialogFragment.setonChooseStockTypeListener(this)
+            chooseSTockTypeDialogFragment.show(
+                childFragmentManager,
+                "ChooseStockTypeDialog"
+            )
+        }
 
+
+    }
+
+    override fun selectedName(name: String, totalQty: Int) {
+        TODO("Not yet implemented")
     }
 }

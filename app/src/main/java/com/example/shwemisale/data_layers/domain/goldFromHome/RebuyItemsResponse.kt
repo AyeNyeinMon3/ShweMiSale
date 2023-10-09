@@ -9,6 +9,8 @@ data class RebuyItemDto(
     val size:String,
     val qty:Int,
     val isEditing:Boolean = false,
+    val hasNameModified:Boolean,
+    val canEdit:Boolean = true
 ){
     val isMinusEnable = qty>0
 

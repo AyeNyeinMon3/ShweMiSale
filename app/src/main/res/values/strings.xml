@@ -12,4 +12,11 @@
     <string name="lbl_learn_more"><u>Learn more</u></string>
     <string name="remove_current_photo">Remove current photo</string>
 
+    <string name="gram_value">%1$s gm</string>
+    <string name="kyat_value">%1$s K</string>
+    <string name="pae_value">%1$s P</string>
+    <string name="ywae_value">%1$s Y</string>
+
+    <string name="kpy_value">%1$s K %2$s P %3$s Y</string>
+
 </resources>

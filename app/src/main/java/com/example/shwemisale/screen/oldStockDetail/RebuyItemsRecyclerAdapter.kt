@@ -3,6 +3,8 @@ package com.example.shwemisale.screen.oldStockDetail
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -16,21 +18,23 @@ import com.example.shwemisale.databinding.ItemViewStockEditBinding
 
 
 class RebuyItemsRecyclerAdapter(
-    private val onTextChange: (id: String, text: String,size:String) -> Unit,
-    private val increaseQty:(id: String,size:String)->Unit,
-    private val decreaseQty:(id: String,size:String)->Unit,
-    private val changeViewType:(id: String,size:String,isEditing:Boolean)->Unit,
+    private val onTextChange: (id: String, text: String, size: String) -> Unit,
+    private val increaseQty: (id: String, size: String) -> Unit,
+    private val decreaseQty: (id: String, size: String) -> Unit,
+    private val changeViewType: (id: String, size: String, isEditing: Boolean) -> Unit,
 ) : ListAdapter<RebuyItemDto, ViewHolder>(RebuyItemsDiffUtil) {
     val viewStateType = 1
     val editStateType = 2
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return if (viewType == 1){ RebuyItemsViewHolder(
-            ItemViewStockBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
+        return if (viewType == 1) {
+            RebuyItemsViewHolder(
+                ItemViewStockBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
             )
-        )}else{
+        } else {
             RebuyItemsEditViewHolder(
                 ItemViewStockEditBinding.inflate(
                     LayoutInflater.from(parent.context),
@@ -46,96 +50,116 @@ class RebuyItemsRecyclerAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        when(holder){
-            is RebuyItemsViewHolder-> holder.bind(getItem(position))
-            is RebuyItemsEditViewHolder->holder.bind(getItem(position))
+        when (holder) {
+            is RebuyItemsViewHolder -> holder.bind(getItem(position))
+            is RebuyItemsEditViewHolder -> holder.bind(getItem(position))
         }
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
-        when(holder){
-            is RebuyItemsViewHolder-> holder.bind(getItem(position),payloads)
-            is RebuyItemsEditViewHolder->holder.bind(getItem(position),payloads)
+        when (holder) {
+            is RebuyItemsViewHolder -> holder.bind(getItem(position), payloads)
+            is RebuyItemsEditViewHolder -> holder.bind(getItem(position), payloads)
         }
     }
 
     inner class RebuyItemsEditViewHolder(
         private val binding: ItemViewStockEditBinding
-    ):RecyclerView.ViewHolder(binding.root){
-        private var _data :RebuyItemDto?=null
+    ) : RecyclerView.ViewHolder(binding.root) {
+        private var _data: RebuyItemDto? = null
         val data
             get() = _data!!
+
         init {
-            binding.edtStockName.requestFocus()
+
             binding.btnApprove.setOnClickListener {
-                onTextChange(data.id,binding.edtStockName.text.toString(),data.size)
-                changeViewType(data.id,data.size,false)
+                if (binding.edtStockName.text.toString() != data.name) {
+                    onTextChange(data.id, binding.edtStockName.text.toString(), data.size)
+                }
+                changeViewType(data.id, data.size, false)
             }
             binding.btnCancel.setOnClickListener {
-                changeViewType(data.id,data.size,false)
+                changeViewType(data.id, data.size, false)
             }
         }
-        fun bind(data: RebuyItemDto,payloads: MutableList<Any>){
+
+        fun bind(data: RebuyItemDto, payloads: MutableList<Any>) {
             _data = data
-            when(payloads.firstOrNull()){
-                "nameChanged"-> updateName(data.name)
-                else-> bind(data)
+            when (payloads.firstOrNull()) {
+                "nameChanged" -> updateName(data.name)
+                else -> bind(data)
             }
         }
-        fun bind(data:RebuyItemDto){
+
+        fun bind(data: RebuyItemDto) {
             _data = data
             updateName(data.name)
         }
-        fun updateName(name:String){
-            if (name != binding.edtStockName.text.toString()){
+
+        fun updateName(name: String) {
+            if (name != binding.edtStockName.text.toString()) {
                 binding.edtStockName.setText(name)
                 binding.edtStockName.setSelection(name.length)
             }
         }
     }
+
     inner class RebuyItemsViewHolder(
         private val binding: ItemViewStockBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        private var _data :RebuyItemDto?=null
+        private var _data: RebuyItemDto? = null
         val data
             get() = _data!!
+
         init {
             binding.btnPlus.setOnClickListener {
-               increaseQty(data.id,data.size)
+                increaseQty(data.id, data.size)
             }
             binding.btnMinus.setOnClickListener {
-                decreaseQty(data.id,data.size)
+                decreaseQty(data.id, data.size)
             }
             binding.ivEdit.setOnClickListener {
-                changeViewType(data.id,data.size,true)
+                changeViewType(data.id, data.size, true)
             }
         }
-        fun bind(data: RebuyItemDto,payloads: MutableList<Any>){
+
+        fun bind(data: RebuyItemDto, payloads: MutableList<Any>) {
             _data = data
-            when(payloads.firstOrNull()){
-                "nameChanged"-> updateName(data.name)
-                "qtyChanged"-> updateQty(data.qty)
-                else-> bind(data)
+            when (payloads.firstOrNull()) {
+                "nameChanged" -> updateName(data.name)
+                "qtyChanged" -> updateQty(data.qty)
+                "editStatusChanged"->updateEditStatus(data.canEdit)
+                else -> bind(data)
             }
 
         }
 
-        fun updateQty(qty:Int){
+        fun updateQty(qty: Int) {
             binding.btnMinus.isEnabled = data.isMinusEnable
             binding.tvCount.text = qty.toString()
 
         }
-        fun updateName(name:String){
-            if (name != binding.tvStock.text.toString()){
+
+        fun updateName(name: String) {
+            if (name != binding.tvStock.text.toString()) {
                 binding.tvStock.text = name
+            } else {
+                binding.tvStock.text = data.name
             }
         }
+
         fun bind(data: RebuyItemDto) {
             _data = data
             updateQty(data.qty)
-           updateName(data.name)
+            updateName(data.name)
+            updateEditStatus(data.canEdit)
+        }
 
+        fun updateEditStatus(canEdit: Boolean) {
+            binding.ivEdit.isInvisible = !canEdit
+            binding.btnPlus.isInvisible = !canEdit
+            binding.btnMinus.isInvisible = !canEdit
         }
 
     }
@@ -145,10 +169,11 @@ class RebuyItemsRecyclerAdapter(
 
 object RebuyItemsDiffUtil : DiffUtil.ItemCallback<RebuyItemDto>() {
     override fun getChangePayload(oldItem: RebuyItemDto, newItem: RebuyItemDto): Any? {
-        return when{
-            oldItem.name!=newItem.name->"nameChanged"
-            oldItem.qty!=newItem.qty->"qtyChanged"
-            else->super.getChangePayload(oldItem, newItem)
+        return when {
+            oldItem.name != newItem.name -> "nameChanged"
+            oldItem.qty != newItem.qty -> "qtyChanged"
+            oldItem.canEdit != newItem.canEdit -> "editStatusChanged"
+            else -> super.getChangePayload(oldItem, newItem)
         }
     }
 

@@ -1,11 +1,16 @@
 package com.example.shwemisale.screen.sellModule.sellStart
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.graphics.Rect
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.TextView
@@ -89,6 +94,7 @@ class SellStartFragment : Fragment() {
         })
 
     }
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loading = requireContext().getAlertDialog()
@@ -96,7 +102,6 @@ class SellStartFragment : Fragment() {
             view.findNavController().navigate(SellStartFragmentDirections.actionSellStartFragmentToSellCustomerInfoFragment(it))
 
         }
-
         binding.includeSearchResult.rvCustomerList.adapter = adapter
         barlauncer = this.getBarLauncher(requireContext()) {
             viewModel.getCustomerInfo(it,null,null,null, null, null , null , null, null).observe(viewLifecycleOwner) {

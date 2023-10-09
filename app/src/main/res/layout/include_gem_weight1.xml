@@ -133,30 +133,37 @@
         app:layout_constraintTop_toTopOf="@+id/tv_lbl_gem_weight_KPY" />
 
 
-    <RadioButton
-        android:id="@+id/rBtn_manually"
+    <RadioGroup
+        android:id="@+id/radio_gp_choose_method"
         android:layout_width="wrap_content"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/background_radio_button"
-        android:checked="true"
-        android:padding="14dp"
-        android:text="Manually"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_lbl_gem_weight_KPY" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_lbl_gem_weight_KPY"
+        android:orientation="horizontal">
+        <RadioButton
+            android:id="@+id/rBtn_manually"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
 
-    <RadioButton
-        android:id="@+id/rBtn_addFromServer"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginStart="20dp"
-        android:background="@drawable/background_radio_button"
-        android:checked="false"
-        android:padding="14dp"
-        android:text="Add From Server"
-        app:layout_constraintStart_toEndOf="@+id/rBtn_manually"
-        app:layout_constraintTop_toTopOf="@+id/rBtn_manually" />
+            android:background="@drawable/background_radio_button"
+            android:checked="true"
+            android:padding="14dp"
+            android:text="Manually"
+            />
+
+        <RadioButton
+            android:id="@+id/rBtn_addFromServer"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/background_radio_button"
+            android:checked="false"
+            android:padding="14dp"
+            android:text="Add From Server"
+            />
+    </RadioGroup>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout_gem_weight_K"
@@ -169,7 +176,7 @@
         app:layout_constraintEnd_toStartOf="@+id/textInputLayout_gem_weight_P"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rBtn_manually"
+        app:layout_constraintTop_toBottomOf="@+id/radio_gp_choose_method"
         app:suffixText="K"
         app:suffixTextColor="@color/hintTextColor">
 
@@ -195,7 +202,7 @@
         app:layout_constraintEnd_toStartOf="@+id/textInputLayout_gem_weight_Y"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/textInputLayout_gem_weight_K"
-        app:layout_constraintTop_toBottomOf="@+id/rBtn_manually"
+        app:layout_constraintTop_toBottomOf="@+id/radio_gp_choose_method"
         app:suffixText="P"
         app:suffixTextColor="@color/hintTextColor">
 
@@ -220,7 +227,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/textInputLayout_gem_weight_P"
-        app:layout_constraintTop_toBottomOf="@+id/rBtn_manually"
+        app:layout_constraintTop_toBottomOf="@+id/radio_gp_choose_method"
         app:suffixText="Y"
         app:suffixTextColor="@color/hintTextColor">
 
@@ -235,7 +242,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_add_gem_weight"
+        android:id="@+id/btn_add_gem_weight_manually"
         android:layout_width="124dp"
         android:layout_height="48dp"
         android:layout_marginStart="24dp"
@@ -258,8 +265,8 @@
         android:textColor="@color/inputTextColor"
         android:textSize="17sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/rBtn_manually"
-        app:layout_constraintTop_toBottomOf="@+id/rBtn_manually" />
+        app:layout_constraintStart_toStartOf="@+id/radio_gp_choose_method"
+        app:layout_constraintTop_toBottomOf="@+id/radio_gp_choose_method" />
 
     <TextView
         android:id="@+id/tv_server_gem_weight_P"
@@ -339,7 +346,7 @@
         android:background="@color/lineColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_add_gem_weight" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_add_gem_weight_manually" />
 
 
     <View

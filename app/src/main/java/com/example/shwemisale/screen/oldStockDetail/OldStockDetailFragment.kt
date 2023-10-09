@@ -17,23 +17,29 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.example.shwemi.util.Resource
+import com.example.shwemi.util.generateNumberFromEditText
 import com.example.shwemi.util.getAlertDialog
+import com.example.shwemisale.R
 import com.example.shwemisale.data_layers.domain.goldFromHome.RebuyItemDto
 import com.example.shwemisale.databinding.DialogAddStockTypeBinding
 import com.example.shwemisale.databinding.DialogUploadImageBinding
 import com.example.shwemisale.databinding.FragmentOldStockDetailBinding
 import com.example.shwemisale.screen.goldFromHome.getKPYFromYwae
 import com.example.shwemisale.screen.goldFromHome.getYwaeFromGram
+import com.example.shwemisale.screen.goldFromHome.getYwaeFromKPY
+import com.example.shwemisale.screen.oldStockDetail.gemWeightDetail.DialogGemWeightDetailFragment
+import com.example.shwemisale.screen.oldStockDetail.gemWeightDetail.TotalGemWeightListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class OldStockDetailFragment : Fragment(),ChooseStockTypeListener {
+class OldStockDetailFragment : Fragment(), ChooseStockTypeListener ,TotalGemWeightListener{
     private lateinit var binding: FragmentOldStockDetailBinding
     private val viewModel by viewModels<OldStockDetailViewModel>()
     private val args by navArgs<OldStockDetailFragmentArgs>()
     private lateinit var loading: AlertDialog
     private lateinit var chooseSTockTypeDialogFragment: ChooseStockTypeDialogFragment
+    private lateinit var dialogGemWeightDetailFragment: DialogGemWeightDetailFragment
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,9 +57,10 @@ class OldStockDetailFragment : Fragment(),ChooseStockTypeListener {
         uiDeployment()
         bindForGoldAndGemWeight()
         chooseStockNameFeature()
+
     }
 
-    fun chooseStockNameFeature(){
+    fun chooseStockNameFeature() {
         binding.btnAddStockType.setOnClickListener {
             chooseSTockTypeDialogFragment = ChooseStockTypeDialogFragment()
             chooseSTockTypeDialogFragment.setonChooseStockTypeListener(this)
@@ -64,22 +71,90 @@ class OldStockDetailFragment : Fragment(),ChooseStockTypeListener {
         }
     }
 
+    fun editGemWeightDetailCustom() {
+        dialogGemWeightDetailFragment = DialogGemWeightDetailFragment()
+        dialogGemWeightDetailFragment.setOnTotalGemWeightListener(this)
+        dialogGemWeightDetailFragment.show(childFragmentManager, "DialogGemWeightDetail")
+    }
 
+    fun editGemWeightDetailManually() {
+        val gemWeightLayout = binding.includeAmountList.includeGemWeight
+        gemWeightLayout.tvGemWeightK.text =
+            generateNumberFromEditText(gemWeightLayout.edtGemWeightK)
+        gemWeightLayout.tvGemWeightP.text =
+            generateNumberFromEditText(gemWeightLayout.edtGemWeightP)
+        gemWeightLayout.tvGemWeightY.text =
+            generateNumberFromEditText(gemWeightLayout.edtGemWeightY)
 
-    @SuppressLint("SetTextI18n")
-    fun bindForGoldAndGemWeight() {
-        binding.includeAmountList.includeGoldAndGemWeightGm.tvGoldAndGemWeightGm.text = if (args.goldAndGemWeightGm.isEmpty())
-            args.goldAndGemWeightGm else getYwaeFromGram(args.goldAndGemWeightYwae.toDouble()).toString()
-        binding.includeAmountList.includeGoldAndGemWeightGm.edtGoldAndGemWeightGm.setText(args.goldAndGemWeightGm)
-        val kpy = if (args.goldAndGemWeightYwae.isNotEmpty()) getKPYFromYwae(args.goldAndGemWeightYwae.toDouble()) else getKPYFromYwae(
-            getYwaeFromGram(args.goldAndGemWeightGm.toDouble())
+        val gemWeightYwae = getYwaeFromKPY(
+            generateNumberFromEditText(gemWeightLayout.edtGemWeightK).toInt(),
+            generateNumberFromEditText(gemWeightLayout.edtGemWeightP).toInt(),
+            generateNumberFromEditText(gemWeightLayout.edtGemWeightY).toDouble()
+        )
+        viewModel.gemWeightYwae = gemWeightYwae
+    }
+
+    fun editGoldAndGemWeightGm() {
+        binding.includeAmountList.includeGoldAndGemWeightGm.tvGoldAndGemWeightGm.text =
+            getString(
+                R.string.gram_value,
+                binding.includeAmountList.includeGoldAndGemWeightGm.edtGoldAndGemWeightGm.text.toString()
+            )
+        viewModel.goldAndGemWeightGm =
+            binding.includeAmountList.includeGoldAndGemWeightGm.edtGoldAndGemWeightGm.text.toString()
+                .toDouble()
+    }
+
+    fun editGoldAndGemWeightKpy() {
+        val goldAndGemWeightYwae = getYwaeFromKPY(
+            generateNumberFromEditText(binding.includeAmountList.includeGoldAndGemWeightKpy.edtGoldAndWeightK).toDouble()
+                .toInt(),
+            generateNumberFromEditText(binding.includeAmountList.includeGoldAndGemWeightKpy.edtGoldAndGemWeightP).toDouble()
+                .toInt(),
+            generateNumberFromEditText(binding.includeAmountList.includeGoldAndGemWeightKpy.edtGoldAndGemWeightY).toDouble(),
         )
         binding.includeAmountList.includeGoldAndGemWeightKpy.tvGoldAndGemWeightK.text =
-            "${kpy[0]} K"
+            getString(
+                R.string.kyat_value,
+                generateNumberFromEditText(binding.includeAmountList.includeGoldAndGemWeightKpy.edtGoldAndWeightK)
+            )
+
         binding.includeAmountList.includeGoldAndGemWeightKpy.tvGoldAndGemWeightP.text =
-            "${kpy[1]} P"
+            getString(
+                R.string.kyat_value,
+                generateNumberFromEditText(binding.includeAmountList.includeGoldAndGemWeightKpy.edtGoldAndGemWeightP)
+            )
+
         binding.includeAmountList.includeGoldAndGemWeightKpy.tvGoldAndGemWeightY.text =
-            "${kpy[2]} Y"
+            getString(
+                R.string.kyat_value,
+                generateNumberFromEditText(binding.includeAmountList.includeGoldAndGemWeightKpy.edtGoldAndGemWeightY)
+            )
+        viewModel.goldAndGemWeightYwae = goldAndGemWeightYwae
+
+    }
+
+
+    fun bindForGoldAndGemWeight() {
+        binding.includeAmountList.includeGoldAndGemWeightGm.tvGoldAndGemWeightGm.text =
+            if (args.goldAndGemWeightGm.isEmpty())
+                getString(
+                    R.string.gram_value,
+                    "0.0"
+                ) else getYwaeFromGram(args.goldAndGemWeightYwae.toDouble()).toString()
+        binding.includeAmountList.includeGoldAndGemWeightGm.edtGoldAndGemWeightGm.setText(args.goldAndGemWeightGm)
+        val kpy =
+            if (args.goldAndGemWeightYwae.isNotEmpty()) getKPYFromYwae(args.goldAndGemWeightYwae.toDouble()) else getKPYFromYwae(
+                getYwaeFromGram(args.goldAndGemWeightGm.toDouble())
+            )
+        binding.includeAmountList.includeGoldAndGemWeightKpy.tvGoldAndGemWeightK.text =
+            getString(R.string.kyat_value, "${kpy[0].toInt()}")
+
+        binding.includeAmountList.includeGoldAndGemWeightKpy.tvGoldAndGemWeightP.text =
+            getString(R.string.kyat_value, "${kpy[1].toInt()}")
+
+        binding.includeAmountList.includeGoldAndGemWeightKpy.tvGoldAndGemWeightY.text =
+            getString(R.string.kyat_value, "${kpy[2]}")
 
         binding.includeAmountList.includeGoldAndGemWeightKpy.edtGoldAndWeightK.setText(kpy[0].toString())
         binding.includeAmountList.includeGoldAndGemWeightKpy.edtGoldAndGemWeightP.setText(kpy[1].toString())
@@ -129,6 +204,17 @@ class OldStockDetailFragment : Fragment(),ChooseStockTypeListener {
             }
             unBlurView()
         }
+        include.btnAddGoldAndGemWeightGm.setOnClickListener {
+            endList.forEach {
+                it.isVisible = true
+            }
+            startList.forEach {
+                it.isVisible = false
+            }
+            unBlurView()
+            editGoldAndGemWeightGm()
+
+        }
 
         val includeGoldAndGemKPY = binding.includeAmountList.includeGoldAndGemWeightKpy
         val goldAndGemKPYStart = listOf(
@@ -169,6 +255,16 @@ class OldStockDetailFragment : Fragment(),ChooseStockTypeListener {
             }
             unBlurView()
         }
+        binding.includeAmountList.includeGoldAndGemWeightKpy.btnAddGoldAndGemWeight.setOnClickListener {
+            editGoldAndGemWeightKpy()
+            goldAndGemKPYStart.forEach {
+                it.isVisible = false
+            }
+            goldAndGemKPYEnd.forEach {
+                it.isVisible = true
+            }
+            unBlurView()
+        }
 
         val includeGemWeight = binding.includeAmountList.includeGemWeight
         val gemWeightStart = listOf(
@@ -184,18 +280,15 @@ class OldStockDetailFragment : Fragment(),ChooseStockTypeListener {
             includeGemWeight.btnEditServerGemWeightKPY,
             includeGemWeight.btnAddFromServer,
             includeGemWeight.btnAddGemWeightKPY,
-            includeGemWeight.btnAddGemWeight,
+            includeGemWeight.btnAddGemWeightManually,
             includeGemWeight.view,
             includeGemWeight.view2,
             includeGemWeight.view3
         )
 
-        val gemWeightEdit = listOf(
+        val gemWeightFromServer = listOf(
             includeGemWeight.btnAddGemWeightKPY,
             includeGemWeight.btnEditGemWeightKPY,
-            includeGemWeight.tvGemWeightY,
-            includeGemWeight.tvGemWeightP,
-            includeGemWeight.tvGemWeightK,
             includeGemWeight.tvServerGemWeightY,
             includeGemWeight.tvServerGemWeightK,
             includeGemWeight.tvServerGemWeightP,
@@ -205,13 +298,10 @@ class OldStockDetailFragment : Fragment(),ChooseStockTypeListener {
 
             )
 
-        val gemWeightAddFromServer = listOf(
+        val gemWeightManually = listOf(
             includeGemWeight.btnAddGemWeightKPY,
             includeGemWeight.btnEditGemWeightKPY,
-            includeGemWeight.tvGemWeightK,
-            includeGemWeight.tvGemWeightP,
-            includeGemWeight.tvGemWeightY,
-            includeGemWeight.btnAddGemWeight,
+            includeGemWeight.btnAddGemWeightManually,
             includeGemWeight.view2,
             includeGemWeight.textInputLayoutGemWeightK,
             includeGemWeight.textInputLayoutGemWeightP,
@@ -230,31 +320,63 @@ class OldStockDetailFragment : Fragment(),ChooseStockTypeListener {
         }
 
         includeGemWeight.btnEditGemWeightKPY.setOnClickListener {
-
             gemWeightStart.forEach {
                 it.isVisible = true
             }
 
-            gemWeightEdit.forEach {
+            gemWeightFromServer.forEach {
                 it.isVisible = false
             }
+            includeGemWeight.tvGemWeightY.isVisible= false
+            includeGemWeight.tvGemWeightP.isVisible= false
+            includeGemWeight.tvGemWeightK.isVisible= false
+            includeGemWeight.rBtnManually.isChecked = true
 
             blurView(includeGemWeight.btnEditGemWeightKPY)
         }
 
-        includeGemWeight.rBtnAddFromServer.setOnClickListener {
-            gemWeightStart.forEach {
-                it.isVisible = true
-            }
+        includeGemWeight.radioGpChooseMethod.setOnCheckedChangeListener { group, checkedId ->
+            if (includeGemWeight.rBtnManually.id == checkedId) {
 
-            gemWeightEdit.forEach {
-                it.isVisible = true
-            }
+                gemWeightFromServer.forEach {
+                    it.isVisible = false
+                }
 
-            gemWeightAddFromServer.forEach {
-                it.isVisible = false
+                gemWeightManually.forEach {
+                    it.isVisible = true
+                }
+
+            } else {
+
+                gemWeightFromServer.forEach {
+                    it.isVisible = true
+                }
+
+                gemWeightManually.forEach {
+                    it.isVisible = false
+                }
             }
         }
+        includeGemWeight.btnAddGemWeightManually.setOnClickListener {
+            gemWeightStart.forEach {
+                it.isVisible = false
+            }
+            gemWeightCancel.forEach {
+                it.isVisible = true
+            }
+            editGemWeightDetailManually()
+            unBlurView()
+        }
+        includeGemWeight.btnAddFromServer.setOnClickListener {
+            gemWeightStart.forEach {
+                it.isVisible = false
+            }
+            gemWeightCancel.forEach {
+                it.isVisible = true
+            }
+            editGemWeightDetailCustom()
+        }
+
 
         includeGemWeight.btnCancelGemWeightKPY.setOnClickListener {
             gemWeightStart.forEach {
@@ -680,5 +802,14 @@ class OldStockDetailFragment : Fragment(),ChooseStockTypeListener {
     override fun selectedName(name: String, totalQty: Int) {
         chooseSTockTypeDialogFragment.dismiss()
         binding.tvOldstockName.text = name
+    }
+
+    override fun onTotalGemWeightCalculated(totalGemWeightYwae: Double) {
+        viewModel.gemWeightYwae = totalGemWeightYwae
+        val kpy = getKPYFromYwae(viewModel.gemWeightYwae)
+        binding.includeAmountList.includeGemWeight.tvGemWeightK.text = getString(R.string.kyat_value,kpy[0].toInt().toString())
+        binding.includeAmountList.includeGemWeight.tvGemWeightP.text = getString(R.string.pae_value,kpy[1].toInt().toString())
+        binding.includeAmountList.includeGemWeight.tvGemWeightY.text = getString(R.string.ywae_value,kpy[2].toString())
+        unBlurView()
     }
 }
