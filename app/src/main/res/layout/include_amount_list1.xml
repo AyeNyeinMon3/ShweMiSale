@@ -3,7 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/ui_after_stock_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="include_gold_and_gem_weight_gm,include_gold_and_gem_weight_kpy,include_gem_weight,
+        include_impurity_weight,include_general_expense,include_item_type"/>
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/ui_after_rebuy_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="include_goldQ,include_price_a,include_mortgage_price,include_price_b,include_price_c,include_f_gold_weight"/>
 
     <include
         android:id="@+id/include_gold_and_gem_weight_gm"
@@ -28,7 +40,7 @@
         />
 
     <include
-        android:id="@+id/include_gee_weight"
+        android:id="@+id/include_impurity_weight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         layout="@layout/include_gee_weight1"
@@ -39,7 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         layout="@layout/include_item_type"
-        app:layout_constraintTop_toBottomOf="@id/include_gee_weight"/>
+        app:layout_constraintTop_toBottomOf="@id/include_impurity_weight"/>
 
     <include
         android:id="@+id/include_goldQ"
@@ -59,10 +71,10 @@
         app:layout_constraintTop_toBottomOf="@id/include_goldQ"/>
 
     <include
-        android:id="@+id/include_purchase_price"
+        android:id="@+id/include_price_a"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/include_purchase_price1"
+        layout="@layout/include_price_a"
         app:layout_constraintTop_toBottomOf="@id/include_general_expense"/>
 
     <include
@@ -70,39 +82,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         layout="@layout/include_mortgage_price1"
-        app:layout_constraintTop_toBottomOf="@id/include_purchase_price"/>
+        app:layout_constraintTop_toBottomOf="@id/include_price_a"/>
 
     <include
-        android:id="@+id/include_voucher_open_pay"
+        android:id="@+id/include_price_b"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/include_voucher_open_pay1"
+        layout="@layout/include_price_b"
         app:layout_constraintTop_toBottomOf="@id/include_mortgage_price"/>
 
     <include
-        android:id="@+id/include_voucher_open_price"
+        android:id="@+id/include_price_c"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/include_voucher_open_price1"
-        app:layout_constraintTop_toBottomOf="@id/include_voucher_open_pay"/>
+        layout="@layout/include_price_c"
+        app:layout_constraintTop_toBottomOf="@id/include_price_b"/>
 
     <include
-        android:id="@+id/include_purchase_gold_weight"
+        android:id="@+id/include_f_gold_weight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/include_purchase_gold_weight1"
-        app:layout_constraintTop_toBottomOf="@id/include_voucher_open_price"/>
-
-    <androidx.constraintlayout.widget.Group
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_ids="include_gold_and_gem_weight_gm,include_gold_and_gem_weight_kpy,
-        include_gem_weight,include_gee_weight,include_item_type"/>
-
-    <androidx.constraintlayout.widget.Group
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_ids=""/>
+        layout="@layout/include_f_gold_weight"
+        app:layout_constraintTop_toBottomOf="@id/include_price_c"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,10 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.shwemi.util.Resource
+import com.example.shwemi.util.getAlertDialog
+import com.example.shwemisale.R
+import com.example.shwemisale.data_layers.domain.goldFromHome.StockFromHomeDomain
 import com.example.shwemisale.databinding.FragmentOldStockBucketListBinding
 import com.example.shwemisale.screen.goldFromHome.getYwaeFromKPY
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,6 +23,9 @@ import dagger.hilt.android.AndroidEntryPoint
 class OldStockBucketListFragment : Fragment() {
     private lateinit var binding:FragmentOldStockBucketListBinding
     private val shareViewModel by activityViewModels<BucketShareViewModel>()
+    private val viewModel by viewModels<OldStockBucketListViewModel>()
+    private lateinit var loading: AlertDialog
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -28,8 +38,10 @@ class OldStockBucketListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        loading = requireContext().getAlertDialog()
+        requireActivity().actionBar?.hide()
         binding.includeOldStockNoItemState.button.setOnClickListener {
-            findNavController().navigate(OldStockBucketListFragmentDirections.actionOldStockBucketListFragmentToOldStockDetailFragment(null,null,"0","0.0"))
+            findNavController().navigate(OldStockBucketListFragmentDirections.actionOldStockBucketListFragmentToAddOldStockToBucketFragment())
         }
         binding.includeOldStockNoItemState.btnAddOnTop.setOnClickListener {
             findNavController().navigate(OldStockBucketListFragmentDirections.actionOldStockBucketListFragmentToAddOldStockToBucketFragment())
@@ -46,10 +58,8 @@ class OldStockBucketListFragment : Fragment() {
         binding.includeOldStockWithItems.root.isVisible = shareViewModel.oldStockInBucketList.value.isNullOrEmpty().not()
         binding.includeOldStockNoItemState.root.isVisible = shareViewModel.oldStockInBucketList.value.isNullOrEmpty()
         val adapter = OldStockBucketRecyclerAdapter({oldStock ->
-             val oldStockDetailToPass = shareViewModel.dataFilledOldStock.find { it.id.toString()== oldStock.oldStockId }
-            val ywae = getYwaeFromKPY((oldStock.weightK?:"0").toInt(),(oldStock.weightP?:"0").toInt(),(oldStock.weightY?:"0.0").toDouble())
             findNavController().navigate(OldStockBucketListFragmentDirections.actionOldStockBucketListFragmentToOldStockDetailFragment(
-                oldStockDetailToPass,null,oldStock.weightGm.orEmpty(),ywae.toString()))
+                oldStock,""))
 
         },{item ->
             shareViewModel.removeOldStockBucket(item)
@@ -60,10 +70,10 @@ class OldStockBucketListFragment : Fragment() {
             binding.includeOldStockNoItemState.root.isVisible = it.isNullOrEmpty()
 
             binding.includeOldStockWithItems.tvValueDataFilledItems.text =
-                it?.count { !it.oldStockId.isNullOrEmpty() }
+                it?.count { it.dataFilled}
                     .toString()
             binding.includeOldStockWithItems.tvValueDataEmptyItems.text =
-                it?.count { it.oldStockId.isNullOrEmpty() }
+                it?.count { !it.dataFilled }
                     .toString()
             adapter.submitList(it)
             adapter.notifyDataSetChanged()

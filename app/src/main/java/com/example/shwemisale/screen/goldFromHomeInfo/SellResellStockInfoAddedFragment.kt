@@ -965,7 +965,6 @@ class SellResellStockInfoAddedFragment : Fragment() {
     }
 
     fun calculateWhenFValueChange() {
-
         binding.edtRepurchasePrice.setText(binding.edtPriceE.text.toString())
         //
         val fKyat = getKyatsFromKPY(
@@ -1022,6 +1021,7 @@ class SellResellStockInfoAddedFragment : Fragment() {
             binding.edtAddReducedP.setText("0")
             binding.edtAddReducedY.setText("0")
         }
+
     }
 
     fun showDialogResellStockInfo() {

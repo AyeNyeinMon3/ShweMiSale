@@ -15,29 +15,36 @@
         android:textSize="13sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <RadioButton
-        android:id="@+id/rBtn_outsideItem"
+    <RadioGroup
+        android:id="@+id/radio_gp_choose_item_type"
         android:layout_width="wrap_content"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_marginTop="16dp"
-        android:background="@drawable/background_radio_button"
-        android:checked="true"
-        android:padding="14dp"
-        android:text="အပြင်ထည်"
         app:layout_constraintStart_toStartOf="@+id/tv_type"
-        app:layout_constraintTop_toBottomOf="@+id/tv_type" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_type">
+        <RadioButton
+            android:id="@+id/rBtn_outsideItem"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:background="@drawable/background_radio_button"
+            android:checked="true"
+            android:padding="14dp"
+            android:text="အပြင်ထည်"
+            />
 
-    <RadioButton
-        android:id="@+id/rBtn_insideItem"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginStart="16dp"
-        android:background="@drawable/background_radio_button"
-        android:padding="14dp"
-        android:text="တံဆိပ်ပါအထည်"
-        app:layout_constraintStart_toEndOf="@+id/rBtn_outsideItem"
-        app:layout_constraintTop_toTopOf="@+id/rBtn_outsideItem" />
+        <RadioButton
+            android:id="@+id/rBtn_insideItem"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/background_radio_button"
+            android:padding="14dp"
+            android:text="တံဆိပ်ပါအထည်"
+    />
+    </RadioGroup>
+
+
 
     <TextView
         android:id="@+id/tv_item_condition"
@@ -49,41 +56,51 @@
         android:textColor="@color/inputTextColor"
         android:textSize="13sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rBtn_outsideItem" />
+        app:layout_constraintTop_toBottomOf="@+id/radio_gp_choose_item_type" />
 
-    <RadioButton
-        android:id="@+id/rBtn_Damage"
+    <RadioGroup
+        android:id="@+id/radio_gp_choose_condition"
         android:layout_width="wrap_content"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_marginTop="16dp"
-        android:background="@drawable/background_radio_button"
-        android:checked="true"
-        android:padding="14dp"
-        android:text="Damage"
         app:layout_constraintStart_toStartOf="@+id/tv_item_condition"
-        app:layout_constraintTop_toBottomOf="@+id/tv_item_condition" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_item_condition">
+        <RadioButton
+            android:id="@+id/rBtn_Damage"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:background="@drawable/background_radio_button"
+            android:checked="true"
+            android:padding="14dp"
+            android:text="Damage"
+            app:layout_constraintStart_toStartOf="@+id/tv_item_condition"
+            app:layout_constraintTop_toBottomOf="@+id/tv_item_condition" />
 
-    <RadioButton
-        android:id="@+id/rBtn_good"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginStart="16dp"
-        android:background="@drawable/background_radio_button"
-        android:padding="14dp"
-        android:text="Good"
-        app:layout_constraintStart_toEndOf="@+id/rBtn_Damage"
-        app:layout_constraintTop_toTopOf="@+id/rBtn_Damage" />
+        <RadioButton
+            android:id="@+id/rBtn_good"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/background_radio_button"
+            android:padding="14dp"
+            android:text="Good"
+            app:layout_constraintStart_toEndOf="@+id/rBtn_Damage"
+            app:layout_constraintTop_toTopOf="@+id/rBtn_Damage" />
 
-    <RadioButton
-        android:id="@+id/rBtn_notToGo"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginStart="16dp"
-        android:background="@drawable/background_radio_button"
-        android:padding="14dp"
-        android:text="Not to go"
-        app:layout_constraintStart_toEndOf="@+id/rBtn_good"
-        app:layout_constraintTop_toTopOf="@+id/rBtn_good" />
+        <RadioButton
+            android:id="@+id/rBtn_notToGo"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/background_radio_button"
+            android:padding="14dp"
+            android:text="Not to go"
+            app:layout_constraintStart_toEndOf="@+id/rBtn_good"
+            app:layout_constraintTop_toTopOf="@+id/rBtn_good" />
+    </RadioGroup>
+
+
 
     <TextView
         android:id="@+id/tv_return_price"
@@ -95,7 +112,7 @@
         android:textColor="@color/inputTextColor"
         android:textSize="13sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rBtn_Damage" />
+        app:layout_constraintTop_toBottomOf="@+id/radio_gp_choose_condition" />
 
 
     <LinearLayout
@@ -198,7 +215,7 @@
         app:layout_constraintTop_toBottomOf="@+id/layout_xyz">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edt_return_price"
+            android:id="@+id/edt_rebuy_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"

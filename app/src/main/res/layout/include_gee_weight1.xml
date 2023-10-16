@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_lbl_gee_weight_KPY"
+        android:id="@+id/tv_lbl_impurity_weight_KPY"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -30,7 +30,7 @@
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
     <TextView
-        android:id="@+id/tv_gee_weight_K"
+        android:id="@+id/tv_impurity_weight_K"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -38,11 +38,11 @@
         android:textColor="@color/inputTextColor"
         android:textSize="17sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/tv_lbl_gee_weight_KPY"
-        app:layout_constraintTop_toBottomOf="@+id/tv_lbl_gee_weight_KPY" />
+        app:layout_constraintStart_toStartOf="@+id/tv_lbl_impurity_weight_KPY"
+        app:layout_constraintTop_toBottomOf="@+id/tv_lbl_impurity_weight_KPY" />
 
     <TextView
-        android:id="@+id/tv_gee_weight_P"
+        android:id="@+id/tv_impurity_weight_P"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -50,11 +50,11 @@
         android:textColor="@color/inputTextColor"
         android:textSize="17sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/tv_gee_weight_K"
-        app:layout_constraintTop_toTopOf="@+id/tv_gee_weight_K" />
+        app:layout_constraintStart_toEndOf="@+id/tv_impurity_weight_K"
+        app:layout_constraintTop_toTopOf="@+id/tv_impurity_weight_K" />
 
     <TextView
-        android:id="@+id/tv_gee_weight_Y"
+        android:id="@+id/tv_impurity_weight_Y"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -62,11 +62,11 @@
         android:textColor="@color/inputTextColor"
         android:textSize="17sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/tv_gee_weight_P"
-        app:layout_constraintTop_toTopOf="@+id/tv_gee_weight_P" />
+        app:layout_constraintStart_toEndOf="@+id/tv_impurity_weight_P"
+        app:layout_constraintTop_toTopOf="@+id/tv_impurity_weight_P" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_edit_gee_weight_KPY"
+        android:id="@+id/btn_edit_impurity_weight_KPY"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
@@ -82,12 +82,12 @@
         app:iconGravity="textStart"
         app:backgroundTint="@color/white"
         app:iconTint="@color/primary"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_lbl_gee_weight_KPY"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_lbl_impurity_weight_KPY"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_lbl_gee_weight_KPY" />
+        app:layout_constraintTop_toTopOf="@+id/tv_lbl_impurity_weight_KPY" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_cancel_gee_weight_KPY"
+        android:id="@+id/btn_cancel_impurity_weight_KPY"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
@@ -102,27 +102,27 @@
         android:textAlignment="center"
         android:textColor="@color/primary"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_lbl_gee_weight_KPY"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_lbl_impurity_weight_KPY"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_lbl_gee_weight_KPY" />
+        app:layout_constraintTop_toTopOf="@+id/tv_lbl_impurity_weight_KPY" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout_gee_weight_K"
+        android:id="@+id/textInputLayout_impurity_weight_K"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         app:hintEnabled="false"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        app:layout_constraintEnd_toStartOf="@+id/textInputLayout_gee_weight_P"
+        app:layout_constraintEnd_toStartOf="@+id/textInputLayout_impurity_weight_P"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_lbl_gee_weight_KPY"
+        app:layout_constraintTop_toBottomOf="@+id/tv_lbl_impurity_weight_KPY"
         app:suffixText="K"
         app:suffixTextColor="@color/hintTextColor">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edt_gee_weight_K"
+            android:id="@+id/edt_impurity_weight_K"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="0"
@@ -132,22 +132,22 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout_gee_weight_P"
+        android:id="@+id/textInputLayout_impurity_weight_P"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         app:hintEnabled="false"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        app:layout_constraintEnd_toStartOf="@+id/textInputLayout_gee_weight_Y"
+        app:layout_constraintEnd_toStartOf="@+id/textInputLayout_impurity_weight_Y"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textInputLayout_gee_weight_K"
-        app:layout_constraintTop_toTopOf="@+id/textInputLayout_gee_weight_K"
+        app:layout_constraintStart_toEndOf="@+id/textInputLayout_impurity_weight_K"
+        app:layout_constraintTop_toTopOf="@+id/textInputLayout_impurity_weight_K"
         app:suffixText="P"
         app:suffixTextColor="@color/hintTextColor">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edt_gee_weight_P"
+            android:id="@+id/edt_impurity_weight_P"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="0"
@@ -157,7 +157,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout_gee_weight_Y"
+        android:id="@+id/textInputLayout_impurity_weight_Y"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginEnd="24dp"
@@ -165,23 +165,23 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textInputLayout_gee_weight_P"
-        app:layout_constraintTop_toTopOf="@+id/textInputLayout_gee_weight_P"
+        app:layout_constraintStart_toEndOf="@+id/textInputLayout_impurity_weight_P"
+        app:layout_constraintTop_toTopOf="@+id/textInputLayout_impurity_weight_P"
         app:suffixText="Y"
         app:suffixTextColor="@color/hintTextColor">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edt_gee_weight_Y"
+            android:id="@+id/edt_impurity_weight_Y"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="0"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:textColor="@color/inputTextColor"
             android:textColorHint="@color/hintTextColor" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_add_gee_weight"
+        android:id="@+id/btn_add_impurity_weight"
         android:layout_width="124dp"
         android:layout_height="48dp"
         android:layout_marginTop="16dp"
@@ -191,8 +191,8 @@
         android:insetBottom="0dp"
         android:text="Add"
         app:cornerRadius="10dp"
-        app:layout_constraintStart_toStartOf="@+id/textInputLayout_gee_weight_K"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_gee_weight_K" />
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout_impurity_weight_K"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_impurity_weight_K" />
 
     <View
         android:id="@+id/view2"
@@ -204,6 +204,6 @@
         android:background="@color/lineColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_add_gee_weight" />
+        app:layout_constraintTop_toBottomOf="@id/btn_add_impurity_weight" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

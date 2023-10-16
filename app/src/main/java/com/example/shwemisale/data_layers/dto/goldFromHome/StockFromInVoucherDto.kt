@@ -47,7 +47,7 @@ fun StockFromInVoucherDto.asDomain(eValue:String?,goldPrice18KId:String):StockFr
         gq_in_carat = "0",
         has_general_expenses = if (!gem_value.isNullOrEmpty() || !maintenance_cost.isNullOrEmpty() || !pt_and_clip_cost.isNullOrEmpty()
             || !wastage_ywae.isNullOrEmpty()) "1" else "0",
-        image = image?.asImage(),
+        image = image!!.asImage(),
         impurities_weight_ywae = "0" ,
         maintenance_cost = maintenance_cost,
         price_for_pawn = "0",

@@ -79,6 +79,12 @@
             android:textColor="@color/grey_ash_dark"
             app:layout_constraintStart_toStartOf="@id/tv_old_stock_weight"
             app:layout_constraintTop_toBottomOf="@id/tv_old_stock_weight" />
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier_data_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="tv_data_empty_state,tv_data_filled_state"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_view_detail"
@@ -94,7 +100,7 @@
             android:textAllCaps="false"
             app:layout_constraintEnd_toEndOf="@+id/iv_old_stock"
             app:layout_constraintStart_toStartOf="@+id/tv_data_empty_state"
-            app:layout_constraintTop_toBottomOf="@+id/tv_data_empty_state" />
+            app:layout_constraintTop_toBottomOf="@+id/barrier_data_state" />
         <TextView
             android:id="@+id/tv_remove"
             android:layout_width="0dp"

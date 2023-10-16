@@ -11,14 +11,16 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shwemi.util.loadImageWithGlide
 import com.example.shwemisale.R
+import com.example.shwemisale.data_layers.domain.goldFromHome.StockFromHomeDomain
 import com.example.shwemisale.data_layers.ui_models.OldStockBucketUiModel
 import com.example.shwemisale.databinding.ItemOldStockBucketBinding
+import com.example.shwemisale.screen.goldFromHome.getKPYFromYwae
 
 class OldStockBucketRecyclerAdapter(
-    private val viewDetailClick: (item:OldStockBucketUiModel) -> Unit,
-    private val removeClick: (item:OldStockBucketUiModel) -> Unit,
+    private val viewDetailClick: (item:StockFromHomeDomain) -> Unit,
+    private val removeClick: (item:StockFromHomeDomain) -> Unit,
 ) :
-    ListAdapter<OldStockBucketUiModel, OldStockBucketViewHolder>(OldStockBucketDiffUtil) {
+    ListAdapter<StockFromHomeDomain, OldStockBucketViewHolder>(OldStockBucketDiffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OldStockBucketViewHolder {
 
         return OldStockBucketViewHolder(
@@ -40,23 +42,24 @@ class OldStockBucketRecyclerAdapter(
 
 class OldStockBucketViewHolder(
     private var binding: ItemOldStockBucketBinding,
-    private val viewDetailClick: (item:OldStockBucketUiModel) -> Unit, private val removeClick: (item:OldStockBucketUiModel) -> Unit
+    private val viewDetailClick: (item:StockFromHomeDomain) -> Unit, private val removeClick: (item:StockFromHomeDomain) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     @RequiresApi(Build.VERSION_CODES.M)
     @SuppressLint("SetTextI18n")
-    fun bind(data: OldStockBucketUiModel) {
-        binding.ivOldStock.loadImageWithGlide(data.imageUrl)
-        binding.tvOldStockName.text = data.name
-        if (data.weightGm.isNullOrEmpty().not()) {
-            binding.tvOldStockWeight.text = "${data.weightGm.orEmpty()} gm"
+    fun bind(data: StockFromHomeDomain) {
+        binding.ivOldStock.loadImageWithGlide(data.image?.url)
+        binding.tvOldStockName.text = data.stock_name.orEmpty()
+        if (data.gold_and_gem_weight_gm.toDouble()>0.0) {
+            binding.tvOldStockWeight.text = "${data.gold_and_gem_weight_gm.orEmpty()} gm"
         } else {
-            binding.tvOldStockWeight.text =
-                "${data.weightK.orEmpty()} K ${data.weightP.orEmpty()} P ${data.weightY.orEmpty()} Y"
-        }
-        binding.tvDataEmptyState.isVisible = data.oldStockId.isNullOrEmpty()
-        binding.tvDataFilledState.isVisible = data.oldStockId.isNullOrEmpty().not()
+            val kpy = getKPYFromYwae(data.gold_gem_weight_ywae!!.toDouble())
+            binding.tvOldStockWeight.text = binding.root.context.getString(R.string.kpy_value,kpy[0].toInt().toString(),kpy[1].toInt().toString(),kpy[2].toString())
 
-        if (data.oldStockId.isNullOrEmpty()) {
+        }
+        binding.tvDataEmptyState.isVisible = !data.dataFilled
+        binding.tvDataFilledState.isVisible = data.dataFilled
+
+        if ( !data.dataFilled) {
             binding.btnViewDetail.text = "Add detail"
             binding.tvRemove.setTextColor(binding.root.context.getColorStateList(R.color.primary))
             binding.tvRemove.setOnClickListener {
@@ -73,17 +76,17 @@ class OldStockBucketViewHolder(
     }
 }
 
-object OldStockBucketDiffUtil : DiffUtil.ItemCallback<OldStockBucketUiModel>() {
+object OldStockBucketDiffUtil : DiffUtil.ItemCallback<StockFromHomeDomain>() {
     override fun areItemsTheSame(
-        oldItem: OldStockBucketUiModel,
-        newItem: OldStockBucketUiModel
+        oldItem: StockFromHomeDomain,
+        newItem: StockFromHomeDomain
     ): Boolean {
-        return oldItem.imageUrl == newItem.imageUrl
+        return oldItem.image.url == newItem.image.url
     }
 
     override fun areContentsTheSame(
-        oldItem: OldStockBucketUiModel,
-        newItem: OldStockBucketUiModel
+        oldItem: StockFromHomeDomain,
+        newItem: StockFromHomeDomain
     ): Boolean {
         return oldItem == newItem
     }

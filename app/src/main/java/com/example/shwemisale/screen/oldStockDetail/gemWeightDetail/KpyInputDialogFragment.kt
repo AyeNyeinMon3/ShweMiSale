@@ -14,7 +14,6 @@ import androidx.fragment.app.DialogFragment
 import com.example.shwemi.util.generateNumberFromEditText
 import com.example.shwemisale.databinding.DialogGemWeightDetailBinding
 import com.example.shwemisale.databinding.DialogKpyInputFragmentBinding
-import com.example.shwemisale.screen.oldStockDetail.ChooseStockTypeListener
 
 class KpyInputDialogFragment(private val gemWeightDetailId:String) : DialogFragment() {
     private lateinit var binding: DialogKpyInputFragmentBinding

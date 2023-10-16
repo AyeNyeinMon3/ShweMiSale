@@ -17,6 +17,7 @@
     <color name="base_low_pink">#FFF5F5</color>
 
     <color name="grey_body">#616E7C</color>
+    <color name="grey_bg">#F5F7FA</color>
     <color name="grey_line">#CBD2D9</color>
     <color name="grey_input">#E4E7EB</color>
     <color name="grey_ash">#52606D</color>

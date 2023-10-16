@@ -220,8 +220,7 @@
         android:label="PdfTestFragment" />
     <fragment
         android:id="@+id/oldStockBucketListFragment"
-        android:name="com.example.shwemisale.screen.goldFromHome.bucket.OldStockBucketListFragment"
-        android:label="OldStockBucketListFragment" >
+        android:name="com.example.shwemisale.screen.goldFromHome.bucket.OldStockBucketListFragment">
         <action
             android:id="@+id/action_oldStockBucketListFragment_to_addOldStockToBucketFragment"
             app:destination="@id/addOldStockToBucketFragment" />
@@ -232,25 +231,17 @@
     <fragment
         android:id="@+id/addOldStockToBucketFragment"
         android:name="com.example.shwemisale.screen.goldFromHome.bucket.addOldStockToBucket.AddOldStockToBucketFragment"
-        android:label="AddOldStockToBucketFragment" />
+        />
     <fragment
         android:id="@+id/oldStockDetailFragment"
-        android:name="com.example.shwemisale.screen.oldStockDetail.OldStockDetailFragment"
-        android:label="OldStockDetailFragment" >
+        android:name="com.example.shwemisale.screen.oldStockDetail.OldStockDetailFragment">
         <argument
             android:name="stockfromhomeinfo"
-            app:argType="com.example.shwemisale.data_layers.domain.goldFromHome.StockFromHomeDomain"
-            app:nullable="true" />
+            app:argType="com.example.shwemisale.data_layers.domain.goldFromHome.StockFromHomeDomain" />
         <argument
             android:name="backpresstype"
             app:argType="string"
             app:nullable="true" />
-        <argument
-            android:name="goldAndGemWeightGm"
-            app:argType="string" />
-        <argument
-            android:name="goldAndGemWeightYwae"
-            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/sampleFragment"

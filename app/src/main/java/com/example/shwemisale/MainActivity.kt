@@ -20,6 +20,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
@@ -142,6 +143,10 @@ class MainActivity : AppCompatActivity() {
                 if (startDestinationList.contains(nd.id))
                     View.GONE
                 else View.VISIBLE
+
+            when(nd.id){
+                R.id.oldStockBucketListFragment -> binding.materialToolbar.isVisible = false
+            }
         }//custom toolbar
 
 

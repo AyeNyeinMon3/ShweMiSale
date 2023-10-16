@@ -23,7 +23,6 @@ import com.example.shwemisale.databinding.DialogKpyInputFragmentBinding
 import com.example.shwemisale.screen.goldFromHome.getYwaeFromKPY
 import com.example.shwemisale.screen.goldFromHomeInfo.GemWeightRecyclerAdapter
 import com.example.shwemisale.screen.oldStockDetail.ChooseStockTypeDialogFragment
-import com.example.shwemisale.screen.oldStockDetail.ChooseStockTypeListener
 import com.example.shwemisale.screen.oldStockDetail.OldStockDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 

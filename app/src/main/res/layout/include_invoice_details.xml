@@ -29,17 +29,17 @@
         android:text="ပြန်ဝယ်စျေး"
         android:textColor="@color/inputTextColor"
         android:textSize="13sp"
-        app:layout_constraintEnd_toStartOf="@+id/tv_return_price"
+        app:layout_constraintEnd_toStartOf="@+id/tv_rebuy_price"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_lbl_invoice_details" />
 
     <TextView
-        android:id="@+id/tv_return_price"
+        android:id="@+id/tv_rebuy_price"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:text="45,000"
+        tools:text="45,000"
         android:textAlignment="textEnd"
         android:textColor="@color/secondaryTextColor"
         android:textSize="14sp"
@@ -62,73 +62,17 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_lbl_return_price" />
 
     <TextView
-        android:id="@+id/tv_gold_and_gem_weight_K"
+        android:id="@+id/tv_gold_and_gem_weight_kpy"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="4"
+        tools:text="4K 4P 4Y"
         android:textAlignment="textEnd"
         android:textColor="@color/secondaryTextColor"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_lbl_gold_and_gem_weight_KPY"
-        app:layout_constraintEnd_toStartOf="@+id/tv_lbl_gold_and_gem_weight_K" />
-
-    <TextView
-        android:id="@+id/tv_lbl_gold_and_gem_weight_K"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="K"
-        android:textAlignment="textEnd"
-        android:textColor="#7B8794"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/tv_gold_and_gem_weight_P"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_gold_and_gem_weight_K" />
-
-    <TextView
-        android:id="@+id/tv_gold_and_gem_weight_P"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="4"
-        android:textAlignment="textEnd"
-        android:textColor="@color/secondaryTextColor"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/tv_lbl_gold_and_gem_weight_P"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_lbl_gold_and_gem_weight_K" />
-
-    <TextView
-        android:id="@+id/tv_lbl_gold_and_gem_weight_P"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="P"
-        android:textAlignment="textEnd"
-        android:textColor="#7B8794"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/tv_gold_and_gem_weight_Y"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_gold_and_gem_weight_P" />
-
-    <TextView
-        android:id="@+id/tv_gold_and_gem_weight_Y"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="4"
-        android:textAlignment="textEnd"
-        android:textColor="@color/secondaryTextColor"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/tv_lbl_gold_and_gem_weight_Y"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_lbl_gold_and_gem_weight_P" />
-
-    <TextView
-        android:id="@+id/tv_lbl_gold_and_gem_weight_Y"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:text="Y"
-        android:textAlignment="textEnd"
-        android:textColor="#7B8794"
-        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_lbl_gold_and_gem_weight_KPY"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_gold_and_gem_weight_Y" />
+        app:layout_constraintStart_toEndOf="@+id/tv_lbl_gold_and_gem_weight_KPY"/>
 
     <TextView
         android:id="@+id/tv_lbl_gem_weight_KPY"
@@ -142,73 +86,18 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_lbl_gold_and_gem_weight_KPY" />
 
     <TextView
-        android:id="@+id/tv_gem_weight_K"
+        android:id="@+id/tv_gem_weight_kpy"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="4"
+        tools:text="4K 4P 4Y"
         android:textAlignment="textEnd"
         android:textColor="@color/secondaryTextColor"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_lbl_gem_weight_KPY"
-        app:layout_constraintEnd_toStartOf="@+id/tv_lbl_gem_weight_K" />
-
-    <TextView
-        android:id="@+id/tv_lbl_gem_weight_K"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="K"
-        android:textAlignment="textEnd"
-        android:textColor="#7B8794"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/tv_gem_weight_P"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_gem_weight_K" />
-
-    <TextView
-        android:id="@+id/tv_gem_weight_P"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="4"
-        android:textAlignment="textEnd"
-        android:textColor="@color/secondaryTextColor"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/tv_lbl_gem_weight_P"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_lbl_gem_weight_K" />
-
-    <TextView
-        android:id="@+id/tv_lbl_gem_weight_P"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="P"
-        android:textAlignment="textEnd"
-        android:textColor="#7B8794"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/tv_gem_weight_Y"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_gem_weight_P" />
-
-    <TextView
-        android:id="@+id/tv_gem_weight_Y"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="4"
-        android:textAlignment="textEnd"
-        android:textColor="@color/secondaryTextColor"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/tv_lbl_gem_weight_Y"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_lbl_gem_weight_P" />
-
-    <TextView
-        android:id="@+id/tv_lbl_gem_weight_Y"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:text="Y"
-        android:textAlignment="textEnd"
-        android:textColor="#7B8794"
-        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_lbl_gem_weight_KPY"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_gem_weight_Y" />
+        app:layout_constraintStart_toEndOf="@+id/tv_lbl_gem_weight_KPY" />
+
 
     <TextView
         android:id="@+id/tv_lbl_gee_weight_KPY"
@@ -222,76 +111,23 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_lbl_gem_weight_KPY" />
 
     <TextView
-        android:id="@+id/tv_gee_weight_K"
+        android:id="@+id/tv_gee_weight_kpy"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="4"
+        tools:text="4K 4P 4Y"
         android:textAlignment="textEnd"
         android:textColor="@color/secondaryTextColor"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_lbl_gee_weight_KPY"
-        app:layout_constraintEnd_toStartOf="@+id/tv_lbl_gee_weight_K" />
-
-    <TextView
-        android:id="@+id/tv_lbl_gee_weight_K"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="K"
-        android:textAlignment="textEnd"
-        android:textColor="#7B8794"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/tv_gee_weight_P"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_gee_weight_K" />
-
-    <TextView
-        android:id="@+id/tv_gee_weight_P"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="4"
-        android:textAlignment="textEnd"
-        android:textColor="@color/secondaryTextColor"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/tv_lbl_gee_weight_P"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_lbl_gee_weight_K" />
-
-    <TextView
-        android:id="@+id/tv_lbl_gee_weight_P"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="P"
-        android:textAlignment="textEnd"
-        android:textColor="#7B8794"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/tv_gee_weight_Y"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_gee_weight_P" />
-
-    <TextView
-        android:id="@+id/tv_gee_weight_Y"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="4"
-        android:textAlignment="textEnd"
-        android:textColor="@color/secondaryTextColor"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/tv_lbl_gee_weight_Y"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_lbl_gee_weight_P" />
-
-    <TextView
-        android:id="@+id/tv_lbl_gee_weight_Y"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:text="Y"
-        android:textAlignment="textEnd"
-        android:textColor="#7B8794"
-        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_lbl_gee_weight_KPY"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_gee_weight_Y" />
+        app:layout_constraintStart_toEndOf="@+id/tv_lbl_gee_weight_KPY"
+         />
+
+
 
     <TextView
-        android:id="@+id/tv_lbl_added_reduce_KPY"
+        android:id="@+id/tv_lbl_wastage_kpy"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -302,73 +138,18 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_lbl_gee_weight_KPY" />
 
     <TextView
-        android:id="@+id/tv_added_reduce_K"
+        android:id="@+id/tv_wastage_kpy"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="4"
+        tools:text="4K 4P 4Y"
         android:textAlignment="textEnd"
         android:textColor="@color/secondaryTextColor"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_lbl_added_reduce_KPY"
-        app:layout_constraintEnd_toStartOf="@+id/tv_lbl_added_reduce_K" />
-
-    <TextView
-        android:id="@+id/tv_lbl_added_reduce_K"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="K"
-        android:textAlignment="textEnd"
-        android:textColor="#7B8794"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/tv_added_reduce_P"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_added_reduce_K" />
-
-    <TextView
-        android:id="@+id/tv_added_reduce_P"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="4"
-        android:textAlignment="textEnd"
-        android:textColor="@color/secondaryTextColor"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/tv_lbl_added_reduce_P"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_lbl_added_reduce_K" />
-
-    <TextView
-        android:id="@+id/tv_lbl_added_reduce_P"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="P"
-        android:textAlignment="textEnd"
-        android:textColor="#7B8794"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/tv_added_reduce_Y"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_added_reduce_P" />
-
-    <TextView
-        android:id="@+id/tv_added_reduce_Y"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="4"
-        android:textAlignment="textEnd"
-        android:textColor="@color/secondaryTextColor"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/tv_lbl_added_reduce_Y"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_lbl_added_reduce_P" />
-
-    <TextView
-        android:id="@+id/tv_lbl_added_reduce_Y"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:text="Y"
-        android:textAlignment="textEnd"
-        android:textColor="#7B8794"
-        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_lbl_wastage_kpy"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_added_reduce_Y" />
+        app:layout_constraintStart_toEndOf="@+id/tv_lbl_wastage_kpy" />
+
 
     <TextView
         android:id="@+id/tv_lbl_gem_and_dia_price"
@@ -382,14 +163,14 @@
         app:layout_constraintEnd_toStartOf="@+id/tv_gem_and_dia_price"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_lbl_added_reduce_KPY" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_lbl_wastage_kpy" />
 
     <TextView
         android:id="@+id/tv_gem_and_dia_price"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:text="5000"
+        tools:text="5000"
         android:textAlignment="textEnd"
         android:textColor="@color/secondaryTextColor"
         android:textSize="14sp"
@@ -418,7 +199,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:text="5,000"
+        tools:text="5,000"
         android:textAlignment="textEnd"
         android:textColor="@color/secondaryTextColor"
         android:textSize="14sp"
@@ -447,7 +228,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:text="5,000"
+        tools:text="5,000"
         android:textAlignment="textEnd"
         android:textColor="@color/secondaryTextColor"
         android:textSize="14sp"
@@ -489,7 +270,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="4dp"
-        android:text="22"
+        tools:text="22"
         android:textAlignment="textEnd"
         android:textColor="@color/secondaryTextColor"
         android:textSize="14sp"
@@ -520,73 +301,17 @@
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
     <TextView
-        android:id="@+id/tv_gold_weight_K"
+        android:id="@+id/tv_gold_weight_kpy"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="4"
+        tools:text="4K 4P 4Y"
         android:textAlignment="textEnd"
         android:textColor="@color/secondaryTextColor"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_lbl_gold_weight_KPY"
-        app:layout_constraintEnd_toStartOf="@+id/tv_lbl_gold_weight_K" />
-
-    <TextView
-        android:id="@+id/tv_lbl_gold_weight_K"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="K"
-        android:textAlignment="textEnd"
-        android:textColor="#7B8794"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/tv_gold_weight_P"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_gold_weight_K" />
-
-    <TextView
-        android:id="@+id/tv_gold_weight_P"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="4"
-        android:textAlignment="textEnd"
-        android:textColor="@color/secondaryTextColor"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/tv_lbl_gold_weight_P"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_lbl_gold_weight_K" />
-
-    <TextView
-        android:id="@+id/tv_lbl_gold_weight_P"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="P"
-        android:textAlignment="textEnd"
-        android:textColor="#7B8794"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/tv_gold_weight_Y"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_gold_weight_P" />
-
-    <TextView
-        android:id="@+id/tv_gold_weight_Y"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="4"
-        android:textAlignment="textEnd"
-        android:textColor="@color/secondaryTextColor"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/tv_lbl_gold_weight_Y"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_lbl_gold_weight_P" />
-
-    <TextView
-        android:id="@+id/tv_lbl_gold_weight_Y"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:text="Y"
-        android:textAlignment="textEnd"
-        android:textColor="#7B8794"
-        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_lbl_gold_weight_KPY"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_gold_weight_Y" />
+        app:layout_constraintStart_toEndOf="@+id/tv_lbl_gold_weight_KPY"/>
 
     <View
         android:id="@+id/view2"
@@ -609,13 +334,13 @@
         android:text="ဆိုင်မှဝယ်ပေးငွေ"
         android:textColor="@color/inputTextColor"
         android:textSize="13sp"
-        app:layout_constraintEnd_toStartOf="@+id/tv_pay_form_shop"
+        app:layout_constraintEnd_toStartOf="@+id/tv_rebuy_price_from_shop"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view2" />
 
     <TextView
-        android:id="@+id/tv_pay_form_shop"
+        android:id="@+id/tv_rebuy_price_from_shop"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -639,17 +364,17 @@
         android:text="ဝယ်စျေး"
         android:textColor="@color/inputTextColor"
         android:textSize="13sp"
-        app:layout_constraintEnd_toStartOf="@+id/tv_purchase_price"
+        app:layout_constraintEnd_toStartOf="@+id/tv_price_a"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_lbl_pay_form_shop" />
 
     <TextView
-        android:id="@+id/tv_purchase_price"
+        android:id="@+id/tv_price_a"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:text="5,000"
+        tools:text="5,000"
         android:textAlignment="textEnd"
         android:textColor="@color/secondaryTextColor"
         android:textSize="14sp"
@@ -667,17 +392,17 @@
         android:text="ဘောင်ချာဖွင့်ဝယ်ပေးငွေ"
         android:textColor="@color/inputTextColor"
         android:textSize="13sp"
-        app:layout_constraintEnd_toStartOf="@+id/tv_open_voucher_pay"
+        app:layout_constraintEnd_toStartOf="@+id/tv_price_b"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_lbl_purchase_price" />
 
     <TextView
-        android:id="@+id/tv_open_voucher_pay"
+        android:id="@+id/tv_price_b"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:text="5,000"
+        tools:text="5,000"
         android:textAlignment="textEnd"
         android:textColor="@color/secondaryTextColor"
         android:textSize="14sp"
@@ -696,17 +421,17 @@
         android:text="သတ်မှတ်အပေါင်စျေး"
         android:textColor="@color/inputTextColor"
         android:textSize="13sp"
-        app:layout_constraintEnd_toStartOf="@+id/tv_mortgage_price"
+        app:layout_constraintEnd_toStartOf="@+id/tv_decided_pawn_price"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_lbl_open_voucher_pay" />
 
     <TextView
-        android:id="@+id/tv_mortgage_price"
+        android:id="@+id/tv_decided_pawn_price"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:text="5,000"
+        tools:text="5,000"
         android:textAlignment="textEnd"
         android:textColor="@color/secondaryTextColor"
         android:textSize="14sp"
@@ -736,13 +461,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:text="5,000"
+        tools:text="5,000"
         android:textAlignment="textEnd"
         android:textColor="@color/secondaryTextColor"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/tv_lbl_pawn_money"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/tv_lbl_pawn_money" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.shwemi.util.Resource
 import com.example.shwemi.util.hideKeyboard
@@ -89,14 +90,15 @@ class ChooseStockTypeDialogFragment:DialogFragment() {
         })
         binding.rvStock.adapter = rebuyItemRecyclerAdapter
         viewModel.getRebuyItem("small")
+        viewModel.setSize("small")
         binding.radioGpChooseSize.setOnCheckedChangeListener { radioGroup, checkedId ->
             if (checkedId == binding.rBtnSmall.id) {
                 viewModel.getRebuyItem("small")
-                viewModel.size = "small"
+                viewModel.setSize("small")
 
             } else {
                 viewModel.getRebuyItem("large")
-                viewModel.size = "large"
+                viewModel.setSize("large")
 
             }
         }
@@ -121,8 +123,8 @@ class ChooseStockTypeDialogFragment:DialogFragment() {
             }
         }
         binding.btnAdd.setOnClickListener {
-            viewModel.getChoosenStockTypeAndTotalQty(viewModel.size)
-            onChooseStockTypeListener?.selectedName(viewModel.nameTag,viewModel.totalQty)
+            val stockTypeWithQty = viewModel.getSelectedStockType()
+            onChooseStockTypeListener?.selectedName(stockTypeWithQty.first,stockTypeWithQty.second,viewModel.sizeLiveData.value.orEmpty())
         }
 
 
@@ -133,5 +135,5 @@ class ChooseStockTypeDialogFragment:DialogFragment() {
 }
 
 interface ChooseStockTypeListener{
-    fun selectedName(name:String,totalQty:Int)
+    fun selectedName(nameTag:String,totalQty:Int,size:String)
 }

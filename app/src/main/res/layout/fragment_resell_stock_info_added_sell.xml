@@ -1865,7 +1865,7 @@
                     android:id="@+id/tv_label_gold_weight_KPY"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="‌‌ရွှေချိန်(KPY)"
+                    android:text="‌ရွှေချိန်(KPY)"
                     android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                     android:textColor="@color/primary_text"
                     android:textStyle="bold" />
@@ -2039,7 +2039,7 @@
                     android:id="@+id/tv_label_add_purchase_gold_weight"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="‌‌အဝယ်သို့ထည့်ပေးရွှေချိန်"
+                    android:text="‌အဝယ်သို့ထည့်ပေးရွှေချိန်"
                     android:textAppearance="@style/TextAppearance.ShweMi.Body2"
                     android:textColor="@color/primary_text"
                     android:textStyle="bold" />

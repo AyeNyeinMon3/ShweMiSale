@@ -231,7 +231,7 @@ class SellGoldFromHomeFragment : Fragment(), ReceiveListener {
                     loading.dismiss()
                     adapter = GoldFromHomeRecyclerAdapter(args.backpressType, { data ->
                         findNavController().navigate(
-                            SellGoldFromHomeFragmentDirections.actionSellGoldFromHomeFragmentToSellResellStockInfoAddedFragment(
+                            SellGoldFromHomeFragmentDirections.actionSellGoldFromHomeFragmentToOldStockDetailFragment(
                                 data,
                                 args.backpressType,
 
@@ -361,7 +361,7 @@ class SellGoldFromHomeFragment : Fragment(), ReceiveListener {
                     }
                     adapter = GoldFromHomeRecyclerAdapter(args.backpressType, { data ->
                         findNavController().navigate(
-                            SellGoldFromHomeFragmentDirections.actionSellGoldFromHomeFragmentToSellResellStockInfoAddedFragment(
+                            SellGoldFromHomeFragmentDirections.actionSellGoldFromHomeFragmentToOldStockDetailFragment(
                                 data,
                                 args.backpressType
                             )

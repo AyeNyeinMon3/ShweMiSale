@@ -33,7 +33,7 @@
         app:layout_constraintTop_toTopOf="@+id/iv" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/button4"
+        android:id="@+id/btn_edit_image"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginEnd="-16dp"
@@ -86,7 +86,7 @@
         android:layout_height="0dp"
         android:orientation="horizontal"
         android:weightSum="3"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btn_calculate_all"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/view">
@@ -143,5 +143,32 @@
         </ScrollView>
     </LinearLayout>
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_calculate_all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="တွက်မည်"
+        app:cornerRadius="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_margin="16dp"/>
 
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:visibility="gone"
+        app:icon="@drawable/ic_save"
+        app:iconGravity="textStart"
+        app:backgroundTint="@color/white"
+        android:textColor="@color/primary"
+        app:iconTint="@color/primary"
+        android:text="သိမ်းမည်"
+        app:cornerRadius="8dp"
+        app:layout_constraintEnd_toStartOf="@id/btn_calculate_all"
+        app:layout_constraintBottom_toBottomOf="@id/btn_calculate_all"
+        app:layout_constraintTop_toTopOf="@id/btn_calculate_all"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

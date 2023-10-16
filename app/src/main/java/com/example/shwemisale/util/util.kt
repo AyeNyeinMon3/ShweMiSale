@@ -307,3 +307,13 @@ fun convertMillisecondsToDate(milliseconds: Long): LocalDate {
     return localDate
 }
 
+fun handleInfinity(input: Double): Double {
+    /* Your computation that might result in infinity */
+
+    return if (input.isFinite()) {
+        input
+    } else {
+        0.0 // Return 0 when the result is infinity
+    }
+}
+

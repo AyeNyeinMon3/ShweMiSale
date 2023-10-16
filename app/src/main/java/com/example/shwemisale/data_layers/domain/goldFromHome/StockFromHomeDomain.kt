@@ -26,7 +26,7 @@ data class StockFromHomeDomain(
     val gold_weight_ywae: String?,
     val gq_in_carat: String?,
     val has_general_expenses: String?,
-    val image: Image?,
+    val image: Image,
     val impurities_weight_ywae: String?,
     val maintenance_cost: String?,
     val price_for_pawn: String?,
@@ -43,5 +43,7 @@ data class StockFromHomeDomain(
     var isEditable:Boolean,
     var isChecked:Boolean,
     var localId:Int = 0,
-    var derived_gold_type_id:String = ""
+    var derived_gold_type_id:String = "",
+    val dataFilled:Boolean = false
 ):Parcelable
+

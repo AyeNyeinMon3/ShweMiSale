@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.shwemisale.databinding.BottomSheetRemoveImageBinding
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,6 +24,10 @@ class RemoveImageBottomSheetFragment:BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        dialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)?.let { bottomSheet ->
+            val behavior = BottomSheetBehavior.from(bottomSheet)
+            behavior.peekHeight = 0
+        }
         binding.mcvRemovePhoto.setOnClickListener {
             onRemoveImageSelectionListener?.onRemoveImageSelected()
         }

@@ -16,7 +16,27 @@
     <string name="kyat_value">%1$s K</string>
     <string name="pae_value">%1$s P</string>
     <string name="ywae_value">%1$s Y</string>
+    <string name="mmk_value">%1$s MMK</string>
+    <string name="discount_percentage">%1$s %%လျှော့ပြီး</string>
+    <string name="mmk_value_with_percentage_discount">%1$s MMK %2$s %လျှော့ပြီး </string>
+    <string name="carat_value">%1$s Carat</string>
 
     <string name="kpy_value">%1$s K %2$s P %3$s Y</string>
+    <string name="gold_carat_change_alert_dialog_title">ရွှေရည်ကို ပြင်ဆင်ပါက အခြားတန်ဖိုးများ ပြောင်းလဲမှုရှိုနိင်ပါတယ်</string>
+    <string name="changed_values">ပြောင်းလဲသွားသော တန်ဖိုးများ</string>
+    <string name="gold_carat_change_alert_message">“ပြန်ဝယ်စျေး” သည် “ပစ္စည်းအခြေအနေ”အပေါ် မမှီခိုတော့ဘဲ “ရွှေရည်” အပေါ်သာ မှီခိုပါတော့မည်</string>
+    <string name="sure_to_proceed">သင်ဆက်၍ လုပ်ဆောင်မှာ သေချာပြီလား။</string>
+    <string name="continue_text">ဆက်လုပ်မည်</string>
+    <string name="stop">ရပ်မည်</string>
+    <string name="a_buying_price_change_dialog">အဝယ်သို့ထည့်ပေးရွှေချိန်ကို ပြင်ဆင်ပါက အခြားတန်ဖိုးများ ပြောင်းလဲမှုရှိုနိင်ပါတယ်</string>
+    <string name="b_buying_price_change_dialog">ဘောင်ချာဖွင့်ဝယ်ပေးငွေကို ပြင်ဆင်ပါက အခြားတန်ဖိုးများ ပြောင်းလဲမှုရှိုနိင်ပါတယ်</string>
+    <string name="c_buying_price_change_dialog">ဘောင်ချာဖွင့်ဝယ်စျေးကို ပြင်ဆင်ပါက အခြားတန်ဖိုးများ ပြောင်းလဲမှုရှိုနိင်ပါတယ်</string>
+    <string name="string_price_a">ဝယ်စျေး</string>
+    <string name="string_price_b">ဘောင်ချာဖွင့်ဝယ်ပေးငွေ</string>
+    <string name="string_price_c">ဘောင်ချာဖွင့်ဝယ်ပေးငွေ</string>
+    <string name="string_weight_d">‌ရွှေချိန်(KPY)</string>
+    <string name="string_price_e">အဝယ်ဘောင်ချာမှစျေး</string>
+    <string name="string_weight_f">‌အဝယ်သို့ထည့်ပေးရွှေချိန်</string>
+    <string name="string_decided_pawn_price">သတ်မှတ်အပေါင်စျေး</string>
 
 </resources>

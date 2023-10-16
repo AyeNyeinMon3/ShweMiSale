@@ -41,7 +41,6 @@
         android:insetBottom="0dp"
         android:padding="0dp"
         android:text="Edit"
-        android:textAlignment="textEnd"
         android:textColor="@color/primary"
         android:textStyle="bold"
         app:icon="@drawable/ic_edit"
@@ -57,7 +56,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
-
+        android:visibility="gone"
         app:backgroundTint="@color/white"
         android:insetLeft="0dp"
         android:insetTop="0dp"
@@ -76,6 +75,7 @@
         android:id="@+id/textInputLayout_goldQ"
         android:layout_width="0dp"
         android:layout_height="48dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
         app:hintEnabled="false"
@@ -87,7 +87,7 @@
             android:id="@+id/edt_goldQ"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:textColor="@color/inputTextColor"
             android:textColorHint="@color/hintTextColor" />
 

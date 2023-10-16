@@ -86,7 +86,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_lbl_purchase_price">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edt_pruchase_price"
+            android:id="@+id/edt_a_buying_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"

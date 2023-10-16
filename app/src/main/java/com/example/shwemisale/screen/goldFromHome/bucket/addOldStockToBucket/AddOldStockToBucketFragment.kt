@@ -30,6 +30,7 @@ import com.example.shwemi.util.loadImageWithGlide
 import com.example.shwemi.util.showUploadImageDialog
 import com.example.shwemisale.R
 import com.example.shwemisale.data_layers.domain.goldFromHome.StockFromHomeDomain
+import com.example.shwemisale.data_layers.dto.goldFromHome.Image
 import com.example.shwemisale.data_layers.ui_models.OldStockBucketUiModel
 import com.example.shwemisale.databinding.FragmentOldStockAddToBucketBinding
 import com.example.shwemisale.screen.goldFromHome.bucket.BucketShareViewModel
@@ -37,6 +38,8 @@ import com.example.shwemisale.screen.goldFromHome.bucket.RemoveImageBottomSheetF
 import com.example.shwemisale.screen.goldFromHome.bucket.RemoveImageSelectionListener
 import com.example.shwemisale.screen.goldFromHome.getYwaeFromKPY
 import dagger.hilt.android.AndroidEntryPoint
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.ZoneOffset
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -49,8 +52,9 @@ class AddOldStockToBucketFragment : Fragment(), RemoveImageSelectionListener {
     private val shareViewModel by activityViewModels<BucketShareViewModel>()
     private lateinit var launchChooseImage: ActivityResultLauncher<Intent>
     private lateinit var removeImageBottomSheetFragment: RemoveImageBottomSheetFragment
+    private var imageUrl = ""
 
-//    private lateinit var storagePermissionLauncher: ActivityResultLauncher<String>
+    //    private lateinit var storagePermissionLauncher: ActivityResultLauncher<String>
     private lateinit var cameraPermissionLauncher: ActivityResultLauncher<String>
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -102,7 +106,7 @@ class AddOldStockToBucketFragment : Fragment(), RemoveImageSelectionListener {
                 val data = result.data
                 if (data != null && data.data != null) {
                     getRealPathFromUri(requireContext(), data.data!!)?.let { path ->
-                        viewModel.selectedImageUri = path
+                        viewModel.setImagePathLiveData(path)
                         binding.includeOldStockAddItemPhoto.ivThreeDotsMenu.isVisible = true
                         binding.includeOldStockAddItemPhoto.ivUploadImage.loadImageWithGlide(path)
                     }
@@ -128,39 +132,22 @@ class AddOldStockToBucketFragment : Fragment(), RemoveImageSelectionListener {
 
             }
         }
+        binding.includeOldStockAddItemPhoto.radioGm.isChecked = true
 
         binding.includeOldStockAddItemPhoto.btnAdd.setOnClickListener {
-            if (binding.includeOldStockAddItemPhoto.radioGm.isChecked) {
-                val weight =
-                    generateNumberFromEditText(binding.includeOldStockAddItemPhoto.edtWeightGm)
-                shareViewModel.addToOldStockBucket(
-                    OldStockBucketUiModel(
-                        oldStockId = null,
-                        imageUrl = viewModel.selectedImageUri,
-                        weightGm = weight,
-                        weightK = null,
-                        weightP = null,
-                        weightY = null,
-                        name = null,
-                    )
-                )
+            if (imageUrl.isEmpty()) {
+                Toast.makeText(requireContext(), "Please Select an image first", Toast.LENGTH_LONG)
+                    .show()
             } else {
-                shareViewModel.addToOldStockBucket(
-                    OldStockBucketUiModel(
-                        oldStockId = null,
-                        imageUrl = viewModel.selectedImageUri,
-                        weightGm = null,
-                        weightK = generateNumberFromEditText(binding.includeOldStockAddItemPhoto.edtWeightKyat),
-                        weightP = generateNumberFromEditText(binding.includeOldStockAddItemPhoto.edtWeightPae),
-                        weightY = generateNumberFromEditText(binding.includeOldStockAddItemPhoto.edtWeightYwae),
-                        name = null,
-
-                        )
-                )
+                addOldStockToBucket()
             }
-            findNavController().popBackStack()
         }
 
+        viewModel.imagePathLiveData.observe(viewLifecycleOwner) {
+            binding.includeOldStockAddItemPhoto.ivThreeDotsMenu.isVisible = !it.isNullOrEmpty()
+            binding.includeOldStockAddItemPhoto.ivUploadImage.loadImageWithGlide(it)
+            imageUrl = it
+        }
         binding.includeOldStockAddItemPhoto.btnClose.setOnClickListener {
             findNavController().popBackStack()
         }
@@ -204,16 +191,14 @@ class AddOldStockToBucketFragment : Fragment(), RemoveImageSelectionListener {
     }
 
     private fun isExternalStoragePermissionGranted(): Boolean {
-        return  ContextCompat.checkSelfPermission(
+        return ContextCompat.checkSelfPermission(
             requireContext(), Manifest.permission.CAMERA
         ) == PackageManager.PERMISSION_GRANTED
     }
 
     override fun onRemoveImageSelected() {
-        viewModel.selectedImageUri = ""
         removeImageBottomSheetFragment.dismiss()
-        binding.includeOldStockAddItemPhoto.ivThreeDotsMenu.isVisible = false
-        binding.includeOldStockAddItemPhoto.ivUploadImage.setImageResource(R.drawable.dotted_line_upload_image)
+        viewModel.setImagePathLiveData("")
     }
 
     private val REQUEST_IMAGE_CAPTURE = 1
@@ -256,7 +241,7 @@ class AddOldStockToBucketFragment : Fragment(), RemoveImageSelectionListener {
             storageDir /* directory */
         ).apply {
             // Save a file: path for use with ACTION_VIEW intents
-            viewModel.selectedImageUri = absolutePath
+            viewModel.setImagePathLiveData(absolutePath)
         }
     }
 
@@ -264,9 +249,100 @@ class AddOldStockToBucketFragment : Fragment(), RemoveImageSelectionListener {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
             photoUri?.let { uri ->
-                binding.includeOldStockAddItemPhoto.ivThreeDotsMenu.isVisible = true
-                binding.includeOldStockAddItemPhoto.ivUploadImage.loadImageWithGlide(viewModel.selectedImageUri)
+
             }
         }
+    }
+
+    fun addOldStockToBucket() {
+        if (binding.includeOldStockAddItemPhoto.radioGm.isChecked) {
+            val weight =
+                generateNumberFromEditText(binding.includeOldStockAddItemPhoto.edtWeightGm)
+            shareViewModel.addToOldStockBucket(
+                StockFromHomeDomain(
+                    id = null,
+                    a_buying_price = "0",
+                    b_voucher_buying_value = "0",
+                    c_voucher_buying_price = "0",
+                    calculated_buying_value = "0",
+                    calculated_for_pawn = "0",
+                    d_gold_weight_ywae = "0",
+                    e_price_from_new_voucher = "0",
+                    f_voucher_shown_gold_weight_ywae = "0.0",
+                    gem_value = "0",
+                    gem_weight_details_session_key = "",
+                    gold_and_gem_weight_gm = weight,
+                    gem_weight_ywae = "0.0",
+                    gold_gem_weight_ywae = "0.0",
+                    gold_weight_ywae = "0.0",
+                    gq_in_carat = "0.0",
+                    has_general_expenses = "0",
+                    image = Image(null, null, imageUrl),
+                    impurities_weight_ywae = "0.0",
+                    maintenance_cost = "0",
+                    price_for_pawn = "0",
+                    pt_and_clip_cost = "0",
+                    qty = "0",
+                    rebuy_price = "0",
+                    size = "",
+                    stock_condition = "",
+                    stock_name = "",
+                    type = "",
+                    wastage_ywae = "0.0",
+                    rebuy_price_vertical_option = "",
+                    productId = emptyList<String>(),
+                    isEditable = true,
+                    isChecked = false,
+                    localId = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC).toInt(),
+                    derived_gold_type_id = "",
+                )
+            )
+        } else {
+
+            shareViewModel.addToOldStockBucket(
+                StockFromHomeDomain(
+                    id = null,
+                    a_buying_price = "0",
+                    b_voucher_buying_value = "0",
+                    c_voucher_buying_price = "0",
+                    calculated_buying_value = "0",
+                    calculated_for_pawn = "0",
+                    d_gold_weight_ywae = "0",
+                    e_price_from_new_voucher = "0",
+                    f_voucher_shown_gold_weight_ywae = "0.0",
+                    gem_value = "0",
+                    gem_weight_details_session_key = "",
+                    gold_and_gem_weight_gm = "0.0",
+                    gem_weight_ywae = "0.0",
+                    gold_gem_weight_ywae = getYwaeFromKPY(
+                        generateNumberFromEditText(binding.includeOldStockAddItemPhoto.edtWeightKyat).toInt(),
+                        generateNumberFromEditText(binding.includeOldStockAddItemPhoto.edtWeightPae).toInt(),
+                        generateNumberFromEditText(binding.includeOldStockAddItemPhoto.edtWeightYwae).toDouble(),
+                    ).toString(),
+                    gold_weight_ywae = "0.0",
+                    gq_in_carat = "0.0",
+                    has_general_expenses = "0",
+                    image = Image(null, null, imageUrl),
+                    impurities_weight_ywae = "0.0",
+                    maintenance_cost = "0",
+                    price_for_pawn = "0",
+                    pt_and_clip_cost = "0",
+                    qty = "0",
+                    rebuy_price = "0",
+                    size = "",
+                    stock_condition = "",
+                    stock_name = "",
+                    type = "",
+                    wastage_ywae = "0.0",
+                    rebuy_price_vertical_option = "",
+                    productId = emptyList<String>(),
+                    isEditable = true,
+                    isChecked = false,
+                    localId = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC).toInt(),
+                    derived_gold_type_id = "",
+                )
+            )
+        }
+        findNavController().popBackStack()
     }
 }
