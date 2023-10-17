@@ -234,7 +234,7 @@ class SellGoldFromHomeFragment : Fragment(), ReceiveListener {
                             SellGoldFromHomeFragmentDirections.actionSellGoldFromHomeFragmentToOldStockDetailFragment(
                                 data,
                                 args.backpressType,
-
+                                null
                             )
                         )
                     }, {
@@ -363,7 +363,8 @@ class SellGoldFromHomeFragment : Fragment(), ReceiveListener {
                         findNavController().navigate(
                             SellGoldFromHomeFragmentDirections.actionSellGoldFromHomeFragmentToOldStockDetailFragment(
                                 data,
-                                args.backpressType
+                                args.backpressType,
+                                null
                             )
                         )
                     }, {

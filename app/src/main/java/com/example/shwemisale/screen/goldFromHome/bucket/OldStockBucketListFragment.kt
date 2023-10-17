@@ -59,7 +59,7 @@ class OldStockBucketListFragment : Fragment() {
         binding.includeOldStockNoItemState.root.isVisible = shareViewModel.oldStockInBucketList.value.isNullOrEmpty()
         val adapter = OldStockBucketRecyclerAdapter({oldStock ->
             findNavController().navigate(OldStockBucketListFragmentDirections.actionOldStockBucketListFragmentToOldStockDetailFragment(
-                oldStock,""))
+                oldStock,null,if (oldStock.dataFilled) "viewdetail" else null))
 
         },{item ->
             shareViewModel.removeOldStockBucket(item)
@@ -68,6 +68,8 @@ class OldStockBucketListFragment : Fragment() {
         shareViewModel.oldStockInBucketList.observe(viewLifecycleOwner){
             binding.includeOldStockWithItems.root.isVisible = it.isNullOrEmpty().not()
             binding.includeOldStockNoItemState.root.isVisible = it.isNullOrEmpty()
+
+            binding.includeOldStockWithItems.tvTotalAddedItems.text = getString(R.string.total_added_item,it.count().toString())
 
             binding.includeOldStockWithItems.tvValueDataFilledItems.text =
                 it?.count { it.dataFilled}

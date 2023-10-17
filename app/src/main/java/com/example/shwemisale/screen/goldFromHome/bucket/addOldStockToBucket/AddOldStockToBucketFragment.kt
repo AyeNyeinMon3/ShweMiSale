@@ -36,6 +36,8 @@ import com.example.shwemisale.databinding.FragmentOldStockAddToBucketBinding
 import com.example.shwemisale.screen.goldFromHome.bucket.BucketShareViewModel
 import com.example.shwemisale.screen.goldFromHome.bucket.RemoveImageBottomSheetFragment
 import com.example.shwemisale.screen.goldFromHome.bucket.RemoveImageSelectionListener
+import com.example.shwemisale.screen.goldFromHome.getGramFromYwae
+import com.example.shwemisale.screen.goldFromHome.getYwaeFromGram
 import com.example.shwemisale.screen.goldFromHome.getYwaeFromKPY
 import dagger.hilt.android.AndroidEntryPoint
 import org.threeten.bp.LocalDateTime
@@ -258,6 +260,7 @@ class AddOldStockToBucketFragment : Fragment(), RemoveImageSelectionListener {
         if (binding.includeOldStockAddItemPhoto.radioGm.isChecked) {
             val weight =
                 generateNumberFromEditText(binding.includeOldStockAddItemPhoto.edtWeightGm)
+            val weightYwae = getYwaeFromGram(weight.toDouble())
             shareViewModel.addToOldStockBucket(
                 StockFromHomeDomain(
                     id = null,
@@ -273,7 +276,7 @@ class AddOldStockToBucketFragment : Fragment(), RemoveImageSelectionListener {
                     gem_weight_details_session_key = "",
                     gold_and_gem_weight_gm = weight,
                     gem_weight_ywae = "0.0",
-                    gold_gem_weight_ywae = "0.0",
+                    gold_gem_weight_ywae = weightYwae.toString(),
                     gold_weight_ywae = "0.0",
                     gq_in_carat = "0.0",
                     has_general_expenses = "0",
@@ -295,9 +298,16 @@ class AddOldStockToBucketFragment : Fragment(), RemoveImageSelectionListener {
                     isChecked = false,
                     localId = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC).toInt(),
                     derived_gold_type_id = "",
+                    showGram = true
                 )
             )
         } else {
+            val weightYwae = getYwaeFromKPY(
+                generateNumberFromEditText(binding.includeOldStockAddItemPhoto.edtWeightKyat).toInt(),
+                generateNumberFromEditText(binding.includeOldStockAddItemPhoto.edtWeightPae).toInt(),
+                generateNumberFromEditText(binding.includeOldStockAddItemPhoto.edtWeightYwae).toDouble(),
+            )
+            val weightGm = getGramFromYwae(weightYwae)
 
             shareViewModel.addToOldStockBucket(
                 StockFromHomeDomain(
@@ -312,13 +322,9 @@ class AddOldStockToBucketFragment : Fragment(), RemoveImageSelectionListener {
                     f_voucher_shown_gold_weight_ywae = "0.0",
                     gem_value = "0",
                     gem_weight_details_session_key = "",
-                    gold_and_gem_weight_gm = "0.0",
+                    gold_and_gem_weight_gm = weightGm.toString(),
                     gem_weight_ywae = "0.0",
-                    gold_gem_weight_ywae = getYwaeFromKPY(
-                        generateNumberFromEditText(binding.includeOldStockAddItemPhoto.edtWeightKyat).toInt(),
-                        generateNumberFromEditText(binding.includeOldStockAddItemPhoto.edtWeightPae).toInt(),
-                        generateNumberFromEditText(binding.includeOldStockAddItemPhoto.edtWeightYwae).toDouble(),
-                    ).toString(),
+                    gold_gem_weight_ywae = weightYwae.toString(),
                     gold_weight_ywae = "0.0",
                     gq_in_carat = "0.0",
                     has_general_expenses = "0",
@@ -340,6 +346,7 @@ class AddOldStockToBucketFragment : Fragment(), RemoveImageSelectionListener {
                     isChecked = false,
                     localId = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC).toInt(),
                     derived_gold_type_id = "",
+                    showGram = false
                 )
             )
         }

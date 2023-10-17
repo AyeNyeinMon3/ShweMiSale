@@ -242,6 +242,10 @@
             android:name="backpresstype"
             app:argType="string"
             app:nullable="true" />
+        <argument
+            android:name="viewType"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/sampleFragment"

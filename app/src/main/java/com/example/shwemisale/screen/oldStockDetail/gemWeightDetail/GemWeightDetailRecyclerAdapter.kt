@@ -86,6 +86,9 @@ class GemWeightDetailRecyclerAdapter(
                     update(data.id ,data.gem_qty, data.gem_weight_gm_per_unit,data.gem_weight_ywae_per_unit)
                 }
             }
+            binding.icDelete.setOnClickListener {
+                delete(data.id)
+            }
         }
 
         @RequiresApi(Build.VERSION_CODES.M)

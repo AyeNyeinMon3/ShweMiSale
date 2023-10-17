@@ -153,10 +153,10 @@ class OldStockDetailViewModel @Inject constructor(
 
     fun setgoldAndgemWeightGm(goldAndGemWeightGm: Double) {
         val ywae = getYwaeFromGram(goldAndGemWeightGm)
+        _goldAndGemWeightGmLiveData.value = goldAndGemWeightGm
         if (_goldAndGemWeightYwaeLiveData.value != ywae){
             setgoldAndGemWeightYwae(ywae)
         }
-        _goldAndGemWeightGmLiveData.value = goldAndGemWeightGm
     }
 
     private val _goldAndGemWeightYwaeLiveData = MutableLiveData<Double>(0.0)
@@ -165,10 +165,10 @@ class OldStockDetailViewModel @Inject constructor(
 
     fun setgoldAndGemWeightYwae(goldAndGemWeightYwae: Double) {
         val gram = getGramFromYwae(goldAndGemWeightYwae)
+        _goldAndGemWeightYwaeLiveData.value = goldAndGemWeightYwae
         if (_goldAndGemWeightGmLiveData.value != gram){
             setgoldAndgemWeightGm(gram)
         }
-        _goldAndGemWeightYwaeLiveData.value = goldAndGemWeightYwae
     }
 
     private val _gemWeightYwaeLiveData = MutableLiveData<Double>(0.0)
@@ -259,23 +259,21 @@ class OldStockDetailViewModel @Inject constructor(
         _calculatedPawnPiceLiveData.value = pawnPrice
     }
 
-    fun calculateRebuyPriceFromGoldCarat(gqCarat: Double): Pair<Int, Int> {
+    fun calculateRebuyPriceFromGoldCarat(gqCarat: Double): Pair<Long, Int> {
         val changedRebuyPrice =
             getRoundDownForPrice((gqCarat / 24 * _goldPriceLiveData.value!!).toInt())
-        return Pair(_goldPriceLiveData.value!!, changedRebuyPrice)
+        return Pair(_rebuyPriceCurrentrData.value!!, changedRebuyPrice)
     }
 
     fun calculateGoldQWhenRebuyPriceChange() {
-        val currentRebuyPriceState = _rebuyPriceLiveData.value as? Resource.Success<Long>
         val gqInCarat =
-            (currentRebuyPriceState?.data!!.toDouble() / _goldPriceLiveData.value!!) * 24
+            (_rebuyPriceCurrentrData.value!!.toDouble() / _goldPriceLiveData.value!!) * 24
         setgoldCarat((gqInCarat * 100).roundToInt() / 100.0)
     }
 
     fun calculateDecidedPawnPrice() {
-        val currentRebuyPriceState = _rebuyPriceLiveData.value as? Resource.Success<Long>
         val decidedPawnPrice =
-            (currentRebuyPriceState?.data ?: 0L).toInt() - _pawnDiffValueLiveData.value!!.toInt()
+            (_rebuyPriceCurrentrData.value!!).toInt() - _pawnDiffValueLiveData.value!!.toInt()
         val decidedPawnPriceDecimal = getRoundDownForPrice(decidedPawnPrice).toString()
         setdecidedPawnPrice(decidedPawnPriceDecimal.toLong())
     }
@@ -334,7 +332,7 @@ class OldStockDetailViewModel @Inject constructor(
 
         val fromToDecidedPawnPrice =
             Pair(_decidedPawnPriceLiveData.value!!.toInt(), decidedPawnPriceDecimal.toInt())
-        val fromToBVouherPrice = Pair(_priceBLiveData.value!!.toInt(), priceB.toInt())
+        val fromToBVouherPrice = Pair(_priceBLiveData.value!!.toInt(), getRoundDownForPrice( priceB.toInt()))
 
 
         if (isSetPriceB) setpriceB(getRoundDownForPrice(priceB.toInt()).toLong())
@@ -410,7 +408,7 @@ class OldStockDetailViewModel @Inject constructor(
         changeWastage: (Pair<Double,Double>) -> Unit,
         changeImpurity: (Pair<Double,Double>) -> Unit
     ) {
-        setRebuyPrice(_priceELiveData.value!!.toLong())
+        setRebuyPriceCurrentData(_priceELiveData.value!!.toLong())
         //
         val fKyat = fWeightYwae / 128
         val paymentFromShop =
@@ -618,8 +616,7 @@ class OldStockDetailViewModel @Inject constructor(
         val diamondGemValue = _gemValueLiveData.value!!
 
         val otherReducedCosts = diamondGemValue + maintenanceCost + ptClipCost
-        val rebuyPriceCurrentState = _rebuyPriceLiveData.value as? Resource.Success<Long>
-        val rebuyPrice = rebuyPriceCurrentState?.data ?: 0L
+        val rebuyPrice = _rebuyPriceCurrentrData.value!!
         val buyPriceFromShop = if (hasGeneralExpense) {
             (goldKyat + wastageKyat) * rebuyPrice + otherReducedCosts
         } else {
@@ -628,14 +625,19 @@ class OldStockDetailViewModel @Inject constructor(
         _rebuyPriceFromShopLiveData.value = getRoundDownForPrice(buyPriceFromShop.toInt()).toLong()
     }
 
+    private val _rebuyPriceCurrentrData = SingleLiveEvent<Long>()
+    val rebuyPriceCurrentrData: SingleLiveEvent<Long>
+        get() = _rebuyPriceCurrentrData
 
-    private val _rebuyPriceLiveData = SingleLiveEvent<Resource<Long>>()
-    val rebuyPriceLiveData: SingleLiveEvent<Resource<Long>>
-        get() = _rebuyPriceLiveData
-
-    fun setRebuyPrice(price: Long) {
-        _rebuyPriceLiveData.value = Resource.Success(price)
+    fun setRebuyPriceCurrentData(price:Long){
+        _rebuyPriceCurrentrData.value = price
     }
+
+    private val _rebuyPriceLiveFromServerData = SingleLiveEvent<Resource<Long>>()
+    val rebuyPriceLiveFromServerData: SingleLiveEvent<Resource<Long>>
+        get() = _rebuyPriceLiveFromServerData
+
+
 
     private val _calculateStateLiveData = MutableLiveData<Boolean>()
     val calculateStaeLiveData: LiveData<Boolean>
@@ -644,7 +646,7 @@ class OldStockDetailViewModel @Inject constructor(
     fun getCalculateStateLiveData() {
         val hasGoldAndGemWeight =
             _goldAndGemWeightGmLiveData.value != 0.0 || _goldAndGemWeightYwaeLiveData.value != 0.0
-        val hasRebuyPrice = _rebuyPriceLiveData.value!!.data != 0L
+        val hasRebuyPrice = _rebuyPriceCurrentrData.value!! != 0L
 
         _calculateStateLiveData.value = hasGoldAndGemWeight && hasRebuyPrice
     }
@@ -685,7 +687,7 @@ class OldStockDetailViewModel @Inject constructor(
                     _sizeLiveData.value.orEmpty()
                 )
 
-                _rebuyPriceLiveData.value = when (result) {
+                _rebuyPriceLiveFromServerData.value = when (result) {
                     is Resource.Loading -> Resource.Loading()
                     is Resource.Error -> Resource.Error(result.message.orEmpty())
                     is Resource.Success -> {
@@ -878,7 +880,7 @@ class OldStockDetailViewModel @Inject constructor(
             val qty =  _totalQtyLiveData.value?.let {
                 MultipartBody.Part.createFormData("qty", it.toString())
             }
-            val rebuy_price =  _rebuyPriceLiveData.value?.data?.let {
+            val rebuy_price =  _rebuyPriceCurrentrData.value?.let {
                 MultipartBody.Part.createFormData("rebuy_price", it.toString())
             }
             val size =  _sizeLiveData.value?.let {
@@ -1070,7 +1072,7 @@ class OldStockDetailViewModel @Inject constructor(
             val qty =  _totalQtyLiveData.value?.let {
                 MultipartBody.Part.createFormData("qty", it.toString())
             }
-            val rebuy_price =  _rebuyPriceLiveData.value?.data?.let {
+            val rebuy_price =  _rebuyPriceCurrentrData.value?.let {
                 MultipartBody.Part.createFormData("rebuy_price", it.toString())
             }
             val size =  _sizeLiveData.value?.let {

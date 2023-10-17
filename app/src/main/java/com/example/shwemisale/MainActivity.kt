@@ -146,6 +146,7 @@ class MainActivity : AppCompatActivity() {
 
             when(nd.id){
                 R.id.oldStockBucketListFragment -> binding.materialToolbar.isVisible = false
+                R.id.addOldStockToBucketFragment -> binding.materialToolbar.isVisible = false
             }
         }//custom toolbar
 

@@ -209,7 +209,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="၁၀% လျှော့ပြီးငွေ"
+        tools:text="၁၀% လျှော့ပြီးငွေ"
         android:textColor="#66985E"
         android:textSize="11sp"
         app:layout_constraintStart_toStartOf="@+id/textInputLayout_calculate_percentage_dis_price"

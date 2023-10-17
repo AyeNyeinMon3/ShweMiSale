@@ -44,6 +44,7 @@ data class StockFromHomeDomain(
     var isChecked:Boolean,
     var localId:Int = 0,
     var derived_gold_type_id:String = "",
-    val dataFilled:Boolean = false
+    val dataFilled:Boolean = false,
+    val showGram:Boolean = false
 ):Parcelable
 

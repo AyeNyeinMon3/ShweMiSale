@@ -12,6 +12,7 @@
     <string name="lbl_learn_more"><u>Learn more</u></string>
     <string name="remove_current_photo">Remove current photo</string>
 
+    <string name="total_added_item">Total added items (%1$s)</string>
     <string name="gram_value">%1$s gm</string>
     <string name="kyat_value">%1$s K</string>
     <string name="pae_value">%1$s P</string>

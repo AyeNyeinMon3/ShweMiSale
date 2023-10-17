@@ -49,12 +49,11 @@ class OldStockBucketViewHolder(
     fun bind(data: StockFromHomeDomain) {
         binding.ivOldStock.loadImageWithGlide(data.image?.url)
         binding.tvOldStockName.text = data.stock_name.orEmpty()
-        if (data.gold_and_gem_weight_gm.toDouble()>0.0) {
+        if (data.showGram) {
             binding.tvOldStockWeight.text = "${data.gold_and_gem_weight_gm.orEmpty()} gm"
         } else {
             val kpy = getKPYFromYwae(data.gold_gem_weight_ywae!!.toDouble())
             binding.tvOldStockWeight.text = binding.root.context.getString(R.string.kpy_value,kpy[0].toInt().toString(),kpy[1].toInt().toString(),kpy[2].toString())
-
         }
         binding.tvDataEmptyState.isVisible = !data.dataFilled
         binding.tvDataFilledState.isVisible = data.dataFilled
