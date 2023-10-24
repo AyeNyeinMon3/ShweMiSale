@@ -7,6 +7,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -27,6 +28,7 @@ import com.example.shwemisale.databinding.FragmentGoldFromHomeSellBinding
 import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.qrscan.getBarLauncher
 import com.example.shwemisale.qrscan.scanQrCode
+import com.example.shwemisale.screen.goldFromHome.bucket.BucketShareViewModel
 import com.example.shwemisale.screen.sellModule.GoldFromHomeRecyclerAdapter
 import com.example.shwemisale.screen.sellModule.StockCheckRecyclerAdapter
 import com.example.shwemisale.screen.sellModule.generalSale.GeneralSellFragmentDirections
@@ -55,6 +57,7 @@ class SellGoldFromHomeFragment : Fragment(), ReceiveListener {
     lateinit var dialogBinding: DialogChangeFeatureBinding
     lateinit var dialogSellTypeBinding: DialogSellTypeBinding
     private val viewModel by viewModels<GoldFromHomeViewModel>()
+    private val oldStockBucketSharedViewModel by activityViewModels<BucketShareViewModel>()
     private lateinit var loading: AlertDialog
     private lateinit var barlauncer: Any
     private val args by navArgs<SellGoldFromHomeFragmentArgs>()
@@ -96,8 +99,11 @@ class SellGoldFromHomeFragment : Fragment(), ReceiveListener {
 //        binding.checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
 //            binding.btnSkip.isVisible = isChecked
 //        }
-
         loading = requireContext().getAlertDialog()
+
+        // delete filled data items in bucket
+        oldStockBucketSharedViewModel.removeDataFilledItems()
+
         mPrinter.setReceiveEventListener(this)
         localDatabase.removeGemWeightDetailSessionKey()
         if (args.backpressType == "Global") {

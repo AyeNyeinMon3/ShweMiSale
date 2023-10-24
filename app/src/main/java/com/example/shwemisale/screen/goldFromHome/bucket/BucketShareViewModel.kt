@@ -13,6 +13,11 @@ class BucketShareViewModel : ViewModel() {
     var listInBucket = mutableListOf<StockFromHomeDomain>()
     val oldStockInBucketList = MutableLiveData<MutableList<StockFromHomeDomain>>()
 
+    fun removeDataFilledItems(){
+        listInBucket = listInBucket.filter { it.dataFilled.not() }.toMutableList()
+        oldStockInBucketList.value = listInBucket
+
+    }
     fun addToOldStockBucket(item: StockFromHomeDomain) {
         listInBucket.add(item)
         oldStockInBucketList.value = listInBucket

@@ -1,9 +1,7 @@
 package com.example.shwemisale.screen.oldStockDetail
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -14,20 +12,15 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
-import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -47,20 +40,13 @@ import com.example.shwemi.util.showGoldCaratChangeAlertDialog
 import com.example.shwemi.util.showSuccessDialog
 import com.example.shwemi.util.showUploadImageDialog
 import com.example.shwemisale.R
-import com.example.shwemisale.data_layers.domain.goldFromHome.RebuyItemDto
-import com.example.shwemisale.data_layers.dto.goldFromHome.Image
-import com.example.shwemisale.databinding.DialogAddStockTypeBinding
-import com.example.shwemisale.databinding.DialogUploadImageBinding
 import com.example.shwemisale.databinding.FragmentOldStockDetailBinding
 import com.example.shwemisale.screen.goldFromHome.bucket.BucketShareViewModel
 import com.example.shwemisale.screen.goldFromHome.bucket.RemoveImageBottomSheetFragment
-import com.example.shwemisale.screen.goldFromHome.bucket.RemoveImageSelectionListener
 import com.example.shwemisale.screen.goldFromHome.getKPYFromYwae
-import com.example.shwemisale.screen.goldFromHome.getYwaeFromGram
 import com.example.shwemisale.screen.goldFromHome.getYwaeFromKPY
 import com.example.shwemisale.screen.oldStockDetail.gemWeightDetail.DialogGemWeightDetailFragment
 import com.example.shwemisale.screen.oldStockDetail.gemWeightDetail.TotalGemWeightListener
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.text.SimpleDateFormat
@@ -78,6 +64,9 @@ class OldStockDetailFragment : Fragment(), ChooseStockTypeListener, TotalGemWeig
     private lateinit var dialogGemWeightDetailFragment: DialogGemWeightDetailFragment
     private lateinit var launchChooseImage: ActivityResultLauncher<Intent>
     private lateinit var removeImageBottomSheetFragment: RemoveImageBottomSheetFragment
+
+    //to controle gq changes when rebuypricecurrent is observed, conflict with passed gq data
+    private var gqChangeToggle = 0
 
     private lateinit var cameraPermissionLauncher: ActivityResultLauncher<String>
 
@@ -176,6 +165,24 @@ class OldStockDetailFragment : Fragment(), ChooseStockTypeListener, TotalGemWeig
         binding.btnCalculateAll.setOnClickListener {
             viewModel.getCalculateStateLiveData()
             viewModel.getGoldTypePrice()
+            viewModel.fValueChanged()
+            viewModel.getPawnDiffValue()
+            viewModel.calculateDecidedPawnPrice()
+
+            //rebuyprice here is ဝယ်စျေး
+            val rebuyPrice =
+                generateNumberFromEditText(binding.includeAmountList.includeItemType.edtRebuyPrice).toInt()
+            if (rebuyPrice > 0) {
+                viewModel.setpriceC(rebuyPrice.toLong())
+                val dWeightFromTo = viewModel.calculateWhenCbuyingPriceChange(
+                    rebuyPrice,
+                    hasGeneralExpense = binding.includeAmountList.includeGeneralExpense.switchGeneralExpense.isChecked,
+                    viewModel.wastageYwaeLiveData.value!!,
+                    generateNumberFromEditText(binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtPTClipPrice).toInt(),
+                    generateNumberFromEditText(binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtFee).toInt(),
+                )
+                viewModel.setdWeightInVoucher(dWeightFromTo.second)
+            }
             binding.includeAmountList.uiAfterRebuyPrice.isVisible = true
             val wastageYwae = getYwaeFromKPY(
                 generateNumberFromEditText(binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtAddedReduceK).toInt(),
@@ -187,6 +194,7 @@ class OldStockDetailFragment : Fragment(), ChooseStockTypeListener, TotalGemWeig
                 viewModel.setPtClipCost(generateNumberFromEditText(binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtPTClipPrice).toInt())
                 viewModel.setMaintainenceCost(generateNumberFromEditText(binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtFee).toInt())
             }
+
             when (viewModel.getSaveButtonState().first) {
                 "ဝယ်စျေး" -> {
                     Toast.makeText(requireContext(), "Please fill ဝယ်စျေး", Toast.LENGTH_LONG)
@@ -217,7 +225,16 @@ class OldStockDetailFragment : Fragment(), ChooseStockTypeListener, TotalGemWeig
                 }
             }
             viewModel.setRebuyPriceCurrentData(generateNumberFromEditText(binding.includeAmountList.includeItemType.edtRebuyPrice).toLong())
-
+            viewModel.calculateGoldQWhenRebuyPriceChange()
+            viewModel.setpriceA(generateNumberFromEditText(binding.includeAmountList.includeItemType.edtRebuyPrice).toLong())
+            viewModel.calculateWhenAbuyingPriceChange(
+                generateNumberFromEditText(binding.includeAmountList.includeItemType.edtRebuyPrice).toInt(),
+                hasGeneralExpense = binding.includeAmountList.includeGeneralExpense.switchGeneralExpense.isChecked,
+                viewModel.wastageYwaeLiveData.value!!,
+                generateNumberFromEditText(binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtPTClipPrice).toInt(),
+                generateNumberFromEditText(binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtFee).toInt(),
+                true
+            )
 
         }
 
@@ -294,7 +311,7 @@ class OldStockDetailFragment : Fragment(), ChooseStockTypeListener, TotalGemWeig
                         price_for_pawn = viewModel.calculatedPawnPiceLiveData.value.toString(),
                         pt_and_clip_cost = viewModel.ptClipCostLiveData.value.toString(),
                         qty = viewModel.totalQtyLiveData.value.toString(),
-                        rebuy_price = viewModel.rebuyPriceCurrentrData.value!!.toString(),
+                        rebuy_price = viewModel.rebuyPriceCurrentLiveData.value!!.toString(),
                         size = viewModel.sizeLiveData.value.toString(),
                         stock_condition = viewModel.horizontalOptionLiveData.value.toString(),
                         stock_name = viewModel.nameTagLiveData.value.toString(),
@@ -321,13 +338,11 @@ class OldStockDetailFragment : Fragment(), ChooseStockTypeListener, TotalGemWeig
         }
         viewModel.calculateStaeLiveData.observe(viewLifecycleOwner) {
             if (it == true) {
-                viewModel.getPawnDiffValue()
-                viewModel.calculateDecidedPawnPrice()
-                viewModel.calculateGoldQWhenRebuyPriceChange()
+//                viewModel.calculateDecidedPawnPrice()
                 val wastageYwae = getYwaeFromKPY(
                     generateNumberFromEditText(binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtAddedReduceK).toInt(),
-                    generateNumberFromEditText(binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtAddedReduceK).toInt(),
-                    generateNumberFromEditText(binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtAddedReduceK).toDouble(),
+                    generateNumberFromEditText(binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtAddedReduceP).toInt(),
+                    generateNumberFromEditText(binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtAddedReduceY).toDouble(),
                 )
                 viewModel.setRebuyPriceFromShop(
                     wastageYwae = wastageYwae,
@@ -393,16 +408,9 @@ class OldStockDetailFragment : Fragment(), ChooseStockTypeListener, TotalGemWeig
             )
 
         }
-        viewModel.rebuyPriceCurrentrData.observe(viewLifecycleOwner) {
-            viewModel.setpriceA(it)
-            viewModel.calculateWhenAbuyingPriceChange(
-                it.toInt(),
-                hasGeneralExpense = binding.includeAmountList.includeGeneralExpense.switchGeneralExpense.isChecked,
-                viewModel.wastageYwaeLiveData.value!!,
-                generateNumberFromEditText(binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtPTClipPrice).toInt(),
-                generateNumberFromEditText(binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtFee).toInt(),
-                true
-            )
+        viewModel.rebuyPriceCurrentLiveData.observe(viewLifecycleOwner) {
+
+            binding.includeAmountList.includeItemType.edtRebuyPrice.setText(it.toString())
             binding.includeInvoiceDetails.tvRebuyPrice.text = it.toString()
         }
         viewModel.rebuyPriceLiveFromServerData.observe(viewLifecycleOwner) {
@@ -427,7 +435,7 @@ class OldStockDetailFragment : Fragment(), ChooseStockTypeListener, TotalGemWeig
             }
         }
         viewModel.rebuyPriceFromShopLiveData.observe(viewLifecycleOwner) {
-            binding.includeInvoiceDetails.tvRebuyPriceFromShop.text = it.toString()
+//            binding.includeInvoiceDetails.tvRebuyPriceFromShop.text = it.toString()
         }
         viewModel.goldTypePriceLiveData.observe(viewLifecycleOwner) {
             when (it) {
@@ -452,6 +460,11 @@ class OldStockDetailFragment : Fragment(), ChooseStockTypeListener, TotalGemWeig
         }
         viewModel.horizontalOptionLiveData.observe(viewLifecycleOwner) {
             if (binding.includeAmountList.includeItemType.rBtnInsideItem.isChecked) viewModel.getRebuyPrice()
+            when(it){
+                "Good"->binding.includeAmountList.includeItemType.rBtnGood.isChecked = true
+                "Damage"->binding.includeAmountList.includeItemType.rBtnDamage.isChecked = true
+                "NotToGo"->binding.includeAmountList.includeItemType.rBtnNotToGo.isChecked = true
+            }
 
         }
         viewModel.verticalOptionLiveData.observe(viewLifecycleOwner) {
@@ -519,24 +532,7 @@ class OldStockDetailFragment : Fragment(), ChooseStockTypeListener, TotalGemWeig
                 kpy[2].toString()
             )
         }
-        viewModel.gemValueLiveData.observe(viewLifecycleOwner) {
-            val generalExpenseExpandedLayout =
-                binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense
-            generalExpenseExpandedLayout.tvGemAndDiaPrice.text =
-                getString(R.string.mmk_value, it.toString())
-            generalExpenseExpandedLayout.tvLblDis.isVisible =
-                generalExpenseExpandedLayout.checkPercentage.isChecked
-            generalExpenseExpandedLayout.tvLblDis.text = getString(
-                R.string.discount_percentage,
-                generalExpenseExpandedLayout.edtPercentageDisPrice.text.toString()
-            )
-            generalExpenseExpandedLayout.tvLabelReducedPercent.text = getString(
-                R.string.discount_percentage,
-                generalExpenseExpandedLayout.edtPercentageDisPrice.text.toString()
-            )
 
-            binding.includeInvoiceDetails.tvGemAndDiaPrice.text = it.toString()
-        }
         viewModel.priceALiveData.observe(viewLifecycleOwner) {
             binding.includeAmountList.includePriceA.tvPurchasePrice.text =
                 getString(R.string.mmk_value, it.toString())
@@ -551,19 +547,24 @@ class OldStockDetailFragment : Fragment(), ChooseStockTypeListener, TotalGemWeig
         viewModel.priceCLiveData.observe(viewLifecycleOwner) {
             binding.includeAmountList.includePriceC.tvVoucherOpenPrice.text =
                 getString(R.string.mmk_value, it.toString())
+            binding.includeVoucherDetails.tvPriceC.text =
+                getString(R.string.mmk_value, it.toString())
         }
         viewModel.priceELiveData.observe(viewLifecycleOwner) {
             binding.includeVoucherDetails.tvPriceEValue.text =
                 getString(R.string.mmk_value, it.toString())
         }
         viewModel.dWeightInVoucherYwaeLiveData.observe(viewLifecycleOwner) {
-            val kpy = getKPYFromYwae(it)
-            binding.includeVoucherDetails.tvDGoldWeightKpyValue.text = getString(
-                R.string.kpy_value,
-                kpy[0].toInt().toString(),
-                kpy[1].toInt().toString(),
-                kpy[2].toString()
-            )
+            if (it != 0.0) {
+                val kpy = getKPYFromYwae(it)
+                binding.includeVoucherDetails.tvDGoldWeightKpyValue.text = getString(
+                    R.string.kpy_value,
+                    kpy[0].toInt().toString(),
+                    kpy[1].toInt().toString(),
+                    kpy[2].toString()
+                )
+            }
+
 
         }
         viewModel.fWeightYwaeLiveData.observe(viewLifecycleOwner) {
@@ -587,7 +588,7 @@ class OldStockDetailFragment : Fragment(), ChooseStockTypeListener, TotalGemWeig
 
         }
         viewModel.pawnDiffValueLiveData.observe(viewLifecycleOwner) {
-//            viewModel.calculateDecidedPawnPrice()
+
         }
         viewModel.decidedPawnPriceLiveData.observe(viewLifecycleOwner) {
             binding.includeAmountList.includeMortgagePrice.tvMortgagePrice.text =
@@ -598,34 +599,7 @@ class OldStockDetailFragment : Fragment(), ChooseStockTypeListener, TotalGemWeig
         viewModel.calculatedPawnPiceLiveData.observe(viewLifecycleOwner) {
             binding.includeInvoiceDetails.tvPawnMoney.text = it.toString()
         }
-        viewModel.wastageYwaeLiveData.observe(viewLifecycleOwner) {
-            val kpy = getKPYFromYwae(it)
-            binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtAddedReduceK.setText(
-                kpy[0].toInt().toString()
-            )
-            binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtAddedReduceP.setText(
-                kpy[1].toInt().toString()
-            )
-            binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtAddedReduceY.setText(
-                kpy[2].toString()
-            )
-            binding.includeInvoiceDetails.tvWastageKpy.text = getString(
-                R.string.kpy_value,
-                kpy[0].toInt().toString(),
-                kpy[1].toInt().toString(),
-                kpy[2].toString()
-            )
-        }
-        viewModel.maintainenceCostLiveData.observe(viewLifecycleOwner) {
-            binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtFee.setText(it.toString())
-            binding.includeInvoiceDetails.tvFee.text = it.toString()
-        }
-        viewModel.ptClipCostLiveData.observe(viewLifecycleOwner) {
-            binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtPTClipPrice.setText(
-                it.toString()
-            )
-            binding.includeInvoiceDetails.tvPTClipPrice.text = it.toString()
-        }
+
         viewModel.goldWeightYwaeLiveData.observe(viewLifecycleOwner) {
             val kpy = getKPYFromYwae(it)
             binding.includeInvoiceDetails.tvGoldWeightKpy.text = getString(
@@ -734,6 +708,7 @@ class OldStockDetailFragment : Fragment(), ChooseStockTypeListener, TotalGemWeig
         ) {
             viewModel.setRebuyPriceCurrentData(fromToRebuyPrice.second.toLong())
             viewModel.setgoldCarat(generateNumberFromEditText(binding.includeAmountList.includeGoldQ.edtGoldQ).toDouble())
+            viewModel.calculateDecidedPawnPrice()
             onContinue()
         }
     }
@@ -747,8 +722,8 @@ class OldStockDetailFragment : Fragment(), ChooseStockTypeListener, TotalGemWeig
             generateNumberFromEditText(binding.includeAmountList.includePriceA.edtABuyingPrice).toInt()
         val wastageYwae = getYwaeFromKPY(
             generateNumberFromEditText(binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtAddedReduceK).toInt(),
-            generateNumberFromEditText(binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtAddedReduceK).toInt(),
-            generateNumberFromEditText(binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtAddedReduceK).toDouble(),
+            generateNumberFromEditText(binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtAddedReduceP).toInt(),
+            generateNumberFromEditText(binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtAddedReduceY).toDouble(),
         )
         val fromToValues = viewModel.calculateWhenAbuyingPriceChange(
             priceA,
@@ -764,7 +739,16 @@ class OldStockDetailFragment : Fragment(), ChooseStockTypeListener, TotalGemWeig
         ) {
             viewModel.setdecidedPawnPrice(fromToValues.first.second.toLong())
             viewModel.setpriceA(getRoundDownForPrice(priceA).toLong())
+            viewModel.setpriceC(getRoundDownForPrice(priceA).toLong())
             viewModel.setpriceB(fromToValues.second.second.toLong())
+            val dWeightFromTo = viewModel.calculateWhenCbuyingPriceChange(
+                priceA,
+                hasGeneralExpense = binding.includeAmountList.includeGeneralExpense.switchGeneralExpense.isChecked,
+                viewModel.wastageYwaeLiveData.value!!,
+                generateNumberFromEditText(binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtPTClipPrice).toInt(),
+                generateNumberFromEditText(binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtFee).toInt(),
+            )
+            viewModel.setdWeightInVoucher(dWeightFromTo.second)
             viewModel.fValueChanged()
             onContinue()
         }
@@ -774,8 +758,8 @@ class OldStockDetailFragment : Fragment(), ChooseStockTypeListener, TotalGemWeig
         val priceB = getPriceBFromDiscountCalculation()
         val wastageYwae = getYwaeFromKPY(
             generateNumberFromEditText(binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtAddedReduceK).toInt(),
-            generateNumberFromEditText(binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtAddedReduceK).toInt(),
-            generateNumberFromEditText(binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtAddedReduceK).toDouble(),
+            generateNumberFromEditText(binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtAddedReduceP).toInt(),
+            generateNumberFromEditText(binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtAddedReduceY).toDouble(),
         )
         val fromToValues = viewModel.calculateWhenBbuyingPriceChange(
             priceB,
@@ -790,7 +774,16 @@ class OldStockDetailFragment : Fragment(), ChooseStockTypeListener, TotalGemWeig
         ) {
             viewModel.setdecidedPawnPrice(fromToValues.first.second.toLong())
             viewModel.setpriceA(getRoundDownForPrice(fromToValues.second.second).toLong())
+            viewModel.setpriceC(getRoundDownForPrice(fromToValues.second.second).toLong())
             viewModel.setpriceB(getRoundDownForPrice(priceB).toLong())
+            val dWeightFromTo = viewModel.calculateWhenCbuyingPriceChange(
+                fromToValues.second.second,
+                hasGeneralExpense = binding.includeAmountList.includeGeneralExpense.switchGeneralExpense.isChecked,
+                viewModel.wastageYwaeLiveData.value!!,
+                generateNumberFromEditText(binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtPTClipPrice).toInt(),
+                generateNumberFromEditText(binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtFee).toInt(),
+            )
+            viewModel.setdWeightInVoucher(dWeightFromTo.second)
             viewModel.fValueChanged()
 
             if (binding.includeAmountList.includePriceB.check.isChecked) {
@@ -805,9 +798,6 @@ class OldStockDetailFragment : Fragment(), ChooseStockTypeListener, TotalGemWeig
 
     fun getPriceBFromDiscountCalculation(): Int {
         val layoutPriceB = binding.includeAmountList.includePriceB
-        layoutPriceB.check.setOnCheckedChangeListener { buttonView, isChecked ->
-            layoutPriceB.edtPercentageDisPrice.isEnabled = isChecked
-        }
 
         layoutPriceB.btnCalculate.setOnClickListener {
             val priceB =
@@ -831,8 +821,8 @@ class OldStockDetailFragment : Fragment(), ChooseStockTypeListener, TotalGemWeig
             getRoundDownForPrice(generateNumberFromEditText(binding.includeAmountList.includePriceC.edtVoucherOpenPrice).toInt())
         val wastageYwae = getYwaeFromKPY(
             generateNumberFromEditText(binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtAddedReduceK).toInt(),
-            generateNumberFromEditText(binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtAddedReduceK).toInt(),
-            generateNumberFromEditText(binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtAddedReduceK).toDouble(),
+            generateNumberFromEditText(binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtAddedReduceP).toInt(),
+            generateNumberFromEditText(binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtAddedReduceY).toDouble(),
         )
         val fromToValues = viewModel.calculateWhenCbuyingPriceChange(
             priceC,
@@ -856,21 +846,18 @@ class OldStockDetailFragment : Fragment(), ChooseStockTypeListener, TotalGemWeig
             generateNumberFromEditText(binding.includeAmountList.includeFGoldWeight.edtPurchaseGoldWeightP).toInt(),
             generateNumberFromEditText(binding.includeAmountList.includeFGoldWeight.edtPurchaseGoldWeightY).toDouble(),
         )
-        viewModel.calculateWhenFWeightYwaeChanged(fweightYwae, {
-            binding.includeAmountList.includeGeneralExpense.switchGeneralExpense.isChecked = true
-            requireContext().showFGoldWeighteChangeAlertDialog(it.first, it.second, "wastage") {
-                viewModel.setWastageYwae(it.second)
+        val fromToValue = viewModel.calculateWhenFWeightYwaeChanged(fweightYwae)
+        requireContext().showFGoldWeighteChangeAlertDialog(fromYwae = fromToValue.second.first, toYwae = fromToValue.second.second, modifiedValueType = fromToValue.first){
+            if (fromToValue.first == "wastage"){
+                viewModel.setWastageYwae(fromToValue.second.second)
                 viewModel.setfWeightYwae(fweightYwae)
-                onContinue()
-            }
-        }, {
-            requireContext().showFGoldWeighteChangeAlertDialog(it.first, it.second, "impurity") {
+            }else{
                 viewModel.setfWeightYwae(fweightYwae)
-                viewModel.setimpurityWeightYwae(it.second)
-                onContinue()
+                viewModel.setWastageYwae(0.0)
+                viewModel.setimpurityWeightYwae(fromToValue.second.second)
             }
-        })
-
+            onContinue()
+        }
     }
 
 
@@ -892,6 +879,9 @@ class OldStockDetailFragment : Fragment(), ChooseStockTypeListener, TotalGemWeig
 
         generalExpenseExpandedLayout.checkPercentage.setOnCheckedChangeListener { buttonView, isChecked ->
             generalExpenseExpandedLayout.edtPercentageDisPrice.isEnabled = isChecked
+            binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.tvLabelReducedPercent.isVisible =
+                isChecked
+
         }
 
         generalExpenseExpandedLayout.btnCalculate.setOnClickListener {
@@ -913,6 +903,8 @@ class OldStockDetailFragment : Fragment(), ChooseStockTypeListener, TotalGemWeig
             }
             viewModel.setgemValue(valueToSave.toInt())
             generalExpenseExpandedLayout.gemValueEditLayout.isVisible = false
+            generalExpenseExpandedLayout.btnCancelGemValue.isVisible = false
+            generalExpenseExpandedLayout.btnEditGemAndDiaPrice.isVisible = true
         }
 
 //        generalExpenseExpandedLayout.edtFee.addTextChangedListener {
@@ -979,21 +971,24 @@ class OldStockDetailFragment : Fragment(), ChooseStockTypeListener, TotalGemWeig
             else -> binding.includeAmountList.includeItemType.rBtnOutsideItem.isChecked = true
         }
         when (args.stockfromhomeinfo.stock_condition) {
-            "Damage" -> binding.includeAmountList.includeItemType.rBtnDamage.isChecked = true
-            "Good" -> binding.includeAmountList.includeItemType.rBtnGood.isChecked = true
-            "NotToGo" -> binding.includeAmountList.includeItemType.rBtnNotToGo.isChecked = true
-            else -> binding.includeAmountList.includeItemType.rBtnDamage.isChecked = true
+            "Damage" -> viewModel.setHorizontalOption("Damage")
+            "Good" -> viewModel.setHorizontalOption("Good")
+            "NotToGo" -> viewModel.setHorizontalOption("NotToGo")
+            else -> viewModel.setHorizontalOption("Damage")
         }
         when (args.stockfromhomeinfo.rebuy_price_vertical_option) {
-            "X" -> binding.includeAmountList.includeItemType.mcvX.performClick()
-            "Y" -> binding.includeAmountList.includeItemType.mcvY.performClick()
-            "Z" -> binding.includeAmountList.includeItemType.mcvZ.performClick()
-            else -> binding.includeAmountList.includeItemType.rBtnDamage.isChecked = true
+            "X" -> viewModel.setVerticalOption("X")
+            "Y" -> viewModel.setVerticalOption("Y")
+            "Z" -> viewModel.setVerticalOption("Z")
+            else -> viewModel.setVerticalOption("X")
         }
         viewModel.setRebuyPriceCurrentData(args.stockfromhomeinfo.rebuy_price.toLong())
         viewModel.setRebuyPriceFromShopOnlyValue(
             (args.stockfromhomeinfo.calculated_buying_value ?: "0").toLong()
         )
+        if (!args.stockfromhomeinfo.gq_in_carat.isNullOrEmpty() || args.stockfromhomeinfo.gq_in_carat != "0.0") {
+            viewModel.setgoldCarat(args.stockfromhomeinfo.gq_in_carat!!.toDouble())
+        }
 
         when (args.stockfromhomeinfo.has_general_expenses) {
             "0" -> binding.includeAmountList.includeGeneralExpense.switchGeneralExpense.isChecked =
@@ -1050,6 +1045,68 @@ class OldStockDetailFragment : Fragment(), ChooseStockTypeListener, TotalGemWeig
             binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.root.isVisible =
                 isChecked
             editGeneralExpense()
+            if (isChecked) {
+                viewModel.gemValueLiveData.observe(viewLifecycleOwner) {
+                    val generalExpenseExpandedLayout =
+                        binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense
+                    generalExpenseExpandedLayout.tvGemAndDiaPrice.text =
+                        getString(R.string.mmk_value, it.toString())
+                    generalExpenseExpandedLayout.tvLblDis.isVisible =
+                        generalExpenseExpandedLayout.checkPercentage.isChecked
+                    generalExpenseExpandedLayout.tvLblDis.text = getString(
+                        R.string.discount_percentage,
+                        generalExpenseExpandedLayout.edtPercentageDisPrice.text.toString()
+                    )
+                    generalExpenseExpandedLayout.tvLabelReducedPercent.text = getString(
+                        R.string.discount_percentage,
+                        generalExpenseExpandedLayout.edtPercentageDisPrice.text.toString()
+                    )
+
+                    binding.includeInvoiceDetails.tvGemAndDiaPrice.text = it.toString()
+                }
+                viewModel.wastageYwaeLiveData.observe(viewLifecycleOwner) {
+                    if (it > 0.0){
+                        binding.includeAmountList.includeGeneralExpense.switchGeneralExpense.isChecked = true
+                    }
+                    val kpy = getKPYFromYwae(it)
+                    binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtAddedReduceK.setText(
+                        kpy[0].toInt().toString()
+                    )
+                    binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtAddedReduceP.setText(
+                        kpy[1].toInt().toString()
+                    )
+                    binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtAddedReduceY.setText(
+                        kpy[2].toString()
+                    )
+                    binding.includeInvoiceDetails.tvWastageKpy.text = getString(
+                        R.string.kpy_value,
+                        kpy[0].toInt().toString(),
+                        kpy[1].toInt().toString(),
+                        kpy[2].toString()
+                    )
+                }
+                viewModel.maintainenceCostLiveData.observe(viewLifecycleOwner) {
+                    binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtFee.setText(
+                        it.toString()
+                    )
+                    binding.includeInvoiceDetails.tvFee.text = it.toString()
+                }
+                viewModel.ptClipCostLiveData.observe(viewLifecycleOwner) {
+                    binding.includeAmountList.includeGeneralExpense.expandedGeneralExpense.edtPTClipPrice.setText(
+                        it.toString()
+                    )
+                    binding.includeInvoiceDetails.tvPTClipPrice.text = it.toString()
+                }
+            } else {
+                binding.includeInvoiceDetails.tvWastageKpy.text = getString(
+                    R.string.kpy_value,
+                    "0", "0", "0"
+                )
+                binding.includeInvoiceDetails.tvFee.text = "0"
+                binding.includeInvoiceDetails.tvPTClipPrice.text = "0"
+                binding.includeInvoiceDetails.tvGemAndDiaPrice.text = "0"
+
+            }
 
         }
         include.btnEdtGoldAndGemWeightGm.setOnClickListener {
@@ -1471,11 +1528,28 @@ class OldStockDetailFragment : Fragment(), ChooseStockTypeListener, TotalGemWeig
         }
 
         includeVoucherPay.btnEditVoucherOpenPay.setOnClickListener {
-            priceBEditViews.forEach {
-                it.isVisible = true
-            }
-            priceBEditDiscountView.forEach {
-                it.isVisible = false
+            if (includeVoucherPay.check.isChecked) {
+                priceBEditViews.forEach {
+                    it.isVisible = true
+                }
+                priceBEditDiscountView.forEach {
+                    it.isVisible = true
+                }
+                priceBValueToShow.forEach {
+                    it.isVisible = false
+                }
+            } else {
+                includeVoucherPay.edtPercentageDisPrice.setText("0")
+                includeVoucherPay.edtCalculatePercentageDisPrice.setText("0")
+                priceBEditViews.forEach {
+                    it.isVisible = true
+                }
+                priceBEditDiscountView.forEach {
+                    it.isVisible = false
+                }
+                priceBValueToShow.forEach {
+                    it.isVisible = false
+                }
             }
             blurView(includeVoucherPay.btnEditVoucherOpenPay)
 
@@ -1485,6 +1559,7 @@ class OldStockDetailFragment : Fragment(), ChooseStockTypeListener, TotalGemWeig
         getPriceBFromDiscountCalculation()
 
         includeVoucherPay.check.setOnCheckedChangeListener { buttonView, isChecked ->
+            includeVoucherPay.edtPercentageDisPrice.isEnabled = isChecked
             if (isChecked) {
                 priceBEditViews.forEach {
                     it.isVisible = true
@@ -1496,6 +1571,8 @@ class OldStockDetailFragment : Fragment(), ChooseStockTypeListener, TotalGemWeig
                     it.isVisible = false
                 }
             } else {
+                includeVoucherPay.edtPercentageDisPrice.setText("0")
+                includeVoucherPay.edtCalculatePercentageDisPrice.setText("0")
                 priceBEditViews.forEach {
                     it.isVisible = true
                 }

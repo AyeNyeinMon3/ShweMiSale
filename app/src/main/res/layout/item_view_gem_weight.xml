@@ -65,6 +65,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:text="6.12"
+                android:inputType="numberDecimal"
                 android:textColor="@color/grey_black"
                 android:textSize="14sp"
                 android:textStyle="normal" />

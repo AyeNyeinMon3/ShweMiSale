@@ -40,6 +40,12 @@ class OldStockBucketListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         loading = requireContext().getAlertDialog()
         requireActivity().actionBar?.hide()
+        binding.includeOldStockNoItemState.ivBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
+        binding.includeOldStockWithItems.ivBack.setOnClickListener {
+            findNavController()
+        }
         binding.includeOldStockNoItemState.button.setOnClickListener {
             findNavController().navigate(OldStockBucketListFragmentDirections.actionOldStockBucketListFragmentToAddOldStockToBucketFragment())
         }

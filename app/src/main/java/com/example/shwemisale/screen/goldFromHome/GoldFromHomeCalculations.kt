@@ -44,6 +44,10 @@ fun getKPYFromYwae(ywae: Double): List<Double> {
     return resultList
 }
 
+fun main() {
+    println(getKPYFromYwae(211.1))
+}
+
 fun getGoldWeight(goldGemWeight: Double, gemWeight: Double, impurityWeight: Double): Double {
     return goldGemWeight - gemWeight - impurityWeight
 }

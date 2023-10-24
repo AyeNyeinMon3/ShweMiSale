@@ -593,7 +593,6 @@ class SellResellStockInfoAddedFragment : Fragment() {
 
                 is Resource.Success -> {
                     loading.dismiss()
-
                     viewModel.goldPrice =
                         (it.data?.find { it.name == "Rebuy Price [100%]" }?.price.let { if (it.isNullOrEmpty()) 0 else it.toInt() }).toInt()
                             .toString()

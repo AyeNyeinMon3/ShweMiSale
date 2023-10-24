@@ -32,7 +32,7 @@ class DialogGemWeightDetailFragment : DialogFragment(), OnKpyDialogDismissListen
     private val viewModel by viewModels<OldStockDetailViewModel>()
     private lateinit var kpyInputDialogFragment: KpyInputDialogFragment
     private lateinit var totalGemWeightListener: TotalGemWeightListener
-    private lateinit var loading : AlertDialog
+    private lateinit var loading: AlertDialog
 
     override fun onStart() {
         super.onStart()
@@ -119,7 +119,12 @@ class DialogGemWeightDetailFragment : DialogFragment(), OnKpyDialogDismissListen
                 }
 
                 is Resource.Error -> {
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                    if (it.message == "Session key not found!" || it.message == "The selected session key is invalild.") {
+                        viewModel.removeGemWeightDetailSessionKey()
+                        adapter.submitList(emptyList())
+                    } else {
+                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                    }
                 }
             }
         }

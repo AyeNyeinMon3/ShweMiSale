@@ -1,6 +1,5 @@
 package com.example.shwemisale.screen.oldStockDetail
 
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,32 +7,25 @@ import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.viewModelScope
 import com.example.shwemi.util.Resource
 import com.example.shwemi.util.compressImage
-import com.example.shwemi.util.generateNumberFromEditText
 import com.example.shwemi.util.getRoundDownForPrice
 import com.example.shwemi.util.handleInfinity
 import com.example.shwemisale.data_layers.domain.goldFromHome.RebuyItemDto
 import com.example.shwemisale.data_layers.domain.goldFromHome.RebuyItemWithSize
 import com.example.shwemisale.data_layers.domain.product.GemWeightDetailDomain
 import com.example.shwemisale.data_layers.dto.calculation.GoldTypePriceDto
-import com.example.shwemisale.data_layers.dto.goldFromHome.RebuyPriceDto
 import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.repositoryImpl.GoldFromHomeRepositoryImpl
 import com.example.shwemisale.repositoryImpl.NormalSaleRepositoryImpl
 import com.example.shwemisale.room_database.AppDatabase
 import com.example.shwemisale.screen.goldFromHome.getGramFromYwae
-import com.example.shwemisale.screen.goldFromHome.getKPYFromYwae
-import com.example.shwemisale.screen.goldFromHome.getKyatsFromKPY
 import com.example.shwemisale.screen.goldFromHome.getYwaeFromGram
-import com.example.shwemisale.screen.goldFromHome.getYwaeFromKPY
 import com.example.shwemisale.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import java.io.DataOutput
 import java.io.File
 import javax.inject.Inject
 import kotlin.math.roundToInt
@@ -138,9 +130,8 @@ class OldStockDetailViewModel @Inject constructor(
             _goldAndGemWeightYwaeLiveData.value!! - _gemWeightYwaeLiveData.value!! - _impurityWeightYwaeLiveData.value!!
     }
 
-    var `goldPrice18K` = "0"
-    private val _pawnDiffValueLiveData = MutableLiveData<String>("0")
-    val pawnDiffValueLiveData: LiveData<String>
+    private val _pawnDiffValueLiveData = SingleLiveEvent<String>()
+    val pawnDiffValueLiveData: SingleLiveEvent<String>
         get() = _pawnDiffValueLiveData
 
     fun setPawnDiffValue(pawnDiffValue: String) {
@@ -270,6 +261,7 @@ class OldStockDetailViewModel @Inject constructor(
             (_rebuyPriceCurrentrData.value!!.toDouble() / _goldPriceLiveData.value!!) * 24
         setgoldCarat((gqInCarat * 100).roundToInt() / 100.0)
     }
+
 
     fun calculateDecidedPawnPrice() {
         val decidedPawnPrice =
@@ -405,9 +397,9 @@ class OldStockDetailViewModel @Inject constructor(
 
     fun calculateWhenFWeightYwaeChanged(
         fWeightYwae: Double,
-        changeWastage: (Pair<Double,Double>) -> Unit,
-        changeImpurity: (Pair<Double,Double>) -> Unit
-    ) {
+//        changeWastage: (Pair<Double,Double>) -> Unit,
+//        changeImpurity: (Pair<Double,Double>) -> Unit
+    ) :Pair<String,Pair<Double,Double>>{
         setRebuyPriceCurrentData(_priceELiveData.value!!.toLong())
         //
         val fKyat = fWeightYwae / 128
@@ -421,12 +413,12 @@ class OldStockDetailViewModel @Inject constructor(
         val goldWeightYwae = _goldWeightYwaeLiveData.value!!
         val buyPriceFromShop = if (_priceELiveData.value!! != 0L) _priceELiveData.value!! else _rebuyPriceFromShopLiveData.value!!
         val wastageYwae =
-            handleInfinity((((paymentFromShop - otherReducedCosts) / buyPriceFromShop) * 128) - goldWeightYwae)
-        if (wastageYwae > 0.0 && wastageYwae.isNaN().not()) {
-            changeWastage(Pair(_wastageYwaeLiveData.value!!,wastageYwae))
+            handleInfinity((((paymentFromShop.toDouble() - otherReducedCosts.toDouble()) / buyPriceFromShop.toDouble()) * 128) - goldWeightYwae)
+        return if (wastageYwae > 0.0 && wastageYwae.isNaN().not()) {
+            Pair("wastage",Pair(_wastageYwaeLiveData.value!!,wastageYwae))
         } else {
             val impuritiesWeight = (wastageYwae * (-1)) + _impurityWeightYwaeLiveData.value!!
-            changeImpurity(Pair(_impurityWeightYwaeLiveData.value!!,impuritiesWeight))
+            Pair("impurity",Pair(_impurityWeightYwaeLiveData.value!!,impuritiesWeight))
         }
     }
 
@@ -626,7 +618,7 @@ class OldStockDetailViewModel @Inject constructor(
     }
 
     private val _rebuyPriceCurrentrData = SingleLiveEvent<Long>()
-    val rebuyPriceCurrentrData: SingleLiveEvent<Long>
+    val rebuyPriceCurrentLiveData: SingleLiveEvent<Long>
         get() = _rebuyPriceCurrentrData
 
     fun setRebuyPriceCurrentData(price:Long){
@@ -648,7 +640,7 @@ class OldStockDetailViewModel @Inject constructor(
             _goldAndGemWeightGmLiveData.value != 0.0 || _goldAndGemWeightYwaeLiveData.value != 0.0
         val hasRebuyPrice = _rebuyPriceCurrentrData.value!! != 0L
 
-        _calculateStateLiveData.value = hasGoldAndGemWeight && hasRebuyPrice
+        _calculateStateLiveData.value = hasGoldAndGemWeight
     }
 
     fun getSaveButtonState():Pair<String,Boolean>{
@@ -854,10 +846,7 @@ class OldStockDetailViewModel @Inject constructor(
             val gq_in_carat = _goldCaratLiveData.value?.let {
                 MultipartBody.Part.createFormData("gq_in_carat", it.toString())
             }
-            val has_general_expenses =_goldCaratLiveData.value?.let {
-                MultipartBody.Part.createFormData("gq_in_carat", it.toString())
-            }
-                MultipartBody.Part.createFormData("has_general_expenses", hasGeneralExpense.toString())
+            val has_general_expenses = MultipartBody.Part.createFormData("has_general_expenses", hasGeneralExpense.toString())
             val image = if (_imagePathLiveData.value != null) {
                 MultipartBody.Part.createFormData(
                     "image[file]",
@@ -961,6 +950,7 @@ class OldStockDetailViewModel @Inject constructor(
     }
 
     init {
+        getPawnDiffValue()
         getGoldTypePrice()
         val priceE =
             if (localDatabase.getEValue().isNullOrEmpty()) "0" else localDatabase.getEValue()
@@ -1045,10 +1035,9 @@ class OldStockDetailViewModel @Inject constructor(
             val gq_in_carat = _goldCaratLiveData.value?.let {
                 MultipartBody.Part.createFormData("gq_in_carat", it.toString())
             }
-            val has_general_expenses =_goldCaratLiveData.value?.let {
-                MultipartBody.Part.createFormData("gq_in_carat", it.toString())
+            val has_general_expenses =hasGeneralExpense.let {
+                MultipartBody.Part.createFormData("has_general_expenses", it.toString())
             }
-            MultipartBody.Part.createFormData("has_general_expenses", hasGeneralExpense.toString())
             val imageId =imageId?.let {MultipartBody.Part.createFormData("image[id]", it)  }
             val image = if (_imagePathLiveData.value != oldImageUrl) {
                 MultipartBody.Part.createFormData(
@@ -1372,6 +1361,10 @@ class OldStockDetailViewModel @Inject constructor(
 
     fun getGemWeightDetailSessionKey():String{
       return  localDatabase.getGemWeightDetailSessionKey().orEmpty()
+    }
+
+    fun removeGemWeightDetailSessionKey(){
+        return localDatabase.removeGemWeightDetailSessionKey()
     }
 
 }
