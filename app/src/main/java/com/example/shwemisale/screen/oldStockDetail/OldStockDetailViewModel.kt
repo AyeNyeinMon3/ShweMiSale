@@ -37,6 +37,7 @@ class OldStockDetailViewModel @Inject constructor(
     private val normalSaleRepositoryImpl: NormalSaleRepositoryImpl,
     private val localDatabase: LocalDatabase
 ) : ViewModel() {
+    var whiteGoldId = ""
     private val _imagePathLiveData = MutableLiveData<String>()
     val imagePathLiveData: LiveData<String>
         get() = _imagePathLiveData

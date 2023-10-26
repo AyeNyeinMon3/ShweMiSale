@@ -421,7 +421,12 @@ class OldStockDetailFragment : Fragment(), ChooseStockTypeListener, TotalGemWeig
 
                 is Resource.Success -> {
                     loading.dismiss()
-                    binding.includeAmountList.includeItemType.edtRebuyPrice.setText(it.data?.toString())
+                    val rebuyPriceFromServer = if (args.stockfromhomeinfo.derived_gold_type_id == viewModel.whiteGoldId){
+                       ( (it.data?:0L).toDouble() * 16.6).toInt()
+                    }else (it.data?:0L).toInt()
+                    binding.includeAmountList.includeItemType.edtRebuyPrice.setText(
+                        getRoundDownForPrice(rebuyPriceFromServer)
+                    )
 
                     //calculate button
 
@@ -445,6 +450,7 @@ class OldStockDetailFragment : Fragment(), ChooseStockTypeListener, TotalGemWeig
 
                 is Resource.Success -> {
                     loading.dismiss()
+                    viewModel.whiteGoldId = it.data?.find { it.name == "WG" }?.id.orEmpty()
                     viewModel.setGoldPrice((it.data?.find { it.name == "Rebuy Price [100%]" }?.price.let { if (it.isNullOrEmpty()) 0 else it.toInt() }).toInt())
                 }
 
