@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.shwemisale.LoginFragment"
+        android:name="com.shwemigoldshop.shwemisale.LoginFragment"
         android:label="LoginFragment" />
     <fragment
         android:id="@+id/payBalanceFragment"
-        android:name="com.example.shwemisale.screen.payforBalanceModule.PayBalanceFragment"
+        android:name="com.shwemigoldshop.shwemisale.screen.payforBalanceModule.PayBalanceFragment"
         android:label="ကျန်ငွေရှင်း" />
     <fragment
         android:id="@+id/pawnInterestFragment"
-        android:name="com.example.shwemisale.screen.pawnInterestModule.PawnInterestFragment"
+        android:name="com.shwemigoldshop.shwemisale.screen.pawnInterestModule.PawnInterestFragment"
         android:label="အပေါင်အရင်းသွင်း/အတိုးသပ်" />
     <fragment
         android:id="@+id/sellStartFragment"
-        android:name="com.example.shwemisale.screen.sellModule.sellStart.SellStartFragment"
+        android:name="com.shwemigoldshop.shwemisale.screen.sellModule.sellStart.SellStartFragment"
         android:label="ဝယ်သူရှာရန်" >
         <action
             android:id="@+id/action_sellStartFragment_to_sellCreateNewFragment"
@@ -33,7 +33,7 @@
     </fragment>
     <fragment
         android:id="@+id/sellCreateNewFragment"
-        android:name="com.example.shwemisale.screen.sellModule.addUser.SellCreateNewFragment"
+        android:name="com.shwemigoldshop.shwemisale.screen.sellModule.addUser.SellCreateNewFragment"
         android:label="ဝယ်သူအသစ် ပြုလုပ်မည်" >
         <action
             android:id="@+id/action_sellCreateNewFragment_to_sellCustomerInfoFragment"
@@ -41,11 +41,11 @@
     </fragment>
     <fragment
         android:id="@+id/sellCustomerInfoFragment"
-        android:name="com.example.shwemisale.screen.sellModule.normalSale.customerInfo.SellCustomerInfoFragment"
+        android:name="com.shwemigoldshop.shwemisale.screen.sellModule.normalSale.customerInfo.SellCustomerInfoFragment"
         android:label="ဝယ်သူ့အချက်အလက်" >
         <argument
             android:name="customerData"
-            app:argType="com.example.shwemisale.data_layers.ui_models.customers.CustomerDataUiModel" />
+            app:argType="com.shwemigoldshop.shwemisale.data_layers.ui_models.customers.CustomerDataUiModel" />
     </fragment>
     <action
         android:id="@+id/action_global_logout"
@@ -55,7 +55,7 @@
         app:destination="@id/sellGoldFromHomeFragment" />
     <fragment
         android:id="@+id/sellGoldFromHomeFragment"
-        android:name="com.example.shwemisale.screen.goldFromHome.SellGoldFromHomeFragment"
+        android:name="com.shwemigoldshop.shwemisale.screen.goldFromHome.SellGoldFromHomeFragment"
         android:label="အိမ်ပါရွှေ" >
 
 
@@ -94,7 +94,7 @@
     </fragment>
     <fragment
         android:id="@+id/scanStockFragment"
-        android:name="com.example.shwemisale.screen.sellModule.normalSaleScanStock.ScanStockFragment"
+        android:name="com.shwemigoldshop.shwemisale.screen.sellModule.normalSaleScanStock.ScanStockFragment"
         android:label="ပုံမှန်အရောင်း" >
         <action
             android:id="@+id/action_scanStockFragment_to_exchangeOrderFragment"
@@ -108,7 +108,7 @@
     </fragment>
     <fragment
         android:id="@+id/receiveNewOrderFragment"
-        android:name="com.example.shwemisale.screen.sellModule.recieveNewOrder.ReceiveNewOrderFragment"
+        android:name="com.shwemigoldshop.shwemisale.screen.sellModule.recieveNewOrder.ReceiveNewOrderFragment"
         android:label="‌အော်ဒါအသစ်လက်ခံ" >
         <action
             android:id="@+id/action_receiveNewOrderFragment_to_inventoryStockFragment"
@@ -119,22 +119,22 @@
     </fragment>
     <fragment
         android:id="@+id/akoukSellFragment"
-        android:name="com.example.shwemisale.screen.sellModule.goldBlockSale.AkoukSellFragment"
+        android:name="com.shwemigoldshop.shwemisale.screen.sellModule.goldBlockSale.AkoukSellFragment"
         android:label="အခေါက်အရောင်း" />
     <fragment
         android:id="@+id/generalSellFragment"
-        android:name="com.example.shwemisale.screen.sellModule.generalSale.GeneralSellFragment"
+        android:name="com.shwemigoldshop.shwemisale.screen.sellModule.generalSale.GeneralSellFragment"
         android:label="အထွေထွေအရောင်း" />
     <fragment
         android:id="@+id/exchangeOrderFragment"
-        android:name="com.example.shwemisale.screen.sellModule.exchangeOrderAndOldItem.ExchangeOrderFragment"
+        android:name="com.shwemigoldshop.shwemisale.screen.sellModule.exchangeOrderAndOldItem.ExchangeOrderFragment"
         android:label="အထည်‌‌‌ဟောင်းအလဲ နှင့် အော်ဒါပြန်ရွေး " >
         <action
             android:id="@+id/action_exchangeOrderFragment_to_withValueFragment"
             app:destination="@id/withValueFragment" />
         <argument
             android:name="scannedProducts"
-            app:argType="com.example.shwemisale.data_layers.ui_models.product.ProductInfoUiModel[]" />
+            app:argType="com.shwemigoldshop.shwemisale.data_layers.ui_models.product.ProductInfoUiModel[]" />
         <argument
             android:name="goldPrice"
             app:argType="string"
@@ -148,11 +148,11 @@
     </fragment>
     <fragment
         android:id="@+id/withValueFragment"
-        android:name="com.example.shwemisale.screen.sellModule.openVoucher.withValue.WithValueFragment"
+        android:name="com.shwemigoldshop.shwemisale.screen.sellModule.openVoucher.withValue.WithValueFragment"
         android:label="တန်ဖိုးဖြင့် ဘောင်ချာဖွင့်မည်" >
         <argument
             android:name="scannedProducts"
-            app:argType="com.example.shwemisale.data_layers.ui_models.product.ProductInfoUiModel[]" />
+            app:argType="com.shwemigoldshop.shwemisale.data_layers.ui_models.product.ProductInfoUiModel[]" />
         <argument
             android:name="old_voucher_paid_amount"
             app:argType="integer" />
@@ -163,27 +163,27 @@
     </fragment>
     <fragment
         android:id="@+id/inventoryStockFragment"
-        android:name="com.example.shwemisale.screen.sellModule.sample.InventoryStockFragment"
+        android:name="com.shwemigoldshop.shwemisale.screen.sellModule.sample.InventoryStockFragment"
         android:label="Sample Take from Inventory" />
     <fragment
         android:id="@+id/outsideStockFragment"
-        android:name="com.example.shwemisale.screen.sellModule.sample.OutsideStockFragment"
+        android:name="com.shwemigoldshop.shwemisale.screen.sellModule.sample.OutsideStockFragment"
         android:label="Sample Take from Outside" />
     <fragment
         android:id="@+id/stockDetailFragment"
-        android:name="com.example.shwemisale.screen.sellModule.normalSaleScanStock.detail.StockDetailFragment"
+        android:name="com.shwemigoldshop.shwemisale.screen.sellModule.normalSaleScanStock.detail.StockDetailFragment"
         android:label="Stock Detail" >
         <argument
             android:name="productInfo"
-            app:argType="com.example.shwemisale.data_layers.ui_models.product.ProductInfoUiModel" />
+            app:argType="com.shwemigoldshop.shwemisale.data_layers.ui_models.product.ProductInfoUiModel" />
     </fragment>
     <fragment
         android:id="@+id/sellResellStockInfoAddedFragment"
-        android:name="com.example.shwemisale.screen.goldFromHomeInfo.SellResellStockInfoAddedFragment"
+        android:name="com.shwemigoldshop.shwemisale.screen.goldFromHomeInfo.SellResellStockInfoAddedFragment"
         android:label="ပြန်သွင်းထည်အချက်အလက်" >
         <argument
             android:name="stockFromHomeInfo"
-            app:argType="com.example.shwemisale.data_layers.domain.goldFromHome.StockFromHomeDomain"
+            app:argType="com.shwemigoldshop.shwemisale.data_layers.domain.goldFromHome.StockFromHomeDomain"
             app:nullable="true" />
         <argument
             android:name="backPressType"
@@ -193,20 +193,20 @@
 
     <fragment
         android:id="@+id/createPawnFragment"
-        android:name="com.example.shwemisale.screen.pawnModule.CreatePawnFragment"
+        android:name="com.shwemigoldshop.shwemisale.screen.pawnModule.CreatePawnFragment"
         android:label="အပေါင်ဘောင်ချာ" />
 
     <fragment
         android:id="@+id/buyResellStockInfoAddedFragment"
-        android:name="com.example.shwemisale.screen.buyModule.BuyResellStockInfoAddedFragment"
+        android:name="com.shwemigoldshop.shwemisale.screen.buyModule.BuyResellStockInfoAddedFragment"
         android:label="ပြန်သွင်းထည်အချက်အလက်" />
     <fragment
         android:id="@+id/pdfTestFragment"
-        android:name="com.example.shwemisale.screen.PdfTestFragment"
+        android:name="com.shwemigoldshop.shwemisale.screen.PdfTestFragment"
         android:label="PdfTestFragment" />
     <fragment
         android:id="@+id/oldStockBucketListFragment"
-        android:name="com.example.shwemisale.screen.goldFromHome.bucket.OldStockBucketListFragment">
+        android:name="com.shwemigoldshop.shwemisale.screen.goldFromHome.bucket.OldStockBucketListFragment">
         <action
             android:id="@+id/action_oldStockBucketListFragment_to_addOldStockToBucketFragment"
             app:destination="@id/addOldStockToBucketFragment" />
@@ -216,14 +216,14 @@
     </fragment>
     <fragment
         android:id="@+id/addOldStockToBucketFragment"
-        android:name="com.example.shwemisale.screen.goldFromHome.bucket.addOldStockToBucket.AddOldStockToBucketFragment"
+        android:name="com.shwemigoldshop.shwemisale.screen.goldFromHome.bucket.addOldStockToBucket.AddOldStockToBucketFragment"
         />
     <fragment
         android:id="@+id/oldStockDetailFragment"
-        android:name="com.example.shwemisale.screen.oldStockDetail.OldStockDetailFragment">
+        android:name="com.shwemigoldshop.shwemisale.screen.oldStockDetail.OldStockDetailFragment">
         <argument
             android:name="stockfromhomeinfo"
-            app:argType="com.example.shwemisale.data_layers.domain.goldFromHome.StockFromHomeDomain" />
+            app:argType="com.shwemigoldshop.shwemisale.data_layers.domain.goldFromHome.StockFromHomeDomain" />
         <argument
             android:name="backpresstype"
             app:argType="string"
@@ -235,15 +235,15 @@
     </fragment>
     <fragment
         android:id="@+id/sampleFragment"
-        android:name="com.example.shwemisale.screen.oldStockDetail.SampleFragment"
+        android:name="com.shwemigoldshop.shwemisale.screen.oldStockDetail.SampleFragment"
         android:label="SampleFragment" />
     <fragment
         android:id="@+id/openVoucherWithKpyFragment"
-        android:name="com.example.shwemisale.screen.sellModule.openVoucher.phaseII.OpenVoucherWithKpyFragment"
+        android:name="com.shwemigoldshop.shwemisale.screen.sellModule.openVoucher.phaseII.OpenVoucherWithKpyFragment"
         android:label="OpenVoucherWithKpyFragment">
         <argument
             android:name="scannedProducts"
-            app:argType="com.example.shwemisale.data_layers.ui_models.product.ProductInfoUiModel[]" />
+            app:argType="com.shwemigoldshop.shwemisale.data_layers.ui_models.product.ProductInfoUiModel[]" />
         <argument android:name="old_voucher_paid_amount"
             app:argType="integer" />
         <argument

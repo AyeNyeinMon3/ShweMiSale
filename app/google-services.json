@@ -1,43 +1,41 @@
 {
   "project_info": {
-    "project_number": "519084324722",
-    "firebase_url": "https://fir-test-2c1e5.firebaseio.com",
-    "project_id": "fir-test-2c1e5",
-    "storage_bucket": "fir-test-2c1e5.appspot.com"
+    "project_number": "45307738686",
+    "project_id": "shwemi-e0ada",
+    "storage_bucket": "shwemi-e0ada.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:519084324722:android:89b6ebf24706b1eede8feb",
+        "mobilesdk_app_id": "1:45307738686:android:24fd3c412adeda444eef6f",
         "android_client_info": {
-          "package_name": "com.critx.shwemiAdmin"
+          "package_name": "com.example.shwemi"
         }
       },
       "oauth_client": [
         {
-          "client_id": "519084324722-begda7v4lo5qh30iu6iha4qc0edpg024.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.critx.shwemiAdmin",
-            "certificate_hash": "812d68110f49b5153525cf539d153034d9fcb77b"
-          }
-        },
-        {
-          "client_id": "519084324722-4re3rm28sn6t105im32bqgia24jj1v7g.apps.googleusercontent.com",
+          "client_id": "45307738686-ffj5hu9upf5b4bp7ff2h7sivmog4t4nm.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAnyVUcu4b7XuRzO8UfuS3SDbLvCS7bUkc"
+          "current_key": "AIzaSyCWOFMOTYwfNd28wk7hyE9BGriMI2wQf3g"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "519084324722-4re3rm28sn6t105im32bqgia24jj1v7g.apps.googleusercontent.com",
+              "client_id": "45307738686-ffj5hu9upf5b4bp7ff2h7sivmog4t4nm.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "45307738686-c4o248r4am6ujflhriomh49p0m2re894.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.critx.shweMi"
+              }
             }
           ]
         }
@@ -45,36 +43,35 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:519084324722:android:a643c8452ae0f4a1de8feb",
+        "mobilesdk_app_id": "1:45307738686:android:e9d910f32386a0574eef6f",
         "android_client_info": {
-          "package_name": "com.example.shwemisale"
+          "package_name": "com.shwemigoldshop.shwe_mi"
         }
       },
       "oauth_client": [
         {
-          "client_id": "519084324722-kos8gtjats34q7uflbfatk69unms808b.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.shwemisale",
-            "certificate_hash": "812d68110f49b5153525cf539d153034d9fcb77b"
-          }
-        },
-        {
-          "client_id": "519084324722-4re3rm28sn6t105im32bqgia24jj1v7g.apps.googleusercontent.com",
+          "client_id": "45307738686-ffj5hu9upf5b4bp7ff2h7sivmog4t4nm.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAnyVUcu4b7XuRzO8UfuS3SDbLvCS7bUkc"
+          "current_key": "AIzaSyCWOFMOTYwfNd28wk7hyE9BGriMI2wQf3g"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "519084324722-4re3rm28sn6t105im32bqgia24jj1v7g.apps.googleusercontent.com",
+              "client_id": "45307738686-ffj5hu9upf5b4bp7ff2h7sivmog4t4nm.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "45307738686-c4o248r4am6ujflhriomh49p0m2re894.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.critx.shweMi"
+              }
             }
           ]
         }
@@ -82,44 +79,35 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:519084324722:android:d8ae843984d53a0dde8feb",
+        "mobilesdk_app_id": "1:45307738686:android:098cecd4543f054a4eef6f",
         "android_client_info": {
-          "package_name": "com.kaito.afinal"
+          "package_name": "com.shwemigoldshop.shwemisale"
         }
       },
       "oauth_client": [
         {
-          "client_id": "519084324722-b6ddj1b9i0qhdcsnmvjbtghhm7sc8upo.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.kaito.afinal",
-            "certificate_hash": "464eb850fb6141df72ca95f87392cdc5a5a2671e"
-          }
-        },
-        {
-          "client_id": "519084324722-vadbkcm5mdnfnak75i8hgp3ictoos0ej.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.kaito.afinal",
-            "certificate_hash": "9236f3a46c78ec23ccdf09a18e87b07871cb9098"
-          }
-        },
-        {
-          "client_id": "519084324722-4re3rm28sn6t105im32bqgia24jj1v7g.apps.googleusercontent.com",
+          "client_id": "45307738686-ffj5hu9upf5b4bp7ff2h7sivmog4t4nm.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAnyVUcu4b7XuRzO8UfuS3SDbLvCS7bUkc"
+          "current_key": "AIzaSyCWOFMOTYwfNd28wk7hyE9BGriMI2wQf3g"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "519084324722-4re3rm28sn6t105im32bqgia24jj1v7g.apps.googleusercontent.com",
+              "client_id": "45307738686-ffj5hu9upf5b4bp7ff2h7sivmog4t4nm.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "45307738686-c4o248r4am6ujflhriomh49p0m2re894.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.critx.shweMi"
+              }
             }
           ]
         }
@@ -127,36 +115,35 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:519084324722:android:80948a544b44ac63de8feb",
+        "mobilesdk_app_id": "1:45307738686:android:13c6bcfa6936740a4eef6f",
         "android_client_info": {
-          "package_name": "com.kaito.test"
+          "package_name": "com.shwemigoldshop.shwemisale.staging"
         }
       },
       "oauth_client": [
         {
-          "client_id": "519084324722-b253oujsipoejlebnhi43fd8ko3k0kth.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.kaito.test",
-            "certificate_hash": "464eb850fb6141df72ca95f87392cdc5a5a2671e"
-          }
-        },
-        {
-          "client_id": "519084324722-4re3rm28sn6t105im32bqgia24jj1v7g.apps.googleusercontent.com",
+          "client_id": "45307738686-ffj5hu9upf5b4bp7ff2h7sivmog4t4nm.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAnyVUcu4b7XuRzO8UfuS3SDbLvCS7bUkc"
+          "current_key": "AIzaSyCWOFMOTYwfNd28wk7hyE9BGriMI2wQf3g"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "519084324722-4re3rm28sn6t105im32bqgia24jj1v7g.apps.googleusercontent.com",
+              "client_id": "45307738686-ffj5hu9upf5b4bp7ff2h7sivmog4t4nm.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "45307738686-c4o248r4am6ujflhriomh49p0m2re894.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.critx.shweMi"
+              }
             }
           ]
         }
