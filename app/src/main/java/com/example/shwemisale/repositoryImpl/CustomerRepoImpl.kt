@@ -1,8 +1,8 @@
 package com.example.shwemisale.repositoryImpl
 
 import com.example.shwemi.util.Resource
-import com.example.shwemi.util.parseError
-import com.example.shwemi.util.parseErrorWithDataClass
+import com.example.shwemisale.util.parseError
+import com.example.shwemisale.util.parseErrorWithDataClass
 import com.example.shwemisale.data_layers.domain.customers.CustomerDataDomain
 import com.example.shwemisale.data_layers.domain.customers.CustomerWhistListDomain
 import com.example.shwemisale.data_layers.dto.SimpleError

@@ -32,6 +32,10 @@ import com.example.shwemisale.screen.goldFromHome.bucket.BucketShareViewModel
 import com.example.shwemisale.screen.sellModule.GoldFromHomeRecyclerAdapter
 import com.example.shwemisale.screen.sellModule.StockCheckRecyclerAdapter
 import com.example.shwemisale.screen.sellModule.generalSale.GeneralSellFragmentDirections
+import com.example.shwemisale.util.calculateLineLength
+import com.example.shwemisale.util.combineLists
+import com.example.shwemisale.util.generateQRCode
+import com.example.shwemisale.util.hideKeyboard
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
@@ -495,7 +499,7 @@ class SellGoldFromHomeFragment : Fragment(), ReceiveListener {
                     loading.dismiss()
                     it.data?.forEach { oldStock ->
                         viewModel.createStockFromHome(
-                            oldStock.image?.id,
+                            oldStock.image.id,
                             oldStock.a_buying_price.orEmpty(),
                             oldStock.b_voucher_buying_value.orEmpty(),
                             oldStock.c_voucher_buying_price.orEmpty(),

@@ -1,8 +1,8 @@
 package com.example.shwemisale.repositoryImpl
 
 import com.example.shwemi.util.Resource
-import com.example.shwemi.util.parseError
-import com.example.shwemi.util.parseErrorWithDataClass
+import com.example.shwemisale.util.parseError
+import com.example.shwemisale.util.parseErrorWithDataClass
 import com.example.shwemisale.data_layers.dto.RemainingAmountDto
 import com.example.shwemisale.data_layers.dto.SimpleError
 import com.example.shwemisale.data_layers.dto.pawn.PawnInterestRateDto
@@ -11,7 +11,6 @@ import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.network.api_services.PawnService
 import com.example.shwemisale.repository.PawnRepository
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import javax.inject.Inject
 

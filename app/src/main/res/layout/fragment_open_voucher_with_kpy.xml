@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fillViewport="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_assign_sale_person"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_user_plus"
+            android:text="Assign sales person"
+            android:textAllCaps="false"
+            android:textColor="@color/grey_ash"
+            app:backgroundTint="@color/white"
+            app:cornerRadius="8dp"
+            app:elevation="0dp"
+            app:icon="@drawable/ic_user_plus"
+            app:iconTint="@color/grey_ash"
+            app:layout_constraintBottom_toBottomOf="@id/btn_print"
+            app:layout_constraintEnd_toStartOf="@id/btn_print"
+            app:layout_constraintTop_toTopOf="@id/btn_print" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_print"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:text="@string/print"
+            android:textColor="@color/primary"
+            app:backgroundTint="@color/white"
+            app:cornerRadius="8dp"
+            app:icon="@drawable/print"
+            app:iconTint="@color/primary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="@color/primary"
+            app:strokeWidth="1dp" />
+        <ScrollView
+            android:id="@+id/invoice_detail_scroll_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.8"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:layout_marginEnd="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_print" >
+            <include
+                android:id="@+id/include_invoice_details"
+                layout="@layout/include_with_kpy_open_voucher_detail"
+                android:layout_width="366dp"
+                android:layout_height="0dp"
+               />
+        </ScrollView>
+
+        <TextView
+            android:id="@+id/tv_label_stock_from_home_calculation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/choose_stock_from_home_calculation"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RadioGroup
+            android:id="@+id/radio_gp_old_stock_calculation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="@+id/tv_label_stock_from_home_calculation"
+            app:layout_constraintTop_toBottomOf="@+id/tv_label_stock_from_home_calculation">
+
+            <RadioButton
+                android:id="@+id/radio_btn_with_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_radio_button"
+                android:padding="8dp"
+                android:text="With Value"
+                android:textAppearance="@style/TextAppearance.ShweMi.Body2" />
+
+            <RadioButton
+                android:id="@+id/radio_btn_with_kpy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/background_radio_button"
+                android:padding="8dp"
+                android:text="With KPY"
+                android:textAppearance="@style/TextAppearance.ShweMi.Body2" />
+        </RadioGroup>
+
+        <include
+            android:id="@+id/include_old_stock_weight_layout"
+            layout="@layout/include_old_stocks_weight_in_kpy_voucher"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@+id/invoice_detail_scroll_view"
+            app:layout_constraintStart_toStartOf="@id/radio_gp_old_stock_calculation"
+            app:layout_constraintTop_toBottomOf="@id/radio_gp_old_stock_calculation" />
+
+        <TextView
+            android:id="@+id/tv_label_reduce_money_plural"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/reduced_money_plural"
+            android:textAppearance="@style/TextAppearance.ShweMi.Headline6"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/include_old_stock_weight_layout"
+            app:layout_constraintTop_toBottomOf="@+id/include_old_stock_weight_layout" />
+
+        <TextView
+            android:id="@+id/tv_label_reduce_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/reduced_money"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+            app:layout_constraintStart_toStartOf="@+id/include_old_stock_weight_layout"
+            app:layout_constraintTop_toBottomOf="@+id/tv_label_reduce_money_plural" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_reduce_money"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toStartOf="@id/invoice_detail_scroll_view"
+            app:layout_constraintStart_toStartOf="@+id/tv_label_reduce_money"
+            app:layout_constraintTop_toBottomOf="@+id/tv_label_reduce_money">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_reduce_money"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Type 2,000"
+                android:inputType="numberDecimal"
+                android:textColor="@color/inputTextColor"
+                android:textColorHint="@color/hintTextColor" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_add_gift"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add discount or gift"
+            android:textColor="@color/primary"
+            android:layout_marginTop="16dp"
+            app:backgroundTint="@color/white"
+            app:cornerRadius="8dp"
+            app:icon="@drawable/plus"
+            app:iconTint="@color/primary"
+            app:layout_constraintStart_toStartOf="@id/til_reduce_money"
+            app:layout_constraintTop_toBottomOf="@id/til_reduce_money"
+            app:strokeColor="@color/primary"
+            app:strokeWidth="1dp" />
+        <include
+            android:id="@+id/include_tax_money_layout"
+            layout="@layout/include_tax_money_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@+id/invoice_detail_scroll_view"
+            app:layout_constraintStart_toStartOf="@id/radio_gp_old_stock_calculation"
+            app:layout_constraintTop_toBottomOf="@id/btn_add_gift" />
+
+        <TextView
+            android:id="@+id/tv_label_payment_from_customer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/insert_payment_from_customer"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+            app:layout_constraintStart_toStartOf="@+id/include_old_stock_weight_layout"
+            app:layout_constraintTop_toBottomOf="@+id/include_tax_money_layout" />
+
+        <TextView
+            android:id="@+id/tv_fill_full_payment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/pay_full_payment"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+            android:textColor="@color/primary"
+            app:layout_constraintBottom_toBottomOf="@id/tv_label_payment_from_customer"
+            app:layout_constraintEnd_toEndOf="@+id/til_payment_from_customer"
+            app:layout_constraintTop_toTopOf="@id/tv_label_payment_from_customer" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_payment_from_customer"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toStartOf="@id/invoice_detail_scroll_view"
+            app:layout_constraintStart_toStartOf="@+id/tv_label_payment_from_customer"
+            app:layout_constraintTop_toBottomOf="@+id/tv_label_payment_from_customer">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_payment_from_customer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Type 2,000"
+                android:inputType="numberDecimal"
+                android:textColor="@color/inputTextColor"
+                android:textColorHint="@color/hintTextColor" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_calculate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="@string/calculate"
+            android:layout_marginTop="16dp"
+            android:enabled="false"
+            app:layout_constraintEnd_toStartOf="@id/invoice_detail_scroll_view"
+            app:layout_constraintStart_toStartOf="@id/btn_add_gift"
+            app:layout_constraintTop_toBottomOf="@+id/til_payment_from_customer" />
+
+        <TextView
+            android:id="@+id/tv_label_choose_payment_method"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/choose_payment_method"
+            android:textAppearance="@style/TextAppearance.ShweMi.Body2"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_calculate"/>
+       <CheckBox
+           android:id="@+id/cb_with_cash"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           app:layout_constraintTop_toBottomOf="@id/tv_label_choose_payment_method"
+           app:layout_constraintStart_toStartOf="@id/tv_label_choose_payment_method"/>
+        <TextView
+            android:id="@+id/tv_label_with_cash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="With Cash"
+            app:layout_constraintStart_toEndOf="@id/cb_with_cash"
+            app:layout_constraintTop_toTopOf="@id/cb_with_cash"
+            app:layout_constraintBottom_toBottomOf="@id/cb_with_cash"/>
+
+        <CheckBox
+            android:id="@+id/cb_with_mobile_pay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tv_label_choose_payment_method"
+            app:layout_constraintStart_toEndOf="@id/tv_label_with_cash"/>
+        <TextView
+            android:id="@+id/tv_label_with_mobile_pay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="With Mobile Pay"
+            app:layout_constraintStart_toEndOf="@id/cb_with_mobile_pay"
+            app:layout_constraintTop_toTopOf="@id/cb_with_mobile_pay"
+            app:layout_constraintBottom_toBottomOf="@id/cb_with_mobile_pay"/>
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/ui_to_hide_before_first_calculation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="tv_label_payment_from_customer,tv_fill_full_payment,til_payment_from_customer" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

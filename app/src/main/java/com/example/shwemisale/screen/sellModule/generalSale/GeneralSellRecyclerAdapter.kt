@@ -5,13 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.shwemi.util.getRoundDownForPrice
+import com.example.shwemisale.util.getRoundDownForPrice
 import com.example.shwemisale.data_layers.domain.generalSale.GeneralSaleListDomain
-import com.example.shwemisale.data_layers.domain.pureGoldSale.PureGoldListDomain
 import com.example.shwemisale.data_layers.dto.GeneralSaleDto
 import com.example.shwemisale.databinding.ItemGeneralSellBinding
 import com.example.shwemisale.screen.goldFromHome.getKPYFromYwae
-import com.example.shwemisale.screen.goldFromHome.getYwaeFromGram
 
 data class GeneralSellData(
     val id: String,

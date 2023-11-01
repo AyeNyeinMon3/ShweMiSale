@@ -21,14 +21,18 @@ import com.example.shwemi.util.*
 import com.example.shwemisale.R
 import com.example.shwemisale.data_layers.domain.generalSale.GeneralSaleListDomain
 import com.example.shwemisale.data_layers.dto.GeneralSalePrintItem
-import com.example.shwemisale.data_layers.dto.printing.RebuyPrintItem
 import com.example.shwemisale.databinding.DialogGeneralSellAddProductBinding
 import com.example.shwemisale.databinding.FragmentGeneralSellBinding
 import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.printerHelper.printPdf
 import com.example.shwemisale.screen.goldFromHome.getKPYFromYwae
 import com.example.shwemisale.screen.goldFromHome.getYwaeFromKPY
-import com.example.shwemisale.screen.sellModule.openVoucher.withKPY.WithKPYFragmentDirections
+import com.example.shwemisale.util.calculateLineLength
+import com.example.shwemisale.util.combineListsGeneralSalePrint
+import com.example.shwemisale.util.generateNumberFromEditText
+import com.example.shwemisale.util.generateQRCode
+import com.example.shwemisale.util.getRoundDownForPrice
+import com.example.shwemisale.util.showDropdown
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -84,7 +88,7 @@ class GeneralSellFragment : Fragment() {
         }
         binding.btnEdit.setOnClickListener {
             findNavController().navigate(
-                WithKPYFragmentDirections.actionGlobalGoldFromHomeFragment(
+                GeneralSellFragmentDirections.actionGlobalGoldFromHomeFragment(
                     "Global",
                     null
                 )

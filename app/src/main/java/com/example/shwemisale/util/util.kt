@@ -1,4 +1,4 @@
-package com.example.shwemi.util
+package com.example.shwemisale.util
 
 import android.content.Context
 import android.database.Cursor
@@ -13,6 +13,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.FragmentActivity
@@ -43,7 +44,12 @@ import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
-
+import android.telephony.TelephonyManager
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import android.os.Build
 
 inline fun <reified T> ResponseBody.parseErrorWithDataClass(errorJsonString: String): T? {
     val moshi = Moshi.Builder().build()
@@ -316,4 +322,20 @@ fun handleInfinity(input: Double): Double {
         0.0 // Return 0 when the result is infinity
     }
 }
+
+
+// Check if the app has permission to access the device's phone state
+fun hasReadPhoneStatePermission(context: Context): Boolean {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        return ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED
+    }
+    return true
+}
+
+// Request permission to access the device's phone state
+fun requestReadPhoneStatePermission(activity: AppCompatActivity) {
+    ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.READ_PHONE_STATE), 1)
+}
+
+// Get the IMEI number
 

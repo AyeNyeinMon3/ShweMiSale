@@ -16,6 +16,9 @@ import com.example.shwemi.util.*
 import com.example.shwemisale.R
 import com.example.shwemisale.databinding.FragmentStockDetailBinding
 import com.example.shwemisale.screen.goldFromHome.*
+import com.example.shwemisale.util.generateNumberFromEditText
+import com.example.shwemisale.util.getRoundDownForPrice
+import com.example.shwemisale.util.showDropdown
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

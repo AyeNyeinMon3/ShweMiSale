@@ -14,7 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.shwemi.util.Resource
 import com.example.shwemi.util.getAlertDialog
-import com.example.shwemi.util.hideKeyboard
+import com.example.shwemisale.util.hideKeyboard
 import com.example.shwemisale.StockCodeRecyclerAdapter
 import com.example.shwemisale.data_layers.domain.product.asUiModel
 import com.example.shwemisale.databinding.FragmentScanStockBinding

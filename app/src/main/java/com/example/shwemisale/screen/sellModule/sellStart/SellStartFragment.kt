@@ -1,23 +1,19 @@
 package com.example.shwemisale.screen.sellModule.sellStart
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.graphics.Rect
+import android.os.Build
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -25,13 +21,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.paging.map
-import com.epson.epos2.Epos2Exception
 import com.epson.epos2.printer.Printer
-import com.epson.eposprint.Print
 import com.example.shwemi.util.Resource
-import com.example.shwemi.util.convertToSqlDate
+import com.example.shwemisale.util.convertToSqlDate
 import com.example.shwemi.util.getAlertDialog
-import com.example.shwemi.util.showDropdown
+import com.example.shwemisale.util.showDropdown
 import com.example.shwemisale.CustomerListRecyclerAdapter
 import com.example.shwemisale.R
 import com.example.shwemisale.data_layers.domain.customers.asUiModel
@@ -40,13 +34,12 @@ import com.example.shwemisale.databinding.FragmentStartSellBinding
 import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.qrscan.getBarLauncher
 import com.example.shwemisale.qrscan.scanQrCode
-import com.google.android.material.button.MaterialButton
+import com.example.shwemisale.util.hasReadPhoneStatePermission
+import com.example.shwemisale.util.requestReadPhoneStatePermission
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import java.io.File
 import java.util.*
 import javax.inject.Inject
 
@@ -94,6 +87,7 @@ class SellStartFragment : Fragment() {
         })
 
     }
+    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -3,16 +3,11 @@ package com.example.shwemisale.screen.goldFromHomeInfo
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.shwemi.util.generateNumberFromEditText
 import com.example.shwemisale.data_layers.domain.product.GemWeightDetailDomain
 import com.example.shwemisale.databinding.ItemGemWeightBinding
-import com.example.shwemisale.screen.goldFromHome.getKPYFromYwae
-import com.example.shwemisale.screen.goldFromHome.getYwaeFromGram
-import com.example.shwemisale.screen.goldFromHome.getYwaeFromKPY
 
 
 class GemWeightRecyclerAdapter(

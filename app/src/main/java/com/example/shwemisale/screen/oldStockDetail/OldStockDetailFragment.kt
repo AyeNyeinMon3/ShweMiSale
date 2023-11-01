@@ -27,10 +27,10 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.shwemi.util.Resource
-import com.example.shwemi.util.generateNumberFromEditText
+import com.example.shwemisale.util.generateNumberFromEditText
 import com.example.shwemi.util.getAlertDialog
-import com.example.shwemi.util.getRealPathFromUri
-import com.example.shwemi.util.getRoundDownForPrice
+import com.example.shwemisale.util.getRealPathFromUri
+import com.example.shwemisale.util.getRoundDownForPrice
 import com.example.shwemi.util.loadImageWithGlide
 import com.example.shwemi.util.showABuyingPriceChangeAlertDialog
 import com.example.shwemi.util.showBBuyingPriceChangeAlertDialog
@@ -425,7 +425,7 @@ class OldStockDetailFragment : Fragment(), ChooseStockTypeListener, TotalGemWeig
                        ( (it.data?:0L).toDouble() * 16.6).toInt()
                     }else (it.data?:0L).toInt()
                     binding.includeAmountList.includeItemType.edtRebuyPrice.setText(
-                        getRoundDownForPrice(rebuyPriceFromServer)
+                        getRoundDownForPrice(rebuyPriceFromServer).toString()
                     )
 
                     //calculate button

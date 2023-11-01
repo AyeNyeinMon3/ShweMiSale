@@ -15,7 +15,8 @@ import com.example.shwemi.util.*
 import com.example.shwemisale.R
 import com.example.shwemisale.data_layers.domain.customers.asUiModel
 import com.example.shwemisale.databinding.FragmentCreateNewSellBinding
-import com.example.shwemisale.screen.sellModule.sellStart.SellStartViewModel
+import com.example.shwemisale.util.convertToSqlDate
+import com.example.shwemisale.util.showDropdown
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*

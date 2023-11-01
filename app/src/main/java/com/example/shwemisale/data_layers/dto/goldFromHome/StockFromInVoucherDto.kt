@@ -1,11 +1,9 @@
 package com.example.shwemisale.data_layers.dto.goldFromHome
 
-import com.example.shwemi.util.getRoundDownForPrice
+import com.example.shwemisale.util.getRoundDownForPrice
 import com.example.shwemisale.data_layers.ShweMiFile
 import com.example.shwemisale.data_layers.domain.goldFromHome.StockFromHomeDomain
-import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.screen.goldFromHome.getYwaeFromGram
-import javax.inject.Inject
 
 data class StockFromHomeInVoucherResponse(
     val data:List<StockFromInVoucherDto>

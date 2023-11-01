@@ -1,17 +1,12 @@
 package com.example.shwemisale.screen.oldStockDetail
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isInvisible
-import androidx.core.view.isVisible
-import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.example.shwemi.util.hideKeyboard
-import com.example.shwemi.util.showKeyBoard
 import com.example.shwemisale.data_layers.domain.goldFromHome.RebuyItemDto
 import com.example.shwemisale.databinding.ItemViewStockBinding
 import com.example.shwemisale.databinding.ItemViewStockEditBinding

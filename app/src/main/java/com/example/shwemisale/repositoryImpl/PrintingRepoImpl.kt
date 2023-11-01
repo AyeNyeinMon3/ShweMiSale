@@ -1,8 +1,8 @@
 package com.example.shwemisale.repositoryImpl
 
 import com.example.shwemi.util.Resource
-import com.example.shwemi.util.parseError
-import com.example.shwemi.util.parseErrorWithDataClass
+import com.example.shwemisale.util.parseError
+import com.example.shwemisale.util.parseErrorWithDataClass
 import com.example.shwemisale.data_layers.dto.GeneralSalePrintDto
 import com.example.shwemisale.data_layers.dto.SimpleError
 import com.example.shwemisale.data_layers.dto.printing.PawnCreatePrintDto

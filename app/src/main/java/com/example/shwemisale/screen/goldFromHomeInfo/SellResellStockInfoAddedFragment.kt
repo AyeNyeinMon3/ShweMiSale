@@ -38,6 +38,10 @@ import com.example.shwemisale.databinding.FragmentResellStockInfoAddedSellBindin
 import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.screen.goldFromHome.*
 import com.example.shwemisale.screen.sellModule.ResellStockRecyclerAdapter
+import com.example.shwemisale.util.compressImage
+import com.example.shwemisale.util.generateNumberFromEditText
+import com.example.shwemisale.util.getRealPathFromUri
+import com.example.shwemisale.util.getRoundDownForPrice
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

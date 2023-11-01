@@ -5,12 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.shwemi.util.getRoundDownForPrice
-import com.example.shwemisale.data_layers.domain.goldFromHome.StockFromHomeDomain
+import com.example.shwemisale.util.getRoundDownForPrice
 import com.example.shwemisale.data_layers.domain.pureGoldSale.PureGoldListDomain
 import com.example.shwemisale.databinding.ItemAkoukSellBinding
 import com.example.shwemisale.screen.goldFromHome.getKPYFromYwae
-import kotlin.math.cos
 
 data class AkoukSellData(
     val id: String,

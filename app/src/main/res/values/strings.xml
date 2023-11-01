@@ -39,5 +39,34 @@
     <string name="string_price_e">အဝယ်ဘောင်ချာမှစျေး</string>
     <string name="string_weight_f">‌အဝယ်သို့ထည့်ပေးရွှေချိန်</string>
     <string name="string_decided_pawn_price">သတ်မှတ်အပေါင်စျေး</string>
+    <string name="total_gold_weight">စုစုပေါင်းရွှေချိန်</string>
+    <string name="total_wastage">စုစုပေါင်းအ‌‌ရော့</string>
+    <string name="total_gold_weight_with_wastage">စုစုပေါင်းအရော့ပါရွှေချိန်</string>
+    <string name="gold_weight_from_old_stocks">အိမ်ပါရွှေချိန်</string>
+    <string name="polo_gold">ပိုလို‌‌ရွှေ</string>
+    <string name="tv_label_old_voucher_payment">ဘောင်ချာ‌‌ဟောင်းပေးသွင်း‌ငွေ</string>
+    <string name="stock_from_home_value">အိမ်ပါရွှေတန်ဖိုး</string>
+    <string name="total_maintainence_cost">လက်ခပေါင်း</string>
+    <string name="total_pt_clip_cost">PT ကလစ်ဖိုး</string>
+    <string name="total_gem_value">ကျောက်ဖိုးပေါင်း</string>
+    <string name="total_values">တန်ဖိုး စုစုပေါင်း</string>
+    <string name="flash_sale_discount">Flash sale discount</string>
+    <string name="reduced_money_from_interest">အတိုးမှ နှုတ်ယူအသုံးပြုငွေ</string>
+    <string name="reduced_money">လျှော့ပေးငွေ</string>
+    <string name="total_reduced_money">စုစုပေါင်းလျှော့ပေးငွေ</string>
+    <string name="total_cost">ကျသင့်ငွေ စုစုပေါင်း</string>
+    <string name="tax_money">အခွန်ကျသင့်ငွေ</string>
+    <string name="total_cost_including_tax">အခွန်ပါတန်ဖိုး</string>
+    <string name="remain_money">ကျန်ငွေ</string>
+    <string name="print">ပရင့်ထုတ်</string>
+    <string name="choose_stock_from_home_calculation">အိမ်ပါရွှေတွက်ချက်ပုံရွေးချယ်ပါ</string>
+    <string name="old_stock_weight">အိမ်ပါရွှေချိန်</string>
+    <string name="old_stock_value">အိမ်ပါရွှေတန်ဖိုး</string>
+    <string name="add">Add</string>
+    <string name="reduced_money_plural">လျှော့ပေးငွေများ</string>
+    <string name="calculate">တွက်ချက်မည်</string>
+    <string name="insert_payment_from_customer">Customer မှပေးသွင်းငွေ ထည့်ပါ</string>
+    <string name="pay_full_payment">အပြည့်ပေးချေမည်</string>
+    <string name="choose_payment_method">ငွေပေးသွင်းပုံစံ ရွေးပါ</string>
 
 </resources>

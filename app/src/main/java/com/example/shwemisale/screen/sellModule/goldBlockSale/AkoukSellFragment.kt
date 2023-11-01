@@ -27,13 +27,11 @@ import com.example.shwemisale.screen.goldFromHome.getKPYFromYwae
 import com.example.shwemisale.screen.goldFromHome.getYwaeFromGram
 import com.example.shwemisale.screen.goldFromHome.getYwaeFromKPY
 import com.example.shwemisale.screen.sellModule.generalSale.GeneralSellFragmentDirections
-import com.example.shwemisale.screen.sellModule.openVoucher.withKPY.WithKPYFragmentDirections
+import com.example.shwemisale.util.generateNumberFromEditText
+import com.example.shwemisale.util.getRoundDownForPrice
+import com.example.shwemisale.util.showDropdown
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import java.io.File
 
 @AndroidEntryPoint
 class AkoukSellFragment : Fragment() {
@@ -255,7 +253,7 @@ class AkoukSellFragment : Fragment() {
 
         binding.includePayment.btnEdit.setOnClickListener {
             findNavController().navigate(
-                WithKPYFragmentDirections.actionGlobalGoldFromHomeFragment(
+                AkoukSellFragmentDirections.actionGlobalGoldFromHomeFragment(
                     "Global",
                     null
                 )

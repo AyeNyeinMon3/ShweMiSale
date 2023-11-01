@@ -132,9 +132,6 @@
         <action
             android:id="@+id/action_exchangeOrderFragment_to_withValueFragment"
             app:destination="@id/withValueFragment" />
-        <action
-            android:id="@+id/action_exchangeOrderFragment_to_withKPYFragment"
-            app:destination="@id/withKPYFragment" />
         <argument
             android:name="scannedProducts"
             app:argType="com.example.shwemisale.data_layers.ui_models.product.ProductInfoUiModel[]" />
@@ -145,6 +142,9 @@
         <argument
             android:name="scannedCodesList"
             app:argType="string[]" />
+        <action
+            android:id="@+id/action_exchangeOrderFragment_to_openVoucherWithKpyFragment"
+            app:destination="@id/openVoucherWithKpyFragment" />
     </fragment>
     <fragment
         android:id="@+id/withValueFragment"
@@ -155,20 +155,6 @@
             app:argType="com.example.shwemisale.data_layers.ui_models.product.ProductInfoUiModel[]" />
         <argument
             android:name="old_voucher_paid_amount"
-            app:argType="integer" />
-        <argument
-            android:name="oldVoucherCode"
-            app:argType="string"
-            app:nullable="true" />
-    </fragment>
-    <fragment
-        android:id="@+id/withKPYFragment"
-        android:name="com.example.shwemisale.screen.sellModule.openVoucher.withKPY.WithKPYFragment"
-        android:label="ကျပ်ပဲရွေးဖြင့် ဘောင်ချာဖွင့်မည်" >
-        <argument
-            android:name="scannedProducts"
-            app:argType="com.example.shwemisale.data_layers.ui_models.product.ProductInfoUiModel[]" />
-        <argument android:name="old_voucher_paid_amount"
             app:argType="integer" />
         <argument
             android:name="oldVoucherCode"
@@ -251,5 +237,19 @@
         android:id="@+id/sampleFragment"
         android:name="com.example.shwemisale.screen.oldStockDetail.SampleFragment"
         android:label="SampleFragment" />
+    <fragment
+        android:id="@+id/openVoucherWithKpyFragment"
+        android:name="com.example.shwemisale.screen.sellModule.openVoucher.phaseII.OpenVoucherWithKpyFragment"
+        android:label="OpenVoucherWithKpyFragment">
+        <argument
+            android:name="scannedProducts"
+            app:argType="com.example.shwemisale.data_layers.ui_models.product.ProductInfoUiModel[]" />
+        <argument android:name="old_voucher_paid_amount"
+            app:argType="integer" />
+        <argument
+            android:name="oldVoucherCode"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
 
 </navigation>

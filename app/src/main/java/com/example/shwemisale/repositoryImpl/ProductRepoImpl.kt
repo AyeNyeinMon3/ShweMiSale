@@ -1,21 +1,17 @@
 package com.example.shwemisale.repositoryImpl
 
-import com.example.shwemi.network.dto.ResponseDto
 import com.example.shwemi.util.Resource
-import com.example.shwemi.util.parseError
-import com.example.shwemi.util.parseErrorWithDataClass
+import com.example.shwemisale.util.parseError
+import com.example.shwemisale.util.parseErrorWithDataClass
 import com.example.shwemisale.data_layers.domain.product.ProductInfoDomain
 import com.example.shwemisale.data_layers.domain.product.ProductSizeAndReasonDomain
 import com.example.shwemisale.data_layers.dto.SimpleError
 import com.example.shwemisale.data_layers.dto.calculation.GoldTypePriceDto
-import com.example.shwemisale.data_layers.dto.product.ProductIdDto
 import com.example.shwemisale.data_layers.dto.product.asDomain
 import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.network.api_services.CalculationService
-import com.example.shwemisale.network.api_services.PawnService
 import com.example.shwemisale.network.api_services.ProductService
 import com.example.shwemisale.repository.ProductRepository
-import retrofit2.Response
 import javax.inject.Inject
 
 class ProductRepoImpl @Inject constructor(

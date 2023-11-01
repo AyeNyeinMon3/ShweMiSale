@@ -20,9 +20,10 @@ import com.example.shwemisale.databinding.FragmentExchangeOrderBinding
 import com.example.shwemisale.localDataBase.LocalDatabase
 import com.example.shwemisale.qrscan.getBarLauncher
 import com.example.shwemisale.qrscan.scanQrCode
+import com.example.shwemisale.util.generateNumberFromEditText
+import com.example.shwemisale.util.hideKeyboard
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -117,7 +118,7 @@ class ExchangeOrderFragment : Fragment() {
                     viewModel.saveTotalBVoucherBuyingPrice(totalBVoucherBuyingPrice.toString())
 
                     view.findNavController().navigate(
-                        ExchangeOrderFragmentDirections.actionExchangeOrderFragmentToWithKPYFragment(
+                        ExchangeOrderFragmentDirections.actionExchangeOrderFragmentToOpenVoucherWithKpyFragment(
                             args.scannedProducts,
                             generateNumberFromEditText(binding.edtOldVoucherPayment).toInt(),
                             if (binding.edtGoldFromHomeVoucher.text.isNullOrEmpty()) null else binding.edtGoldFromHomeVoucher.text.toString()
@@ -129,7 +130,7 @@ class ExchangeOrderFragment : Fragment() {
                     loading.dismiss()
                     if (it.message == "Session key not found!") {
                         view.findNavController().navigate(
-                            ExchangeOrderFragmentDirections.actionExchangeOrderFragmentToWithKPYFragment(
+                            ExchangeOrderFragmentDirections.actionExchangeOrderFragmentToOpenVoucherWithKpyFragment(
                                 args.scannedProducts,
                                 generateNumberFromEditText(binding.edtOldVoucherPayment).toInt(),
                                 if (binding.edtGoldFromHomeVoucher.text.isNullOrEmpty()) null else binding.edtGoldFromHomeVoucher.text.toString(),
@@ -248,7 +249,7 @@ class ExchangeOrderFragment : Fragment() {
             if (args.goldPrice.isNullOrEmpty().not()) {
                 if (localDatabase.getStockFromHomeSessionKey().isNullOrEmpty()) {
                     findNavController().navigate(
-                        ExchangeOrderFragmentDirections.actionExchangeOrderFragmentToWithKPYFragment(
+                        ExchangeOrderFragmentDirections.actionExchangeOrderFragmentToOpenVoucherWithKpyFragment(
                             args.scannedProducts,
                             generateNumberFromEditText(binding.edtOldVoucherPayment).toInt(),
                             if (binding.edtGoldFromHomeVoucher.text.isNullOrEmpty()) null else binding.edtGoldFromHomeVoucher.text.toString()

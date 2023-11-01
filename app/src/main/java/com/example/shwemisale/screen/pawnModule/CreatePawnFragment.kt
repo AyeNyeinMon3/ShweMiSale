@@ -13,24 +13,14 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.epson.epos2.Epos2CallbackCode
-import com.epson.epos2.Epos2Exception
-import com.epson.epos2.printer.Printer
-import com.epson.epos2.printer.PrinterStatusInfo
-import com.epson.epos2.printer.ReceiveListener
 import com.example.satoprintertest.AkpDownloader
 import com.example.shwemi.util.Resource
-import com.example.shwemi.util.calculateLineLength
-import com.example.shwemi.util.combineLists
-import com.example.shwemi.util.convertMillisecondsToDate
-import com.example.shwemi.util.convertToSqlDate
-import com.example.shwemi.util.generateNumberFromEditText
-import com.example.shwemi.util.generateQRCode
+import com.example.shwemisale.util.convertMillisecondsToDate
+import com.example.shwemisale.util.convertToSqlDate
+import com.example.shwemisale.util.generateNumberFromEditText
 import com.example.shwemi.util.getAlertDialog
 import com.example.shwemi.util.showSuccessDialog
-import com.example.shwemisale.data_layers.dto.printing.RebuyPrintItem
 import com.example.shwemisale.databinding.FragmentCreatePawnBinding
 import com.example.shwemisale.printerHelper.printPdf
 import com.example.shwemisale.screen.sellModule.generalSale.GeneralSellFragmentDirections
@@ -39,11 +29,9 @@ import com.google.android.material.datepicker.CalendarConstraints.DateValidator
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import org.threeten.bp.LocalDate
-import org.threeten.bp.LocalDateTime
 import java.util.Calendar
 import java.util.Date
 import java.util.TimeZone
-import javax.inject.Inject
 
 
 @AndroidEntryPoint

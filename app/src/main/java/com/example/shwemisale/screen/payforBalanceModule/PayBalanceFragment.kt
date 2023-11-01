@@ -13,11 +13,11 @@ import androidx.navigation.fragment.findNavController
 import com.example.satoprintertest.AkpDownloader
 import com.example.shwemi.util.*
 import com.example.shwemisale.databinding.FragmentPayBalanceBinding
-import com.example.shwemisale.printerHelper.printPdf
 import com.example.shwemisale.qrscan.getBarLauncher
 import com.example.shwemisale.qrscan.scanQrCode
-import com.example.shwemisale.screen.pawnModule.CreatePawnViewModel
 import com.example.shwemisale.screen.sellModule.generalSale.GeneralSellFragmentDirections
+import com.example.shwemisale.util.generateNumberFromEditText
+import com.example.shwemisale.util.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

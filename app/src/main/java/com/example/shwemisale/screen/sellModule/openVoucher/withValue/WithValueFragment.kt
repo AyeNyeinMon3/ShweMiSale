@@ -12,28 +12,18 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.satoprintertest.AkpDownloader
 import com.example.shwemi.util.Resource
-import com.example.shwemi.util.generateNumberFromEditText
+import com.example.shwemisale.util.generateNumberFromEditText
 import com.example.shwemi.util.getAlertDialog
 import com.example.shwemi.util.showSuccessDialog
 import com.example.shwemisale.databinding.FragmentWithValueBinding
 import com.example.shwemisale.printerHelper.printPdf
-import com.example.shwemisale.screen.goldFromHome.getKPYFromYwae
-import com.example.shwemisale.screen.goldFromHome.getKyatsFromKPY
-import com.example.shwemisale.screen.goldFromHome.getYwaeFromGram
-import com.example.shwemisale.screen.sellModule.exchangeOrderAndOldItem.ExchangeOrderFragmentDirections
 import com.example.shwemisale.screen.sellModule.generalSale.GeneralSellFragmentDirections
-import com.example.shwemisale.screen.sellModule.openVoucher.withKPY.WithKPYFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import java.io.File
 
 @AndroidEntryPoint
 class WithValueFragment : Fragment() {
@@ -245,7 +235,7 @@ class WithValueFragment : Fragment() {
         }
         binding.btnEdit.setOnClickListener {
             findNavController().navigate(
-                WithKPYFragmentDirections.actionGlobalGoldFromHomeFragment(
+                WithValueFragmentDirections.actionGlobalGoldFromHomeFragment(
                     "Global",
                     null
                 )

@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.viewModelScope
 import com.example.shwemi.util.Resource
-import com.example.shwemi.util.compressImage
-import com.example.shwemi.util.getRoundDownForPrice
-import com.example.shwemi.util.handleInfinity
+import com.example.shwemisale.util.compressImage
+import com.example.shwemisale.util.getRoundDownForPrice
+import com.example.shwemisale.util.handleInfinity
 import com.example.shwemisale.data_layers.domain.goldFromHome.RebuyItemDto
 import com.example.shwemisale.data_layers.domain.goldFromHome.RebuyItemWithSize
 import com.example.shwemisale.data_layers.domain.product.GemWeightDetailDomain

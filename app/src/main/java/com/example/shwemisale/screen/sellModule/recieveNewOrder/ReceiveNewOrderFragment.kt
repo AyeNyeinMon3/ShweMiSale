@@ -21,20 +21,19 @@ import com.example.shwemisale.R
 import com.example.shwemisale.databinding.FragmentReceiveNewOrderBinding
 import com.example.shwemisale.printerHelper.printPdf
 import com.example.shwemisale.screen.goldFromHome.getKPYFromYwae
-import com.example.shwemisale.screen.goldFromHome.getKyatsFromKPY
-import com.example.shwemisale.screen.goldFromHome.getYwaeFromGram
 import com.example.shwemisale.screen.goldFromHome.getYwaeFromKPY
 import com.example.shwemisale.screen.sellModule.SampleListRecyclerAdapter
-import com.example.shwemisale.screen.sellModule.exchangeOrderAndOldItem.ExchangeOrderFragmentDirections
 import com.example.shwemisale.screen.sellModule.generalSale.GeneralSellFragmentDirections
+import com.example.shwemisale.util.convertMillisecondsToDate
+import com.example.shwemisale.util.convertToSqlDate
+import com.example.shwemisale.util.generateNumberFromEditText
+import com.example.shwemisale.util.getRoundDownForPrice
+import com.example.shwemisale.util.showDropdown
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
 import org.threeten.bp.LocalDate
-import java.io.File
 import java.util.*
 
 @AndroidEntryPoint

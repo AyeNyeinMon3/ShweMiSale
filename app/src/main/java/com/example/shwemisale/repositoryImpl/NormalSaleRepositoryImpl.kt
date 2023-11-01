@@ -1,11 +1,10 @@
 package com.example.shwemisale.repositoryImpl
 
-import android.text.Editable
 import android.util.Log
 import androidx.lifecycle.map
 import com.example.shwemi.util.Resource
-import com.example.shwemi.util.parseError
-import com.example.shwemi.util.parseErrorWithDataClass
+import com.example.shwemisale.util.parseError
+import com.example.shwemisale.util.parseErrorWithDataClass
 import com.example.shwemisale.data_layers.domain.generalSale.GeneralSaleListDomain
 import com.example.shwemisale.data_layers.domain.goldFromHome.PaidAmountOfVoucherDomain
 import com.example.shwemisale.data_layers.domain.goldFromHome.StockFromHomeDomain
@@ -19,7 +18,6 @@ import com.example.shwemisale.data_layers.dto.generalSale.asDomain
 import com.example.shwemisale.data_layers.dto.goldFromHome.asDomain
 import com.example.shwemisale.data_layers.dto.product.asDomain
 import com.example.shwemisale.data_layers.dto.sample.asDomain
-import com.example.shwemisale.data_layers.dto.voucher.PaidAmountOfVoucherDto
 import com.example.shwemisale.data_layers.dto.voucher.VoucherInfoWithKPYDto
 import com.example.shwemisale.data_layers.dto.voucher.VoucherInfoWithValueResponse
 import com.example.shwemisale.data_layers.dto.voucher.asDomain

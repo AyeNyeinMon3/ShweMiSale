@@ -9,20 +9,15 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.shwemi.util.Resource
 import com.example.shwemi.util.getAlertDialog
-import com.example.shwemi.util.hideKeyboard
+import com.example.shwemisale.util.hideKeyboard
 import com.example.shwemi.util.showSuccessDialog
 import com.example.shwemisale.databinding.FragmentInventoryStockBinding
 import com.example.shwemisale.qrscan.getBarLauncher
 import com.example.shwemisale.qrscan.scanQrCode
-import com.example.shwemisale.room_database.entity.asEntity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class InventoryStockFragment : Fragment() {

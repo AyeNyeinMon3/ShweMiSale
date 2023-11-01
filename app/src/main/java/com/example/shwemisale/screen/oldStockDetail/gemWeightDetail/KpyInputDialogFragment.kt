@@ -11,8 +11,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.fragment.app.DialogFragment
-import com.example.shwemi.util.generateNumberFromEditText
-import com.example.shwemisale.databinding.DialogGemWeightDetailBinding
+import com.example.shwemisale.util.generateNumberFromEditText
 import com.example.shwemisale.databinding.DialogKpyInputFragmentBinding
 
 class KpyInputDialogFragment(private val gemWeightDetailId:String) : DialogFragment() {

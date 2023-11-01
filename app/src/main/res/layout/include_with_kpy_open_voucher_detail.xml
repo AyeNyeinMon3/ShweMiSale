@@ -1,0 +1,668 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fillViewport="true"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_constraint_general_expense">
+
+
+        <TextView
+            android:id="@+id/tv_lbl_invoice_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Invoice details"
+            android:textColor="@color/textColor"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_label_total_gold_weight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/total_gold_weight"
+            android:textColor="@color/inputTextColor"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_total_gold_weight_kpy"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_lbl_invoice_details" />
+
+        <TextView
+            android:id="@+id/tv_total_gold_weight_kpy"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            tools:text="0K 0P 0Y"
+            android:textAlignment="textEnd"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_label_total_gold_weight"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/tv_label_total_gold_weight"
+            app:layout_constraintTop_toTopOf="@+id/tv_label_total_gold_weight" />
+
+        <TextView
+            android:id="@+id/tv_label_total_wastage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/total_wastage"
+            android:textColor="@color/inputTextColor"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="@+id/tv_label_total_gold_weight"
+            app:layout_constraintStart_toStartOf="@+id/tv_label_total_gold_weight"
+            app:layout_constraintTop_toBottomOf="@+id/tv_label_total_gold_weight" />
+
+        <TextView
+            android:id="@+id/tv_total_wastage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:text="4K 4P 4Y"
+            android:textAlignment="textEnd"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="14sp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_label_total_wastage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_label_total_wastage"/>
+
+        <TextView
+            android:id="@+id/tv_label_total_gold_weight_with_wastage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/total_gold_weight_with_wastage"
+            android:textColor="@color/inputTextColor"
+            android:textSize="13sp"
+            app:layout_constraintStart_toStartOf="@+id/tv_label_total_wastage"
+            app:layout_constraintTop_toBottomOf="@+id/tv_label_total_wastage" />
+
+        <TextView
+            android:id="@+id/tv_total_gold_weight_with_wastage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:text="4K 4P 4Y"
+            android:textAlignment="textEnd"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="14sp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_label_total_gold_weight_with_wastage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_label_total_gold_weight_with_wastage" />
+
+
+
+        <TextView
+            android:id="@+id/tv_label_gold_weight_from_old_stocks"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/gold_weight_from_old_stocks"
+            android:textColor="@color/inputTextColor"
+            android:textSize="13sp"
+            app:layout_constraintStart_toStartOf="@+id/tv_label_total_gold_weight_with_wastage"
+            app:layout_constraintTop_toBottomOf="@+id/tv_label_total_gold_weight_with_wastage" />
+
+        <TextView
+            android:id="@+id/tv_gold_weight_from_old_stocks"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:text="4K 4P 4Y"
+            android:textAlignment="textEnd"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="14sp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_label_gold_weight_from_old_stocks"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_label_gold_weight_from_old_stocks"
+            />
+
+        <View
+            android:id="@+id/view1"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/lineColor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_label_gold_weight_from_old_stocks" />
+
+        <TextView
+            android:id="@+id/tv_label_polo_gold_weight_kpy"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/polo_gold"
+            android:textColor="@color/inputTextColor"
+            android:textSize="13sp"
+            app:layout_constraintStart_toStartOf="@+id/tv_label_gold_weight_from_old_stocks"
+            app:layout_constraintTop_toBottomOf="@+id/view1" />
+
+        <TextView
+            android:id="@+id/tv_polo_gold_weight_kpy"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:text="4K 4P 4Y"
+            android:textAlignment="textEnd"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="14sp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_label_polo_gold_weight_kpy"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_label_polo_gold_weight_kpy" />
+
+
+        <TextView
+            android:id="@+id/tv_label_polo_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:text="ပိုလိုတန်ဖိုး"
+            android:textColor="@color/inputTextColor"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_polo_value"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_label_polo_gold_weight_kpy" />
+
+        <TextView
+            android:id="@+id/tv_polo_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            tools:text="5000"
+            android:textAlignment="textEnd"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_label_polo_value"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/tv_label_polo_value"
+            app:layout_constraintTop_toTopOf="@+id/tv_label_polo_value" />
+
+        <TextView
+            android:id="@+id/tv_label_old_voucher_payment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/tv_label_old_voucher_payment"
+            android:textColor="@color/inputTextColor"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_old_voucher_payment"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_label_polo_value" />
+
+        <TextView
+            android:id="@+id/tv_old_voucher_payment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            tools:text="5,000"
+            android:textAlignment="textEnd"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_label_old_voucher_payment"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/tv_label_old_voucher_payment"
+            app:layout_constraintTop_toTopOf="@+id/tv_label_old_voucher_payment" />
+
+        <TextView
+            android:id="@+id/tv_label_stock_from_home_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/stock_from_home_value"
+            android:textColor="@color/inputTextColor"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_stock_from_home_value"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_label_old_voucher_payment" />
+
+        <TextView
+            android:id="@+id/tv_stock_from_home_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            tools:text="5,000"
+            android:textAlignment="textEnd"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_label_stock_from_home_value"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/tv_label_stock_from_home_value"
+            app:layout_constraintTop_toTopOf="@+id/tv_label_stock_from_home_value" />
+
+        <TextView
+            android:id="@+id/tv_label_total_maintainence_cost"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/total_maintainence_cost"
+            android:textColor="@color/inputTextColor"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_stock_from_home_value"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_label_stock_from_home_value" />
+
+        <TextView
+            android:id="@+id/tv_total_maintainence_cost"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:textAlignment="textEnd"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_label_total_maintainence_cost"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_label_total_maintainence_cost"
+            app:layout_constraintTop_toTopOf="@+id/tv_label_total_maintainence_cost"
+            tools:text="22" />
+
+        <TextView
+            android:id="@+id/tv_label_total_pt_clip_cost"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/total_pt_clip_cost"
+            android:textColor="@color/inputTextColor"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_stock_from_home_value"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_label_total_maintainence_cost" />
+
+        <TextView
+            android:id="@+id/tv_total_pt_clip_cost"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:textAlignment="textEnd"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_label_total_pt_clip_cost"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_label_total_pt_clip_cost"
+            app:layout_constraintTop_toTopOf="@+id/tv_label_total_pt_clip_cost"
+            tools:text="22" />
+        <TextView
+            android:id="@+id/tv_label_total_gem_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/total_gem_value"
+            android:textColor="@color/inputTextColor"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_stock_from_home_value"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_label_total_pt_clip_cost" />
+
+        <TextView
+            android:id="@+id/tv_total_gem_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:textAlignment="textEnd"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_label_total_gem_value"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_label_total_gem_value"
+            app:layout_constraintTop_toTopOf="@+id/tv_label_total_gem_value"
+            tools:text="22" />
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/lineColor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_label_total_gem_value" />
+        <TextView
+            android:id="@+id/tv_label_total_values"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/total_values"
+            android:textColor="@color/inputTextColor"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_stock_from_home_value"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view2" />
+
+        <TextView
+            android:id="@+id/tv_total_values"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:textAlignment="textEnd"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_label_total_values"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_label_total_values"
+            app:layout_constraintTop_toTopOf="@+id/tv_label_total_values"
+            tools:text="22" />
+
+        <TextView
+            android:id="@+id/tv_label_flash_sale_discount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:text="@string/flash_sale_discount"
+            android:textColor="@color/inputTextColor"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_stock_from_home_value"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_label_total_values" />
+
+        <TextView
+            android:id="@+id/tv_flash_sale_discount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:textAlignment="textEnd"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_label_flash_sale_discount"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_label_flash_sale_discount"
+            app:layout_constraintTop_toTopOf="@+id/tv_label_flash_sale_discount"
+            tools:text="22" />
+
+
+        <TextView
+            android:id="@+id/tv_label_reduced_money"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/reduced_money"
+            android:textColor="@color/inputTextColor"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_stock_from_home_value"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_label_flash_sale_discount" />
+
+        <TextView
+            android:id="@+id/tv_reduced_money"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:textAlignment="textEnd"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_label_reduced_money"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_label_reduced_money"
+            app:layout_constraintTop_toTopOf="@+id/tv_label_reduced_money"
+            tools:text="22" />
+
+        <TextView
+            android:id="@+id/tv_label_discount_or_gift"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Discount or gift"
+            android:textColor="@color/inputTextColor"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_stock_from_home_value"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_label_reduced_money" />
+
+        <TextView
+            android:id="@+id/tv_discount_or_gift"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:textAlignment="textEnd"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_label_discount_or_gift"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_label_discount_or_gift"
+            app:layout_constraintTop_toTopOf="@+id/tv_label_discount_or_gift"
+            tools:text="22" />
+
+        <View
+            android:id="@+id/view3"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/lineColor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_label_discount_or_gift" />
+
+        <TextView
+            android:id="@+id/tv_label_total_reduced_money"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/total_reduced_money"
+            android:textColor="@color/inputTextColor"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_stock_from_home_value"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view3" />
+
+        <TextView
+            android:id="@+id/tv_total_reduced_money"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:textAlignment="textEnd"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_label_total_reduced_money"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_label_total_reduced_money"
+            app:layout_constraintTop_toTopOf="@+id/tv_label_total_reduced_money"
+            tools:text="22" />
+        <TextView
+            android:id="@+id/tv_label_total_cost"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/total_cost"
+            android:textColor="@color/inputTextColor"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_stock_from_home_value"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_label_total_reduced_money" />
+
+        <TextView
+            android:id="@+id/tv_total_cost"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:textAlignment="textEnd"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_label_total_cost"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_label_total_cost"
+            app:layout_constraintTop_toTopOf="@+id/tv_label_total_cost"
+            tools:text="22" />
+
+        <TextView
+            android:id="@+id/tv_label_tax_money"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/tax_money"
+            android:textColor="@color/inputTextColor"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_stock_from_home_value"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_label_total_cost" />
+
+        <TextView
+            android:id="@+id/tv_tax_money"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:textAlignment="textEnd"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_label_tax_money"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_label_tax_money"
+            app:layout_constraintTop_toTopOf="@+id/tv_label_tax_money"
+            tools:text="22" />
+
+        <TextView
+            android:id="@+id/tv_label_total_cost_including_tax"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/total_cost_including_tax"
+            android:textColor="@color/inputTextColor"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_stock_from_home_value"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_label_tax_money" />
+
+        <TextView
+            android:id="@+id/tv_total_cost_including_tax"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:textAlignment="textEnd"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_label_total_cost_including_tax"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_label_total_cost_including_tax"
+            app:layout_constraintTop_toTopOf="@+id/tv_label_total_cost_including_tax"
+            tools:text="22" />
+        <View
+            android:id="@+id/view4"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/lineColor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_label_total_cost_including_tax" />
+
+        <TextView
+            android:id="@+id/tv_label_payment_from_customer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Customerမှ ပေးသွင်း‌ငွေ"
+            android:textColor="@color/inputTextColor"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_stock_from_home_value"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view4" />
+
+        <TextView
+            android:id="@+id/tv_payment_from_customer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:textAlignment="textEnd"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_label_payment_from_customer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_label_payment_from_customer"
+            app:layout_constraintTop_toTopOf="@+id/tv_label_payment_from_customer"
+            tools:text="22" />
+
+        <View
+            android:id="@+id/view5"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/lineColor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_label_payment_from_customer" />
+        <TextView
+            android:id="@+id/tv_label_remain_money"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/remain_money"
+            android:textColor="@color/inputTextColor"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_stock_from_home_value"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view5" />
+
+        <TextView
+            android:id="@+id/tv_remain_money"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:textAlignment="textEnd"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="14sp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_label_remain_money"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_label_remain_money"
+            app:layout_constraintTop_toTopOf="@+id/tv_label_remain_money"
+            tools:text="22" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

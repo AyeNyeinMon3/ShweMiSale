@@ -8,8 +8,8 @@
 //import androidx.fragment.app.Fragment
 //import androidx.fragment.app.viewModels
 //import com.example.shwemi.util.Resource
-//import com.example.shwemi.util.hideKeyboard
-//import com.example.shwemi.util.showKeyBoard
+//import com.example.shwemisale.util.hideKeyboard
+//import com.example.shwemisale.util.showKeyBoard
 //import com.example.shwemisale.data_layers.domain.goldFromHome.RebuyItemDto
 //import com.example.shwemisale.databinding.DialogAddStockTypeBinding
 //import com.example.shwemisale.databinding.FragmentOldStockDetailBinding

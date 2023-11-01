@@ -12,11 +12,10 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.shwemi.util.Resource
-import com.example.shwemi.util.hideKeyboard
-import com.example.shwemi.util.showKeyBoard
+import com.example.shwemisale.util.hideKeyboard
+import com.example.shwemisale.util.showKeyBoard
 import com.example.shwemisale.databinding.DialogAddStockTypeBinding
 import dagger.hilt.android.AndroidEntryPoint
 
