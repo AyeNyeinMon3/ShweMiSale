@@ -3,6 +3,7 @@ package com.shwemigoldshop.shwemisale.network
 import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
+import com.shwemigoldshop.shwemisale.BuildConfig
 import com.shwemigoldshop.shwemisale.localDataBase.LocalDatabase
 import com.shwemigoldshop.shwemisale.network.api_services.*
 import com.shwemigoldshop.shwemisale.repositoryImpl.AuthRepoImpl
@@ -36,7 +37,7 @@ class NetworkModule {
             .build()
         return Retrofit.Builder()
             .addConverterFactory(MoshiConverterFactory.create(moshi))
-            .baseUrl(BASE_URL_STG_II)
+            .baseUrl(BuildConfig.SERVER_URL)
             .client(okHttpClient)
             .build()
     }
@@ -59,14 +60,19 @@ class NetworkModule {
                 true)
             authenticator(authenticator)
             addInterceptor(Interceptor { chain: Interceptor.Chain ->
-                val request =
+                val originalRequest = chain.request()
+                val url = originalRequest.url.toString()
 
-                    chain.request().newBuilder()
+                val requestBuilder = originalRequest.newBuilder()
+                    .addHeader("content-type", "application/json")
+                    .addHeader("App-Authorization", "${localDatabase.getDeviceIdFromServer()}")
+                    .addHeader("Accept", "application/json")
 
-//                        .header("Accept-Encoding", "identity")
-                        .addHeader("content-type", "application/json")
-                        .addHeader("Accept", "application/json")
-                        .build()
+                if (url == "${BuildConfig.SERVER_URL}api/app/authorize") {
+                    requestBuilder.removeHeader("App-Authorization")
+                }
+
+                val request = requestBuilder.build()
                 chain.proceed(request)
             })
             addInterceptor(

@@ -10,6 +10,9 @@ plugins {
 }
 
 android {
+    lintOptions{
+        checkReleaseBuilds false
+    }
     compileSdk 32
 
     defaultConfig {
@@ -52,11 +55,13 @@ android {
             applicationIdSuffix ".staging"
             versionNameSuffix "-staging"
             buildConfigField "String", "SERVER_URL", "\"https://stg2sales.shwemigoldshop.com/\""
+            manifestPlaceholders = [applicationLabel:"ShweMiSale Stg2"]
+
         }
         prod {
             dimension "environment"
             buildConfigField "String", "SERVER_URL", "\"https://sales.shwemigoldshop.com/\""
-
+            manifestPlaceholders = [applicationLabel:"ShweMiSale"]
         }
     }
 
@@ -134,7 +139,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.10.1'
 
     implementation platform('com.google.firebase:firebase-bom:31.3.0')
-    implementation 'com.google.firebase:firebase-analytics-ktx'
+//    implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
 
     implementation "pl.droidsonroids.gif:android-gif-drawable:1.2.22"

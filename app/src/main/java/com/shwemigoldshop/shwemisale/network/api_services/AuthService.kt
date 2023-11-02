@@ -1,5 +1,6 @@
 package com.shwemigoldshop.shwemisale.network.api_services
 
+import com.shwemigoldshop.shwemisale.data_layers.dto.SimpleResponse
 import com.shwemigoldshop.shwemisale.data_layers.dto.auth.LoginApiResponse
 import com.shwemigoldshop.shwemisale.data_layers.dto.auth.ProfileApiResponse
 import com.shwemigoldshop.shwemisale.data_layers.dto.auth.RefreshTokenApiResponse
@@ -30,6 +31,12 @@ interface AuthService {
     suspend fun getProfile(
         @Header("Authorization") token:String
     ): Response<ProfileApiResponse>
+
+    @FormUrlEncoded
+    @POST("api/app/authorize")
+    suspend fun authorizeApp(
+        @Field("authorization_code") code:String
+    ):Response<SimpleResponse>
 
     @POST("api/auth/logout")
     suspend fun logout(

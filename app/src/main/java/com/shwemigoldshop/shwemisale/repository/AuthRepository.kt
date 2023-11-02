@@ -12,4 +12,5 @@ interface AuthRepository {
     suspend fun logout(): Resource<String>
 
     suspend fun getProfile(): Resource<String>
+    suspend fun authorizeApp(): Resource<String>
 }

@@ -21,6 +21,7 @@ private const val TOTAL_PAWN_PRICE_FOR_REMAINED_PAWN_ITEMS="total-pawn-price-pri
 private const val PRINTER_IP="printer-ip-address"
 private const val GEM_WEIGHT_DETAIL_SESSION="gem-weight-detail-session-key"
 private const val E_VALUE="e-value"
+private const val DEVICE_ID_FROM_SERVER="device-id-from-server"
 
 
 @Singleton
@@ -219,6 +220,14 @@ class LocalDatabase @Inject constructor(@ApplicationContext private val context:
 
     fun removeEValue(){
         sharedPref.edit { remove(E_VALUE) }
+    }
+
+    fun saveDeviceIdFromServer(deviceId:String){
+        sharedPref.edit{putString(DEVICE_ID_FROM_SERVER,deviceId)}
+    }
+    fun getDeviceIdFromServer():String{
+        val deviceId =  sharedPref.getString(DEVICE_ID_FROM_SERVER, "")
+        return deviceId.orEmpty()
     }
     fun clearSharedPreference(){
         removeEValue()

@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.shwemigoldshop.shwemisale.util.Resource
 import com.shwemigoldshop.shwemisale.util.getAlertDialog
 import com.shwemigoldshop.shwemisale.databinding.FragmentLoginBinding
+import com.shwemigoldshop.shwemisale.qrscan.getBarLauncher
 import com.shwemigoldshop.shwemisale.room_database.AppDatabase
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
@@ -26,7 +27,6 @@ class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
     private val viewModel by viewModels<com.shwemigoldshop.shwemisale.LoginViewModel>()
     private lateinit var loading : AlertDialog
-
     @Inject
     lateinit var appDatabase: AppDatabase
 
@@ -53,6 +53,7 @@ class LoginFragment : Fragment() {
         lifecycleScope.launchWhenCreated {
             appDatabase.sampleDao.deleteAll()
         }
+
         val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
         val fileToDelete = File(downloadsDir, "shweMi.pdf")
          fileToDelete.delete()

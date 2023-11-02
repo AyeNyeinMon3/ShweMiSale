@@ -49,6 +49,7 @@ class SellStartFragment : Fragment() {
     private lateinit var datePicker: MaterialDatePicker<Long>
     private lateinit var dialogIpAddressBinding:DialogIpAddressBinding
     private lateinit var barlauncer: Any
+    private lateinit var barlauncherForDeviceId: Any
 
     private var townShipList = mutableListOf<String>()
     private var provinceList = mutableListOf<String>()
@@ -88,6 +89,37 @@ class SellStartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loading = requireContext().getAlertDialog()
+
+        barlauncherForDeviceId = this.getBarLauncher(requireContext()) {
+            //Scan uuid if not in shared preference
+            viewModel.saveDeviceIdFromServer(it)
+            viewModel.authorizeApp()
+        }
+        viewModel.getDeviceIdFromSharedPreference()
+        viewModel.deviceIdLogInLiveData.observe(viewLifecycleOwner){
+            if (it.isNullOrEmpty()){
+                this.scanQrCode(requireActivity().applicationContext,barlauncherForDeviceId)
+            }else{
+                networkcall()
+            }
+        }
+        viewModel.authorizeAppLiveData.observe(viewLifecycleOwner){
+            when(it){
+                is Resource.Loading->{
+
+                }
+                is Resource.Success->{
+                    loading.dismiss()
+
+                }
+                is Resource.Error->{
+                    loading.dismiss()
+                    findNavController().navigate(SellStartFragmentDirections.actionSellStartFragmentToLoginFragment())
+                    Toast.makeText(requireContext(),it.message,Toast.LENGTH_LONG).show()
+                }
+                else->{}
+            }
+        }
         val adapter = CustomerListRecyclerAdapter{
             view.findNavController().navigate(SellStartFragmentDirections.actionSellStartFragmentToSellCustomerInfoFragment(it))
 
@@ -106,7 +138,6 @@ class SellStartFragment : Fragment() {
         binding.ivScanner.setOnClickListener {
             this.scanQrCode(requireContext(),barlauncer)
         }
-        networkcall()
         binding.btnNew.setOnClickListener { view:View->
 //            throw RuntimeException("Test Crash")
             view.findNavController().navigate(com.shwemigoldshop.shwemisale.screen.sellModule.sellStart.SellStartFragmentDirections.actionSellStartFragmentToSellCreateNewFragment())

@@ -348,10 +348,10 @@ class OpenVoucherWithKpyFragment : Fragment() {
                 productIdList = productIdList,
                 redeem_point = null,
                 old_voucher_code = args.oldVoucherCode,
-                old_voucher_paid_amount = args.oldVoucherCode?.let {
+                old_voucher_paid_amount = args.oldVoucherPaidAmount.let {
                     MultipartBody.Part.createFormData(
                         "old_voucher_paid_amount",
-                        it
+                        it.toString()
                     )
                 }
             )

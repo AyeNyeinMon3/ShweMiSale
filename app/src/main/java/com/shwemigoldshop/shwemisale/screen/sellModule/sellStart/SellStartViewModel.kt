@@ -12,6 +12,7 @@ import com.shwemigoldshop.shwemisale.util.Resource
 import com.shwemigoldshop.shwemisale.data_layers.domain.customers.CustomerDataDomain
 import com.shwemigoldshop.shwemisale.data_layers.dto.customers.ProvinceDto
 import com.shwemigoldshop.shwemisale.data_layers.dto.customers.TownshipDto
+import com.shwemigoldshop.shwemisale.localDataBase.LocalDatabase
 import com.shwemigoldshop.shwemisale.pagingSource.customer.CustomerSearchPagingDataSource
 import com.shwemigoldshop.shwemisale.repositoryImpl.AuthRepoImpl
 import com.shwemigoldshop.shwemisale.repositoryImpl.CustomerRepoImpl
@@ -25,7 +26,8 @@ import javax.inject.Inject
 class SellStartViewModel @Inject constructor(
     private val customerRepoImpl: CustomerRepoImpl,
     private val authRepoImpl: AuthRepoImpl,
-    private val appDatabase: AppDatabase
+    private val appDatabase: AppDatabase,
+    private val localDatabase: LocalDatabase
 ) : ViewModel() {
     //profile
     private val _profileLiveData = MutableLiveData<Resource<String>?>()
@@ -160,5 +162,27 @@ class SellStartViewModel @Inject constructor(
                 )
             }
         ).liveData
+    }
+
+    private val _deviceIdLogInLiveData = MutableLiveData<String>()
+    val deviceIdLogInLiveData : LiveData<String>
+        get() = _deviceIdLogInLiveData
+    fun getDeviceIdFromSharedPreference(){
+        _deviceIdLogInLiveData.value = localDatabase.getDeviceIdFromServer()
+    }
+    fun saveDeviceIdFromServer(deviceId:String){
+        localDatabase.saveDeviceIdFromServer(deviceId)
+        _deviceIdLogInLiveData.value = deviceId
+    }
+
+    private val _authorizeAppLiveData = MutableLiveData<Resource<String>?>()
+    val authorizeAppLiveData: LiveData<Resource<String>?>
+        get() = _authorizeAppLiveData
+
+    fun authorizeApp(){
+        _authorizeAppLiveData.value = Resource.Loading()
+        viewModelScope.launch {
+            _authorizeAppLiveData.value = authRepoImpl.authorizeApp()
+        }
     }
 }

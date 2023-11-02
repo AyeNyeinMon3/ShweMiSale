@@ -34,4 +34,5 @@ class LoginViewModel @Inject constructor(
             _loginLiveData.value = authRepoImpl.login(userName,password)
         }
     }
+
 }

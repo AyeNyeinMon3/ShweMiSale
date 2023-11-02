@@ -101,4 +101,32 @@ class AuthRepoImpl @Inject constructor(
             Resource.Error(e.message)
         }
     }
+
+    override suspend fun authorizeApp(): Resource<String> {
+        return try {
+            val response = authService.authorizeApp(localDatabase.getDeviceIdFromServer())
+
+            if (response.isSuccessful && response.body() != null) {
+                Resource.Success(response.body()?.response?.message.orEmpty())
+            } else if (response.code() == 500) {
+                Resource.Error("500 Server Error")
+            } else {
+                val errorJsonString = response.errorBody()?.string().orEmpty()
+                val singleError =
+                    response.errorBody()?.parseErrorWithDataClass<ResponseDto>(errorJsonString)
+                if (singleError != null) {
+                    Resource.Error(singleError.message)
+                } else {
+                    val errorMessage =
+                        response.errorBody()?.parseError(errorJsonString)
+                    val list: List<Map.Entry<String, Any>> =
+                        ArrayList<Map.Entry<String, Any>>(errorMessage!!.entries)
+                    val (key, value) = list[0]
+                    Resource.Error(value.toString())
+                }
+            }
+        } catch (e: Exception) {
+            Resource.Error(e.message)
+        }
+    }
 }
