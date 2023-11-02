@@ -8,7 +8,8 @@ import com.shwemigoldshop.shwemisale.data_layers.dto.pawn.PawnVoucherScanDto
 interface PawnRepository {
 
     suspend fun getPawnInterestRate(
-    ): Resource<List<PawnInterestRateDto>>
+        amount:String
+    ): Resource<PawnInterestRateDto>
 
 
     suspend fun getPawnVoucherScan(

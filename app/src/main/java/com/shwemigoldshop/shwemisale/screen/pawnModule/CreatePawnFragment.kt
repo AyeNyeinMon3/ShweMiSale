@@ -128,7 +128,9 @@ class CreatePawnFragment : Fragment() {
             val date = convertToSqlDate(calendar)
             binding.tvChooseDate2.text = date
         }
-        viewModel.getPawnInterestRate()
+        binding.btnGetInterestRate.setOnClickListener {
+            viewModel.getPawnInterestRate(generateNumberFromEditText(binding.edtLoanAmount))
+        }
         viewModel.getPawnInterestRateLiveData.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Loading -> {
@@ -137,66 +139,80 @@ class CreatePawnFragment : Fragment() {
 
                 is Resource.Success -> {
                     loading.dismiss()
-                    binding.edtLoanAmount.addTextChangedListener(object : TextWatcher {
-                        override fun afterTextChanged(s: Editable) {
-                            // TODO Auto-generated method stub
-                            var interestRate = "0"
-                            if (s.toString().isNotBlank() && s.toString() != "0") {
-                                if (s.toString()
-                                        .toLong() > generateNumberFromEditText(binding.edtHighLoanAmount).toLong()
-                                ) {
-                                    Toast.makeText(
-                                        requireContext(),
-                                        "Must be less than total loan amount",
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                    binding.edtLoanAmount.text?.clear()
-                                    binding.edtMonth.text?.clear()
-                                } else {
-                                    it.data?.forEach {
-                                        if (s.toString().toInt() >= it.range_from!!.toInt()
-                                            && s.toString().toInt() <= it.range_to!!.toInt()
-                                        ) {
-                                            interestRate = it.rate ?: "0"
-                                        }
-                                    }
-                                    // calculated ထားနိုင်သည့်လ= (ဘောင်ချာဖွင့်၀ယ်ပေးငွေ- ချေးယူမည့် ပမာဏ)/ (အတိုးရာခိုင်နှုန်း /100* ချေးယူမည့်ပမာဏ). if result >=6, take 6,  if <=0, take 1
-                                    val month = (viewModel.openVoucherPrice()
-                                        .toDouble() - generateNumberFromEditText(binding.edtLoanAmount).toDouble()) / ((interestRate.toDouble() / 100) * generateNumberFromEditText(
-                                        binding.edtLoanAmount
-                                    ).toDouble())
-                                    val actualMonth =
-                                        if (month.isFinite()) month.toString().substringBefore(".")
-                                            .toInt() else 6
-                                    if (actualMonth > 6) {
-                                        binding.edtMonth.setText("6")
-                                    } else {
-                                        binding.edtMonth.setText(actualMonth.toString())
-                                    }
-                                }
-                            }
-                            binding.edtInterestPercent.setText(interestRate)
-                        }
+                    val month = (viewModel.openVoucherPrice()
+                        .toDouble() - generateNumberFromEditText(binding.edtLoanAmount).toDouble()) / (((it.data?.rate?:"0.0").toDouble() / 100) * generateNumberFromEditText(
+                        binding.edtLoanAmount
+                    ).toDouble())
+                    val actualMonth =
+                        if (month.isFinite()) month.toString().substringBefore(".")
+                            .toInt() else 6
+                    if (actualMonth > 6) {
+                        binding.edtMonth.setText("6")
+                    } else {
+                        binding.edtMonth.setText(actualMonth.toString())
+                    }
+                    binding.edtInterestPercent.setText(it.data?.rate.orEmpty())
 
-
-                        override fun beforeTextChanged(
-                            s: CharSequence,
-                            start: Int,
-                            count: Int,
-                            after: Int
-                        ) {
-                            // TODO Auto-generated method stub
-                        }
-
-                        override fun onTextChanged(
-                            s: CharSequence,
-                            start: Int,
-                            before: Int,
-                            count: Int
-                        ) {
-
-                        }
-                    })
+//                    binding.edtLoanAmount.addTextChangedListener(object : TextWatcher {
+//                        override fun afterTextChanged(s: Editable) {
+//                            // TODO Auto-generated method stub
+//                            var interestRate = "0"
+//                            if (s.toString().isNotBlank() && s.toString() != "0") {
+//                                if (s.toString()
+//                                        .toLong() > generateNumberFromEditText(binding.edtHighLoanAmount).toLong()
+//                                ) {
+//                                    Toast.makeText(
+//                                        requireContext(),
+//                                        "Must be less than total loan amount",
+//                                        Toast.LENGTH_LONG
+//                                    ).show()
+//                                    binding.edtLoanAmount.text?.clear()
+//                                    binding.edtMonth.text?.clear()
+//                                } else {
+//                                    it.data?.forEach {
+//                                        if (s.toString().toInt() >= it.range_from!!.toInt()
+//                                            && s.toString().toInt() <= it.range_to!!.toInt()
+//                                        ) {
+//                                            interestRate = it.rate ?: "0"
+//                                        }
+//                                    }
+//                                    // calculated ထားနိုင်သည့်လ= (ဘောင်ချာဖွင့်၀ယ်ပေးငွေ- ချေးယူမည့် ပမာဏ)/ (အတိုးရာခိုင်နှုန်း /100* ချေးယူမည့်ပမာဏ). if result >=6, take 6,  if <=0, take 1
+//                                    val month = (viewModel.openVoucherPrice()
+//                                        .toDouble() - generateNumberFromEditText(binding.edtLoanAmount).toDouble()) / ((interestRate.toDouble() / 100) * generateNumberFromEditText(
+//                                        binding.edtLoanAmount
+//                                    ).toDouble())
+//                                    val actualMonth =
+//                                        if (month.isFinite()) month.toString().substringBefore(".")
+//                                            .toInt() else 6
+//                                    if (actualMonth > 6) {
+//                                        binding.edtMonth.setText("6")
+//                                    } else {
+//                                        binding.edtMonth.setText(actualMonth.toString())
+//                                    }
+//                                }
+//                            }
+//                            binding.edtInterestPercent.setText(interestRate)
+//                        }
+//
+//
+//                        override fun beforeTextChanged(
+//                            s: CharSequence,
+//                            start: Int,
+//                            count: Int,
+//                            after: Int
+//                        ) {
+//                            // TODO Auto-generated method stub
+//                        }
+//
+//                        override fun onTextChanged(
+//                            s: CharSequence,
+//                            start: Int,
+//                            before: Int,
+//                            count: Int
+//                        ) {
+//
+//                        }
+//                    })
 
                 }
 

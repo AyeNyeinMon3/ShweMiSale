@@ -52,14 +52,14 @@ class CreatePawnViewModel @Inject constructor(
 
 
     private val _getPawnInterestRateLiveData =
-        MutableLiveData<Resource<List<PawnInterestRateDto>>>()
-    val getPawnInterestRateLiveData: LiveData<Resource<List<PawnInterestRateDto>>>
+        MutableLiveData<Resource<PawnInterestRateDto>>()
+    val getPawnInterestRateLiveData: LiveData<Resource<PawnInterestRateDto>>
         get() = _getPawnInterestRateLiveData
 
-    fun getPawnInterestRate() {
+    fun getPawnInterestRate(amount:String) {
         viewModelScope.launch {
             _getPawnInterestRateLiveData.value = Resource.Loading()
-            _getPawnInterestRateLiveData.value = pawnRepositoryImpl.getPawnInterestRate()
+            _getPawnInterestRateLiveData.value = pawnRepositoryImpl.getPawnInterestRate(amount)
         }
     }
 
