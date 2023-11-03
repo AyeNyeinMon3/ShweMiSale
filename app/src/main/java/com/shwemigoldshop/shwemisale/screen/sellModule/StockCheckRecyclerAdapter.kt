@@ -14,7 +14,7 @@ data class StockCheckData(
     val weight : String
 )
 
-class StockCheckRecyclerAdapter:ListAdapter<StockWeightByVoucherUiModel, StockCheckViewHolder>(StockCheckDiffUtil) {
+class StockCheckRecyclerAdapter(private val addStock:(data:StockWeightByVoucherUiModel)->Unit):ListAdapter<StockWeightByVoucherUiModel, StockCheckRecyclerAdapter.StockCheckViewHolder>(StockCheckDiffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StockCheckViewHolder {
 
         return StockCheckViewHolder(ItemStockCheckBinding.inflate(LayoutInflater.from(parent.context),parent,false))
@@ -25,17 +25,29 @@ class StockCheckRecyclerAdapter:ListAdapter<StockWeightByVoucherUiModel, StockCh
         holder.bind(getItem(position))
     }
 
-}
+    inner class StockCheckViewHolder(private var binding:ItemStockCheckBinding):RecyclerView.ViewHolder(binding.root){
+        private var _data:StockWeightByVoucherUiModel? = null
+        val data:StockWeightByVoucherUiModel
+            get() = _data!!
 
-class StockCheckViewHolder(private var binding:ItemStockCheckBinding):RecyclerView.ViewHolder(binding.root){
-    fun bind(data: StockWeightByVoucherUiModel){
-        binding.tvStockCode.text = data.code
-        binding.tvGoldAndGemWeightGm.text = data.gold_and_gem_weight_gm
-        binding.cbDate.setOnCheckedChangeListener { compoundButton, isChecked ->
-            data.isChecked = isChecked
+        init {
+            binding.btnAdd.setOnClickListener {
+                addStock(data)
+            }
+        }
+        fun bind(data: StockWeightByVoucherUiModel){
+            _data = data
+            binding.tvStockCode.text = data.code
+            binding.tvGoldAndGemWeightGm.text = data.gold_and_gem_weight_gm
+//            binding.cbDate.setOnCheckedChangeListener { compoundButton, isChecked ->
+//                data.isChecked = isChecked
+//            }
+
         }
     }
 }
+
+
 
 object StockCheckDiffUtil:DiffUtil.ItemCallback<StockWeightByVoucherUiModel>(){
     override fun areItemsTheSame(oldItem: StockWeightByVoucherUiModel, newItem: StockWeightByVoucherUiModel): Boolean {

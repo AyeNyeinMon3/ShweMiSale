@@ -34,7 +34,7 @@ fun StockFromInVoucherDto.asDomain(eValue:String?,goldPrice18KId:String):StockFr
         calculated_buying_value = "0",
         calculated_for_pawn = "0",
         d_gold_weight_ywae = "0",
-        e_price_from_new_voucher = eValue.orEmpty(),
+        e_price_from_new_voucher = if (eValue.isNullOrEmpty()) "0" else eValue,
         f_voucher_shown_gold_weight_ywae = "0",
         gem_value = gem_value.orEmpty(),
         gem_weight_ywae = gem_weight_ywae.orEmpty(),

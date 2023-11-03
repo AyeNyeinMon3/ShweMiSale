@@ -16,6 +16,7 @@ import com.shwemigoldshop.shwemisale.room_database.AppDatabase
 import com.shwemigoldshop.shwemisale.room_database.entity.StockFromHomeFinalInfo
 import com.shwemigoldshop.shwemisale.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import javax.inject.Inject
@@ -90,13 +91,20 @@ class GoldFromHomeViewModel @Inject constructor(
     }
 
     private val _stockWeightByVoucherLiveData =
-        SingleLiveEvent<Resource<List<StockWeightByVoucherUiModel>>>()
-    val stockWeightByVoucherLiveData: SingleLiveEvent<Resource<List<StockWeightByVoucherUiModel>>>
+        MutableLiveData<Resource<List<StockWeightByVoucherUiModel>>>()
+    val stockWeightByVoucherLiveData: LiveData<Resource<List<StockWeightByVoucherUiModel>>>
         get() = _stockWeightByVoucherLiveData
 
 //    fun resetstockWeightByVoucherLiveData() {
 //        _stockWeightByVoucherLiveData.value = null
 //    }
+    fun removeStockWeightByVoucher(id:String){
+        val currentState = _stockWeightByVoucherLiveData.value as? Resource.Success
+        val currentData = currentState?.data?.toMutableList()
+        val itemToRemove = currentData?.find { it.id == id }
+        currentData?.remove(itemToRemove)
+    _stockWeightByVoucherLiveData.value = Resource.Success(currentData.orEmpty())
+    }
 
     fun getStockWeightByVoucher(voucherCode: String) {
         _stockWeightByVoucherLiveData.value = Resource.Loading()
@@ -284,6 +292,7 @@ class GoldFromHomeViewModel @Inject constructor(
                     isEditable = isEditableMultiPart,
                     isChecked = isCheckedMultiPart
                 )
+            delay(2000)
         }
     }
 

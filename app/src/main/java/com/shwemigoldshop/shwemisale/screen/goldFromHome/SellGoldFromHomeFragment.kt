@@ -41,6 +41,8 @@ import com.shwemigoldshop.shwemisale.util.Resource
 import com.shwemigoldshop.shwemisale.util.getAlertDialog
 import com.shwemigoldshop.shwemisale.util.showSuccessDialog
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneOffset
 import javax.inject.Inject
@@ -62,12 +64,14 @@ class SellGoldFromHomeFragment : Fragment(), ReceiveListener {
     lateinit var alertDialogBinding: DialogStockCheckBinding
     lateinit var dialogBinding: DialogChangeFeatureBinding
     lateinit var dialogSellTypeBinding: DialogSellTypeBinding
+    private lateinit var dialogStockCheckBinding : StocksInVoucherDialogFragment
     private val viewModel by viewModels<GoldFromHomeViewModel>()
     private val oldStockBucketSharedViewModel by activityViewModels<BucketShareViewModel>()
     private lateinit var loading: AlertDialog
     private lateinit var barlauncer: Any
     private val args by navArgs<com.shwemigoldshop.shwemisale.screen.goldFromHome.SellGoldFromHomeFragmentArgs>()
     lateinit var adapter: GoldFromHomeRecyclerAdapter
+    lateinit var stockCheckRecyclerAdapter: StockCheckRecyclerAdapter
 
     private var scannedCodesList = mutableListOf<String>()
 
@@ -159,7 +163,6 @@ class SellGoldFromHomeFragment : Fragment(), ReceiveListener {
 
         barlauncer = this.getBarLauncher(requireContext()) {
             binding.edtScanVoucher.setText(it)
-            viewModel.getStockWeightByVoucher(it)
         }
         binding.textInputLayoutScanVoucher.setEndIconOnClickListener {
             this.scanQrCode(requireContext(), barlauncer)
@@ -171,7 +174,6 @@ class SellGoldFromHomeFragment : Fragment(), ReceiveListener {
                     keyCode == KeyEvent.KEYCODE_ENTER
                 ) {
                     // Perform action on key press
-                    viewModel.getStockWeightByVoucher(binding.edtScanVoucher.text.toString())
                     hideKeyboard(activity, binding.edtScanVoucher)
                     return true
                 }
@@ -180,7 +182,11 @@ class SellGoldFromHomeFragment : Fragment(), ReceiveListener {
         })
 
         binding.btnSelect.setOnClickListener {
-            viewModel.getStockWeightByVoucher(binding.edtScanVoucher.text.toString())
+            showStockCheckDialog()
+            scannedCodesList.add(binding.edtScanVoucher.text.toString())
+//            dialogStockCheckBinding = StocksInVoucherDialogFragment(binding.edtScanVoucher.text.toString())
+//            dialogStockCheckBinding.show(childFragmentManager,"StocksInVoucherDialogFragment")
+
         }
 
         viewModel.updateStockFromHomeInfoLiveData.observe(viewLifecycleOwner) {
@@ -516,7 +522,6 @@ class SellGoldFromHomeFragment : Fragment(), ReceiveListener {
                             oldStock.gold_weight_ywae.orEmpty(),
                             oldStock.gq_in_carat.orEmpty(),
                             oldStock.has_general_expenses.orEmpty(),
-
                             oldStock.impurities_weight_ywae.orEmpty(),
                             oldStock.maintenance_cost.orEmpty(),
                             oldStock.price_for_pawn.orEmpty(),
@@ -553,8 +558,10 @@ class SellGoldFromHomeFragment : Fragment(), ReceiveListener {
 
                 is Resource.Success -> {
                     loading.dismiss()
+//                    viewModel.getStockWeightByVoucher(binding.edtScanVoucher.text.toString())
+                    val isPawn = args.backpressType.startsWith("Pawn")
                     viewModel.getStockFromHomeList(
-                        isPawn = args.backpressType.startsWith("Pawn"),
+                        isPawn = isPawn,
                         args.backpressType
                     )
 
@@ -567,30 +574,6 @@ class SellGoldFromHomeFragment : Fragment(), ReceiveListener {
             }
         }
 
-        viewModel.stockWeightByVoucherLiveData.observe(viewLifecycleOwner) {
-            when (it) {
-                is Resource.Loading -> {
-                    loading.show()
-                }
-
-                is Resource.Success -> {
-                    loading.dismiss()
-                    scannedCodesList.add(binding.edtScanVoucher.text.toString())
-                    var itemList = it.data.orEmpty().toMutableList()
-                    var productIdList = it.data?.map { it.id }.orEmpty().toMutableList()
-                    var commonIdList = productIdList.intersect(viewModel.checkedProductIdFromVoucher.toSet()).toList()
-                    productIdList.removeAll(commonIdList.toSet())
-
-                    showStockCheckDialog(itemList.filter { productIdList.contains(it.id) })
-
-                }
-
-                is Resource.Error -> {
-                    loading.dismiss()
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
-                }
-            }
-        }
         viewModel.buyStockLiveData.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Loading -> {
@@ -693,7 +676,7 @@ class SellGoldFromHomeFragment : Fragment(), ReceiveListener {
     }
 
 
-    fun showStockCheckDialog(list: List<StockWeightByVoucherUiModel>) {
+    fun showStockCheckDialog() {
         val builder = MaterialAlertDialogBuilder(requireContext())
         val inflater = LayoutInflater.from(builder.context)
         alertDialogBinding =
@@ -705,24 +688,49 @@ class SellGoldFromHomeFragment : Fragment(), ReceiveListener {
             WindowManager.LayoutParams.MATCH_PARENT
         )
         alertDialog.setCancelable(false)
+        viewModel.getStockWeightByVoucher(binding.edtScanVoucher.text.toString())
         alertDialogBinding.tvVoucherNumber.text = binding.edtScanVoucher.text.toString()
-        val adapter = StockCheckRecyclerAdapter()
-        alertDialogBinding.rvStockCheck.adapter = adapter
-        adapter.submitList(list)
-        alertDialogBinding.btnContinue.setOnClickListener {
-            binding.rvGoldFromHome.visibility = View.VISIBLE
-            alertDialog.dismiss()
+        stockCheckRecyclerAdapter = StockCheckRecyclerAdapter{data ->
+            viewModel.getStockInfoByVoucher(binding.edtScanVoucher.text.toString(), listOf(data.id))
+            viewModel.removeStockWeightByVoucher(data.id)
         }
+        alertDialogBinding.rvStockCheck.adapter = stockCheckRecyclerAdapter
+
+        viewModel.stockWeightByVoucherLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {
+                    loading.show()
+                }
+
+                is Resource.Success -> {
+                    loading.dismiss()
+                    scannedCodesList.add(binding.edtScanVoucher.text.toString())
+                    var itemList = it.data.orEmpty().toMutableList()
+                    var productIdList = it.data?.map { it.id }.orEmpty().toMutableList()
+                    var commonIdList = productIdList.intersect(viewModel.checkedProductIdFromVoucher.toSet()).toList()
+                    productIdList.removeAll(commonIdList.toSet())
+                    stockCheckRecyclerAdapter.submitList(itemList.filter { productIdList.contains(it.id) })
+                    stockCheckRecyclerAdapter.notifyDataSetChanged()
+
+                }
+
+                is Resource.Error -> {
+                    loading.dismiss()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+
         alertDialogBinding.ivClose.setOnClickListener {
             alertDialog.dismiss()
         }
 
 
         alertDialogBinding.btnContinue.setOnClickListener {
-            val productIdList =
-                viewModel.stockWeightByVoucherLiveData.value!!.data!!.filter { it.isChecked }
-                    .map { it.id }
-            viewModel.getStockInfoByVoucher(binding.edtScanVoucher.text.toString(), productIdList)
+//            val productIdList =
+//                viewModel.stockWeightByVoucherLiveData.value!!.data!!.filter { it.isChecked }
+//                    .map { it.id }
+//            viewModel.getStockInfoByVoucher(binding.edtScanVoucher.text.toString(), productIdList)
             alertDialog.dismiss()
         }
 

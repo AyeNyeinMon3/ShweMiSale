@@ -27,6 +27,7 @@ import com.shwemigoldshop.shwemisale.repository.NormalSaleRepository
 import com.shwemigoldshop.shwemisale.room_database.AppDatabase
 import com.shwemigoldshop.shwemisale.room_database.entity.asDomain
 import com.shwemigoldshop.shwemisale.room_database.entity.asEntity
+import kotlinx.coroutines.delay
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
